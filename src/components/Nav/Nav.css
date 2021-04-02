@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap');
+
+.navbar
+{
+  background-color: #191919;
+  height: 60px;
+  width: 100%;
+  position: sticky;
+  position: -webkit-sticky;
+  font-size: 16px;
+  font-weight: 500;
+  user-select: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.options
+{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.option, .logoption 
+{
+    margin: 0 15px;
+}
+
+.link
+{
+    text-decoration: none;
+    color: white;
+}
+
+.link:hover
+{
+    color: #00B4FF;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #00B4FF;
+}
+
+.loglink
+{
+    text-decoration: none;
+    color: #00B4FF;
+}

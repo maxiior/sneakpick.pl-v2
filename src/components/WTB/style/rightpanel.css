@@ -1,0 +1,184 @@
+.top-nav
+{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    background-color: #fff;
+    font-size: 16px;
+    justify-content: space-between;
+    user-select: none;
+    border-bottom: 1px solid #f0f0f0;
+    box-sizing: border-box;
+}
+
+.rightpanel
+{
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-left: 250px;
+    background-color: #fff;
+}
+
+.announcements
+{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 40px;
+    margin-top: 40px;
+}
+
+@media only screen and (max-width: 768px) {
+    .rightpanel 
+    {
+      padding-left: 0 !important;
+    }
+}
+
+.view
+{
+    padding-bottom: 75%;
+    box-sizing: border-box;
+    resize: horizontal;
+    max-width: 100%;
+    padding: 10px 10px 0 10px;
+    position: relative;
+}
+
+.photo
+{
+    border: 1px solid #f0f0f0;
+    width: 100%;
+    object-fit: cover;
+    padding-bottom: 75%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.announ
+{
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    text-decoration: none; 
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.informations
+{
+    box-sizing: border-box;
+    padding: 0 20px;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.informations h1
+{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.informations h2
+{
+    margin: 0;
+    margin-top: -3px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #00B4FF;
+}
+
+.state
+{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    position: absolute;
+    background-color: #191919;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: white;
+}
+
+.path
+{
+    color: #777;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.path ol
+{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.path ol > li
+{
+    display: inline-block;
+}
+
+.path ol > li:first-child:before
+{
+    content: '';
+}
+
+.path ol > li::before
+{
+    padding: 0 5px;
+    content: '/';
+}
+
+.step
+{
+    color: #777;
+    text-decoration: none;
+}
+
+.step:hover
+{
+    color:#00B4FF;
+}
+
+.path ol > li:last-child .step
+{
+    color: #00B4FF;
+    font-weight: 600;
+}
+
+.results
+{
+    color: #777;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.value::before
+{
+    content: ' ';
+}
+
+.value
+{
+    color: #00B4FF;
+    font-weight: 600;
+}
+
+.sorting
+{
+    color: #777;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 20px;
+}

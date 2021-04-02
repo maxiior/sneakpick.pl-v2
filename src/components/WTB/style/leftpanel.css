@@ -1,0 +1,103 @@
+.leftpanel
+{
+    overflow-y: auto;
+    height: 100%;
+    width: 250px;
+    background-color: white;
+    position: absolute;
+    user-select: none;
+    border-right: 1px solid #f0f0f0;
+}
+
+.filters
+{
+    color: #777;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 30px;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #f0f0f0;
+    justify-content: space-between;
+}
+
+.reset
+{
+    padding: 3px 6px;
+    background-color: #00B4FF;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+}
+
+.elements
+{
+    width: 100%;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.elements p
+{
+    font-size: 16px;
+    margin: 0;
+    color: #00B4FF;
+}
+
+.elements-list
+{
+    display: block;
+}
+
+.element
+{
+    margin: 5px 0;
+    display: block;
+}
+
+.element label
+{
+    display: inline-block;
+    padding-left: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+.element label > div
+{
+    font-size: 14px;
+    margin-top: -4px;
+}
+
+.other
+{
+    font-weight: 600;
+    color: #00B4FF;
+}
+
+.show-more
+{
+    color: #777;
+    font-size: 12px;
+    margin-left: 20px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.show-more:hover
+{
+    color: #00B4FF;
+}
+
+@media only screen and (max-width: 768px) {
+    .leftpanel {
+      display:none;
+    }
+}
