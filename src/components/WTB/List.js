@@ -24,8 +24,8 @@ const List = ({name, elements}) => {
         <div className='elements'>
             <p>{name}</p>
             <div className='elements-list'>
-                {elements.slice(0,n).map((e) => (
-                    <div key={e.id} className='element'>
+                {elements.slice(0,n).map((e, i) => (
+                    <div key={i} className='element'>
                         <label>
                             <div>{e.text}</div>
                         </label>

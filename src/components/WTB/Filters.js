@@ -1,11 +1,13 @@
+import { VscSearch } from "react-icons/vsc";
+
 const Filters = () => {
     return (
-        <div class='filters'>
-            <div>
-                <i></i>
-                Filtrowanie
+        <div className='filters'>
+            <div className='header-filters'>
+                <VscSearch className='search'/>
+                <div>Filtrowanie</div>
             </div>
-            <button class='reset'>Reset</button>
+            <button className='reset'>Reset</button>
         </div>
     )
 }

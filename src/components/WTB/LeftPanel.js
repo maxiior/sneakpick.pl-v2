@@ -2,172 +2,140 @@ import React, { useState } from 'react'
 import './style/leftpanel.css'
 import Filters from './Filters'
 import List from './List'
+import GridList from './GridList'
+import ColorwayGrid from './ColorwayGrid'
 
 const LeftPanel = () => {
 
     const [categories, setCategory] = useState([
-        {
-            id: 1,
-            text: 'Sneakersy'
-        },
-        {
-            id: 2,
-            text: 'Hoodie'
-        },
-        {
-            id: 3,
-            text: 'Teesy'
-        },
-        {
-            id: 4,
-            text: 'Koszule'
-        },
-        {
-            id: 5,
-            text: 'Crewnecki'
-        },
-        {
-            id: 6,
-            text: 'Longsleevy'
-        },
-        {
-            id: 7,
-            text: 'Katany'
-        },
-        {
-            id: 8,
-            text: 'Kurtki'
-        },
-        {
-            id: 9,
-            text: 'Płaszcze'
-        },
-        {
-            id: 11,
-            text: 'Spodnie'
-        },
-        {
-            id: 12,
-            text: 'Szale'
-        },
-        {
-            id: 13,
-            text: 'Portfele'
-        },
-        {
-            id: 14,
-            text: 'Plecaki'
-        },
-        {
-            id: 15,
-            text: 'Zegarki'
-        },
-        {
-            id: 16,
-            text: 'Czapki'
-        },
-        {
-            id: 17,
-            text: 'Belty'
-        },
-        {
-            id: 18,
-            text: 'Bielizna'
-        }
-      ])
+        { text: 'Sneakersy' },
+        { text: 'Hoodie' },
+        { text: 'Teesy' },
+        { text: 'Koszule' },
+        { text: 'Crewnecki' },
+        { text: 'Longsleevy' },
+        { text: 'Katany' },
+        { text: 'Kurtki' },
+        { text: 'Płaszcze' },
+        { text: 'Spodnie' },
+        { text: 'Szale' },
+        { text: 'Portfele' },
+        { text: 'Plecaki' },
+        { text: 'Zegarki' },
+        { text: 'Czapki' },
+        { text: 'Belty' },
+        { text: 'Bielizna' }
+    ])
 
-      const [brand, setBrand] = useState([
-        {
-            id: 1,
-            text: 'Nike'
-        },
-        {
-            id: 2,
-            text: 'Adidas'
-        },
-        {
-            id: 3,
-            text: 'Supreme'
-        },
-        {
-            id: 4,
-            text: 'Puma'
-        },
-        {
-            id: 5,
-            text: 'New Balance'
-        },
-        {
-            id: 6,
-            text: 'Vans'
-        },
-        {
-            id: 7,
-            text: 'Louis Vuitton'
-        },
-        {
-            id: 8,
-            text: 'Palace'
-        },
-        {
-            id: 9,
-            text: 'Diadora'
-        },
-        {
-            id: 11,
-            text: 'Reebok'
-        },
-        {
-            id: 12,
-            text: 'Balenciaga'
-        },
-        {
-            id: 13,
-            text: 'Lacoste'
-        },
-        {
-            id: 14,
-            text: 'Yeezy'
-        },
-        {
-            id: 15,
-            text: 'Off-White'
-        },
-        {
-            id: 16,
-            text: 'Converse'
-        },
-        {
-            id: 17,
-            text: 'Stone Island'
-        },
-        {
-            id: 18,
-            text: 'The North Face'
-        },
-        {
-            id: 19,
-            text: 'Ralph Lauren'
-        },
-        {
-            id: 20,
-            text: 'Guess'
-        },
-        {
-            id: 21,
-            text: 'Tommy Hilfiger'
-        },
-        {
-            id: 22,
-            text: 'VLONE'
-        },
-      ])
+    const [brands, setBrand] = useState([
+        { text: 'Nike'},
+        { text: 'Adidas' },
+        { text: 'Supreme' },
+        { text: 'Puma' },
+        { text: 'New Balance' },
+        { text: 'Vans' },
+        { text: 'Louis Vuitton' },
+        { text: 'Palace' },
+        { text: 'Diadora' },
+        { text: 'Reebok' },
+        { text: 'Balenciaga' },
+        { text: 'Lacoste' },
+        { text: 'Yeezy' },
+        { text: 'Off-White' },
+        { text: 'Converse' },
+        { text: 'Stone Island' },
+        { text: 'The North Face' },
+        { text: 'Ralph Lauren' },
+        { text: 'Guess' },
+        { text: 'Tommy Hilfiger' },
+        { text: 'VLONE' }
+    ])
+
+    const [types, setType] = useState([
+        { text: 'MĘSKIE' },
+        { text: 'DAMSKIE' }
+    ])
+
+    const [states, setState] = useState([
+        { text: 'DS' },
+        { text: 'VNDS' },
+        { text: '4/5' },
+        { text: '3/5' },
+        { text: '2/5' },
+        { text: '1/5' }
+    ])
+
+    const [sizes, setSize] = useState([
+        { text: '36.0' },
+        { text: '36.5' },
+        { text: '37.0' },
+        { text: '37.5' },
+        { text: '38.0' },
+        { text: '38.5' },
+        { text: '39.0' },
+        { text: '39.5' },
+        { text: '40.0' },
+        { text: '40.5' },
+        { text: '41.0' },
+        { text: '41.5' },
+        { text: '42.0' },
+        { text: '42.5' },
+        { text: '43.0' },
+        { text: '43.5' },
+        { text: '44.0' },
+        { text: '44.5' },
+        { text: '45.0' },
+        { text: '45.5' },
+        { text: '46.0' },
+        { text: '46.5' },
+        { text: '47.0' },
+        { text: '47.5' },
+        { text: '48.0' },
+        { text: '48.5' },
+        { text: '49.0' },
+        { text: '49.5' },
+        { text: '50.0' },
+    ])
+
+    const [sizes2, setSize2] = useState([
+        { text: 'XXS' },
+        { text: 'XS' },
+        { text: 'S' },
+        { text: 'M' },
+        { text: 'L' },
+        { text: 'XL' },
+        { text: 'XXL' },
+    ])
+
+    const [fits, setFit] = useState([
+        { text: 'SLIM FIT' },
+        { text: 'REGULAR' },
+        { text: 'OVERSIZE' }
+    ])
+
+    const [colors, setColor] = useState([
+        { text: '#A23A3A' },
+        { text: '#F2324D' },
+        { text: '#F4A523' },
+        { text: '#F8E71B' },
+        { text: '#7CD321' },
+        { text: '#4CA3FD' },
+        { text: '#8F12FF' },
+        { text: '#EC94FF' },
+        { text: '#000000' },
+        { text: '#AAAAAA' },
+    ])
 
     return (
         <div className='leftpanel'>
-            <Filters />
             <List name='Kategoria' elements={categories}/>
-            <List name='Marka' elements={brand}/>
+            <List name='Marka' elements={brands}/>
+            <GridList name='Rodzaj' elements={types} width='92.5px' grid='auto auto'/>
+            <GridList name='Stan' elements={states} width='60px' grid='auto auto auto'/>
+            <GridList name='Rozmiar' elements={sizes} width='60px' grid='auto auto auto'/>
+            <GridList name='Rozmiar' elements={sizes2} width='60px' grid='auto auto auto'/>
+            <GridList name='Fit' elements={fits} width='190px' grid='auto'/>
+            <ColorwayGrid colors={colors}/>
         </div>
     )
 }
