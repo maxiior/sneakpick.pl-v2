@@ -1,4 +1,4 @@
-import Announcements from "components/WTB/Announcements";
+import Itmes from "components/WTB/Items";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
 
@@ -24,7 +24,7 @@ const StyledPagesList = styled.div`
 const RightPanel = () => {
   return (
     <StyledRightPanel>
-      <Announcements />
+      <Itmes />
       <StyledPagesList>
         <PagesList />
       </StyledPagesList>

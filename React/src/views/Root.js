@@ -2,10 +2,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import MainTemplate from "templates/MainTemplate";
 import WTB from "views/WTB";
 import { routes } from "routes";
+import { Provider } from "react-redux";
+import store from "store";
 
 function App() {
   return (
-    <div>
+    <Provider store={store}>
       <BrowserRouter>
         <MainTemplate>
           <Switch>
@@ -13,7 +15,7 @@ function App() {
           </Switch>
         </MainTemplate>
       </BrowserRouter>
-    </div>
+    </Provider>
   );
 }
 

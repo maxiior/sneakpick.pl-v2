@@ -1,6 +1,6 @@
 import colorful from "components/WTB/pictures/other.png";
-import Elements from "components/WTB/atoms/Elements";
-import Paragraph from "components/WTB/atoms/Paragraph";
+import Elements from "components/WTB/Elements";
+import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
 
 const CW = styled.div`

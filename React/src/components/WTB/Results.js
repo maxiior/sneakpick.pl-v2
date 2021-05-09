@@ -14,11 +14,11 @@ const Value = styled.span`
   padding-left: 5px;
 `;
 
-const Results = ({ value }) => {
+const Results = ({ results }) => {
   return (
     <StyledResults>
       Wyniki:
-      <Value>2440</Value>
+      <Value>{results}</Value>
     </StyledResults>
   );
 };

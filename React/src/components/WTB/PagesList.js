@@ -1,4 +1,5 @@
 import { VscChevronLeft } from "react-icons/vsc";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 
 const Arrow = styled(VscChevronLeft)`
@@ -10,6 +11,12 @@ const Arrow = styled(VscChevronLeft)`
     right &&
     css`
       transform: rotate(180deg);
+    `}
+
+  ${({ blocked }) =>
+    blocked &&
+    css`
+      color: #777 !important;
     `}
 `;
 
@@ -35,10 +42,17 @@ const Number = styled.div`
   margin: 0 5px;
   cursor: pointer;
 
-  :nth-child(2) {
-    background-color: #00b4ff;
+  :hover {
+    background-color: #4dc9ff;
     color: white;
   }
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      background-color: #00b4ff;
+      color: white;
+    `}
 `;
 
 const Dots = styled.div`
@@ -49,15 +63,125 @@ const Dots = styled.div`
 `;
 
 const PagesList = () => {
+  const [page, setPage] = useState(1);
+  const [number, setNumber] = useState(10);
+
+  const changePage = (i) => {
+    setPage(i);
+  };
+
   return (
     <StyledPagesList>
-      <Arrow />
-      <Number>1</Number>
-      <Number>2</Number>
-      <Number>3</Number>
-      <Dots>...</Dots>
-      <Number>10</Number>
-      <Arrow right />
+      <Arrow
+        onClick={() => page > 1 && changePage(page - 1)}
+        blocked={page === 1 && true}
+      />
+
+      {page === 1 && (
+        <Number selected={page === 1 && true} onClick={() => changePage(1)}>
+          1
+        </Number>
+      )}
+      {page === 1 && (
+        <Number selected={page === 2 && true} onClick={() => changePage(2)}>
+          2
+        </Number>
+      )}
+      {page === 1 && (
+        <Number selected={page === 3 && true} onClick={() => changePage(3)}>
+          3
+        </Number>
+      )}
+
+      {page > 1 && page <= number - 2 && (
+        <Number
+          selected={page === page - 1 && true}
+          onClick={() => changePage(page - 1)}
+        >
+          {page - 1}
+        </Number>
+      )}
+      {page > 1 && page <= number - 2 && (
+        <Number
+          selected={page === page && true}
+          onClick={() => changePage(page)}
+        >
+          {page}
+        </Number>
+      )}
+      {page > 1 && page <= number - 2 && (
+        <Number
+          selected={page === page + 1 && true}
+          onClick={() => changePage(page + 1)}
+        >
+          {page + 1}
+        </Number>
+      )}
+
+      {page < number - 2 && <Dots>...</Dots>}
+      {page > number - 2 && page < number && (
+        <Number
+          selected={page === page - 1 && true}
+          onClick={() => changePage(page - 1)}
+        >
+          {page - 1}
+        </Number>
+      )}
+      {page > number - 2 && page < number && (
+        <Number
+          selected={page === page && true}
+          onClick={() => changePage(page)}
+        >
+          {page}
+        </Number>
+      )}
+      {page > number - 2 && page < number && page + 1 !== number && (
+        <Number
+          selected={page === page + 1 && true}
+          onClick={() => changePage(page + 1)}
+        >
+          {page + 1}
+        </Number>
+      )}
+
+      {page === number && (
+        <Number
+          selected={page === number - 2 && true}
+          onClick={() => changePage(number - 2)}
+        >
+          {number - 2}
+        </Number>
+      )}
+      {page === number && (
+        <Number
+          selected={page === number - 1 && true}
+          onClick={() => changePage(number - 1)}
+        >
+          {number - 1}
+        </Number>
+      )}
+      {page === number && (
+        <Number
+          selected={page === number && true}
+          onClick={() => changePage(number)}
+        >
+          {number}
+        </Number>
+      )}
+
+      {page !== number && (
+        <Number
+          selected={page === number && true}
+          onClick={() => changePage(number)}
+        >
+          {number}
+        </Number>
+      )}
+      <Arrow
+        right
+        onClick={() => page < number && changePage(page + 1)}
+        blocked={page === number && true}
+      />
     </StyledPagesList>
   );
 };

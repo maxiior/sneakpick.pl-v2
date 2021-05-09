@@ -1,5 +1,5 @@
-import Elements from "components/WTB/atoms/Elements";
-import Paragraph from "components/WTB/atoms/Paragraph";
+import Elements from "components/WTB/Elements";
+import Paragraph from "components/WTB/Paragraph";
 import styled from "styled-components";
 
 const GridElements = styled.div`

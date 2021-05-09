@@ -31,14 +31,14 @@ const RightPanel = styled.div`
   }
 `;
 
-const TopNav = ({ steps, value }) => {
+const TopNav = ({ steps, results }) => {
   return (
     <Nav>
       <Filters />
       <RightPanel>
         <div>
           <Path steps={steps} />
-          <Results value={value} />
+          <Results results={results} />
           <Sorting />
         </div>
         <PagesList />

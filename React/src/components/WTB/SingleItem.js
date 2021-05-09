@@ -38,7 +38,7 @@ const Informations = styled.div`
   }
 `;
 
-const Announcement = styled.div`
+const Item = styled.div`
   border: 1px solid #f0f0f0;
   cursor: pointer;
   text-decoration: none;
@@ -66,23 +66,23 @@ const Photo = styled.div`
   background-size: cover;
 `;
 
-const SingleAnnoun = ({ name, price, state, photo }) => {
+const SingleItem = ({ name, price, state, photo }) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <Announcement>
+      <Item>
         <View>
-          <State>DS</State>
+          <State>{state}</State>
           <Photo style={{ backgroundImage: `url(${photo})` }}></Photo>
         </View>
         <Informations>
           <div>
-            <h1>NIKE AIR MAX 95</h1>
-            <h2>500 PLN + SHIP</h2>
+            <h1>{name}</h1>
+            <h2>{price}</h2>
           </div>
         </Informations>
-      </Announcement>
+      </Item>
     </Grid>
   );
 };
 
-export default SingleAnnoun;
+export default SingleItem;
