@@ -1,10 +1,9 @@
 import { VscSearch } from "react-icons/vsc";
 import styled from "styled-components";
 
-const StyledFilters = styled.div`
+const Wrapper = styled.div`
   position: absolute;
   color: #777;
-  font-size: 15px;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -42,13 +41,13 @@ const Icon = styled(VscSearch)`
 
 const Filters = () => {
   return (
-    <StyledFilters>
+    <Wrapper>
       <Header>
         <Icon />
         <div>Filtrowanie</div>
       </Header>
       <Reset>Reset</Reset>
-    </StyledFilters>
+    </Wrapper>
   );
 };
 

@@ -24,6 +24,18 @@ const initialState = {
       price: "500 PLN + SHIP",
       state: "DS",
     },
+    {
+      id: 5,
+      name: "NIKE AIR MAX 95",
+      price: "500 PLN + SHIP",
+      state: "DS",
+    },
+    {
+      id: 6,
+      name: "NIKE AIR MAX 95",
+      price: "500 PLN + SHIP",
+      state: "DS",
+    },
   ],
 };
 

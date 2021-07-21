@@ -7,7 +7,6 @@ const StyledNav = styled.nav`
   width: 100%;
   position: fixed;
   position: -webkit-sticky;
-  font-size: 16px;
   font-weight: 500;
   user-select: none;
   display: flex;

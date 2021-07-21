@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 const StyledItems = styled.div`
   box-sizing: border-box;
   width: 100%;
-  padding: 40px 40px 80px 40px;
+  padding: 40px;
 `;
 
 const Items = ({ items }) => {

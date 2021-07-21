@@ -152,31 +152,11 @@ const LeftPanel = () => {
     <StyledLeftPanel>
       <List name="Kategoria" elements={categories} />
       <List name="Marka" elements={brands} />
-      <GridList
-        name="Rodzaj"
-        elements={types}
-        width="92.5px"
-        grid="auto auto"
-      />
-      <GridList
-        name="Stan"
-        elements={states}
-        width="60px"
-        grid="auto auto auto"
-      />
-      <GridList
-        name="Rozmiar"
-        elements={sizes}
-        width="60px"
-        grid="auto auto auto"
-      />
-      <GridList
-        name="Rozmiar"
-        elements={sizes2}
-        width="60px"
-        grid="auto auto auto"
-      />
-      <GridList name="Fit" elements={fits} width="190px" grid="auto" />
+      <GridList name="Rodzaj" elements={types} medium />
+      <GridList name="Stan" elements={states} small />
+      <GridList name="Rozmiar" elements={sizes} small />
+      <GridList name="Rozmiar" elements={sizes2} small />
+      <GridList name="Fit" elements={fits} large />
       <ColorwayGrid colors={colors} />
     </StyledLeftPanel>
   );

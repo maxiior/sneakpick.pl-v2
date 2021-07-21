@@ -11,7 +11,8 @@ function App() {
       <BrowserRouter>
         <MainTemplate>
           <Switch>
-            <Route exact path={routes.WTB} component={WTB} />
+            <Route exact path={routes.HOME} component={WTB} />
+            <Route path={routes.WTB} component={WTB} />
           </Switch>
         </MainTemplate>
       </BrowserRouter>

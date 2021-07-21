@@ -1,54 +1,82 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const GridElements = styled.div`
   display: grid;
   margin-top: 5px;
   grid-gap: 5px;
+
+  ${({ small }) =>
+    small &&
+    css`
+      grid-template-columns: auto auto auto;
+    `}
+  ${({ medium }) =>
+    medium &&
+    css`
+      grid-template-columns: auto auto;
+    `}
+  ${({ large }) =>
+    large &&
+    css`
+      wgrid-template-columns: auto;
+    `}
 `;
 
-const GridElement = styled.div`
-  span {
-    display: flex;
-    border: 1px solid #ddd;
-    height: 30px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #ddd;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
+const Value = styled.span`
+  display: flex;
+  border: 1px solid #ddd;
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #ddd;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
 
-  label {
-    cursor: pointer;
-  }
+  ${({ small }) =>
+    small &&
+    css`
+      width: 60px;
+    `}
+  ${({ medium }) =>
+    medium &&
+    css`
+      width: 92.5px;
+    `}
+  ${({ large }) =>
+    large &&
+    css`
+      width: 190px;
+    `}
+`;
 
-  label input[type="checkbox"] {
-    display: none;
-  }
+const StyledLabel = styled.label`
+  cursor: pointer;
+`;
 
-  label input[type="checkbox"]:checked ~ span {
+const StyledInput = styled.input`
+  display: none;
+
+  :checked ~ ${Value} {
     border-color: #191919;
     color: white;
     background-color: #191919;
   }
 `;
 
-const GridList = ({ name, elements, width, grid }) => {
+const GridList = ({ name, elements, ...props }) => {
   return (
     <Elements>
       <Paragraph>{name}</Paragraph>
-      <GridElements style={{ gridTemplateColumns: grid }}>
+      <GridElements {...props}>
         {elements.map((e, i) => (
-          <GridElement key={i}>
-            <label>
-              <input type="checkbox" />
-              <span style={{ width: width }}>{e.text}</span>
-            </label>
-          </GridElement>
+          <StyledLabel key={i}>
+            <StyledInput type="checkbox" />
+            <Value {...props}>{e.text}</Value>
+          </StyledLabel>
         ))}
       </GridElements>
     </Elements>
