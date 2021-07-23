@@ -36,6 +36,7 @@ const WTB = () => {
       path: "/all/sneakersy/nike",
     },
   ]);
+
   return (
     <StyledWTB>
       <Header>WANT TO BUY</Header>

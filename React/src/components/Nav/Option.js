@@ -25,7 +25,7 @@ const StyledOption = styled.div`
 const Option = ({ text, where }) => {
   return (
     <StyledOption>
-      <StyledNavLink to={{ where }} activeclass="active">
+      <StyledNavLink exact={where === "/"} to={where} activeclass="active">
         {text}
       </StyledNavLink>
     </StyledOption>

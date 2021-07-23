@@ -14,10 +14,10 @@ const StyledNav = styled.nav`
   z-index: 999;
 `;
 
-const Nav = () => {
+const Nav = ({ setLoginView, setRegisterView }) => {
   return (
     <StyledNav>
-      <Options />
+      <Options setLoginView={setLoginView} setRegisterView={setRegisterView} />
     </StyledNav>
   );
 };

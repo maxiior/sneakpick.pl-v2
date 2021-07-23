@@ -39,6 +39,10 @@ const Copyright = styled.div``;
 const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
+
+  :hover {
+    color: #00b4ff;
+  }
 `;
 
 const Footer = () => {

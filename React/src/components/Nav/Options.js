@@ -1,6 +1,6 @@
 import Option from "components/Nav/Option";
-import LoginSignUp from "components/Nav/LoginSignUp";
 import styled from "styled-components";
+import { routes } from "routes";
 
 const StyledOptions = styled.div`
   display: flex;
@@ -8,17 +8,24 @@ const StyledOptions = styled.div`
   margin-right: 20px;
 `;
 
-const Options = () => {
+const LoginSignUp = styled.div`
+  margin: 0 15px;
+  cursor: pointer;
+  color: #00b4ff;
+  cursor: pointer;
+`;
+
+const Options = ({ setLoginView, setRegisterView }) => {
   return (
     <StyledOptions>
-      <Option text="WTB" where="/" />
-      <Option text="WTS" where="/" />
-      <Option text="WTT" where="/" />
-      <Option text="PROXY" where="/" />
-      <Option text="STEAL" where="/" />
-      <Option text="TALK" where="/" />
-      <LoginSignUp text="LOGIN" where="/" />
-      <LoginSignUp text="SIGN UP" where="/" />
+      <Option text="WTB" where={routes.WTB} />
+      <Option text="WTS" where={routes.WTS} />
+      <Option text="WTT" where={routes.WTT} />
+      <Option text="PROXY" where={routes.PROXY} />
+      <Option text="STEAL" where={routes.STEAL} />
+      <Option text="TALK" where={routes.TALK} />
+      <LoginSignUp onClick={() => setLoginView(true)}>LOGIN</LoginSignUp>
+      <LoginSignUp onClick={() => setRegisterView(true)}>SIGN UP</LoginSignUp>
     </StyledOptions>
   );
 };

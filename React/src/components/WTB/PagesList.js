@@ -64,7 +64,7 @@ const Dots = styled.div`
 
 const PagesList = () => {
   const [page, setPage] = useState(1);
-  const [number, setNumber] = useState(10);
+  const [number, setNumber] = useState(6);
 
   const changePage = (i) => {
     setPage(i);
@@ -72,116 +72,113 @@ const PagesList = () => {
 
   return (
     <StyledPagesList>
-      <Arrow
-        onClick={() => page > 1 && changePage(page - 1)}
-        blocked={page === 1 && true}
-      />
+      {number !== 1 && (
+        <Arrow
+          onClick={() => page > 1 && changePage(page - 1)}
+          blocked={page === 1}
+        />
+      )}
 
-      {page === 1 && (
-        <Number selected={page === 1 && true} onClick={() => changePage(1)}>
+      {page === 1 && number > 1 && (
+        <Number selected={page === 1} onClick={() => changePage(1)}>
           1
         </Number>
       )}
-      {page === 1 && (
-        <Number selected={page === 2 && true} onClick={() => changePage(2)}>
+      {page === 1 && number > 2 && (
+        <Number selected={page === 2} onClick={() => changePage(2)}>
           2
         </Number>
       )}
-      {page === 1 && (
-        <Number selected={page === 3 && true} onClick={() => changePage(3)}>
+      {page === 1 && number > 3 && (
+        <Number selected={page === 3} onClick={() => changePage(3)}>
           3
         </Number>
       )}
 
+      {page > 2 && page === number - 1 && (
+        <Number
+          selected={page === page - 1}
+          onClick={() => changePage(page - 1)}
+        >
+          {page - 2}
+        </Number>
+      )}
       {page > 1 && page <= number - 2 && (
         <Number
-          selected={page === page - 1 && true}
+          selected={page === page - 1}
           onClick={() => changePage(page - 1)}
         >
           {page - 1}
         </Number>
       )}
       {page > 1 && page <= number - 2 && (
-        <Number
-          selected={page === page && true}
-          onClick={() => changePage(page)}
-        >
+        <Number selected={page === page} onClick={() => changePage(page)}>
           {page}
         </Number>
       )}
       {page > 1 && page <= number - 2 && (
         <Number
-          selected={page === page + 1 && true}
+          selected={page === page + 1}
           onClick={() => changePage(page + 1)}
         >
           {page + 1}
         </Number>
       )}
-
-      {page < number - 2 && <Dots>...</Dots>}
-      {page > number - 2 && page < number && (
+      {page < number - 2 && number > 4 && <Dots>...</Dots>}
+      {page > number - 2 && page < number && page - 1 > 0 && (
         <Number
-          selected={page === page - 1 && true}
+          selected={page === page - 1}
           onClick={() => changePage(page - 1)}
         >
           {page - 1}
         </Number>
       )}
-      {page > number - 2 && page < number && (
-        <Number
-          selected={page === page && true}
-          onClick={() => changePage(page)}
-        >
+      {page > number - 2 && page < number && page > 0 && number > 2 && (
+        <Number selected={page === page} onClick={() => changePage(page)}>
           {page}
         </Number>
       )}
-      {page > number - 2 && page < number && page + 1 !== number && (
-        <Number
-          selected={page === page + 1 && true}
-          onClick={() => changePage(page + 1)}
-        >
-          {page + 1}
-        </Number>
+      {page === number && page > 1 && (
+        <>
+          {number > 3 && (
+            <Number
+              selected={page === number - 3}
+              onClick={() => changePage(number - 3)}
+            >
+              {number - 3}
+            </Number>
+          )}
+          {number > 2 && (
+            <Number
+              selected={page === number - 2}
+              onClick={() => changePage(number - 2)}
+            >
+              {number - 2}
+            </Number>
+          )}
+          <Number
+            selected={page === number - 1}
+            onClick={() => changePage(number - 1)}
+          >
+            {number - 1}
+          </Number>
+          <Number selected={page === number} onClick={() => changePage(number)}>
+            {number}
+          </Number>
+        </>
       )}
-
-      {page === number && (
-        <Number
-          selected={page === number - 2 && true}
-          onClick={() => changePage(number - 2)}
-        >
-          {number - 2}
-        </Number>
-      )}
-      {page === number && (
-        <Number
-          selected={page === number - 1 && true}
-          onClick={() => changePage(number - 1)}
-        >
-          {number - 1}
-        </Number>
-      )}
-      {page === number && (
-        <Number
-          selected={page === number && true}
-          onClick={() => changePage(number)}
-        >
-          {number}
-        </Number>
-      )}
-
       {page !== number && (
-        <Number
-          selected={page === number && true}
-          onClick={() => changePage(number)}
-        >
+        <Number selected={page === number} onClick={() => changePage(number)}>
           {number}
         </Number>
       )}
-      <Arrow
-        right
-        onClick={() => page < number && changePage(page + 1)}
-        blocked={page === number && true}
-      />
+      {number !== 1 && (
+        <Arrow
+          right
+          onClick={() => page < number && changePage(page + 1)}
+          blocked={page === number}
+        />
+      )}
     </StyledPagesList>
   );
 };
