@@ -20,7 +20,7 @@ const GridElements = styled.div`
   ${({ large }) =>
     large &&
     css`
-      wgrid-template-columns: auto;
+      grid-template-columns: auto;
     `}
 `;
 

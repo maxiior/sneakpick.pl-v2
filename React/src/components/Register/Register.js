@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import logo from "assets/logo_dark.png";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -49,9 +50,15 @@ const LoginButton = styled.div`
   }
 `;
 
-const Header = styled.div`
-  text-align: center;
+const Logo = styled.img`
+  width: 150px;
+  height: 22px;
+`;
+
+const LogoHolder = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const FieldType = styled.div`
@@ -77,7 +84,9 @@ const Register = ({ setRegisterView }) => {
     <Wrapper>
       <Container>
         <CLose onClick={() => setRegisterView(false)} />
-        <Header>SNEAKPICK</Header>
+        <LogoHolder>
+          <Logo src={logo} />
+        </LogoHolder>
         <FieldType>Imię</FieldType>
         <StyledInput type="text" />
         <FieldType>Nazwisko</FieldType>

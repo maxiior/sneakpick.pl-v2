@@ -18,6 +18,10 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Work Sans', sans-serif;
         margin: 0;
     }
+
+    input {
+        font-family: 'Work Sans',sans-serif;
+    }
 `;
 
 export default GlobalStyle;

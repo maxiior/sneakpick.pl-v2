@@ -5,7 +5,7 @@ import { routes } from "routes";
 const StyledOptions = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  padding: 0 40px;
 `;
 
 const LoginSignUp = styled.div`

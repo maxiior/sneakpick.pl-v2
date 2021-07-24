@@ -52,8 +52,8 @@ const LeftPanel = () => {
   ]);
 
   const [types, setType] = useState([
-    { text: "MĘSKIE", checked: false },
-    { text: "DAMSKIE", checked: false },
+    { text: "MĘSKI", checked: false },
+    { text: "DAMSKI", checked: false },
   ]);
 
   const [states, setState] = useState([

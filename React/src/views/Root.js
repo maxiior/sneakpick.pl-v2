@@ -5,18 +5,22 @@ import WTS from "views/WTS";
 import { routes } from "routes";
 import { Provider } from "react-redux";
 import store from "store";
+import { theme } from "theme/mainTheme";
+import { ThemeProvider } from "styled-components";
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <MainTemplate>
-          <Switch>
-            <Route exact path={routes.HOME} component={WTB} />
-            <Route path={routes.WTB} component={WTB} />
-            <Route path={routes.WTS} component={WTS} />
-          </Switch>
-        </MainTemplate>
+        <ThemeProvider theme={theme}>
+          <MainTemplate>
+            <Switch>
+              <Route exact path={routes.HOME} component={WTB} />
+              <Route path={routes.WTB} component={WTB} />
+              <Route path={routes.WTS} component={WTS} />
+            </Switch>
+          </MainTemplate>
+        </ThemeProvider>
       </BrowserRouter>
     </Provider>
   );
