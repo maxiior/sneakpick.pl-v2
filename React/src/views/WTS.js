@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Feature from "components/WTS/Feature";
 import GridList from "components/WTS/GridList";
 import ColorwayGrid from "components/WTS/ColorwayGrid";
+import Description from "components/WTS/Description";
+import Delivery from "components/WTS/Delivery";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,7 +23,9 @@ const Header = styled.div`
   font-weight: 500;
 `;
 
-const Panel = styled.div``;
+const Panel = styled.div`
+  margin-left: 25px;
+`;
 
 const Add = styled.div`
   width: 100%;
@@ -114,6 +118,8 @@ const WTS = () => {
     { text: "#AAAAAA", checked: false },
   ]);
 
+  const [showCity, setShowCity] = useState(false);
+
   return (
     <Wrapper>
       <Container>
@@ -122,6 +128,7 @@ const WTS = () => {
           <Feature name="Nazwa przedmiotu" placeholder="np. Nike Air Max 97" />
           <Feature name="Marka" placeholder="np. Nike" />
           <Feature name="Kategoria" placeholder="np. Teesy" />
+          <Description name="Opis" placeholder="Opis" />
           <GridList name="Rodzaj" elements={types} medium />
           <GridList name="Stan" elements={states} small />
           <GridList name="Rozmiar" elements={sizes} small />
@@ -129,8 +136,13 @@ const WTS = () => {
           <GridList name="Fit" elements={fits} medium />
           <ColorwayGrid colors={colors} />
           <Feature name="Cena" placeholder="0.00 PLN" />
-          <Add>Dodaj ogłoszenie</Add>
+          <Delivery
+            defaultValue="Warszawa"
+            checkbox={showCity}
+            setCheckbox={setShowCity}
+          />
         </Panel>
+        <Add>Dodaj ogłoszenie</Add>
       </Container>
     </Wrapper>
   );

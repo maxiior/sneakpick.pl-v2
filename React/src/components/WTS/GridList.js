@@ -8,7 +8,7 @@ const Option = styled.span`
   height: 30px;
   font-size: 14px;
   cursor: pointer;
-  color: #ddd;
+  color: ${({ theme }) => theme.darkGrey};
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -23,11 +23,6 @@ const Option = styled.span`
     medium &&
     css`
       width: 1fr;
-    `}
-  ${({ large }) =>
-    large &&
-    css`
-      width: 190px;
     `}
 `;
 
@@ -49,7 +44,6 @@ const Container = styled.div`
   width: 300px;
   display: grid;
   grid-gap: 5px;
-  margin-left: 25px;
 
   ${({ small }) =>
     small &&
@@ -63,9 +57,11 @@ const Container = styled.div`
     `}
 `;
 
+const Wrapper = styled.div``;
+
 const GridList = ({ name, elements, ...props }) => {
   return (
-    <div>
+    <Wrapper>
       <Header>{name}</Header>
       <Container {...props}>
         {elements.map((e, i) => (
@@ -75,7 +71,7 @@ const GridList = ({ name, elements, ...props }) => {
           </StyledLabel>
         ))}
       </Container>
-    </div>
+    </Wrapper>
   );
 };
 

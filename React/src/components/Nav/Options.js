@@ -24,8 +24,22 @@ const Options = ({ setLoginView, setRegisterView }) => {
       <Option text="PROXY" where={routes.PROXY} />
       <Option text="STEAL" where={routes.STEAL} />
       <Option text="TALK" where={routes.TALK} />
-      <LoginSignUp onClick={() => setLoginView(true)}>LOGIN</LoginSignUp>
-      <LoginSignUp onClick={() => setRegisterView(true)}>SIGN UP</LoginSignUp>
+      <LoginSignUp
+        onClick={() => {
+          window.scrollTo(0, 0);
+          setLoginView(true);
+        }}
+      >
+        LOGIN
+      </LoginSignUp>
+      <LoginSignUp
+        onClick={() => {
+          window.scrollTo(0, 0);
+          setRegisterView(true);
+        }}
+      >
+        SIGN UP
+      </LoginSignUp>
     </StyledOptions>
   );
 };

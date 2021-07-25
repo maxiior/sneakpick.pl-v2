@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const Header = styled.div`
-  font-size: 20px;
-  padding: 20px 25px 10px 25px;
+  font-size: ${({ small }) => (small ? "15px" : "20px")};
+  padding: 20px 0 10px 0;
   font-weight: 500;
 `;
 

@@ -15,7 +15,7 @@ const Header = styled.header`
   background-repeat: no-repeat;
   background-size: cover;
   color: #00b4ff;
-  font-size: 4.5em;
+  font-size: 4.2em;
   user-select: none;
 `;
 

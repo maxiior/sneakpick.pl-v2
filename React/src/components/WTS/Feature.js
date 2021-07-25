@@ -9,19 +9,20 @@ const StyledInput = styled.input`
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.grey};
   padding: 5px 12px;
-  margin-left: 25px;
 
   :focus {
     border-bottom: 1px solid ${({ theme }) => theme.blue};
   }
 `;
 
-const Feature = ({ name, placeholder }) => {
+const Wrapper = styled.div``;
+
+const Feature = ({ name, placeholder, defaultValue, ...props }) => {
   return (
-    <div>
-      <Header>{name}</Header>
-      <StyledInput type="text" placeholder={placeholder} />
-    </div>
+    <Wrapper>
+      <Header {...props}>{name}</Header>
+      <StyledInput type="text" placeholder={placeholder} value={defaultValue} />
+    </Wrapper>
   );
 };
 
