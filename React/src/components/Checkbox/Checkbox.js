@@ -5,8 +5,8 @@ const Checkmark = styled.span`
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: ${({ small }) => (small ? "15px" : "25px")};
+  width: ${({ small }) => (small ? "15px" : "25px")};
   background-color: ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;
@@ -15,14 +15,14 @@ const Checkmark = styled.span`
   transition: background-color 0.25s;
 
   ::after {
-    width: 8px;
-    height: 15px;
+    width: ${({ small }) => (small ? "5px" : "8px")};
+    height: ${({ small }) => (small ? "9px" : "15px")};
     border: solid white;
     border-width: 0 2px 2px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-    top: 3px;
+    top: ${({ small }) => (small ? "2px" : "3px")};
 
     content: "";
     position: absolute;
@@ -46,28 +46,28 @@ const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   position: relative;
-  padding-left: 35px;
+  padding-left: ${({ small }) => (small ? "25px" : "35px")};
   cursor: pointer;
-  font-size: 16px;
+  font-size: ${({ small }) => (small ? "14px" : "16px")};
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  height: 25px;
+  height: ${({ small }) => (small ? "15px" : "25px")};
 `;
 
 const Wrapper = styled.div``;
 
-const Checkbox = ({ text, className, setCheckbox, checkbox }) => {
+const Checkbox = ({ text, className, setCheckbox, checkbox, small }) => {
   return (
     <Wrapper className={className}>
-      <StyledLabel>
+      <StyledLabel small={small}>
         <div>{text}</div>
         <StyledInput
           type="checkbox"
           onChange={() => setCheckbox && setCheckbox(!checkbox)}
         />
-        <Checkmark />
+        <Checkmark small={small} />
       </StyledLabel>
     </Wrapper>
   );

@@ -67,18 +67,14 @@ const StyledInput = styled.input`
   }
 `;
 
-const GridList = ({ name, elements, onToggle, setChecked, ...props }) => {
+const GridList = ({ name, elements, ...props }) => {
   return (
     <Elements>
       <Paragraph>{name}</Paragraph>
       <GridElements {...props}>
         {elements.map((e, i) => (
           <StyledLabel key={i}>
-            <StyledInput
-              type="checkbox"
-              onChange={() => onToggle(setChecked, elements, e.text)}
-              checked={e.checked}
-            />
+            <StyledInput type="checkbox" />
             <Value {...props}>{e.text}</Value>
           </StyledLabel>
         ))}

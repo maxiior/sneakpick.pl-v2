@@ -8,7 +8,7 @@ const StyledSearch = styled.input`
   border: none;
   padding: 5px 10px 5px 35px;
   width: 100%;
-  height: 35px;
+  height: 36px;
 
   ::-webkit-search-decoration,
   ::-webkit-search-cancel-button,
@@ -31,9 +31,9 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Search = () => {
+const Search = ({ className }) => {
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <StyledSearch type="search" placeholder="Szukaj przedmiotów" />
       <Icon />
     </Wrapper>

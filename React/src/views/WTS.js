@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  font-size: 40px;
+  font-size: 35px;
   border-bottom: 1px solid ${({ theme }) => theme.black};
   font-weight: 500;
 `;

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "components/Checkbox/Checkbox";
 import logo from "assets/logo_dark.png";
 
 const Wrapper = styled.div`
@@ -41,12 +40,15 @@ const LoginButton = styled.div`
   color: white;
   width: 100%;
   padding: 10px 0;
-  margin-top: 10px;
   text-align: center;
   cursor: pointer;
 
   :hover {
     opacity: 0.9;
+  }
+
+  :last-child {
+    margin-top: 10px;
   }
 `;
 
@@ -79,6 +81,10 @@ const CLose = styled(IoMdClose)`
   }
 `;
 
+const StyledCheckbox = styled(Checkbox)`
+  margin: 15px 0;
+`;
+
 const Register = ({ setRegisterView }) => {
   return (
     <Wrapper>
@@ -99,16 +105,11 @@ const Register = ({ setRegisterView }) => {
         <StyledInput type="password" />
         <FieldType>Powtórz hasło</FieldType>
         <StyledInput type="password" />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={false}
-              onChange={null}
-              name="checkedB"
-              color="primary"
-            />
-          }
-          label="Akceptuję warunki regulaminu."
+        <StyledCheckbox
+          text="Akceptuje regulamin strony."
+          setCheckbox={null}
+          checkbox={null}
+          small
         />
         <LoginButton>SIGN UP</LoginButton>
         <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>

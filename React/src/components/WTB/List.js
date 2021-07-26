@@ -20,7 +20,7 @@ const ShowMore = styled.div`
   }
 `;
 
-const List = ({ name, elements, setChecked, onToggle }) => {
+const List = ({ name, elements }) => {
   const [showList, setShowList] = useState(false);
   const [amount, setAmount] = useState(6);
   const [showMore, setShowMore] = useState("Pokaż więcej");
@@ -42,14 +42,7 @@ const List = ({ name, elements, setChecked, onToggle }) => {
       <Paragraph>{name}</Paragraph>
       <ElementsList>
         {elements.slice(0, amount).map((e, i) => (
-          <Element
-            key={i}
-            text={e.text}
-            setChecked={setChecked}
-            elements={elements}
-            checked={e.checked}
-            onToggle={onToggle}
-          />
+          <Element key={i} text={e.text} elements={elements} />
         ))}
       </ElementsList>
       <ShowMore onClick={() => show()}>{showMore}</ShowMore>

@@ -2,7 +2,7 @@ import Panel from "components/WTB/Panel";
 import TopNav from "components/WTB/TopNav";
 import React, { useState } from "react";
 import styled from "styled-components";
-import wtb from "../components/WTB/pictures/wtb.png";
+import wtb from "assets/wtb.png";
 
 const Header = styled.header`
   display: flex;

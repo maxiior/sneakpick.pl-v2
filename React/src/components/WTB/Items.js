@@ -29,6 +29,8 @@ const Items = ({ items }) => {
   );
 };
 
-const mapStateToProps = ({ items }) => ({ items });
+const mapStateToProps = ({ announs }) => {
+  return { items: announs.items };
+};
 
 export default connect(mapStateToProps)(Items);

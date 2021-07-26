@@ -10,6 +10,10 @@ import { useState } from "react";
 
 const Main = styled.div`
   padding-top: 60px;
+
+  @media only screen and (max-width: 1200px) {
+    padding-top: 110px;
+  }
 `;
 
 const MainTemplate = ({ children }) => {

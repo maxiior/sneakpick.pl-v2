@@ -43,15 +43,11 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, setChecked, elements, checked, onToggle }) => {
+const Element = ({ text, elements }) => {
   return (
     <StyledElement>
       <StyledLabel>
-        <StyledInput
-          type="checkbox"
-          checked={checked}
-          onChange={() => onToggle(setChecked, elements, text)}
-        />
+        <StyledInput type="checkbox" />
         <Checkbox />
         <Type other={text === "Inne"}>{text}</Type>
       </StyledLabel>

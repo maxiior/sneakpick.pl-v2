@@ -6,6 +6,10 @@ const StyledOptions = styled.div`
   display: flex;
   align-items: center;
   padding: 0 40px;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `;
 
 const LoginSignUp = styled.div`
