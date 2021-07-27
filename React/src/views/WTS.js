@@ -5,6 +5,7 @@ import GridList from "components/WTS/GridList";
 import ColorwayGrid from "components/WTS/ColorwayGrid";
 import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,82 +43,7 @@ const Add = styled.div`
   }
 `;
 
-const WTS = () => {
-  const [types, setTypes] = useState([
-    { text: "MĘSKI", checked: false },
-    { text: "DAMSKI", checked: false },
-  ]);
-
-  const [sizes, setSize] = useState([
-    { text: "36.0", checked: false },
-    { text: "36.5", checked: false },
-    { text: "37.0", checked: false },
-    { text: "37.5", checked: false },
-    { text: "38.0", checked: false },
-    { text: "38.5", checked: false },
-    { text: "39.0", checked: false },
-    { text: "39.5", checked: false },
-    { text: "40.0", checked: false },
-    { text: "40.5", checked: false },
-    { text: "41.0", checked: false },
-    { text: "41.5", checked: false },
-    { text: "42.0", checked: false },
-    { text: "42.5", checked: false },
-    { text: "43.0", checked: false },
-    { text: "43.5", checked: false },
-    { text: "44.0", checked: false },
-    { text: "44.5", checked: false },
-    { text: "45.0", checked: false },
-    { text: "45.5", checked: false },
-    { text: "46.0", checked: false },
-    { text: "46.5", checked: false },
-    { text: "47.0", checked: false },
-    { text: "47.5", checked: false },
-    { text: "48.0", checked: false },
-    { text: "48.5", checked: false },
-    { text: "49.0", checked: false },
-    { text: "49.5", checked: false },
-    { text: "50.0", checked: false },
-  ]);
-
-  const [sizes2, setSize2] = useState([
-    { text: "XXS", checked: false },
-    { text: "XS", checked: false },
-    { text: "S", checked: false },
-    { text: "M", checked: false },
-    { text: "L", checked: false },
-    { text: "XL", checked: false },
-    { text: "XXL", checked: false },
-  ]);
-
-  const [states, setState] = useState([
-    { text: "DS", checked: false },
-    { text: "VNDS", checked: false },
-    { text: "4/5", checked: false },
-    { text: "3/5", checked: false },
-    { text: "2/5", checked: false },
-    { text: "1/5", checked: false },
-  ]);
-
-  const [fits, setFit] = useState([
-    { text: "SLIM FIT", checked: false },
-    { text: "REGULAR", checked: false },
-    { text: "OVERSIZE", checked: false },
-  ]);
-
-  const [colors, setColor] = useState([
-    { text: "#A23A3A", checked: false },
-    { text: "#F2324D", checked: false },
-    { text: "#F4A523", checked: false },
-    { text: "#F8E71B", checked: false },
-    { text: "#7CD321", checked: false },
-    { text: "#4CA3FD", checked: false },
-    { text: "#8F12FF", checked: false },
-    { text: "#EC94FF", checked: false },
-    { text: "#000000", checked: false },
-    { text: "#AAAAAA", checked: false },
-  ]);
-
+const WTS = ({ filters }) => {
   const [showCity, setShowCity] = useState(false);
 
   return (
@@ -129,12 +55,12 @@ const WTS = () => {
           <Feature name="Marka" placeholder="np. Nike" />
           <Feature name="Kategoria" placeholder="np. Teesy" />
           <Description name="Opis" placeholder="Opis" />
-          <GridList name="Rodzaj" elements={types} medium />
-          <GridList name="Stan" elements={states} small />
-          <GridList name="Rozmiar" elements={sizes} small />
-          <GridList name="Rozmiar" elements={sizes2} small />
-          <GridList name="Fit" elements={fits} medium />
-          <ColorwayGrid colors={colors} />
+          <GridList name="Rodzaj" elements={filters.types} medium />
+          <GridList name="Stan" elements={filters.conditions} small />
+          <GridList name="Rozmiar" elements={filters.shoesSizes} small />
+          <GridList name="Rozmiar" elements={filters.clothesSizes} small />
+          <GridList name="Fit" elements={filters.fits} medium />
+          <ColorwayGrid colors={filters.colors} />
           <Feature name="Cena" placeholder="0.00 PLN" />
           <Delivery
             defaultValue="Warszawa"
@@ -148,4 +74,8 @@ const WTS = () => {
   );
 };
 
-export default WTS;
+const mapStateToProps = ({ filters }) => {
+  return { filters: filters.filters };
+};
+
+export default connect(mapStateToProps)(WTS);

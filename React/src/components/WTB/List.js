@@ -41,9 +41,10 @@ const List = ({ name, elements, filterType }) => {
     <Elements>
       <Paragraph>{name}</Paragraph>
       <ElementsList>
-        {elements.slice(0, amount).map((e, i) => (
+        {elements.slice(0, amount).map((e) => (
           <Element
-            key={i}
+            key={e.id}
+            id={e.id}
             text={e.text}
             filterType={filterType}
             checked={e.checked}

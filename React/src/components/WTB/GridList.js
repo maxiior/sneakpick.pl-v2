@@ -74,11 +74,12 @@ const GridList = ({ name, elements, changeState, filterType, ...props }) => {
     <Elements>
       <Paragraph>{name}</Paragraph>
       <GridElements {...props}>
-        {elements.map((e, i) => (
-          <StyledLabel key={i}>
+        {elements.map((e) => (
+          <StyledLabel key={e.id}>
             <StyledInput
+              id={e.id}
               type="checkbox"
-              onChange={() => changeState(filterType, e.text)}
+              onChange={() => changeState(filterType, e.id)}
               checked={e.checked}
             />
             <Value {...props}>{e.text}</Value>

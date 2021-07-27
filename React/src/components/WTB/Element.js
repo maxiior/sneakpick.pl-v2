@@ -45,13 +45,13 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, changeState, filterType, checked }) => {
+const Element = ({ text, changeState, filterType, checked, id }) => {
   return (
     <StyledElement>
       <StyledLabel>
         <StyledInput
           type="checkbox"
-          onChange={() => changeState(filterType, text)}
+          onChange={() => changeState(filterType, id)}
           checked={checked}
         />
         <Checkbox />
