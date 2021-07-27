@@ -32,40 +32,58 @@ const StyledLeftPanel = styled.div`
   }
 `;
 
-const LeftPanel = ({
-  categories,
-  brands,
-  types,
-  conditions,
-  shoesSizes,
-  clothesSizes,
-  fits,
-  colors,
-}) => {
+const LeftPanel = ({ filters, filterTypes }) => {
   return (
     <StyledLeftPanel>
-      <List name="Kategoria" elements={categories} />
-      <List name="Marka" elements={brands} />
-      <GridList name="Rodzaj" elements={types} medium />
-      <GridList name="Stan" elements={conditions} small />
-      <GridList name="Rozmiar" elements={shoesSizes} small />
-      <GridList name="Rozmiar" elements={clothesSizes} small />
-      <GridList name="Fit" elements={fits} large />
-      <ColorwayGrid colors={colors} />
+      <List
+        name="Kategoria"
+        elements={filters.categories}
+        filterType={filterTypes.categories}
+      />
+      <List
+        name="Marka"
+        elements={filters.brands}
+        filterType={filterTypes.brands}
+      />
+      <GridList
+        name="Rodzaj"
+        elements={filters.types}
+        filterType={filterTypes.types}
+        medium
+      />
+      <GridList
+        name="Stan"
+        elements={filters.conditions}
+        filterType={filterTypes.conditions}
+        small
+      />
+      <GridList
+        name="Rozmiar"
+        elements={filters.shoesSizes}
+        filterType={filterTypes.shoesSizes}
+        small
+      />
+      <GridList
+        name="Rozmiar"
+        elements={filters.clothesSizes}
+        filterType={filterTypes.clothesSizes}
+        small
+      />
+      <GridList
+        name="Fit"
+        elements={filters.fits}
+        filterType={filterTypes.fits}
+        large
+      />
+      <ColorwayGrid colors={filters.colors} filterType={filterTypes.colors} />
     </StyledLeftPanel>
   );
 };
 
 const mapStateToProps = ({ filters }) => {
   return {
-    categories: filters.categories,
-    brands: filters.brands,
-    types: filters.types,
-    conditions: filters.conditions,
-    shoesSizes: filters.shoesSizes,
-    clothesSizes: filters.clothesSizes,
-    fits: filters.fits,
-    colors: filters.colors,
+    filterTypes: filters.filterTypes,
+    filters: filters.filters,
   };
 };
 

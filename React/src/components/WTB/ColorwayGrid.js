@@ -2,6 +2,8 @@ import colorful from "assets/other.png";
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
+import { connect } from "react-redux";
+import { changeState as changeStateAction } from "actions/filters";
 
 const CW = styled.div`
   box-sizing: border-box;
@@ -47,7 +49,7 @@ const CwsGrid = styled.div`
   }
 `;
 
-const ColorwayGrid = ({ colors }) => {
+const ColorwayGrid = ({ colors, changeState, filterType }) => {
   return (
     <Elements>
       <Paragraph>CW</Paragraph>
@@ -86,4 +88,8 @@ const ColorwayGrid = ({ colors }) => {
   );
 };
 
-export default ColorwayGrid;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(ColorwayGrid);

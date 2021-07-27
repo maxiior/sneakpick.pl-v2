@@ -1,6 +1,8 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
+import { connect } from "react-redux";
+import { changeState as changeStateAction } from "actions/filters";
 
 const GridElements = styled.div`
   display: grid;
@@ -67,14 +69,18 @@ const StyledInput = styled.input`
   }
 `;
 
-const GridList = ({ name, elements, ...props }) => {
+const GridList = ({ name, elements, changeState, filterType, ...props }) => {
   return (
     <Elements>
       <Paragraph>{name}</Paragraph>
       <GridElements {...props}>
         {elements.map((e, i) => (
           <StyledLabel key={i}>
-            <StyledInput type="checkbox" />
+            <StyledInput
+              type="checkbox"
+              onChange={() => changeState(filterType, e.text)}
+              checked={e.checked}
+            />
             <Value {...props}>{e.text}</Value>
           </StyledLabel>
         ))}
@@ -83,4 +89,8 @@ const GridList = ({ name, elements, ...props }) => {
   );
 };
 
-export default GridList;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(GridList);

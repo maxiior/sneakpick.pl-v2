@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { changeState as changeStateAction } from "actions/filters";
+import { connect } from "react-redux";
 
 const StyledElement = styled.div`
   margin: 2px 0;
@@ -43,11 +45,15 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, elements }) => {
+const Element = ({ text, changeState, filterType, checked }) => {
   return (
     <StyledElement>
       <StyledLabel>
-        <StyledInput type="checkbox" />
+        <StyledInput
+          type="checkbox"
+          onChange={() => changeState(filterType, text)}
+          checked={checked}
+        />
         <Checkbox />
         <Type other={text === "Inne"}>{text}</Type>
       </StyledLabel>
@@ -55,4 +61,8 @@ const Element = ({ text, elements }) => {
   );
 };
 
-export default Element;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+});
+
+export default connect(null, mapDispatchToProps)(Element);

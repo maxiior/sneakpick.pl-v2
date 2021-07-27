@@ -7,3 +7,9 @@ export const changeState = (filterType, id) => {
     },
   };
 };
+
+export const resetAllStates = () => {
+  return {
+    type: "RESET_ALL_STATES",
+  };
+};
