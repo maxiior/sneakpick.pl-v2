@@ -10,7 +10,7 @@ const StyledRightPanel = styled.div`
   padding-left: 250px;
   background-color: #fff;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 992px) {
     padding-left: 0 !important;
   }
 `;

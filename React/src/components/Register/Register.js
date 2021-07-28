@@ -20,6 +20,7 @@ const Container = styled.div`
   padding: 50px 80px;
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
 `;
 
 const StyledInput = styled.input`
@@ -42,6 +43,7 @@ const LoginButton = styled.div`
   padding: 10px 0;
   text-align: center;
   cursor: pointer;
+  border-radius: 10px;
 
   :hover {
     opacity: 0.9;

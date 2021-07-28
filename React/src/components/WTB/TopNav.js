@@ -36,7 +36,7 @@ const RightPanel = styled.div`
     justify-content: center;
     display: block;
   }
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 992px) {
     padding: 0;
   }
 `;
@@ -68,7 +68,7 @@ const StyledPagesList = styled(PagesList)`
     display: flex;
     justify-content: center;
     margin: 0;
-    padding-top: 20px;
+    padding-top: 15px;
   }
 `;
 
