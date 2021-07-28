@@ -42,9 +42,9 @@ const Step = styled(Link)`
   }
 `;
 
-const Path = ({ steps }) => {
+const Path = ({ steps, className }) => {
   return (
-    <StyledPath>
+    <StyledPath className={className}>
       <ol>
         <li>
           <Step to="/all">All</Step>

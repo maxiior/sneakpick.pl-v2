@@ -75,6 +75,10 @@ const ModesContainer = styled.div`
   z-index: 500;
 `;
 
+const StyledSorting = styled.div`
+  display: inline-block;
+`;
+
 const useOutsideAlerter = (ref, setOpen) => {
   useEffect(() => {
     function handleClickOutside(event) {
@@ -89,7 +93,7 @@ const useOutsideAlerter = (ref, setOpen) => {
   }, [ref]);
 };
 
-const Sorting = () => {
+const Sorting = ({ className }) => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(1);
 
@@ -97,7 +101,7 @@ const Sorting = () => {
   useOutsideAlerter(wrapperRef, setOpen);
 
   return (
-    <>
+    <StyledSorting className={className}>
       <Header>Sortowanie:</Header>
       <SortingMode onClick={() => setOpen(!open)} ref={wrapperRef}>
         <ValueHolder>
@@ -128,7 +132,7 @@ const Sorting = () => {
           </ModesContainer>
         )}
       </SortingMode>
-    </>
+    </StyledSorting>
   );
 };
 

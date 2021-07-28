@@ -14,9 +14,9 @@ const Value = styled.span`
   padding-left: 5px;
 `;
 
-const Results = ({ results }) => {
+const Results = ({ results, className }) => {
   return (
-    <StyledResults>
+    <StyledResults className={className}>
       Wyniki:
       <Value>{results}</Value>
     </StyledResults>

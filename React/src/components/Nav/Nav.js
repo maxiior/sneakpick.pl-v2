@@ -33,7 +33,7 @@ const SearchBar = styled.div`
   display: flex;
   align-items: center;
 
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: 1201px) {
     display: none;
   }
 `;
@@ -46,7 +46,7 @@ const DefaultBar = styled.div`
 `;
 
 const StyledSearch = styled(Search)`
-  @media only screen and (max-width: 1199px) {
+  @media only screen and (max-width: 1200px) {
     display: none;
   }
 `;

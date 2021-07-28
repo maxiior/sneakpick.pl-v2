@@ -16,18 +16,67 @@ const Nav = styled.div`
   user-select: none;
   border-bottom: 1px solid #f0f0f0;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 1200px) {
+    height: 100px;
+  }
 `;
 
 const RightPanel = styled.div`
   padding-left: 250px;
   width: 100%;
-  height: 100%;
   align-items: center;
   display: flex;
   justify-content: space-between;
 
+  @media only screen and (min-width: 1201px) {
+    height: 100%;
+  }
+  @media only screen and (max-width: 1200px) {
+    justify-content: center;
+    display: block;
+  }
   @media only screen and (max-width: 768px) {
     padding: 0;
+  }
+`;
+
+const StyledPath = styled(Path)`
+  @media only screen and (max-width: 1200px) {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+`;
+
+const StyledResults = styled(Results)`
+  @media only screen and (max-width: 1200px) {
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const StyledSorting = styled(Sorting)`
+  @media only screen and (max-width: 1200px) {
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const StyledPagesList = styled(PagesList)`
+  @media only screen and (max-width: 1200px) {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding-top: 20px;
+  }
+`;
+
+const Holder = styled.div`
+  display: inline-block;
+  @media only screen and (max-width: 1200px) {
+    display: flex;
+    justify-content: center;
   }
 `;
 
@@ -37,11 +86,13 @@ const TopNav = ({ steps, results }) => {
       <Filters />
       <RightPanel>
         <div>
-          <Path steps={steps} />
-          <Results results={results} />
-          <Sorting />
+          <Holder>
+            <StyledPath steps={steps} />
+            <StyledResults results={results} />
+          </Holder>
+          <StyledSorting />
         </div>
-        <PagesList />
+        <StyledPagesList />
       </RightPanel>
     </Nav>
   );

@@ -62,7 +62,7 @@ const Dots = styled.div`
   user-select: none;
 `;
 
-const PagesList = () => {
+const PagesList = ({ className }) => {
   const [page, setPage] = useState(1);
   const [number, setNumber] = useState(6);
 
@@ -71,7 +71,7 @@ const PagesList = () => {
   };
 
   return (
-    <StyledPagesList>
+    <StyledPagesList className={className}>
       {number !== 1 && (
         <Arrow
           onClick={() => page > 1 && changePage(page - 1)}
