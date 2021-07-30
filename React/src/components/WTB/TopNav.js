@@ -1,9 +1,11 @@
-import Filters from "components/WTB/Filters";
+import FiltersHeader from "components/WTB/FiltersHeader";
+import FiltersPanel from "components/WTB/FiltersPanel";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
 import Path from "components/WTB/Path";
 import Results from "components/WTB/Results";
-import Sorting from "components/WTB/Sorting";
+import ComboBox from "components/WTB/ComboBox";
+import { useState } from "react";
 
 const Nav = styled.div`
   position: relative;
@@ -56,7 +58,7 @@ const StyledResults = styled(Results)`
   }
 `;
 
-const StyledSorting = styled(Sorting)`
+const StyledComboBox = styled(ComboBox)`
   @media only screen and (max-width: 1200px) {
     display: flex;
     justify-content: center;
@@ -80,21 +82,43 @@ const Holder = styled.div`
   }
 `;
 
+const StyledFiltersPanel = styled(FiltersPanel)`
+  @media only screen and (min-width: 993px) {
+    display: none;
+  }
+`;
+
 const TopNav = ({ steps, results }) => {
+  const [sortingModes, setSortingModes] = useState([
+    "Domyślne",
+    "Cena Rosnąco",
+    "Cena Malejąco",
+    "Popularne",
+    "Najnowsze",
+  ]);
+
+  const [pages, setPages] = useState(["24", "48"]);
+
   return (
-    <Nav>
-      <Filters />
-      <RightPanel>
-        <div>
-          <Holder>
-            <StyledPath steps={steps} />
-            <StyledResults results={results} />
-          </Holder>
-          <StyledSorting />
-        </div>
-        <StyledPagesList />
-      </RightPanel>
-    </Nav>
+    <>
+      <StyledFiltersPanel />
+      <Nav>
+        <FiltersHeader />
+        <RightPanel>
+          <div>
+            <Holder>
+              <StyledPath steps={steps} />
+              <StyledResults results={results} />
+            </Holder>
+            <Holder>
+              <StyledComboBox name="Sortowanie" elements={sortingModes} />
+              <StyledComboBox name="Pokaż" elements={pages} />
+            </Holder>
+          </div>
+          <StyledPagesList />
+        </RightPanel>
+      </Nav>
+    </>
   );
 };
 

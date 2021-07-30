@@ -41,7 +41,7 @@ const Icon = styled(VscSearch)`
   margin-top: 3px;
 `;
 
-const Filters = ({ resetAllStates }) => {
+const FiltersHeader = ({ resetAllStates }) => {
   return (
     <Wrapper>
       <Header>
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch) => ({
   resetAllStates: () => dispatch(resetAllStatesAction()),
 });
 
-export default connect(null, mapDispatchToProps)(Filters);
+export default connect(null, mapDispatchToProps)(FiltersHeader);

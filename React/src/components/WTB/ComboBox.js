@@ -33,7 +33,7 @@ const ValueHolder = styled.div`
   }
 `;
 
-const SortingMode = styled.div`
+const ComboBoxMode = styled.div`
   position: relative;
   cursor: pointer;
   display: inline-flex;
@@ -73,9 +73,10 @@ const ModesContainer = styled.div`
   font-size: 14px;
   font-weight: 400;
   z-index: 500;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-const StyledSorting = styled.div`
+const StyledComboBox = styled.div`
   display: inline-block;
 `;
 
@@ -93,7 +94,7 @@ const useOutsideAlerter = (ref, setOpen) => {
   }, [ref]);
 };
 
-const Sorting = ({ className }) => {
+const ComboBox = ({ className, name, elements }) => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(1);
 
@@ -101,39 +102,28 @@ const Sorting = ({ className }) => {
   useOutsideAlerter(wrapperRef, setOpen);
 
   return (
-    <StyledSorting className={className}>
-      <Header>Sortowanie:</Header>
-      <SortingMode onClick={() => setOpen(!open)} ref={wrapperRef}>
+    <StyledComboBox className={className}>
+      <Header>{name}:</Header>
+      <ComboBoxMode onClick={() => setOpen(!open)} ref={wrapperRef}>
         <ValueHolder>
-          {mode === 1 && "Domyślne"}
-          {mode === 2 && "Cena Rosnąco"}
-          {mode === 3 && "Cena Malejąco"}
-          {mode === 4 && "Popularne"}
-          {mode === 5 && "Najnowsze"}
+          {elements.filter((element, i) => mode === i + 1 && element)}
         </ValueHolder>
         <Arrow turned={open === true && true} />
         {open && (
           <ModesContainer>
-            <Mode selected={mode === 1 && true} onClick={() => setMode(1)}>
-              Domyślne
-            </Mode>
-            <Mode selected={mode === 2 && true} onClick={() => setMode(2)}>
-              Cena Rosnąco
-            </Mode>
-            <Mode selected={mode === 3 && true} onClick={() => setMode(3)}>
-              Cena Malejąco
-            </Mode>
-            <Mode selected={mode === 4 && true} onClick={() => setMode(4)}>
-              Popularne
-            </Mode>
-            <Mode selected={mode === 5 && true} onClick={() => setMode(5)}>
-              Najnowsze
-            </Mode>
+            {elements.map((element, i) => (
+              <Mode
+                selected={mode === i + 1 && true}
+                onClick={() => setMode(i + 1)}
+              >
+                {element}
+              </Mode>
+            ))}
           </ModesContainer>
         )}
-      </SortingMode>
-    </StyledSorting>
+      </ComboBoxMode>
+    </StyledComboBox>
   );
 };
 
-export default Sorting;
+export default ComboBox;
