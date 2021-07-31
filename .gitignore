@@ -2,6 +2,7 @@
 
 # dependencies
 React/node_modules
+Django/venv
 /.pnp
 .pnp.js
 
