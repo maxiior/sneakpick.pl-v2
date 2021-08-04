@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import logo from "assets/logo_dark.png";
+import axiosInstance from "axios/axios";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div`
+const Container = styled.form`
   background-color: white;
   padding: 50px 80px;
   position: relative;
@@ -91,6 +92,36 @@ const CLose = styled(IoMdClose)`
 `;
 
 const Login = ({ setLoginView }) => {
+  const initialFormData = Object.freeze({
+    email: "",
+    password: "",
+  });
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axiosInstance
+      .post(`token/`, {
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((res) => {
+        localStorage.setItem("access_token", res.data.access);
+        localStorage.setItem("refresh_token", res.data.refresh);
+        axiosInstance.defaults.headers["Authorization"] =
+          "JWT " + localStorage.getItem("access_token");
+        console.log(res.data);
+      });
+  };
+
   return (
     <Wrapper>
       <Container>
@@ -99,11 +130,11 @@ const Login = ({ setLoginView }) => {
           <Logo src={logo} />
         </LogoHolder>
         <FieldType>Email</FieldType>
-        <StyledInput type="text" />
+        <StyledInput type="text" name="email" onChange={handleChange} />
         <FieldType>Hasło</FieldType>
-        <StyledInput type="password" />
+        <StyledInput type="password" name="password" onChange={handleChange} />
         <PasswordForgotten>Zapomniałeś hasła?</PasswordForgotten>
-        <LoginButton>LOGIN</LoginButton>
+        <LoginButton onClick={handleSubmit}>LOGIN</LoginButton>
         <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
       </Container>
     </Wrapper>

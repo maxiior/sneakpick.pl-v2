@@ -4,8 +4,8 @@ from . import models
 
 @admin.register(models.Product)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('title', 'id', 'status', 'slug', 'author')
-    prepopulated_fields = {'slug': ('title',), }
+    list_display = ('id', 'name', 'category', 'status', 'slug', 'owner')
+    prepopulated_fields = {'slug': ('name',), }
 
 
 admin.site.register(models.Category)

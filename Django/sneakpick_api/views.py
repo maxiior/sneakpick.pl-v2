@@ -5,12 +5,12 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission, IsAdminUser
 
 
 class PostUserWritePermission(BasePermission):
-    message = 'Editing posts is restricted to the author only.'
+    message = 'Editing posts is restricted to the owner only.'
 
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
-        return obj.author == request.user
+        return obj.owner == request.user
 
 
 class ProductList(generics.ListCreateAPIView):

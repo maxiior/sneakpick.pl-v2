@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Checkbox/Checkbox";
 import logo from "assets/logo_dark.png";
+import axiosInstance from "axios/axios";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div`
+const Container = styled.form`
   background-color: white;
   padding: 50px 80px;
   position: relative;
@@ -88,6 +89,32 @@ const StyledCheckbox = styled(Checkbox)`
 `;
 
 const Register = ({ setRegisterView }) => {
+  const initialFormData = Object.freeze({
+    email: "",
+    username: "",
+    password: "",
+  });
+  const [formData, setFormData] = useState(initialFormData);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value.trim() });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axiosInstance
+      .post(`user/register/`, {
+        email: formData.email,
+        user_name: formData.username,
+        password: formData.password,
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
+  };
+
   return (
     <Wrapper>
       <Container>
@@ -96,15 +123,15 @@ const Register = ({ setRegisterView }) => {
           <Logo src={logo} />
         </LogoHolder>
         <FieldType>Imię</FieldType>
-        <StyledInput type="text" />
+        <StyledInput type="text" name="username" onChange={handleChange} />
         <FieldType>Nazwisko</FieldType>
         <StyledInput type="text" />
         <FieldType>Miasto</FieldType>
         <StyledInput type="text" />
         <FieldType>Email</FieldType>
-        <StyledInput type="text" />
+        <StyledInput type="text" name="email" onChange={handleChange} />
         <FieldType>Hasło</FieldType>
-        <StyledInput type="password" />
+        <StyledInput type="password" name="password" onChange={handleChange} />
         <FieldType>Powtórz hasło</FieldType>
         <StyledInput type="password" />
         <StyledCheckbox
@@ -113,7 +140,7 @@ const Register = ({ setRegisterView }) => {
           checkbox={null}
           small
         />
-        <LoginButton>SIGN UP</LoginButton>
+        <LoginButton onClick={handleSubmit}>SIGN UP</LoginButton>
         <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
       </Container>
     </Wrapper>

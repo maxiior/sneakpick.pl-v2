@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -18,13 +18,14 @@ class Product(models.Model):
     options = (('draft', 'Draft'), ('published', 'Published'))
 
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
-    title = models.CharField(max_length=250)
-    excerpt = models.TextField(null=True)
-    content = models.TextField()
+    name = models.CharField(max_length=250)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    condition = models.CharField(max_length=5)
+    description = models.TextField()
     slug = models.SlugField(max_length=250, unique_for_date='published')
     published = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='products')
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
     status = models.CharField(
         max_length=10, choices=options, default='published')
     object = models.Manager()  # default manager
@@ -34,4 +35,4 @@ class Product(models.Model):
         ordering = ('-published',)
 
     def __str__(self):
-        return self.title
+        return self.name

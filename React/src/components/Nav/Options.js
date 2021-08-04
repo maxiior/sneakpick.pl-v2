@@ -1,5 +1,6 @@
 import Option from "components/Nav/Option";
 import styled from "styled-components";
+import Logout from "components/Nav/Logout";
 import { routes } from "routes";
 
 const StyledOptions = styled.div`
@@ -44,6 +45,7 @@ const Options = ({ setLoginView, setRegisterView }) => {
       >
         SIGN UP
       </LoginSignUp>
+      <Logout />
     </StyledOptions>
   );
 };
