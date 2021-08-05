@@ -104,14 +104,13 @@ const Register = ({ setRegisterView }) => {
     e.preventDefault();
 
     axiosInstance
-      .post(`user/register/`, {
+      .post("user/register/", {
         email: formData.email,
         user_name: formData.username,
         password: formData.password,
       })
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
+        setRegisterView(false);
       });
   };
 

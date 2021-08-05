@@ -31,7 +31,7 @@ const Informations = styled.div`
 
   h2 {
     margin: 0;
-    margin-top: -3px;
+    margin-top: -1px;
     font-size: 14px;
     font-weight: 600;
     color: #00b4ff;
@@ -77,7 +77,7 @@ const SingleItem = ({ name, price, state, photo }) => {
         <Informations>
           <div>
             <h1>{name}</h1>
-            <h2>{price}</h2>
+            <h2>{price} PLN + SHIP</h2>
           </div>
         </Informations>
       </Item>

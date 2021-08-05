@@ -21,5 +21,5 @@ class ProductList(generics.ListCreateAPIView):
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView, PostUserWritePermission):
     permission_classes = [PostUserWritePermission]
-    queryset = Product.object.all()
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer

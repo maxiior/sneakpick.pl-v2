@@ -21,9 +21,21 @@ const CW = styled.div`
       border: 1px solid #ddd;
       box-sizing: border-box;
     `}
+
+  ${({ multi }) =>
+    multi &&
+    css`
+      background-image: url(${colorful});
+    `}
 `;
 
-const Checkmark = styled.div``;
+const Checkmark = styled.div`
+  ${({ white }) =>
+    white &&
+    css`
+      border-color: #ddd !important;
+    `}
+`;
 
 const CwsGrid = styled.div`
   display: grid;
@@ -60,34 +72,17 @@ const ColorwayGrid = ({ colors }) => {
       <Elements>
         <CwsGrid>
           {colors.map((c, i) => (
-            <div key={i}>
-              <label>
-                <StyledInput type="radio" name="cw" />
-                <CW style={{ backgroundColor: c.text }}>
-                  <Checkmark></Checkmark>
-                </CW>
-              </label>
-            </div>
-          ))}
-          <div>
-            <label>
-              <StyledInput type="radio" name="cw" />
-              <CW white>
-                <Checkmark style={{ borderColor: "#ddd" }}></Checkmark>
-              </CW>
-            </label>
-          </div>
-          <div>
-            <label>
+            <label key={i}>
               <StyledInput type="radio" name="cw" />
               <CW
-                className="single-cw"
-                style={{ backgroundImage: `url(${colorful})` }}
+                style={{ backgroundColor: c.text }}
+                white={c.text === "#FFFFFF"}
+                multi={c.text === "multi"}
               >
-                <Checkmark></Checkmark>
+                <Checkmark white={c.text === "#FFFFFF"} />
               </CW>
             </label>
-          </div>
+          ))}
         </CwsGrid>
       </Elements>
     </Wrapper>

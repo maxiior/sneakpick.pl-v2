@@ -4,6 +4,8 @@ import SingleItem from "components/WTB/SingleItem";
 import fila from "components/WTB/pictures/fila.jpg";
 import fila2 from "components/WTB/pictures/fila2.jpg";
 import { connect } from "react-redux";
+import { fetchItems } from "actions/WTB";
+import { useEffect } from "react";
 
 const StyledItems = styled.div`
   box-sizing: border-box;
@@ -11,7 +13,11 @@ const StyledItems = styled.div`
   padding: 40px;
 `;
 
-const Items = ({ items }) => {
+const Items = ({ items, fetchItems }) => {
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
   return (
     <StyledItems>
       <Grid container spacing={2}>
@@ -21,7 +27,7 @@ const Items = ({ items }) => {
             photo={fila}
             name={announ.name}
             price={announ.price}
-            state={announ.state}
+            state={announ.condition}
           />
         ))}
       </Grid>
@@ -33,4 +39,8 @@ const mapStateToProps = ({ announs }) => {
   return { items: announs.items };
 };
 
-export default connect(mapStateToProps)(Items);
+const mapDispatchToProps = (dispatch) => ({
+  fetchItems: () => dispatch(fetchItems()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Items);

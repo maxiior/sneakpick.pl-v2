@@ -109,7 +109,7 @@ const Login = ({ setLoginView }) => {
     e.preventDefault();
 
     axiosInstance
-      .post(`token/`, {
+      .post("token/", {
         email: formData.email,
         password: formData.password,
       })
@@ -118,7 +118,7 @@ const Login = ({ setLoginView }) => {
         localStorage.setItem("refresh_token", res.data.refresh);
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
-        console.log(res.data);
+        setLoginView(false);
       });
   };
 
