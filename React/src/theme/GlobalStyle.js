@@ -19,8 +19,10 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
     }
 
-    input {
-        font-family: 'Work Sans',sans-serif;
+    body, input, textarea, button {
+        font-size: 1.6rem;
+        font-family: 'Work Sans', sans-serif;
+        margin: 0;
     }
 `;
 

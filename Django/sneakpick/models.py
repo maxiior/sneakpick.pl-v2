@@ -23,17 +23,17 @@ class Product(models.Model):
             return super().get_queryset().filter(status='published')
 
     STATUS_OPTIONS = (('draft', 'Draft'), ('published', 'Published'))
-    CONDITION_OPTIONS = (('ds', 'DS'), ('vnds', 'VNDS'), ('4/5', '4/5'),
+    CONDITION_OPTIONS = (('DS', 'DS'), ('VNDS', 'VNDS'), ('4/5', '4/5'),
                          ('3/5', '3/5'), ('2/5', '2/5'), ('1/5', '1/5'))
     COLORWAY_OPTIONS = (('brown', 'Brown'), ('red', 'Red'), ('orange', 'Orange'), ('yellow', 'Yellow'),
                         ('green', 'Green'), ('blue', 'Blue'), ('purple', 'Purple'), ('pink', 'Pink'), ('black', 'Black'), ('grey', 'Grey'), ('white', 'White'), ('multi', 'Multi'))
-    KIND_OPTIONS = (('meski', 'Męski'), ('damski', 'Damski'))
-    FIT_OPTIONS = (('slimfit', 'Slim Fit'), ('regular',
-                   'Regular'), ('oversize', 'Oversize'))
+    KIND_OPTIONS = (('Męski', 'Męski'), ('Damski', 'Damski'))
+    FIT_OPTIONS = (('Slim Fit', 'Slim Fit'), ('Regular',
+                   'Regular'), ('Oversize', 'Oversize'))
     SHOES_SIZE = (('36.0', '36.0'), ('36.5', '36.5'), ('37.0', '37.0'), ('37.5', '37.5'), ('38.0', '38.0'), ('38.5', '38.5'), ('39.0', '39.0'), ('39.5', '39.5'), ('40.0', '40.0'), ('40.5', '40.5'), ('41.0', '41.0'), ('41.5', '41.5'), ('42.0', '42.0'), ('42.5', '42.5'),
                   ('43.0', '43.0'), ('43.5', '43.5'), ('44.0', '44.0'), ('44.5', '44.5'), ('45.0', '45.0'), ('45.5', '45.5'), ('46.0', '46.0'), ('46.5', '46.5'), ('47.0', '47.0'), ('47.5', '47.5'), ('48.0', '48.0'), ('48.5', '48.5'), ('49.0', '49.0'), ('49.5', '49.5'), ('50.0', '50.0'))
-    CLOTHES_SIZE = (('xxs', 'XXS'), ('xs', 'XS'), ('s', 'S'),
-                    ('m', 'M'), ('l', 'L'), ('xl', 'XL'), ('xxl', 'XXL'))
+    CLOTHES_SIZE = (('XXS', 'XXS'), ('XS', 'XS'), ('S', 'S'),
+                    ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL'))
 
     name = models.CharField(max_length=250)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT, default=1)

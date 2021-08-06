@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import logo from "assets/logo_dark.png";
 import axiosInstance from "axios/axios";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -15,7 +18,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Container = styled.form`
+const Form = styled.form`
   background-color: white;
   padding: 50px 80px;
   position: relative;
@@ -26,7 +29,7 @@ const Container = styled.form`
 const StyledInput = styled.input`
   padding: 10px 12px;
   display: block;
-  border: 1px solid #d6d6d6;
+  border: 1px solid ${({ error }) => (error ? "red" : "#d6d6d6")};
   outline: none;
   width: 250px;
 
@@ -36,7 +39,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const LoginButton = styled.div`
+const LoginButton = styled.button`
   background-color: ${({ facebook }) => (facebook ? "#4c69ba" : "#191919")};
   color: white;
   width: 100%;
@@ -45,6 +48,8 @@ const LoginButton = styled.div`
   text-align: center;
   cursor: pointer;
   border-radius: 10px;
+  border: 0;
+  display: block;
 
   :hover {
     opacity: 0.9;
@@ -63,7 +68,7 @@ const LogoHolder = styled.div`
 `;
 
 const FieldType = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   padding-bottom: 2px;
   margin-top: 15px;
 `;
@@ -91,52 +96,91 @@ const CLose = styled(IoMdClose)`
   }
 `;
 
-const Login = ({ setLoginView }) => {
-  const initialFormData = Object.freeze({
-    email: "",
-    password: "",
-  });
-  const [formData, setFormData] = useState(initialFormData);
+const Error = styled.div`
+  font-size: 11px;
+  color: red;
+  margin-top: 3px;
+  width: 250px;
+`;
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value.trim(),
-    });
+const Login = ({ setLoginView }) => {
+  const [error, setError] = useState(false);
+  const handleChange = () => {
+    if (error) setError(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .required("Podaj adres email.")
+      .email("Email jest nieprawidłowy."),
+    password: Yup.string().required("Wpisz hasło."),
+  });
 
+  const loginProcess = (data) => {
     axiosInstance
       .post("token/", {
-        email: formData.email,
-        password: formData.password,
+        email: data.email,
+        password: data.password,
       })
-      .then((res) => {
-        localStorage.setItem("access_token", res.data.access);
-        localStorage.setItem("refresh_token", res.data.refresh);
+      .then((response) => {
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
         setLoginView(false);
+      })
+      .catch((error) => {
+        setError(true);
       });
   };
 
+  const {
+    register: validate,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ mode: "onSubmit", resolver: yupResolver(validationSchema) });
+
+  const email = validate("email");
+  const password = validate("password");
+
   return (
     <Wrapper>
-      <Container>
+      <Form onSubmit={handleSubmit(loginProcess)}>
         <CLose onClick={() => setLoginView(false)} />
         <LogoHolder>
           <Logo src={logo} />
         </LogoHolder>
         <FieldType>Email</FieldType>
-        <StyledInput type="text" name="email" onChange={handleChange} />
+        <StyledInput
+          name="email"
+          type="text"
+          error={errors.email || error}
+          onChange={(e) => {
+            email.onChange(e);
+            handleChange(e);
+          }}
+        />
+        {errors.email && <Error>{errors.email.message}</Error>}
         <FieldType>Hasło</FieldType>
-        <StyledInput type="password" name="password" onChange={handleChange} />
+        <StyledInput
+          name="password"
+          type="password"
+          error={errors.password || error}
+          onChange={(e) => {
+            password.onChange(e);
+            handleChange(e);
+          }}
+        />
+        {errors.password && <Error>{errors.password.message}</Error>}
+        {error && (
+          <Error>Wprowadzony adres email lub hasło są nieprawidłowe.</Error>
+        )}
         <PasswordForgotten>Zapomniałeś hasła?</PasswordForgotten>
-        <LoginButton onClick={handleSubmit}>LOGIN</LoginButton>
-        <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
-      </Container>
+        <LoginButton type="submit">LOGIN</LoginButton>
+        <LoginButton type="submit" facebook>
+          LOGIN WITH FACEBOOK
+        </LoginButton>
+      </Form>
     </Wrapper>
   );
 };

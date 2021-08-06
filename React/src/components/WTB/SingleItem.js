@@ -11,6 +11,7 @@ const State = styled.div`
   padding: 2px 8px;
   border-radius: 3px;
   color: white;
+  text-transform: uppercase;
 `;
 
 const Informations = styled.div`
