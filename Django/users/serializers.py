@@ -1,6 +1,7 @@
 from django.db.models import fields
 from rest_framework import serializers
 from users.models import NewUser
+from .validators import MinimumLengthValidator, NumberValidator, UppercaseValidator, LowercaseValidator, SpecialCharactersValidator
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -16,3 +17,11 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+    def validate_password(self, password):
+        MinimumLengthValidator().validate(password)
+        NumberValidator().validate(password)
+        UppercaseValidator().validate(password)
+        LowercaseValidator().validate(password)
+        SpecialCharactersValidator().validate(password)
+        return password

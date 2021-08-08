@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useFormContext } from "react-hook-form";
 
 const Checkmark = styled.span`
   position: absolute;
@@ -59,13 +60,16 @@ const StyledLabel = styled.label`
 const Wrapper = styled.div``;
 
 const Checkbox = ({ text, className, setCheckbox, checkbox, small }) => {
+  const { register: validate } = useFormContext();
   return (
     <Wrapper className={className}>
       <StyledLabel small={small}>
         <div>{text}</div>
         <StyledInput
           type="checkbox"
-          onChange={() => setCheckbox && setCheckbox(!checkbox)}
+          onChange={() => {
+            setCheckbox && setCheckbox(!checkbox);
+          }}
         />
         <Checkmark small={small} />
       </StyledLabel>

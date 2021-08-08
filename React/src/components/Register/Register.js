@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Checkbox/Checkbox";
 import logo from "assets/logo_dark.png";
 import axiosInstance from "axios/axios";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -102,9 +102,15 @@ const Error = styled.div`
 
 const Register = ({ setRegisterView }) => {
   const validationSchema = Yup.object().shape({
-    first_name: Yup.string().required("Pole jest wymagane."),
-    last_name: Yup.string().required("Pole jest wymagane."),
-    city: Yup.string().required("Pole jest wymagane."),
+    first_name: Yup.string()
+      .required("Pole jest wymagane.")
+      .matches("[A-Za-z]", "Podano nieprawidłowe imię."),
+    last_name: Yup.string()
+      .required("Pole jest wymagane.")
+      .matches("[A-Za-z]", "Podano nieprawidłowe nazwisko."),
+    city: Yup.string()
+      .required("Pole jest wymagane.")
+      .matches("[A-Za-z]", "Podano nieprawidłowe miasto."),
     email: Yup.string()
       .required("Pole jest wymagane.")
       .email("Email jest nieprawidłowy."),
@@ -123,6 +129,15 @@ const Register = ({ setRegisterView }) => {
     repeated_password: Yup.string()
       .required("Pole jest wymagane.")
       .oneOf([Yup.ref("password"), null], "Hasła muszą być takie same."),
+    statute: Yup.bool().required("Musisz zaakceptować regulamin strony."),
+  });
+
+  const [problems, setProblems] = useState({
+    first_name: false,
+    last_name: false,
+    city: false,
+    email: false,
+    password: false,
   });
 
   const registerProcess = (data) => {
@@ -135,85 +150,137 @@ const Register = ({ setRegisterView }) => {
         password: data.password,
       })
       .then((response) => {
-        setRegisterView(false);
+        if (response.status === 201) setRegisterView(false);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        const problemsObj = { ...problems };
+        Object.keys(error.response.data).forEach((err) => {
+          problemsObj[err] = true;
+        });
+        setProblems(problemsObj);
+        console.log(problems);
       });
   };
+
+  const methods = useForm({
+    mode: "onSubmit",
+    resolver: yupResolver(validationSchema),
+  });
 
   const {
     register: validate,
     formState: { errors },
     handleSubmit,
-  } = useForm({ mode: "onSubmit", resolver: yupResolver(validationSchema) });
+  } = methods;
+
+  const first_name = validate("first_name");
+  const last_name = validate("last_name");
+  const city = validate("city");
+  const email = validate("email");
+  const password = validate("password");
+
+  const handleChange = (e) => {
+    if (problems[e.target.name]) {
+      setProblems({ ...problems, [e.target.name]: false });
+    }
+  };
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(registerProcess)}>
-        <CLose onClick={() => setRegisterView(false)} />
-        <LogoHolder>
-          <Logo src={logo} />
-        </LogoHolder>
-        <FieldType>Imię</FieldType>
-        <StyledInput
-          name="first_name"
-          type="text"
-          error={errors.first_name}
-          {...validate("first_name")}
-        />
-        {errors.first_name && <Error>{errors.first_name.message}</Error>}
-        <FieldType>Nazwisko</FieldType>
-        <StyledInput
-          name="last_name"
-          type="text"
-          error={errors.last_name}
-          {...validate("last_name")}
-        />
-        {errors.last_name && <Error>{errors.last_name.message}</Error>}
-        <FieldType>Miasto</FieldType>
-        <StyledInput
-          name="city"
-          type="text"
-          error={errors.city}
-          {...validate("city")}
-        />
-        {errors.city && <Error>{errors.city.message}</Error>}
-        <FieldType>Email</FieldType>
-        <StyledInput
-          name="email"
-          type="email"
-          error={errors.email}
-          {...validate("email")}
-        />
-        {errors.email && <Error>{errors.email.message}</Error>}
-        <FieldType>Hasło</FieldType>
-        <StyledInput
-          name="password"
-          type="password"
-          error={errors.password}
-          {...validate("password")}
-        />
-        {errors.password && <Error>{errors.password.message}</Error>}
-        <FieldType>Powtórz hasło</FieldType>
-        <StyledInput
-          name="repeated_password"
-          type="password"
-          error={errors.repeated_password}
-          {...validate("repeated_password")}
-        />
-        {errors.repeated_password && (
-          <Error>{errors.repeated_password.message}</Error>
-        )}
-        <StyledCheckbox
-          text="Akceptuje regulamin strony."
-          setCheckbox={null}
-          checkbox={null}
-          small
-        />
-        <LoginButton type="submit">SIGN UP</LoginButton>
-        <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
-      </Form>
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(registerProcess)}>
+          <CLose onClick={() => setRegisterView(false)} />
+          <LogoHolder>
+            <Logo src={logo} />
+          </LogoHolder>
+          <FieldType>Imię</FieldType>
+          <StyledInput
+            name="first_name"
+            type="text"
+            error={errors.first_name}
+            onChange={(e) => {
+              first_name.onChange(e);
+              handleChange(e);
+            }}
+          />
+          {errors.first_name && <Error>{errors.first_name.message}</Error>}
+          {problems.first_name && <Error>Podano nieprawidłowe imię.</Error>}
+          <FieldType>Nazwisko</FieldType>
+          <StyledInput
+            name="last_name"
+            type="text"
+            error={errors.last_name}
+            onChange={(e) => {
+              last_name.onChange(e);
+              handleChange(e);
+            }}
+          />
+          {errors.last_name && <Error>{errors.last_name.message}</Error>}
+          {problems.last_name && <Error>Podano nieprawidłowe nazwisko.</Error>}
+          <FieldType>Miasto</FieldType>
+          <StyledInput
+            name="city"
+            type="text"
+            error={errors.city}
+            onChange={(e) => {
+              city.onChange(e);
+              handleChange(e);
+            }}
+          />
+          {errors.city && <Error>{errors.city.message}</Error>}
+          {problems.city && <Error>Podano nieprawidłowe miasto.</Error>}
+          <FieldType>Email</FieldType>
+          <StyledInput
+            name="email"
+            type="email"
+            error={errors.email}
+            onChange={(e) => {
+              email.onChange(e);
+              handleChange(e);
+            }}
+          />
+          {errors.email && <Error>{errors.email.message}</Error>}
+          {problems.email && (
+            <Error>Konto o podanym adresie email już istnieje.</Error>
+          )}
+          <FieldType>Hasło</FieldType>
+          <StyledInput
+            name="password"
+            type="password"
+            error={errors.password}
+            onChange={(e) => {
+              password.onChange(e);
+              handleChange(e);
+            }}
+          />
+          {errors.password && <Error>{errors.password.message}</Error>}
+          {problems.password && (
+            <Error>
+              Hasło musi zawierać małe i duże litery, cyfry oraz znaki
+              specjalne.
+            </Error>
+          )}
+          <FieldType>Powtórz hasło</FieldType>
+          <StyledInput
+            name="repeated_password"
+            type="password"
+            error={errors.repeated_password}
+            {...validate("repeated_password")}
+          />
+          {errors.repeated_password && (
+            <Error>{errors.repeated_password.message}</Error>
+          )}
+          <StyledCheckbox
+            text="Akceptuje regulamin strony."
+            setCheckbox={null}
+            checkbox={null}
+            small
+          />
+          {errors.statute && <Error>{errors.statute.message}</Error>}
+          <LoginButton type="submit">SIGN UP</LoginButton>
+          <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
+        </Form>
+      </FormProvider>
     </Wrapper>
   );
 };
