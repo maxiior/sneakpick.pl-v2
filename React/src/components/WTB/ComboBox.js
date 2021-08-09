@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
+import { connect } from "react-redux";
+import { changeState } from "actions/itemsSelector";
 
 const Header = styled.div`
   color: #777;
@@ -94,7 +96,13 @@ const useOutsideAlerter = (ref, setOpen) => {
   }, [ref]);
 };
 
-const ComboBox = ({ className, name, elements }) => {
+const ComboBox = ({
+  className,
+  name,
+  elements,
+  itemsSelectorType,
+  changeState,
+}) => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(1);
 
@@ -114,7 +122,10 @@ const ComboBox = ({ className, name, elements }) => {
             {elements.map((element, i) => (
               <Mode
                 selected={mode === i + 1 && true}
-                onClick={() => setMode(i + 1)}
+                onClick={() => {
+                  setMode(i + 1);
+                  changeState(itemsSelectorType, elements[i]);
+                }}
               >
                 {element}
               </Mode>
@@ -126,4 +137,9 @@ const ComboBox = ({ className, name, elements }) => {
   );
 };
 
-export default ComboBox;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (itemsSelectorType, data) =>
+    dispatch(changeState(itemsSelectorType, data)),
+});
+
+export default connect(null, mapDispatchToProps)(ComboBox);

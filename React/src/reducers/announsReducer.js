@@ -11,7 +11,7 @@ const announsReducer = (state = initialState, action) => {
     case FETCH_SUCCESS:
       return {
         ...state,
-        [items]: [...action.payload.data],
+        [items]: [...action.payload.data.results],
       };
     default:
       return state;

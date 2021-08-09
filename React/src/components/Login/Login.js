@@ -8,7 +8,9 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const Wrapper = styled.div`
-  height: 100%;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
@@ -16,6 +18,11 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-height: 445px) {
+    padding: 30px 0;
+    align-items: unset;
+  }
 `;
 
 const Form = styled.form`
@@ -24,6 +31,7 @@ const Form = styled.form`
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
+  height: 100%;
 `;
 
 const StyledInput = styled.input`

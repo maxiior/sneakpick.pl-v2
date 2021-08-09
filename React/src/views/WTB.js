@@ -40,7 +40,7 @@ const WTB = () => {
   return (
     <StyledWTB>
       <Header>WANT TO BUY</Header>
-      <TopNav steps={steps} results="2440" />
+      <TopNav steps={steps} />
       <Panel />
     </StyledWTB>
   );

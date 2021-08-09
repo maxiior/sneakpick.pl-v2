@@ -1,5 +1,5 @@
 import React from "react";
-import Checkbox from "components/Checkbox/Checkbox";
+import Checkbox from "components/WTS/Checkbox";
 import Header from "components/WTS/Header";
 import styled from "styled-components";
 import Feature from "components/WTS/Feature";

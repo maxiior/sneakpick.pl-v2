@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const Checkmark = styled.span`
   position: absolute;
   top: 0;
   left: 0;
-  height: ${({ small }) => (small ? "15px" : "25px")};
-  width: ${({ small }) => (small ? "15px" : "25px")};
+  height: 15px;
+  width: 15px;
   background-color: ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;
@@ -16,14 +17,14 @@ const Checkmark = styled.span`
   transition: background-color 0.25s;
 
   ::after {
-    width: ${({ small }) => (small ? "5px" : "8px")};
-    height: ${({ small }) => (small ? "9px" : "15px")};
+    width: 5px;
+    height: 9px;
     border: solid white;
     border-width: 0 2px 2px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-    top: ${({ small }) => (small ? "2px" : "3px")};
+    top: 2px;
 
     content: "";
     position: absolute;
@@ -47,31 +48,45 @@ const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   position: relative;
-  padding-left: ${({ small }) => (small ? "25px" : "35px")};
+  padding-left: 25px;
   cursor: pointer;
-  font-size: ${({ small }) => (small ? "14px" : "16px")};
+  font-size: 14px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  height: ${({ small }) => (small ? "15px" : "25px")};
+  height: 15px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: underline;
+  color: ${({ theme }) => theme.black};
+
+  :hover {
+    color: ${({ theme }) => theme.blue};
+  }
 `;
 
 const Wrapper = styled.div``;
 
-const Checkbox = ({ text, className, setCheckbox, checkbox, small }) => {
-  const { register: validate } = useFormContext();
+const Checkbox = ({ className, setCheckbox, checkbox }) => {
+  const { register } = useFormContext();
+  const statute = register("statute");
   return (
     <Wrapper className={className}>
-      <StyledLabel small={small}>
-        <div>{text}</div>
+      <StyledLabel>
+        <div>
+          Akceptuj <StyledLink>regulamin strony</StyledLink>.
+        </div>
         <StyledInput
           type="checkbox"
-          onChange={() => {
-            setCheckbox && setCheckbox(!checkbox);
+          {...statute}
+          onChange={(e) => {
+            statute.onChange(e);
+            setCheckbox(!checkbox);
           }}
         />
-        <Checkmark small={small} />
+        <Checkmark />
       </StyledLabel>
     </Wrapper>
   );

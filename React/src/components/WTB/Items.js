@@ -13,9 +13,9 @@ const StyledItems = styled.div`
   padding: 40px;
 `;
 
-const Items = ({ items, fetchItems }) => {
+const Items = ({ items, fetchItems, currentPagination, currentPage }) => {
   useEffect(() => {
-    fetchItems();
+    fetchItems(currentPagination, currentPage * currentPagination);
   }, []);
 
   return (
@@ -35,12 +35,16 @@ const Items = ({ items, fetchItems }) => {
   );
 };
 
-const mapStateToProps = ({ announs }) => {
-  return { items: announs.items };
+const mapStateToProps = ({ announsReducer, itemsSelectorReducer }) => {
+  return {
+    items: announsReducer.items,
+    currentPagination: itemsSelectorReducer.currentPagination,
+    currentPage: itemsSelectorReducer.currentPage,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItems: () => dispatch(fetchItems()),
+  fetchItems: (limit, offset) => dispatch(fetchItems(limit, offset)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Items);

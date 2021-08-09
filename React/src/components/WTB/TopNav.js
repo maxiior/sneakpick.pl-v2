@@ -6,6 +6,7 @@ import Path from "components/WTB/Path";
 import Results from "components/WTB/Results";
 import ComboBox from "components/WTB/ComboBox";
 import { useState } from "react";
+import { connect } from "react-redux";
 
 const Nav = styled.div`
   position: relative;
@@ -88,17 +89,7 @@ const StyledFiltersPanel = styled(FiltersPanel)`
   }
 `;
 
-const TopNav = ({ steps, results }) => {
-  const [sortingModes, setSortingModes] = useState([
-    "Domyślne",
-    "Cena Rosnąco",
-    "Cena Malejąco",
-    "Popularne",
-    "Najnowsze",
-  ]);
-
-  const [pages, setPages] = useState(["24", "48"]);
-
+const TopNav = ({ steps, results, sortingModes, paginationModes }) => {
   return (
     <>
       <StyledFiltersPanel />
@@ -111,8 +102,16 @@ const TopNav = ({ steps, results }) => {
               <StyledResults results={results} />
             </Holder>
             <Holder>
-              <StyledComboBox name="Sortowanie" elements={sortingModes} />
-              <StyledComboBox name="Pokaż" elements={pages} />
+              <StyledComboBox
+                itemsSelectorType="currentSorting"
+                name="Sortowanie"
+                elements={sortingModes}
+              />
+              <StyledComboBox
+                itemsSelectorType="currentPagination"
+                name="Pokaż"
+                elements={paginationModes}
+              />
             </Holder>
           </div>
           <StyledPagesList />
@@ -122,4 +121,12 @@ const TopNav = ({ steps, results }) => {
   );
 };
 
-export default TopNav;
+const mapStateToProps = ({ itemsSelectorReducer }) => {
+  return {
+    results: itemsSelectorReducer.results,
+    sortingModes: itemsSelectorReducer.sortingModes,
+    paginationModes: itemsSelectorReducer.paginationModes,
+  };
+};
+
+export default connect(mapStateToProps)(TopNav);

@@ -80,10 +80,10 @@ const LeftPanel = ({ filters, filterTypes }) => {
   );
 };
 
-const mapStateToProps = ({ filters }) => {
+const mapStateToProps = ({ filtersReducer }) => {
   return {
-    filterTypes: filters.filterTypes,
-    filters: filters.filters,
+    filterTypes: filtersReducer.filterTypes,
+    filters: filtersReducer.filters,
   };
 };
 
