@@ -15,7 +15,7 @@ const StyledItems = styled.div`
 
 const Items = ({ items, fetchItems, currentPagination, currentPage }) => {
   useEffect(() => {
-    fetchItems(currentPagination, currentPage * currentPagination);
+    fetchItems(currentPagination, (currentPage - 1) * currentPagination);
   }, []);
 
   return (

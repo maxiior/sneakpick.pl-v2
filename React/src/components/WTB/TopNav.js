@@ -121,9 +121,9 @@ const TopNav = ({ steps, results, sortingModes, paginationModes }) => {
   );
 };
 
-const mapStateToProps = ({ itemsSelectorReducer }) => {
+const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
   return {
-    results: itemsSelectorReducer.results,
+    results: announsReducer.results,
     sortingModes: itemsSelectorReducer.sortingModes,
     paginationModes: itemsSelectorReducer.paginationModes,
   };
