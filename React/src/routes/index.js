@@ -9,4 +9,5 @@ export const routes = {
   FAQ: "/faq",
   SUPPORT: "/support",
   BUSINESSCONTACT: "/businesscontact",
+  ITEM: "/wtb/:slug",
 };

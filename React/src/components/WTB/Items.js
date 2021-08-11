@@ -4,8 +4,6 @@ import SingleItem from "components/WTB/SingleItem";
 import fila from "components/WTB/pictures/fila.jpg";
 import fila2 from "components/WTB/pictures/fila2.jpg";
 import { connect } from "react-redux";
-import { fetchItems } from "actions/WTB";
-import { useEffect } from "react";
 
 const StyledItems = styled.div`
   box-sizing: border-box;
@@ -13,11 +11,7 @@ const StyledItems = styled.div`
   padding: 40px;
 `;
 
-const Items = ({ items, fetchItems, currentPagination, currentPage }) => {
-  useEffect(() => {
-    fetchItems(currentPagination, (currentPage - 1) * currentPagination);
-  }, []);
-
+const Items = ({ items }) => {
   return (
     <StyledItems>
       <Grid container spacing={2}>
@@ -28,6 +22,7 @@ const Items = ({ items, fetchItems, currentPagination, currentPage }) => {
             name={announ.name}
             price={announ.price}
             state={announ.condition}
+            slug={announ.slug}
           />
         ))}
       </Grid>
@@ -35,16 +30,10 @@ const Items = ({ items, fetchItems, currentPagination, currentPage }) => {
   );
 };
 
-const mapStateToProps = ({ announsReducer, itemsSelectorReducer }) => {
+const mapStateToProps = ({ announsReducer }) => {
   return {
     items: announsReducer.items,
-    currentPagination: itemsSelectorReducer.currentPagination,
-    currentPage: itemsSelectorReducer.currentPage,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchItems: (limit, offset) => dispatch(fetchItems(limit, offset)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Items);
+export default connect(mapStateToProps)(Items);

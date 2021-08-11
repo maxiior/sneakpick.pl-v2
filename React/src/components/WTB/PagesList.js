@@ -64,8 +64,14 @@ const Dots = styled.div`
   user-select: none;
 `;
 
-const PagesList = ({ className, currentPage, changeState, results }) => {
-  const number = Math.ceil(results / 24);
+const PagesList = ({
+  className,
+  currentPage,
+  changeState,
+  results,
+  currentPagination,
+}) => {
+  const number = Math.ceil(results / currentPagination);
 
   const changePage = (i) => {
     changeState("currentPage", i);
@@ -113,10 +119,7 @@ const PagesList = ({ className, currentPage, changeState, results }) => {
         </Number>
       )}
       {currentPage > 1 && currentPage <= number - 2 && (
-        <Number
-          selected={currentPage === currentPage}
-          onClick={() => changePage(currentPage)}
-        >
+        <Number selected={true} onClick={() => changePage(currentPage)}>
           {currentPage}
         </Number>
       )}
@@ -141,10 +144,7 @@ const PagesList = ({ className, currentPage, changeState, results }) => {
         currentPage < number &&
         currentPage > 0 &&
         number > 2 && (
-          <Number
-            selected={currentPage === currentPage}
-            onClick={() => changePage(currentPage)}
-          >
+          <Number selected={true} onClick={() => changePage(currentPage)}>
             {currentPage}
           </Number>
         )}
@@ -203,6 +203,7 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
   return {
     currentPage: itemsSelectorReducer.currentPage,
     results: announsReducer.results,
+    currentPagination: itemsSelectorReducer.currentPagination,
   };
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const State = styled.div`
   margin-left: 10px;
@@ -67,21 +68,34 @@ const Photo = styled.div`
   background-size: cover;
 `;
 
-const SingleItem = ({ name, price, state, photo }) => {
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
+const SingleItem = ({ name, price, state, photo, slug }) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <Item>
-        <View>
-          <State>{state}</State>
-          <Photo style={{ backgroundImage: `url(${photo})` }}></Photo>
-        </View>
-        <Informations>
-          <div>
-            <h1>{name}</h1>
-            <h2>{price} PLN + SHIP</h2>
-          </div>
-        </Informations>
-      </Item>
+      <StyledLink to={`wtb/${slug}`}>
+        <Item>
+          <View>
+            <State>{state}</State>
+            <Photo style={{ backgroundImage: `url(${photo})` }}></Photo>
+          </View>
+          <Informations>
+            <div>
+              <h1>{name}</h1>
+              <h2>{price} PLN + SHIP</h2>
+            </div>
+          </Informations>
+        </Item>
+      </StyledLink>
     </Grid>
   );
 };

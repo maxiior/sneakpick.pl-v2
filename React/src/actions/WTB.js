@@ -8,7 +8,7 @@ export const fetchItems = (limit, offset) => (dispatch) => {
   dispatch({ type: FETCH_REQUEST });
 
   return axiosInstance
-    .get(`?limit=${limit}&offset=${offset}/`, {})
+    .get(`?limit=${limit}&offset=${offset}`, {})
     .then((payload) => {
       dispatch({ type: FETCH_SUCCESS, payload });
     })

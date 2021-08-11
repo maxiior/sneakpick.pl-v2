@@ -5,8 +5,9 @@ import styled from "styled-components";
 import Path from "components/WTB/Path";
 import Results from "components/WTB/Results";
 import ComboBox from "components/WTB/ComboBox";
-import { useState } from "react";
 import { connect } from "react-redux";
+import { useEffect } from "react";
+import { fetchItems } from "actions/WTB";
 
 const Nav = styled.div`
   position: relative;
@@ -89,7 +90,19 @@ const StyledFiltersPanel = styled(FiltersPanel)`
   }
 `;
 
-const TopNav = ({ steps, results, sortingModes, paginationModes }) => {
+const TopNav = ({
+  steps,
+  results,
+  sortingModes,
+  paginationModes,
+  currentPage,
+  currentPagination,
+  fetchItems,
+}) => {
+  useEffect(() => {
+    fetchItems(currentPagination, (currentPage - 1) * currentPagination);
+  }, [currentPagination, currentPage]);
+
   return (
     <>
       <StyledFiltersPanel />
@@ -126,7 +139,13 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
     results: announsReducer.results,
     sortingModes: itemsSelectorReducer.sortingModes,
     paginationModes: itemsSelectorReducer.paginationModes,
+    currentPagination: itemsSelectorReducer.currentPagination,
+    currentPage: itemsSelectorReducer.currentPage,
   };
 };
 
-export default connect(mapStateToProps)(TopNav);
+const mapDispatchToProps = (dispatch) => ({
+  fetchItems: (limit, offset) => dispatch(fetchItems(limit, offset)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopNav);

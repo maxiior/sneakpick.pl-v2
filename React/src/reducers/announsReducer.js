@@ -11,7 +11,6 @@ const initialState = {
 const announsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         [items]: [...action.payload.data.results],
