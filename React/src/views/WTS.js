@@ -74,8 +74,8 @@ const WTS = ({ filters }) => {
   );
 };
 
-const mapStateToProps = ({ filters }) => {
-  return { filters: filters.filters };
+const mapStateToProps = ({ filtersReducer }) => {
+  return { filters: filtersReducer.filters };
 };
 
 export default connect(mapStateToProps)(WTS);
