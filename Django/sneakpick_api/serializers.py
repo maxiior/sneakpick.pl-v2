@@ -6,4 +6,5 @@ from sneakpick.models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'condition', 'slug', 'price')
+        fields = ('id', 'name', 'condition', 'slug',
+                  'price', 'shoes_size', 'fit', 'kind', 'description')

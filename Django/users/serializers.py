@@ -1,4 +1,3 @@
-from django.db.models import fields
 from rest_framework import serializers
 from users.models import NewUser
 from .validators import MinimumLengthValidator, NumberValidator, UppercaseValidator, LowercaseValidator, SpecialCharactersValidator

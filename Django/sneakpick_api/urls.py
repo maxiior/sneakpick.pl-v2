@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 app_name = 'sneakpick_api'
 
 router = DefaultRouter()
-router.register('', ProductList, basename='post')
+router.register('', ProductList, basename='product')
 urlpatterns = router.urls
 
 # urlpatterns = [

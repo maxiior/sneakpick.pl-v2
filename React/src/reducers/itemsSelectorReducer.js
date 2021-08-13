@@ -6,9 +6,9 @@ const initialState = {
     "Popularne",
     "Najnowsze",
   ],
-  paginationModes: [1, 2],
+  paginationModes: [24, 48],
   currentSorting: "Domyślne",
-  currentPagination: 1,
+  currentPagination: 24,
   currentPage: 1,
 };
 

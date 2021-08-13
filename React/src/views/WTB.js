@@ -19,7 +19,7 @@ const Header = styled.header`
   user-select: none;
 `;
 
-const StyledWTB = styled.main`
+const Wrapper = styled.main`
   display: block;
 `;
 
@@ -38,11 +38,11 @@ const WTB = () => {
   ]);
 
   return (
-    <StyledWTB>
+    <Wrapper>
       <Header>WANT TO BUY</Header>
       <TopNav steps={steps} />
       <Panel />
-    </StyledWTB>
+    </Wrapper>
   );
 };
 
