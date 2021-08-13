@@ -8,7 +8,7 @@ const StyledRightPanel = styled.div`
   height: 100%;
   box-sizing: border-box;
   padding-left: 250px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.white};
 
   @media only screen and (max-width: 992px) {
     padding-left: 0 !important;

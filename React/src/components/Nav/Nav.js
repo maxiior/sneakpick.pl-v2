@@ -5,7 +5,7 @@ import Search from "components/Nav/Search";
 import { AiOutlineMenu } from "react-icons/ai";
 
 const StyledNav = styled.nav`
-  background-color: #191919;
+  background-color: ${({ theme }) => theme.veryDarkGrey};
   height: 60px;
   width: 100%;
   position: fixed;
@@ -62,7 +62,7 @@ const IconHolder = styled.div`
 `;
 
 const StyledAiOutlineMenu = styled(AiOutlineMenu)`
-  color: white;
+  color: ${({ theme }) => theme.white};
   font-size: 35px;
   cursor: pointer;
 `;

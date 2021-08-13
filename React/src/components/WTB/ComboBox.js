@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { changeState } from "actions/itemsSelector";
 
 const Header = styled.div`
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   font-weight: 400;
   display: inline-block;
   margin-left: 20px;
@@ -15,7 +15,7 @@ const Arrow = styled(VscTriangleDown)`
   display: inline-block;
   transition-duration: 0.5s;
   font-size: 15px;
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   margin-left: 5px;
 
   ${({ turned }) =>
@@ -27,7 +27,7 @@ const Arrow = styled(VscTriangleDown)`
 
 const ValueHolder = styled.div`
   display: inline-block;
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   padding-left: 5px;
 
   :hover {
@@ -51,25 +51,25 @@ const Mode = styled.div`
   align-items: center;
 
   :hover {
-    background-color: #00b4ff;
-    color: white;
+    background-color: ${({ theme }) => theme.blue};
+    color: ${({ theme }) => theme.white};
   }
 
   ${({ selected }) =>
     selected &&
     css`
-      background-color: #00b4ff;
-      color: white;
+      background-color: ${({ theme }) => theme.blue};
+      color: ${({ theme }) => theme.white};
     `}
 `;
 
 const ModesContainer = styled.div`
   width: 130px;
   position: absolute;
-  background-color: white;
+  background-color: ${({ theme }) => theme.white};
   display: block;
   text-align: left;
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.lightGrey};
   left: 0;
   top: 22px;
   font-size: 14px;

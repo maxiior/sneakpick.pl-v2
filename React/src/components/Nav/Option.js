@@ -3,18 +3,18 @@ import styled from "styled-components";
 
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-  color: white;
+  color: ${({ theme }) => theme.white};
 
   :hover {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
     padding-bottom: 17px;
-    border-bottom: 3px solid #00b4ff;
+    border-bottom: 3px solid ${({ theme }) => theme.blue};
   }
 
   &.active {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
     padding-bottom: 17px;
-    border-bottom: 3px solid #00b4ff;
+    border-bottom: 3px solid ${({ theme }) => theme.blue};
   }
 `;
 

@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const Form = styled.form`
-  background-color: white;
+  background-color: ${({ theme }) => theme.white};
   padding: 50px 80px;
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -37,19 +37,20 @@ const Form = styled.form`
 const StyledInput = styled.input`
   padding: 10px 12px;
   display: block;
-  border: 1px solid ${({ error }) => (error ? "red" : "#d6d6d6")};
+  border: 1px solid ${({ error, theme }) => (error ? theme.red : theme.grey)};
   outline: none;
   width: 250px;
 
   :focus {
-    border: 1px solid #00b4ff;
-    color: #00b4ff;
+    border: 1px solid ${({ theme }) => theme.blue};
+    color: ${({ theme }) => theme.blue};
   }
 `;
 
 const LoginButton = styled.button`
-  background-color: ${({ facebook }) => (facebook ? "#4c69ba" : "#191919")};
-  color: white;
+  background-color: ${({ facebook, theme }) =>
+    facebook ? theme.facebook : theme.veryDarkGrey};
+  color: ${({ theme }) => theme.white};
   width: 100%;
   padding: 10px 0;
   margin-top: 10px;
@@ -88,7 +89,7 @@ const PasswordForgotten = styled.span`
   cursor: pointer;
 
   :hover {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
   }
 `;
 
@@ -97,16 +98,16 @@ const CLose = styled(IoMdClose)`
   top: 10px;
   cursor: pointer;
   position: absolute;
-  color: #191919;
+  color: ${({ theme }) => theme.veryDarkGrey};
 
   :hover {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
   }
 `;
 
 const Error = styled.div`
   font-size: 11px;
-  color: red;
+  color: ${({ theme }) => theme.red};
   margin-top: 3px;
   width: 250px;
 `;

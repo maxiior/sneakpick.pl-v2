@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 const Elements = styled.div`
   width: 300px;
   box-sizing: border-box;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
 `;
 
 const CW = styled.div`
@@ -18,7 +18,7 @@ const CW = styled.div`
   ${({ white }) =>
     white &&
     css`
-      border: 1px solid #ddd;
+      border: 1px solid ${({ theme }) => theme.grey};
       box-sizing: border-box;
     `}
 
@@ -33,7 +33,7 @@ const Checkmark = styled.div`
   ${({ white }) =>
     white &&
     css`
-      border-color: #ddd !important;
+      border-color: ${({ theme }) => theme.grey} !important;
     `}
 `;
 
@@ -54,8 +54,8 @@ const StyledInput = styled.input`
     content: "";
     height: 6px;
     width: 14px;
-    border-left: 2px solid white;
-    border-bottom: 2px solid white;
+    border-left: 2px solid ${({ theme }) => theme.white};
+    border-bottom: 2px solid ${({ theme }) => theme.white};
     transform: translate(-50%, -50%) rotate(-45deg);
     position: absolute;
     top: 45%;

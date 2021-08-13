@@ -5,14 +5,14 @@ import { resetAllStates as resetAllStatesAction } from "actions/filters";
 
 const Wrapper = styled.div`
   position: absolute;
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   display: flex;
   align-items: center;
   box-sizing: border-box;
   padding: 0 30px;
   width: 250px;
   height: 40px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid ${({ theme }) => theme.lightGrey};
   justify-content: space-between;
 
   @media only screen and (max-width: 992px) {
@@ -26,10 +26,10 @@ const Header = styled.div`
 
 const Reset = styled.button`
   padding: 3px 6px;
-  background-color: #00b4ff;
+  background-color: ${({ theme }) => theme.blue};
   border-radius: 5px;
   border: none;
-  color: #fff;
+  color: ${({ theme }) => theme.white};
   display: inline-block;
   font-size: 12px;
   cursor: pointer;

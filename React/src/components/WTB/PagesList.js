@@ -1,12 +1,11 @@
 import { VscChevronLeft } from "react-icons/vsc";
-import { useState } from "react";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
 import { changeState } from "actions/itemsSelector";
 
 const Arrow = styled(VscChevronLeft)`
   font-size: 20px;
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   cursor: pointer;
 
   ${({ right }) =>
@@ -18,7 +17,7 @@ const Arrow = styled(VscChevronLeft)`
   ${({ blocked }) =>
     blocked &&
     css`
-      color: #777 !important;
+      color: ${({ theme }) => theme.darkGrey} !important;
     `}
 `;
 
@@ -33,32 +32,32 @@ const Number = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   text-align: center;
   font-weight: 600;
   width: 30px;
   height: 30px;
-  background-color: #f7f7f7;
+  background-color: ${({ theme }) => theme.lightGrey};
   border-radius: 5px;
   user-select: none;
   margin: 0 5px;
   cursor: pointer;
 
   :hover {
-    background-color: #4dc9ff;
-    color: white;
+    background-color: ${({ theme }) => theme.hoverBlue};
+    color: ${({ theme }) => theme.white};
   }
 
   ${({ selected }) =>
     selected &&
     css`
-      background-color: #00b4ff;
-      color: white;
+      background-color: ${({ theme }) => theme.blue};
+      color: ${({ theme }) => theme.white};
     `}
 `;
 
 const Dots = styled.div`
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   font-size: 15px;
   margin: 0 5px;
   user-select: none;

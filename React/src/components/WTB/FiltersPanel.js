@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   padding: 15px 0;
   cursor: pointer;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;
   align-items: center;

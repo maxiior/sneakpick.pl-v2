@@ -14,7 +14,7 @@ const Header = styled.header`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   font-size: 4em;
   user-select: none;
 `;

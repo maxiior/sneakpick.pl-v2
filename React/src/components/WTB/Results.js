@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledResults = styled.div`
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   font-weight: 400;
   display: inline-block;
   margin-left: 20px;
 `;
 
 const Value = styled.span`
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   font-weight: 600;
   padding-left: 5px;
 `;

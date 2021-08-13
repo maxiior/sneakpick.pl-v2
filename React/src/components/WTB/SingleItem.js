@@ -8,14 +8,15 @@ const State = styled.div`
   margin-top: 10px;
   font-size: 14px;
   position: absolute;
-  background-color: #191919;
+  background-color: ${({ theme }) => theme.veryDarkGrey};
   padding: 2px 8px;
   border-radius: 3px;
-  color: white;
+  color: ${({ theme }) => theme.white};
   text-transform: uppercase;
 `;
 
 const Informations = styled.div`
+  color: ${({ theme }) => theme.veryDarkGrey};
   box-sizing: border-box;
   padding: 0 20px;
   width: 100%;
@@ -36,12 +37,12 @@ const Informations = styled.div`
     margin-top: -1px;
     font-size: 14px;
     font-weight: 600;
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
   }
 `;
 
 const Item = styled.div`
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.lightGrey};
   cursor: pointer;
   text-decoration: none;
   width: 100%;
@@ -59,7 +60,7 @@ const View = styled.div`
 `;
 
 const Photo = styled.div`
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.lightGrey};
   width: 100%;
   object-fit: cover;
   padding-bottom: 75%;

@@ -32,7 +32,7 @@ const Add = styled.div`
   width: 100%;
   text-align: center;
   background-color: ${({ theme }) => theme.veryDarkGrey};
-  color: white;
+  color: ${({ theme }) => theme.white};
   padding: 15px;
   border-radius: 10px;
   cursor: pointer;

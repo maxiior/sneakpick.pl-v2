@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { routes } from "routes";
 
 const Wrapper = styled.div`
-  background-color: #191919;
+  background-color: ${({ theme }) => theme.veryDarkGrey};
   height: 60px;
   width: 100%;
   font-weight: 500;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 0 60px;
   text-transform: uppercase;
-  color: white;
+  color: ${({ theme }) => theme.white};
   font-size: 12px;
 `;
 
@@ -37,11 +37,11 @@ const Option = styled.li`
 const Copyright = styled.div``;
 
 const StyledLink = styled(Link)`
-  color: white;
+  color: ${({ theme }) => theme.white};
   text-decoration: none;
 
   :hover {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
   }
 `;
 

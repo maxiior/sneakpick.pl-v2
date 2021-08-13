@@ -28,11 +28,11 @@ const GridElements = styled.div`
 
 const Value = styled.span`
   display: flex;
-  border: 1px solid #ddd;
+  border: 1px solid ${({ theme }) => theme.grey};
   height: 30px;
   font-size: 14px;
   cursor: pointer;
-  color: #ddd;
+  color: ${({ theme }) => theme.grey};
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -63,9 +63,9 @@ const StyledInput = styled.input`
   display: none;
 
   :checked ~ ${Value} {
-    border-color: #191919;
-    color: white;
-    background-color: #191919;
+    border-color: ${({ theme }) => theme.veryDarkGrey};
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme.veryDarkGrey};
   }
 `;
 

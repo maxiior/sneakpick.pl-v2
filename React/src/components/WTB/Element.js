@@ -13,7 +13,7 @@ const Checkbox = styled.div`
   margin-right: 5px;
   width: 15px;
   height: 15px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.lightGrey};
 `;
 
 const Type = styled.div`
@@ -22,7 +22,7 @@ const Type = styled.div`
   ${({ other }) =>
     other &&
     css`
-      color: #00b4ff;
+      color: ${({ theme }) => theme.blue};
       font-weight: 600;
       margin: 2px 0;
     `}
@@ -40,8 +40,8 @@ const StyledInput = styled.input`
   position: absolute;
 
   :checked + ${Checkbox} {
-    background-color: #00b4ff;
-    box-shadow: inset 0 0 0 2px white;
+    background-color: ${({ theme }) => theme.blue};
+    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.white};
   }
 `;
 

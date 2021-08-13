@@ -9,10 +9,10 @@ const StyledLeftPanel = styled.div`
   overflow-y: auto;
   height: 100%;
   width: 250px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.white};
   position: absolute;
   user-select: none;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid ${({ theme }) => theme.lightGrey};
   box-sizing: border-box;
 
   ::-webkit-scrollbar {
@@ -20,11 +20,11 @@ const StyledLeftPanel = styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #ddd;
+    background-color: ${({ theme }) => theme.grey};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #00b4ff;
+    background: ${({ theme }) => theme.blue};
   }
 
   @media only screen and (max-width: 992px) {

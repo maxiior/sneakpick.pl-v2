@@ -3,7 +3,10 @@ export const theme = {
   black: "#000000",
   white: "#ffffff",
   blue: "#00b4ff",
+  hoverBlue: "#4dc9ff",
   grey: "#dddddd",
-  darkGrey: "#d6d6d6",
+  lightGrey: "#f0f0f0",
+  darkGrey: "#777777",
   facebook: "#4c69ba",
+  red: "ff0000",
 };

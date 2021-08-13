@@ -15,10 +15,10 @@ const Nav = styled.div`
   align-items: center;
   width: 100%;
   height: 40px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.white};
   font-size: 16px;
   user-select: none;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
   box-sizing: border-box;
 
   @media only screen and (max-width: 1200px) {

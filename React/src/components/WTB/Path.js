@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const StyledPath = styled.div`
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   font-weight: 400;
   display: inline-block;
   margin-left: 15px;
@@ -28,17 +28,17 @@ const StyledPath = styled.div`
   }
 
   ol > li:last-child > a {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
     font-weight: 600;
   }
 `;
 
 const Step = styled(Link)`
-  color: #777;
+  color: ${({ theme }) => theme.darkGrey};
   text-decoration: none;
 
   :hover {
-    color: #00b4ff;
+    color: ${({ theme }) => theme.blue};
   }
 `;
 

@@ -17,7 +17,7 @@ const Checkmark = styled.span`
   ::after {
     width: ${({ small }) => (small ? "5px" : "8px")};
     height: ${({ small }) => (small ? "9px" : "15px")};
-    border: solid white;
+    border: solid ${({ theme }) => theme.white};
     border-width: 0 2px 2px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);

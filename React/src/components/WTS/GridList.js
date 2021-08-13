@@ -4,11 +4,11 @@ import Header from "components/WTS/Header";
 
 const Option = styled.span`
   display: flex;
-  border: 1px solid ${({ theme }) => theme.darkGrey};
+  border: 1px solid ${({ theme }) => theme.grey};
   height: 30px;
   font-size: 14px;
   cursor: pointer;
-  color: ${({ theme }) => theme.darkGrey};
+  color: ${({ theme }) => theme.grey};
   align-items: center;
   justify-content: center;
   box-sizing: border-box;

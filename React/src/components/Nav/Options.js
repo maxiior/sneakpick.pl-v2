@@ -16,7 +16,7 @@ const StyledOptions = styled.div`
 const LoginSignUp = styled.div`
   margin: 0 15px;
   cursor: pointer;
-  color: #00b4ff;
+  color: ${({ theme }) => theme.blue};
   cursor: pointer;
 `;
 

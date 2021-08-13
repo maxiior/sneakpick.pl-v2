@@ -18,7 +18,7 @@ const TextArea = styled.textarea`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: ${({ theme }) => theme.darkGrey};
+    background-color: ${({ theme }) => theme.grey};
   }
 
   ::-webkit-scrollbar-thumb {
