@@ -102,6 +102,8 @@ const ComboBox = ({
   elements,
   itemsSelectorType,
   changeState,
+  results,
+  currentPagination,
 }) => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(1);
@@ -142,4 +144,11 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeState(itemsSelectorType, data)),
 });
 
-export default connect(null, mapDispatchToProps)(ComboBox);
+const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
+  return {
+    results: announsReducer.results,
+    currentPagination: itemsSelectorReducer.currentPagination,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ComboBox);

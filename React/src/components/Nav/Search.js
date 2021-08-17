@@ -31,10 +31,14 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Search = ({ className }) => {
+const Search = ({ className, placeholder, onSubmit, setData }) => {
   return (
     <Wrapper className={className}>
-      <StyledSearch type="search" placeholder="Szukaj przedmiotów" />
+      <StyledSearch
+        placeholder={placeholder}
+        onChange={(e) => setData({ search: e.target.value })}
+        onKeyPress={(e) => e.key === "Enter" && onSubmit()}
+      />
       <Icon />
     </Wrapper>
   );

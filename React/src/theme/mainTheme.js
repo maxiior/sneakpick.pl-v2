@@ -8,5 +8,5 @@ export const theme = {
   lightGrey: "#f0f0f0",
   darkGrey: "#777777",
   facebook: "#4c69ba",
-  red: "ff0000",
+  red: "#ff0000",
 };

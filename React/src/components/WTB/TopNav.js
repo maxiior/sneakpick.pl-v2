@@ -8,6 +8,7 @@ import ComboBox from "components/WTB/ComboBox";
 import { connect } from "react-redux";
 import { useEffect } from "react";
 import { fetchItems } from "actions/WTB";
+import { changeState } from "actions/itemsSelector";
 
 const Nav = styled.div`
   position: relative;
@@ -98,10 +99,24 @@ const TopNav = ({
   currentPage,
   currentPagination,
   fetchItems,
+  changeState,
 }) => {
   useEffect(() => {
-    fetchItems(currentPagination, (currentPage - 1) * currentPagination);
+    fetchItems(
+      currentPagination,
+      (currentPage - 1) * currentPagination,
+      window.location.search
+    );
   }, [currentPagination, currentPage]);
+
+  useEffect(() => {
+    if (
+      currentPage > Math.ceil(results / currentPagination) &&
+      Math.ceil(results / currentPagination) > 1
+    ) {
+      changeState("currentPage", Math.ceil(results / currentPagination));
+    }
+  }, [currentPagination]);
 
   return (
     <>
@@ -127,7 +142,7 @@ const TopNav = ({
               />
             </Holder>
           </div>
-          <StyledPagesList />
+          {Math.ceil(results / currentPagination) > 1 && <StyledPagesList />}
         </RightPanel>
       </Nav>
     </>
@@ -145,7 +160,10 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItems: (limit, offset) => dispatch(fetchItems(limit, offset)),
+  fetchItems: (limit, offset, search) =>
+    dispatch(fetchItems(limit, offset, search)),
+  changeState: (itemsSelectorType, data) =>
+    dispatch(changeState(itemsSelectorType, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopNav);

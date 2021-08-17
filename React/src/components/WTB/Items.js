@@ -2,7 +2,6 @@ import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import SingleItem from "components/WTB/SingleItem";
 import fila from "components/WTB/pictures/fila.jpg";
-import fila2 from "components/WTB/pictures/fila2.jpg";
 import { connect } from "react-redux";
 
 const StyledItems = styled.div`
@@ -11,7 +10,16 @@ const StyledItems = styled.div`
   padding: 40px;
 `;
 
-const Items = ({ items }) => {
+const Blank = styled.div`
+  text-align: center;
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Items = ({ items, results }) => {
   return (
     <StyledItems>
       <Grid container spacing={2}>
@@ -26,12 +34,22 @@ const Items = ({ items }) => {
           />
         ))}
       </Grid>
+      {results === 0 && (
+        <Blank>
+          Brak wyników wyszukiwania dla "
+          {window.location.search
+            .replaceAll("?search=", "")
+            .replaceAll("%20", " ")}
+          "
+        </Blank>
+      )}
     </StyledItems>
   );
 };
 
 const mapStateToProps = ({ announsReducer }) => {
   return {
+    results: announsReducer.results,
     items: announsReducer.items,
   };
 };

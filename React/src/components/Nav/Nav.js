@@ -3,6 +3,8 @@ import styled from "styled-components";
 import logo from "assets/logo.png";
 import Search from "components/Nav/Search";
 import { AiOutlineMenu } from "react-icons/ai";
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const StyledNav = styled.nav`
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -68,13 +70,29 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
 `;
 
 const Nav = ({ setLoginView, setRegisterView }) => {
+  let history = useHistory();
+  const [data, setData] = useState({ search: "" });
+
+  const goSearch = (e) => {
+    history.push({
+      pathname: "/wtb/",
+      search: "?search=" + data.search,
+    });
+    window.location.reload();
+  };
+
   return (
     <StyledNav>
       <DefaultBar>
         <LogoHolder>
           <Logo src={logo} />
         </LogoHolder>
-        <StyledSearch type="search" placeholder="Szukaj przedmiotów" />
+        <StyledSearch
+          placeholder="Szukaj przedmiotów"
+          onSubmit={goSearch}
+          data={data}
+          setData={setData}
+        />
         <Options
           setLoginView={setLoginView}
           setRegisterView={setRegisterView}
@@ -84,7 +102,12 @@ const Nav = ({ setLoginView, setRegisterView }) => {
         </IconHolder>
       </DefaultBar>
       <SearchBar>
-        <Search type="search" placeholder="Szukaj przedmiotów" />
+        <Search
+          placeholder="Szukaj przedmiotów"
+          onSubmit={goSearch}
+          data={data}
+          setData={setData}
+        />
       </SearchBar>
     </StyledNav>
   );

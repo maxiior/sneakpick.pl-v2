@@ -78,14 +78,11 @@ const PagesList = ({
 
   return (
     <StyledPagesList className={className}>
-      {number !== 1 && (
-        <Arrow
-          onClick={() => currentPage > 1 && changePage(currentPage - 1)}
-          blocked={currentPage === 1}
-        />
-      )}
-
-      {currentPage === 1 && number > 1 && (
+      <Arrow
+        onClick={() => currentPage > 1 && changePage(currentPage - 1)}
+        blocked={currentPage === 1}
+      />
+      {currentPage === 1 && (
         <Number selected={currentPage === 1} onClick={() => changePage(1)}>
           1
         </Number>
@@ -187,13 +184,11 @@ const PagesList = ({
           {number}
         </Number>
       )}
-      {number !== 1 && (
-        <Arrow
-          right
-          onClick={() => currentPage < number && changePage(currentPage + 1)}
-          blocked={currentPage === number}
-        />
-      )}
+      <Arrow
+        right
+        onClick={() => currentPage < number && changePage(currentPage + 1)}
+        blocked={currentPage === number}
+      />
     </StyledPagesList>
   );
 };
