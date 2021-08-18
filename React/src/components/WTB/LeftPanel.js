@@ -39,6 +39,7 @@ const LeftPanel = ({ filters, filterTypes }) => {
         name="Kategoria"
         elements={filters.categories}
         filterType={filterTypes.categories}
+        radio="category"
       />
       <List
         name="Marka"

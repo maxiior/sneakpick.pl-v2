@@ -5,6 +5,7 @@ from .serializers import ProductSerializer
 from rest_framework.permissions import SAFE_METHODS, BasePermission, DjangoModelPermissionsOrAnonReadOnly
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import filters
+from django_filters import rest_framework as fil
 
 
 class ProductUserWritePermission(BasePermission):
@@ -16,11 +17,20 @@ class ProductUserWritePermission(BasePermission):
         return obj.owner == request.user
 
 
+class ProductFilter(fil.FilterSet):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
 class ProductList(generics.ListAPIView):
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = LimitOffsetPagination
+
+    filter_backends = (fil.DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
     # def get_queryset(self):
     #     user = self.request.user

@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const Main = styled.div`
   padding-top: 60px;
+  min-height: 100vh;
 
   @media only screen and (max-width: 1200px) {
     padding-top: 110px;

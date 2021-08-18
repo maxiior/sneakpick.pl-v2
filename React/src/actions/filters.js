@@ -1,9 +1,10 @@
-export const changeState = (filterType, id) => {
+export const changeState = (filterType, id, input) => {
   return {
     type: "CHANGE_STATE",
     payload: {
       filterType,
       id,
+      input,
     },
   };
 };

@@ -131,19 +131,35 @@ const initialState = {
 const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_STATE":
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          [action.payload.filterType]: [
-            ...state.filters[action.payload.filterType].map((option) =>
-              option.id === action.payload.id
-                ? { ...option, checked: !option.checked }
-                : option
-            ),
-          ],
-        },
-      };
+      if (action.payload.input === "checkbox") {
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            [action.payload.filterType]: [
+              ...state.filters[action.payload.filterType].map((option) =>
+                option.id === action.payload.id
+                  ? { ...option, checked: !option.checked }
+                  : option
+              ),
+            ],
+          },
+        };
+      } else {
+        return {
+          ...state,
+          filters: {
+            ...state.filters,
+            [action.payload.filterType]: [
+              ...state.filters[action.payload.filterType].map((option) =>
+                option.id === action.payload.id
+                  ? { ...option, checked: true }
+                  : { ...option, checked: false }
+              ),
+            ],
+          },
+        };
+      }
     case "RESET_ALL_STATES":
       return {
         ...state,

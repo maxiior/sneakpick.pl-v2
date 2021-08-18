@@ -12,7 +12,7 @@ const StyledItems = styled.div`
 
 const Blank = styled.div`
   text-align: center;
-  font-size: 20px;
+  font-size: 25px;
   width: 100%;
   display: flex;
   align-items: center;

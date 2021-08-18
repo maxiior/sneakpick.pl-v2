@@ -45,14 +45,18 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, changeState, filterType, checked, id }) => {
+const Element = ({ text, changeState, filterType, checked, id, radio }) => {
   return (
     <StyledElement>
       <StyledLabel>
         <StyledInput
-          type="checkbox"
-          onChange={() => changeState(filterType, id)}
+          type={radio ? "radio" : "checkbox"}
+          onChange={() => {
+            if (radio) changeState(filterType, id, "radio");
+            else changeState(filterType, id, "checkbox");
+          }}
           checked={checked}
+          name={radio}
         />
         <Checkbox />
         <Type other={text === "Inne"}>{text}</Type>
@@ -62,7 +66,8 @@ const Element = ({ text, changeState, filterType, checked, id }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
 });
 
 export default connect(null, mapDispatchToProps)(Element);

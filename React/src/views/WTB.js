@@ -21,6 +21,7 @@ const Header = styled.header`
 
 const Wrapper = styled.main`
   display: block;
+  height: 100%;
 `;
 
 const WTB = () => {

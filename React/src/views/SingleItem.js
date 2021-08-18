@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "axios/axios";
 import styled, { css } from "styled-components";
+import Path from "components/SingleItem/Path";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -44,6 +45,10 @@ const Bump = styled.div`
   user-select: none;
   cursor: pointer;
   margin-right: 10px;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Image = styled.div`
@@ -76,6 +81,11 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  border-radius: 10px;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Panel = styled.div`
@@ -138,7 +148,7 @@ const SingleItem = () => {
   const [data, setData] = useState({ product: [] });
 
   useEffect(() => {
-    axiosInstance.get(slug).then((res) => {
+    axiosInstance.get("products/" + slug).then((res) => {
       setData({ product: res.data });
     });
   }, []);
@@ -146,6 +156,10 @@ const SingleItem = () => {
   return (
     <Wrapper>
       <Container>
+        <Path
+          category={data.product.category_name}
+          brand={data.product.brand_name}
+        />
         <TopPanel>
           <TopLeft>
             <Header>{data.product.name}</Header>

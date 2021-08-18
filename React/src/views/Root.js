@@ -8,6 +8,7 @@ import { ThemeProvider } from "styled-components";
 import WTB from "views/WTB";
 import WTS from "views/WTS";
 import SingleItem from "views/SingleItem";
+import Home from "views/Home";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <MainTemplate>
             <Switch>
-              <Route exact path={routes.HOME} component={WTB} />
+              <Route exact path={routes.HOME} component={Home} />
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />

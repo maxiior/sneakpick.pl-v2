@@ -20,7 +20,7 @@ const ShowMore = styled.div`
   }
 `;
 
-const List = ({ name, elements, filterType }) => {
+const List = ({ name, elements, filterType, radio }) => {
   const [showList, setShowList] = useState(false);
   const [amount, setAmount] = useState(6);
   const [showMore, setShowMore] = useState("Pokaż więcej");
@@ -48,6 +48,7 @@ const List = ({ name, elements, filterType }) => {
             text={e.text}
             filterType={filterType}
             checked={e.checked}
+            radio={radio}
           />
         ))}
       </ElementsList>

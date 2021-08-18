@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const StyledPanel = styled.div`
   position: relative;
+  height: 100%;
 `;
 
 const Panel = () => {
