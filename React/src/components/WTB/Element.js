@@ -50,13 +50,12 @@ const Element = ({ text, changeState, filterType, checked, id, radio }) => {
     <StyledElement>
       <StyledLabel>
         <StyledInput
-          type={radio ? "radio" : "checkbox"}
+          type="checkbox"
           onChange={() => {
             if (radio) changeState(filterType, id, "radio");
             else changeState(filterType, id, "checkbox");
           }}
           checked={checked}
-          name={radio}
         />
         <Checkbox />
         <Type other={text === "Inne"}>{text}</Type>

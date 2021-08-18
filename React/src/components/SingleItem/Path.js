@@ -47,7 +47,7 @@ const Path = ({ category, brand, className }) => {
     <StyledPath className={className}>
       <ol>
         <li>
-          <Step to="/all">All</Step>
+          <Step to="/wtb">All</Step>
         </li>
         <li>
           <Step to={null}>{category}</Step>

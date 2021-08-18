@@ -132,6 +132,7 @@ const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_STATE":
       if (action.payload.input === "checkbox") {
+        console.log("elo");
         return {
           ...state,
           filters: {
@@ -153,7 +154,7 @@ const filtersReducer = (state = initialState, action) => {
             [action.payload.filterType]: [
               ...state.filters[action.payload.filterType].map((option) =>
                 option.id === action.payload.id
-                  ? { ...option, checked: true }
+                  ? { ...option, checked: !option.checked }
                   : { ...option, checked: false }
               ),
             ],
