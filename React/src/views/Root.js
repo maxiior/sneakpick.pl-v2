@@ -9,12 +9,14 @@ import WTB from "views/WTB";
 import WTS from "views/WTS";
 import SingleItem from "views/SingleItem";
 import Home from "views/Home";
+import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 
-function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
+          <ScrollToTop />
           <MainTemplate>
             <Switch>
               <Route exact path={routes.HOME} component={Home} />
@@ -27,6 +29,6 @@ function App() {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default App;

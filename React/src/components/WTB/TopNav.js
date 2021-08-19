@@ -134,6 +134,7 @@ const TopNav = ({
                 itemsSelectorType="currentSorting"
                 name="Sortowanie"
                 elements={sortingModes}
+                sorting
               />
               <StyledComboBox
                 itemsSelectorType="currentPagination"

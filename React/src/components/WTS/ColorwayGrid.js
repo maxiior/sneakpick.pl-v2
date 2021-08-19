@@ -5,7 +5,6 @@ import styled, { css } from "styled-components";
 const Elements = styled.div`
   width: 300px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
 `;
 
 const CW = styled.div`

@@ -102,11 +102,15 @@ const ComboBox = ({
   elements,
   itemsSelectorType,
   changeState,
-  results,
   currentPagination,
+  currentSorting,
+  sorting,
 }) => {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(1);
+  const [mode, setMode] = useState(() => {
+    if (sorting) return currentSorting;
+    else return currentPagination;
+  });
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setOpen);
@@ -116,16 +120,16 @@ const ComboBox = ({
       <Header>{name}:</Header>
       <ComboBoxMode onClick={() => setOpen(!open)} ref={wrapperRef}>
         <ValueHolder>
-          {elements.filter((element, i) => mode === i + 1 && element)}
+          {elements.filter((element) => mode === element && element)}
         </ValueHolder>
         <Arrow turned={open === true && true} />
         {open && (
           <ModesContainer>
             {elements.map((element, i) => (
               <Mode
-                selected={mode === i + 1 && true}
+                selected={mode === element && true}
                 onClick={() => {
-                  setMode(i + 1);
+                  setMode(element);
                   changeState(itemsSelectorType, elements[i]);
                 }}
               >
@@ -148,6 +152,7 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
   return {
     results: announsReducer.results,
     currentPagination: itemsSelectorReducer.currentPagination,
+    currentSorting: itemsSelectorReducer.currentSorting,
   };
 };
 

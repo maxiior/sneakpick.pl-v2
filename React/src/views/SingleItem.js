@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "axios/axios";
 import styled, { css } from "styled-components";
 import Path from "components/SingleItem/Path";
+import Image from "components/SingleItem/Image";
+import SimilarItems from "components/SingleItem/SimilarItems";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -51,24 +53,28 @@ const Bump = styled.div`
   }
 `;
 
-const Image = styled.div`
-  height: 390px;
-  background-color: ${({ theme }) => theme.grey};
-  width: 45%;
-`;
+// const Image = styled.div`
+//   height: 390px;
+//   background-color: ${({ theme }) => theme.grey};
+//   width: 45%;
+// `;
 
 const TopPanel = styled.div`
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   justify-content: space-between;
+  padding-bottom: 30px;
+  border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
 `;
 
 const TopLeft = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const TopRight = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Button = styled.div`
@@ -94,7 +100,7 @@ const Panel = styled.div`
 `;
 
 const Informations = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
 const Information = styled.div`
@@ -104,7 +110,7 @@ const Information = styled.div`
 
 const RightPanel = styled.div`
   box-sizing: border-box;
-  width: 360px;
+  width: 30%;
   padding-left: 20px;
   border-left: 1px solid ${({ theme }) => theme.lightGrey};
 `;
@@ -121,26 +127,41 @@ const Value = styled.div`
       text-justify: inter-word;
       font-weight: 300;
     `}
+
+  ${({ price }) =>
+    price &&
+    css`
+      color: ${({ theme }) => theme.blue};
+      font-size: 30px;
+    `}
 `;
 
 const Paragraph = styled.div`
   font-size: 20px;
   margin-bottom: 10px;
+  margin-top: 20px;
 
-  ${({ description }) =>
-    description &&
-    css`
-      margin-top: 20px;
-    `}
+  :first-child {
+    margin-top: 0;
+  }
 
   ${({ price }) =>
     price &&
     css`
-      margin-top: 20px;
-      font-weight: 500;
-      color: ${({ theme }) => theme.blue};
-      font-size: 30px;
+      margin-bottom: 0;
     `}
+`;
+
+const NumberOfBumps = styled.div`
+  color: ${({ theme }) => theme.blue};
+  font-size: 20px;
+  user-select: none;
+`;
+
+const LeftPanel = styled.div`
+  width: 70%;
+  display: flex;
+  justify-content: center;
 `;
 
 const SingleItem = () => {
@@ -168,10 +189,13 @@ const SingleItem = () => {
           <TopRight>
             <Bump>Follow</Bump>
             <Bump>Bump</Bump>
+            <NumberOfBumps>+10</NumberOfBumps>
           </TopRight>
         </TopPanel>
         <Panel>
-          <Image />
+          <LeftPanel>
+            <Image />
+          </LeftPanel>
           <RightPanel>
             <Informations>
               <Paragraph>Szczegóły</Paragraph>
@@ -189,16 +213,27 @@ const SingleItem = () => {
               </Information>
               <Information>
                 <Type>Colorway</Type>
-                <Value> {data.product.cw}</Value>
+                <Value> {data.product.colorway}</Value>
               </Information>
-              <Paragraph description>Opis</Paragraph>
+              <Paragraph>Opis</Paragraph>
               <Value description>{data.product.description}</Value>
-              <Paragraph price>{data.product.price} PLN</Paragraph>
+              <Paragraph price>Cena</Paragraph>
+              <Value price>{data.product.price} PLN</Value>
+              <Information>
+                <Type>Sprzedający</Type>
+                <Value>Jan Kowalski</Value>
+              </Information>
+              <Information>
+                <Type>Dodane</Type>
+                <Value>19.08.2021</Value>
+              </Information>
             </Informations>
             <Button>Kup teraz</Button>
             <Button>DM</Button>
+            <Button>Callout</Button>
           </RightPanel>
         </Panel>
+        <SimilarItems />
       </Container>
     </Wrapper>
   );
