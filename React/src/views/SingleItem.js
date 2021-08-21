@@ -169,7 +169,7 @@ const SingleItem = () => {
   const [data, setData] = useState({ product: [] });
 
   useEffect(() => {
-    axiosInstance.get("products/" + slug).then((res) => {
+    axiosInstance.get(slug + "/").then((res) => {
       setData({ product: res.data });
     });
   }, []);

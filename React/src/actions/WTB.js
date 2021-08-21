@@ -8,7 +8,7 @@ export const fetchItems = (limit, offset, search) => (dispatch) => {
   dispatch({ type: FETCH_REQUEST });
   var url;
 
-  if (search) url = `search/${search}&limit=${limit}&offset=${offset}`;
+  if (search) url = `${search}&limit=${limit}&offset=${offset}`;
   else url = `?limit=${limit}&offset=${offset}`;
 
   return axiosInstance
