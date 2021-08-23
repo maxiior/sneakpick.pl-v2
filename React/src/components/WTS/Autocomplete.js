@@ -36,6 +36,7 @@ const ValueHolder = styled.input`
   width: 100%;
   border: 0;
   outline: none;
+  padding: 0;
 `;
 
 const Mode = styled.div`
@@ -72,7 +73,7 @@ const ModesContainer = styled.div`
   display: block;
   text-align: left;
   left: 0;
-  top: 32px;
+  top: 30px;
   font-size: 14px;
   font-weight: 400;
   z-index: 500;
@@ -128,7 +129,7 @@ const Autocomplete = ({
     if (e.key === "Escape") {
       setOpen(false);
     }
-    if (e.key === "Enter" && cursor > 0) {
+    if (e.key === "Enter" && cursor >= 0) {
       setSearch(suggestions[cursor].text);
       changeState(filterType, suggestions[cursor].text, "radio");
       setOpen(false);

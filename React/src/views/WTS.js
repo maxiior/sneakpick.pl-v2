@@ -73,7 +73,7 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
           <Feature name="Nazwa przedmiotu" placeholder="np. Nike Air Max 97" />
           <Feature
             name="Marka"
-            placeholder="np. Teesy"
+            placeholder="np. Nike"
             elements={filters.brands}
             filterType={filterTypes.brands}
             autocomplete
