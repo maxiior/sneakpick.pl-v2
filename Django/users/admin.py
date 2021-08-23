@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import NewUser
+from users.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.forms import TextInput, Textarea, CharField
 from django import forms
@@ -7,7 +7,7 @@ from django.db import models
 
 
 class UserAdminConfig(UserAdmin):
-    model = NewUser
+    model = User
     search_fields = ('email', 'first_name', 'last_name', 'city')
     list_filter = ('email', 'first_name', 'last_name',
                    'city', 'is_active', 'is_staff')
@@ -27,4 +27,4 @@ class UserAdminConfig(UserAdmin):
     )
 
 
-admin.site.register(NewUser, UserAdminConfig)
+admin.site.register(User, UserAdminConfig)

@@ -3,6 +3,7 @@ import Checkbox from "components/WTS/Checkbox";
 import Header from "components/WTS/Header";
 import styled from "styled-components";
 import Feature from "components/WTS/Feature";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div``;
 
@@ -14,21 +15,29 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-const Delivery = ({ defaultValue, checkbox, setCheckbox }) => {
+const Delivery = ({ defaultValue, currentFilter }) => {
   return (
     <Wrapper>
       <Header>Dostarczenie</Header>
       <div>
-        <StyledCheckbox text="SHIP" />
+        <StyledCheckbox text="SHIP" value={currentFilter.SHIP} />
         <StyledCheckbox
           text="MEET"
-          setCheckbox={setCheckbox}
-          checkbox={checkbox}
+          checkbox={currentFilter.MEET}
+          value={currentFilter.MEET}
         />
       </div>
-      {checkbox && <Feature name="Miasto" defaultValue={defaultValue} small />}
+      {currentFilter.MEET && (
+        <Feature name="Miasto" defaultValue={defaultValue} small />
+      )}
     </Wrapper>
   );
 };
 
-export default Delivery;
+const mapStateToProps = ({ addingItemReducer }) => {
+  return {
+    currentFilter: addingItemReducer.currentFilters,
+  };
+};
+
+export default connect(mapStateToProps)(Delivery);

@@ -177,10 +177,7 @@ const SingleItem = () => {
   return (
     <Wrapper>
       <Container>
-        <Path
-          category={data.product.category_name}
-          brand={data.product.brand_name}
-        />
+        <Path category={data.product.category} brand={data.product.brand} />
         <TopPanel>
           <TopLeft>
             <Header>{data.product.name}</Header>

@@ -1,6 +1,8 @@
 import colorful from "assets/other.png";
 import Header from "components/WTS/Header";
 import styled, { css } from "styled-components";
+import { changeState as changeStateAction } from "actions/WTS";
+import { connect } from "react-redux";
 
 const Elements = styled.div`
   width: 300px;
@@ -64,7 +66,7 @@ const StyledInput = styled.input`
 
 const Wrapper = styled.div``;
 
-const ColorwayGrid = ({ colors }) => {
+const ColorwayGrid = ({ colors, filterType, changeState, currentFilter }) => {
   return (
     <Wrapper>
       <Header>CW</Header>
@@ -72,7 +74,12 @@ const ColorwayGrid = ({ colors }) => {
         <CwsGrid>
           {colors.map((c, i) => (
             <label key={i}>
-              <StyledInput type="radio" name="cw" />
+              <StyledInput
+                type="radio"
+                name="cw"
+                onChange={() => changeState(filterType, c.text, "radio")}
+                checked={currentFilter.colors === c.text}
+              />
               <CW
                 style={{ backgroundColor: c.text }}
                 white={c.text === "#FFFFFF"}
@@ -88,4 +95,15 @@ const ColorwayGrid = ({ colors }) => {
   );
 };
 
-export default ColorwayGrid;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
+});
+
+const mapStateToProps = ({ addingItemReducer }) => {
+  return {
+    currentFilter: addingItemReducer.currentFilters,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ColorwayGrid);

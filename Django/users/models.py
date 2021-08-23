@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -30,10 +31,11 @@ class CustomAccountManager(BaseUserManager):
         return user
 
 
-class NewUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     alphabets = RegexValidator(
         r'^[a-zA-Zęóąśłżźćń]*$', 'Only alphabets characters are allowed.')
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(max_length=100, validators=[alphabets])
     last_name = models.CharField(max_length=100, validators=[alphabets])

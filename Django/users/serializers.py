@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from users.models import NewUser
+from users.models import User
 from .validators import MinimumLengthValidator, NumberValidator, UppercaseValidator, LowercaseValidator, SpecialCharactersValidator
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NewUser
-        fields = ('email', 'first_name', 'last_name', 'city', 'password')
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'city', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

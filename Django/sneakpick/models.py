@@ -1,17 +1,18 @@
+import uuid
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(primary_key=True, max_length=100)
 
     def __str__(self):
         return self.name
 
 
 class Brand(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(primary_key=True, max_length=100)
 
     def __str__(self):
         return self.name
@@ -35,6 +36,9 @@ class Product(models.Model):
     CLOTHES_SIZE = (('XXS', 'XXS'), ('XS', 'XS'), ('S', 'S'),
                     ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL'))
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT, default=1)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
@@ -49,12 +53,8 @@ class Product(models.Model):
 
     slug = models.SlugField(max_length=250, unique_for_date='published')
     published = models.DateTimeField(default=timezone.now)
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
     status = models.CharField(
         max_length=10, choices=STATUS_OPTIONS)
-    objects = models.Manager()  # default manager
-    productobjects = ProductObjects()  # custom manager
 
     REQUIRED_FIELDS = ['name', 'brand', 'category',
                        'price', 'condition', 'description']

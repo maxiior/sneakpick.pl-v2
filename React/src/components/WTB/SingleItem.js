@@ -80,10 +80,10 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const SingleItem = ({ name, price, state, photo, slug }) => {
+const SingleItem = ({ name, price, state, photo, id }) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <StyledLink to={`wtb/${slug}`}>
+      <StyledLink to={`wtb/${id}`}>
         <Item>
           <View>
             <State>{state}</State>

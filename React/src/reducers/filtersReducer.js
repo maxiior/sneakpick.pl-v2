@@ -132,7 +132,6 @@ const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_STATE":
       if (action.payload.input === "checkbox") {
-        console.log("elo");
         return {
           ...state,
           filters: {

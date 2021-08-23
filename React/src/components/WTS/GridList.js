@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Header from "components/WTS/Header";
+import { connect } from "react-redux";
+import { changeState as changeStateAction } from "actions/WTS";
 
 const Option = styled.span`
   display: flex;
@@ -59,14 +61,27 @@ const Container = styled.div`
 
 const Wrapper = styled.div``;
 
-const GridList = ({ name, elements, ...props }) => {
+const GridList = ({
+  name,
+  elements,
+  changeState,
+  filterType,
+  currentFilter,
+  title,
+  ...props
+}) => {
   return (
     <Wrapper>
-      <Header>{name}</Header>
+      <Header>{title}</Header>
       <Container {...props}>
         {elements.map((e, i) => (
           <StyledLabel key={i}>
-            <StyledInput type="radio" name={name} />
+            <StyledInput
+              type="radio"
+              name={name}
+              onChange={() => changeState(filterType, e.text, "radio")}
+              checked={currentFilter === e.text}
+            />
             <Option medium>{e.text}</Option>
           </StyledLabel>
         ))}
@@ -75,4 +90,9 @@ const GridList = ({ name, elements, ...props }) => {
   );
 };
 
-export default GridList;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
+});
+
+export default connect(null, mapDispatchToProps)(GridList);

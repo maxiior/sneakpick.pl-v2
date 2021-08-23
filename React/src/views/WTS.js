@@ -6,11 +6,14 @@ import ColorwayGrid from "components/WTS/ColorwayGrid";
 import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
 import { connect } from "react-redux";
+import axiosInstance from "axios/axios";
+import Autocomplete from "components/WTS/Autocomplete";
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  user-select: none;
 `;
 
 const Container = styled.div`
@@ -43,8 +46,24 @@ const Add = styled.div`
   }
 `;
 
-const WTS = ({ filters }) => {
-  const [showCity, setShowCity] = useState(false);
+const WTS = ({ filters, filterTypes, currentFilter }) => {
+  // const addingProcess = () => {
+  //   axiosInstance
+  //     .post("", {
+  //       name: filters.,
+  //       password: data.password,
+  //     })
+  //     .then((response) => {
+  //       localStorage.setItem("access_token", response.data.access);
+  //       localStorage.setItem("refresh_token", response.data.refresh);
+  //       axiosInstance.defaults.headers["Authorization"] =
+  //         "JWT " + localStorage.getItem("access_token");
+  //       setLoginView(false);
+  //     })
+  //     .catch((error) => {
+  //       setError(true);
+  //     });
+  // };
 
   return (
     <Wrapper>
@@ -52,20 +71,77 @@ const WTS = ({ filters }) => {
         <Header>WANT TO SELL</Header>
         <Panel>
           <Feature name="Nazwa przedmiotu" placeholder="np. Nike Air Max 97" />
-          <Feature name="Marka" placeholder="np. Nike" />
-          <Feature name="Kategoria" placeholder="np. Teesy" />
+          <Feature
+            name="Marka"
+            placeholder="np. Teesy"
+            elements={filters.brands}
+            filterType={filterTypes.brands}
+            autocomplete
+          />
+          <Feature
+            name="Kategoria"
+            placeholder="np. Teesy"
+            elements={filters.categories}
+            filterType={filterTypes.categories}
+            combobox
+          />
           <Description name="Opis" placeholder="Opis" />
-          <GridList name="Rodzaj" elements={filters.types} medium />
-          <GridList name="Stan" elements={filters.conditions} small />
-          <GridList name="Rozmiar" elements={filters.shoesSizes} small />
-          <GridList name="Rozmiar" elements={filters.clothesSizes} small />
-          <GridList name="Fit" elements={filters.fits} medium />
-          <ColorwayGrid colors={filters.colors} />
-          <Feature name="Cena" placeholder="0.00 PLN" />
+          <GridList
+            title="Rodzaj"
+            name="types"
+            elements={filters.types}
+            filterType={filterTypes.types}
+            currentFilter={currentFilter.types}
+            medium
+          />
+          <GridList
+            title="Stan"
+            name="condition"
+            elements={filters.conditions}
+            filterType={filterTypes.conditions}
+            currentFilter={currentFilter.conditions}
+            small
+          />
+          {currentFilter.categories === "Sneakersy" && (
+            <GridList
+              title="Rozmiar"
+              name="shoesSizes"
+              elements={filters.shoesSizes}
+              filterType={filterTypes.shoesSizes}
+              currentFilter={currentFilter.shoesSizes}
+              small
+            />
+          )}
+          {currentFilter.categories !== "Sneakersy" &&
+            currentFilter.categories !== "placeholder" && (
+              <>
+                <GridList
+                  title="Rozmiar"
+                  name="clothesSizes"
+                  elements={filters.clothesSizes}
+                  filterType={filterTypes.clothesSizes}
+                  currentFilter={currentFilter.clothesSizes}
+                  small
+                />
+                <GridList
+                  title="Fit"
+                  name="fits"
+                  elements={filters.fits}
+                  filterType={filterTypes.fits}
+                  currentFilter={currentFilter.fits}
+                  medium
+                />
+              </>
+            )}
+          <ColorwayGrid
+            colors={filters.colors}
+            filterType={filterTypes.colors}
+          />
+          <Feature name="Cena" placeholder="0.00 PLN" number />
           <Delivery
             defaultValue="Warszawa"
-            checkbox={showCity}
-            setCheckbox={setShowCity}
+            ship={currentFilter.SHIP}
+            meet={currentFilter.MEET}
           />
         </Panel>
         <Add>Dodaj ogłoszenie</Add>
@@ -74,8 +150,12 @@ const WTS = ({ filters }) => {
   );
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
-  return { filters: filtersReducer.filters };
+const mapStateToProps = ({ addingItemReducer }) => {
+  return {
+    filters: addingItemReducer.filters,
+    filterTypes: addingItemReducer.filterTypes,
+    currentFilter: addingItemReducer.currentFilters,
+  };
 };
 
 export default connect(mapStateToProps)(WTS);

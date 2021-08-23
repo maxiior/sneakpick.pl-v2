@@ -30,7 +30,7 @@ const Items = ({ items, results }) => {
             name={announ.name}
             price={announ.price}
             state={announ.condition}
-            slug={announ.slug}
+            id={announ.id}
           />
         ))}
       </Grid>

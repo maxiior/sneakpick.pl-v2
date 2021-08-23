@@ -119,15 +119,13 @@ const ComboBox = ({
     <StyledComboBox className={className}>
       <Header>{name}:</Header>
       <ComboBoxMode onClick={() => setOpen(!open)} ref={wrapperRef}>
-        <ValueHolder>
-          {elements.filter((element) => mode === element && element)}
-        </ValueHolder>
-        <Arrow turned={open === true && true} />
+        <ValueHolder>{mode}</ValueHolder>
+        <Arrow turned={open === true} />
         {open && (
           <ModesContainer>
             {elements.map((element, i) => (
               <Mode
-                selected={mode === element && true}
+                selected={mode === element}
                 onClick={() => {
                   setMode(element);
                   changeState(itemsSelectorType, elements[i]);
