@@ -107,7 +107,6 @@ const Autocomplete = ({
 
   const [search, setSearch] = useState("");
   const [cursor, setCursor] = useState(-1);
-  const serachResultRef = useRef(null);
 
   const suggestions = useMemo(() => {
     if (!search) return elements;
@@ -148,14 +147,14 @@ const Autocomplete = ({
         onChange={(e) => {
           if (!open) setOpen(true);
           setSearch(e.target.value);
-          changeState(filterType, e.target.value, "radio");
+          changeState(filterType, e.target.value, "text");
           setCursor(-1);
         }}
         onKeyDown={(e) => keyboardNavigation(e)}
       />
       <Arrow turned={open === true} />
       {open && (
-        <ModesContainer ref={serachResultRef}>
+        <ModesContainer>
           {suggestions.slice(0, 8).map((e, i) => (
             <Mode
               selected={currentFilter.categories === e.text}
@@ -175,7 +174,8 @@ const Autocomplete = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
 });
 
 const mapStateToProps = ({ addingItemReducer }) => {

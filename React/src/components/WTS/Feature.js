@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Header from "components/WTS/Header";
 import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
+import { connect } from "react-redux";
+import { changeState as changeStateAction } from "actions/WTS";
+import Button from "components/WTS/Button";
 
 const StyledInput = styled.input`
   outline: none;
@@ -24,11 +27,13 @@ const Wrapper = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
-
-  /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
   }
+`;
+
+const Container = styled.div`
+  display: flex;
 `;
 
 const Feature = ({
@@ -40,6 +45,7 @@ const Feature = ({
   autocomplete,
   number,
   filterType,
+  changeState,
   ...props
 }) => {
   return (
@@ -54,14 +60,26 @@ const Feature = ({
           placeholder={placeholder}
         />
       ) : (
-        <StyledInput
-          type={number ? "number" : "text"}
-          placeholder={placeholder}
-          value={defaultValue}
-        />
+        <Container>
+          <StyledInput
+            type={number ? "number" : "text"}
+            placeholder={placeholder}
+            value={defaultValue}
+            onChange={(e) => {
+              if (number) changeState(filterType, e.target.value, "number");
+              else changeState(filterType, e.target.value, "text");
+            }}
+          />
+          {props.expanded && <Button />}
+        </Container>
       )}
     </Wrapper>
   );
 };
 
-export default Feature;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
+});
+
+export default connect(null, mapDispatchToProps)(Feature);

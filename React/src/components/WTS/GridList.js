@@ -19,7 +19,7 @@ const Option = styled.span`
   ${({ small }) =>
     small &&
     css`
-      width: 60px;
+      width: 71.25px;
     `}
   ${({ medium }) =>
     medium &&
@@ -82,7 +82,7 @@ const GridList = ({
               onChange={() => changeState(filterType, e.text, "radio")}
               checked={currentFilter === e.text}
             />
-            <Option medium>{e.text}</Option>
+            <Option {...props}>{e.text}</Option>
           </StyledLabel>
         ))}
       </Container>

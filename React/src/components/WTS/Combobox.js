@@ -116,7 +116,8 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
 });
 
 const mapStateToProps = ({ addingItemReducer }) => {

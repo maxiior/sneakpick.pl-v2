@@ -127,16 +127,20 @@ const initialState = {
     ],
   },
   currentFilters: {
-    categories: "placeholder",
+    name: "",
     brands: "placeholder",
+    categories: "placeholder",
+    description: "",
     types: "",
     conditions: "",
     shoesSizes: "",
     clothesSizes: "",
     fits: "",
     colors: "",
+    price: 0,
     SHIP: false,
     MEET: false,
+    cities: [],
   },
 };
 
@@ -152,7 +156,10 @@ const addingItemReducer = (state = initialState, action) => {
               !state.currentFilters[action.payload.filterType],
           },
         };
-      } else {
+      } else if (
+        action.payload.input === "radio" ||
+        action.payload.input === "text"
+      ) {
         return {
           ...state,
           currentFilters: {
@@ -160,7 +167,34 @@ const addingItemReducer = (state = initialState, action) => {
             [action.payload.filterType]: action.payload.id,
           },
         };
+      } else if (action.payload.input === "number") {
+        return {
+          ...state,
+          currentFilters: {
+            ...state.currentFilters,
+            [action.payload.filterType]: parseFloat(action.payload.id),
+          },
+        };
       }
+      break;
+    case "ADD_TO_CITIES_ARRAY":
+      return {
+        ...state,
+        currentFilters: {
+          ...state.currentFilters,
+          cities: [...state.currentFilters.cities, ""],
+        },
+      };
+    case "REMOVE_FROM_CITIES_ARRAY":
+      return {
+        ...state,
+        currentFilters: {
+          ...state.currentFilters,
+          cities: state.currentFilters.cities.filter(
+            (_, i) => i !== action.payload.iteration
+          ),
+        },
+      };
     default:
       return state;
   }

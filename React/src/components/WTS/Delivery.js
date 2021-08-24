@@ -4,6 +4,7 @@ import Header from "components/WTS/Header";
 import styled from "styled-components";
 import Feature from "components/WTS/Feature";
 import { connect } from "react-redux";
+import StrictInput from "components/WTS/StrictInput";
 
 const Wrapper = styled.div``;
 
@@ -28,7 +29,12 @@ const Delivery = ({ defaultValue, currentFilter }) => {
         />
       </div>
       {currentFilter.MEET && (
-        <Feature name="Miasto" defaultValue={defaultValue} small />
+        <>
+          <Feature name="Miasto" defaultValue={defaultValue} small expanded />
+          {currentFilter.cities.map((city, i) => (
+            <StrictInput value={city} iteration={i} />
+          ))}
+        </>
       )}
     </Wrapper>
   );

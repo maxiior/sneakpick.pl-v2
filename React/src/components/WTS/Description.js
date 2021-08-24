@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "components/WTS/Header";
+import { connect } from "react-redux";
+import { changeState as changeStateAction } from "actions/WTS";
 
 const TextArea = styled.textarea`
   outline: none;
@@ -43,7 +45,7 @@ const StyledHeader = styled(Header)`
 
 const Wrapper = styled.div``;
 
-const Feature = ({ name, placeholder }) => {
+const Description = ({ name, placeholder, filterType, changeState }) => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -60,11 +62,19 @@ const Feature = ({ name, placeholder }) => {
       <Counter color={color}>Pozostało {counter} znaków</Counter>
       <TextArea
         placeholder={placeholder}
-        onChange={(e) => descriptionLength(e)}
+        onChange={(e) => {
+          descriptionLength(e);
+          changeState(filterType, e.target.value, "text");
+        }}
         maxLength="1000"
       />
     </Wrapper>
   );
 };
 
-export default Feature;
+const mapDispatchToProps = (dispatch) => ({
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
+});
+
+export default connect(null, mapDispatchToProps)(Description);

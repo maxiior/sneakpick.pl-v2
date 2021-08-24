@@ -7,7 +7,6 @@ import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
 import { connect } from "react-redux";
 import axiosInstance from "axios/axios";
-import Autocomplete from "components/WTS/Autocomplete";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -70,7 +69,11 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
       <Container>
         <Header>WANT TO SELL</Header>
         <Panel>
-          <Feature name="Nazwa przedmiotu" placeholder="np. Nike Air Max 97" />
+          <Feature
+            name="Nazwa przedmiotu"
+            placeholder="np. Nike Air Max 97"
+            filterType="name"
+          />
           <Feature
             name="Marka"
             placeholder="np. Nike"
@@ -85,7 +88,11 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             filterType={filterTypes.categories}
             combobox
           />
-          <Description name="Opis" placeholder="Opis" />
+          <Description
+            name="Opis"
+            placeholder="Opis"
+            filterType="description"
+          />
           <GridList
             title="Rodzaj"
             name="types"
@@ -137,7 +144,12 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             colors={filters.colors}
             filterType={filterTypes.colors}
           />
-          <Feature name="Cena" placeholder="0.00 PLN" number />
+          <Feature
+            name="Cena"
+            placeholder="0.00 PLN"
+            filterType="price"
+            number
+          />
           <Delivery
             defaultValue="Warszawa"
             ship={currentFilter.SHIP}
