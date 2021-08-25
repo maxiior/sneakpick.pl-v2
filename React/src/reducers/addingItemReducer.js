@@ -55,8 +55,8 @@ const initialState = {
       { id: 22, text: "Inne" },
     ],
     types: [
-      { id: 1, text: "MĘSKI" },
-      { id: 2, text: "DAMSKI" },
+      { id: 1, text: "Męski" },
+      { id: 2, text: "Damski" },
     ],
     conditions: [
       { id: 1, text: "DS" },
@@ -107,22 +107,22 @@ const initialState = {
       { id: 7, text: "XXL" },
     ],
     fits: [
-      { id: 1, text: "SLIM FIT" },
-      { id: 2, text: "REGULAR" },
-      { id: 3, text: "OVERSIZE" },
+      { id: 1, text: "Slim Fit" },
+      { id: 2, text: "Regular" },
+      { id: 3, text: "Oversize" },
     ],
     colors: [
-      { id: 1, text: "#A23A3A" },
-      { id: 2, text: "#F2324D" },
-      { id: 3, text: "#F4A523" },
-      { id: 4, text: "#F8E71B" },
-      { id: 5, text: "#7CD321" },
-      { id: 6, text: "#4CA3FD" },
-      { id: 7, text: "#8F12FF" },
-      { id: 8, text: "#EC94FF" },
-      { id: 9, text: "#000000" },
-      { id: 10, text: "#AAAAAA" },
-      { id: 11, text: "#FFFFFF" },
+      { id: 1, text: "brown" },
+      { id: 2, text: "red" },
+      { id: 3, text: "orange" },
+      { id: 4, text: "yellow" },
+      { id: 5, text: "green" },
+      { id: 6, text: "blue" },
+      { id: 7, text: "purple" },
+      { id: 8, text: "pink" },
+      { id: 9, text: "black" },
+      { id: 10, text: "grey" },
+      { id: 11, text: "white" },
       { id: 12, text: "multi" },
     ],
   },
@@ -137,7 +137,7 @@ const initialState = {
     clothesSizes: "",
     fits: "",
     colors: "",
-    price: 0,
+    price: null,
     SHIP: false,
     MEET: false,
     cities: [],
@@ -175,26 +175,59 @@ const addingItemReducer = (state = initialState, action) => {
             [action.payload.filterType]: parseFloat(action.payload.id),
           },
         };
-      }
-      break;
+      } else return state;
     case "ADD_TO_CITIES_ARRAY":
-      return {
-        ...state,
-        currentFilters: {
-          ...state.currentFilters,
-          cities: [...state.currentFilters.cities, ""],
-        },
-      };
+      if (state.currentFilters.cities.length < 5) {
+        return {
+          ...state,
+          currentFilters: {
+            ...state.currentFilters,
+            cities: [...state.currentFilters.cities, ""],
+          },
+        };
+      } else return state;
     case "REMOVE_FROM_CITIES_ARRAY":
       return {
         ...state,
         currentFilters: {
           ...state.currentFilters,
           cities: state.currentFilters.cities.filter(
-            (_, i) => i !== action.payload.iteration
+            (_, i) => i !== action.payload.index
           ),
         },
       };
+    case "UPDATE_CITIES_ARRAY":
+      return {
+        ...state,
+        currentFilters: {
+          ...state.currentFilters,
+          cities: state.currentFilters.cities.map((c, i) =>
+            i === action.payload.index ? action.payload.id : c
+          ),
+        },
+      };
+    case "SET_CITIES_ARRAY":
+      if (
+        state.currentFilters.MEET &&
+        state.currentFilters.cities.length === 0
+      ) {
+        return {
+          ...state,
+          currentFilters: {
+            ...state.currentFilters,
+            cities: [action.payload.id],
+          },
+        };
+      } else if (state.currentFilters.cities.length === 0) {
+        return {
+          ...state,
+          currentFilters: {
+            ...state.currentFilters,
+            cities: [],
+          },
+        };
+      } else return state;
+
     default:
       return state;
   }

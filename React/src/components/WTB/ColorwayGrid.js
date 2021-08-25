@@ -4,6 +4,7 @@ import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/filters";
+import { colorwaysTheme } from "theme/ColorwaysTheme";
 
 const CW = styled.div`
   box-sizing: border-box;
@@ -74,11 +75,11 @@ const ColorwayGrid = ({ colors, changeState, filterType }) => {
               checked={c.checked}
             />
             <CW
-              style={{ backgroundColor: c.text }}
-              white={c.text === "#FFFFFF"}
+              style={{ backgroundColor: colorwaysTheme[c.text] }}
+              white={c.text === "white"}
               multi={c.text === "multi"}
             >
-              <Checkmark white={c.text === "#FFFFFF"}></Checkmark>
+              <Checkmark white={c.text === "white"}></Checkmark>
             </CW>
           </label>
         ))}

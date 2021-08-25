@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Checkbox from "components/WTS/Checkbox";
 import Header from "components/WTS/Header";
 import styled from "styled-components";
-import Feature from "components/WTS/Feature";
 import { connect } from "react-redux";
 import StrictInput from "components/WTS/StrictInput";
+import { setCitiesArray as setCitiesArrayAction } from "actions/WTS";
 
 const Wrapper = styled.div``;
 
@@ -16,7 +16,11 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-const Delivery = ({ defaultValue, currentFilter }) => {
+const Delivery = ({ defaultValue, currentFilter, setCitiesArray }) => {
+  useEffect(() => {
+    setCitiesArray(defaultValue);
+  }, [currentFilter.MEET]);
+
   return (
     <Wrapper>
       <Header>Dostarczenie</Header>
@@ -30,9 +34,9 @@ const Delivery = ({ defaultValue, currentFilter }) => {
       </div>
       {currentFilter.MEET && (
         <>
-          <Feature name="Miasto" defaultValue={defaultValue} small expanded />
+          <Header small>Miasto</Header>
           {currentFilter.cities.map((city, i) => (
-            <StrictInput value={city} iteration={i} />
+            <StrictInput value={city} index={i} first={i === 0} />
           ))}
         </>
       )}
@@ -46,4 +50,8 @@ const mapStateToProps = ({ addingItemReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(Delivery);
+const mapDispatchToProps = (dispatch) => ({
+  setCitiesArray: (id) => dispatch(setCitiesArrayAction(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Delivery);

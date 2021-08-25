@@ -28,16 +28,11 @@ const Minus = styled(AiOutlineMinus)`
   font-size: 15px;
 `;
 
-const Button = ({
-  addToCitiesArray,
-  removeFromCitiesArray,
-  iteration,
-  remove,
-}) => {
+const Button = ({ addToCitiesArray, removeFromCitiesArray, index, remove }) => {
   return (
     <Wrapper
       onClick={() => {
-        if (remove) removeFromCitiesArray(iteration);
+        if (remove) removeFromCitiesArray(index);
         else addToCitiesArray();
       }}
       remove={remove}
@@ -49,8 +44,8 @@ const Button = ({
 
 const mapDispatchToProps = (dispatch) => ({
   addToCitiesArray: () => dispatch(addToCitiesArrayAction()),
-  removeFromCitiesArray: (iteration) =>
-    dispatch(removeFromCitiesArrayAction(iteration)),
+  removeFromCitiesArray: (index) =>
+    dispatch(removeFromCitiesArrayAction(index)),
 });
 
 export default connect(null, mapDispatchToProps)(Button);

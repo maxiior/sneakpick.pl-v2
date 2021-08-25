@@ -15,6 +15,7 @@ const Option = styled.span`
   justify-content: center;
   box-sizing: border-box;
   overflow: hidden;
+  text-transform: uppercase;
 
   ${({ small }) =>
     small &&

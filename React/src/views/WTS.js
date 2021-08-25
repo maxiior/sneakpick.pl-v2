@@ -46,23 +46,24 @@ const Add = styled.div`
 `;
 
 const WTS = ({ filters, filterTypes, currentFilter }) => {
-  // const addingProcess = () => {
-  //   axiosInstance
-  //     .post("", {
-  //       name: filters.,
-  //       password: data.password,
-  //     })
-  //     .then((response) => {
-  //       localStorage.setItem("access_token", response.data.access);
-  //       localStorage.setItem("refresh_token", response.data.refresh);
-  //       axiosInstance.defaults.headers["Authorization"] =
-  //         "JWT " + localStorage.getItem("access_token");
-  //       setLoginView(false);
-  //     })
-  //     .catch((error) => {
-  //       setError(true);
-  //     });
-  // };
+  const addingProcess = () => {
+    axiosInstance
+      .post("", {
+        name: currentFilter.name,
+        brand: currentFilter.brands,
+        category: currentFilter.categories,
+        description: currentFilter.description,
+        kind: currentFilter.types,
+        condition: currentFilter.conditions,
+        shoes_size: currentFilter.shoesSizes,
+        clothes_size: currentFilter.clothesSizes,
+        fit: currentFilter.fits,
+        colorway: currentFilter.colors,
+        price: currentFilter.price,
+      })
+      .then((response) => {})
+      .catch((error) => {});
+  };
 
   return (
     <Wrapper>
@@ -73,6 +74,7 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             name="Nazwa przedmiotu"
             placeholder="np. Nike Air Max 97"
             filterType="name"
+            value={currentFilter.name}
           />
           <Feature
             name="Marka"
@@ -148,6 +150,7 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             name="Cena"
             placeholder="0.00 PLN"
             filterType="price"
+            value={currentFilter.price}
             number
           />
           <Delivery
@@ -156,7 +159,7 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             meet={currentFilter.MEET}
           />
         </Panel>
-        <Add>Dodaj ogłoszenie</Add>
+        <Add onClick={() => addingProcess()}>Dodaj ogłoszenie</Add>
       </Container>
     </Wrapper>
   );

@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import Button from "components/WTS/Button";
+import { updateCitiesArray as updateCitiesArrayAction } from "actions/WTS";
 
 const Wrapper = styled.div`
   display: flex;
   padding-top: 10px;
+  align-items: center;
 `;
 
 const StyledInput = styled.input`
@@ -22,21 +24,22 @@ const StyledInput = styled.input`
   }
 `;
 
-const StrictInput = ({ changeState, filterType, city, iteration }) => {
+const StrictInput = ({ updateCitiesArray, value, index, first }) => {
   return (
     <Wrapper>
       <StyledInput
         type="text"
-        onChange={(e) => changeState(filterType, e.target.value, "text")}
+        value={value}
+        onChange={(e) => updateCitiesArray(index, e.target.value)}
       />
-      <Button iteration={iteration} remove />
+      {first ? <Button /> : <Button index={index} remove />}
     </Wrapper>
   );
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // changeState: (filterType, id, input) =>
-  //   dispatch(changeStateAction(filterType, id, input)),
+  updateCitiesArray: (index, id) =>
+    dispatch(updateCitiesArrayAction(index, id)),
 });
 
 export default connect(null, mapDispatchToProps)(StrictInput);

@@ -3,6 +3,7 @@ import Header from "components/WTS/Header";
 import styled, { css } from "styled-components";
 import { changeState as changeStateAction } from "actions/WTS";
 import { connect } from "react-redux";
+import { colorwaysTheme } from "theme/ColorwaysTheme";
 
 const Elements = styled.div`
   width: 300px;
@@ -81,11 +82,11 @@ const ColorwayGrid = ({ colors, filterType, changeState, currentFilter }) => {
                 checked={currentFilter.colors === c.text}
               />
               <CW
-                style={{ backgroundColor: c.text }}
-                white={c.text === "#FFFFFF"}
+                style={{ backgroundColor: colorwaysTheme[c.text] }}
+                white={c.text === "white"}
                 multi={c.text === "multi"}
               >
-                <Checkmark white={c.text === "#FFFFFF"} />
+                <Checkmark white={c.text === "white"} />
               </CW>
             </label>
           ))}

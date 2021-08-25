@@ -5,7 +5,6 @@ import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
-import Button from "components/WTS/Button";
 
 const StyledInput = styled.input`
   outline: none;
@@ -34,18 +33,19 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Feature = ({
   name,
   placeholder,
-  defaultValue,
   elements,
   combobox,
   autocomplete,
   number,
   filterType,
   changeState,
+  value,
   ...props
 }) => {
   return (
@@ -64,13 +64,12 @@ const Feature = ({
           <StyledInput
             type={number ? "number" : "text"}
             placeholder={placeholder}
-            value={defaultValue}
+            value={value}
             onChange={(e) => {
               if (number) changeState(filterType, e.target.value, "number");
               else changeState(filterType, e.target.value, "text");
             }}
           />
-          {props.expanded && <Button />}
         </Container>
       )}
     </Wrapper>

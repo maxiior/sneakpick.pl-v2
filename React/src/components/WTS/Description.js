@@ -45,7 +45,13 @@ const StyledHeader = styled(Header)`
 
 const Wrapper = styled.div``;
 
-const Description = ({ name, placeholder, filterType, changeState }) => {
+const Description = ({
+  name,
+  placeholder,
+  filterType,
+  changeState,
+  currentFilter,
+}) => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -67,6 +73,7 @@ const Description = ({ name, placeholder, filterType, changeState }) => {
           changeState(filterType, e.target.value, "text");
         }}
         maxLength="1000"
+        value={currentFilter.description}
       />
     </Wrapper>
   );
@@ -77,4 +84,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeStateAction(filterType, id, input)),
 });
 
-export default connect(null, mapDispatchToProps)(Description);
+const mapStateToProps = ({ addingItemReducer }) => {
+  return {
+    currentFilter: addingItemReducer.currentFilters,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Description);

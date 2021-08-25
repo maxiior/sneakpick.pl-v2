@@ -15,11 +15,30 @@ export const addToCitiesArray = () => {
   };
 };
 
-export const removeFromCitiesArray = (iteration) => {
+export const removeFromCitiesArray = (index) => {
   return {
     type: "REMOVE_FROM_CITIES_ARRAY",
     payload: {
-      iteration,
+      index,
+    },
+  };
+};
+
+export const updateCitiesArray = (index, id) => {
+  return {
+    type: "UPDATE_CITIES_ARRAY",
+    payload: {
+      index,
+      id,
+    },
+  };
+};
+
+export const setCitiesArray = (id) => {
+  return {
+    type: "SET_CITIES_ARRAY",
+    payload: {
+      id,
     },
   };
 };
