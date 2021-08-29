@@ -42,3 +42,9 @@ export const setCitiesArray = (id) => {
     },
   };
 };
+
+export const resetCurrentStates = () => {
+  return {
+    type: "RESET_CURRENT_STATES",
+  };
+};

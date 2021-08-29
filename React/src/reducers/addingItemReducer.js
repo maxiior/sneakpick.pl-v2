@@ -227,6 +227,26 @@ const addingItemReducer = (state = initialState, action) => {
           },
         };
       } else return state;
+    case "RESET_CURRENT_STATES":
+      return {
+        ...state,
+        currentFilters: {
+          name: "",
+          brands: "placeholder",
+          categories: "placeholder",
+          description: "",
+          types: "",
+          conditions: "",
+          shoesSizes: "",
+          clothesSizes: "",
+          fits: "",
+          colors: "",
+          price: null,
+          SHIP: false,
+          MEET: false,
+          cities: [],
+        },
+      };
 
     default:
       return state;

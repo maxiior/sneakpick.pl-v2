@@ -67,7 +67,7 @@ const StyledInput = styled.input`
 
 const Wrapper = styled.div``;
 
-const ColorwayGrid = ({ colors, filterType, changeState, currentFilter }) => {
+const ColorwayGrid = ({ colors, filterType, changeState }) => {
   return (
     <Wrapper>
       <Header>CW</Header>
@@ -79,7 +79,6 @@ const ColorwayGrid = ({ colors, filterType, changeState, currentFilter }) => {
                 type="radio"
                 name="cw"
                 onChange={() => changeState(filterType, c.text, "radio")}
-                checked={currentFilter.colors === c.text}
               />
               <CW
                 style={{ backgroundColor: colorwaysTheme[c.text] }}
@@ -101,10 +100,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeStateAction(filterType, id, input)),
 });
 
-const mapStateToProps = ({ addingItemReducer }) => {
-  return {
-    currentFilter: addingItemReducer.currentFilters,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ColorwayGrid);
+export default connect(null, mapDispatchToProps)(ColorwayGrid);

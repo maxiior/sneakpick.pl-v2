@@ -81,7 +81,7 @@ const GridList = ({
               type="radio"
               name={name}
               onChange={() => changeState(filterType, e.text, "radio")}
-              checked={currentFilter === e.text}
+              checked={currentFilter && currentFilter === e.text}
             />
             <Option {...props}>{e.text}</Option>
           </StyledLabel>

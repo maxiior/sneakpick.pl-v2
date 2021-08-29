@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Feature from "components/WTS/Feature";
 import GridList from "components/WTS/GridList";
@@ -7,6 +7,8 @@ import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
 import { connect } from "react-redux";
 import axiosInstance from "axios/axios";
+import { resetCurrentStates as resetCurrentStatesAction } from "actions/WTS";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,7 +47,13 @@ const Add = styled.div`
   }
 `;
 
-const WTS = ({ filters, filterTypes, currentFilter }) => {
+const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
+  let history = useHistory();
+
+  useEffect(() => {
+    resetCurrentStates();
+  }, []);
+
   const addingProcess = () => {
     axiosInstance
       .post("", {
@@ -55,13 +63,20 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
         description: currentFilter.description,
         kind: currentFilter.types,
         condition: currentFilter.conditions,
-        shoes_size: currentFilter.shoesSizes,
-        clothes_size: currentFilter.clothesSizes,
+        size: `${
+          currentFilter.categories === "Sneakersy"
+            ? currentFilter.shoesSizes
+            : currentFilter.clothesSizes
+        }`,
         fit: currentFilter.fits,
         colorway: currentFilter.colors,
         price: currentFilter.price,
+        ship: currentFilter.SHIP,
+        meet: currentFilter.MEET,
       })
-      .then((response) => {})
+      .then((response) => {
+        if (response.status === 201) history.push({ pathname: "/wtb/" });
+      })
       .catch((error) => {});
   };
 
@@ -100,7 +115,6 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             name="types"
             elements={filters.types}
             filterType={filterTypes.types}
-            currentFilter={currentFilter.types}
             medium
           />
           <GridList
@@ -108,7 +122,6 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             name="condition"
             elements={filters.conditions}
             filterType={filterTypes.conditions}
-            currentFilter={currentFilter.conditions}
             small
           />
           {currentFilter.categories === "Sneakersy" && (
@@ -150,7 +163,6 @@ const WTS = ({ filters, filterTypes, currentFilter }) => {
             name="Cena"
             placeholder="0.00 PLN"
             filterType="price"
-            value={currentFilter.price}
             number
           />
           <Delivery
@@ -173,4 +185,9 @@ const mapStateToProps = ({ addingItemReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(WTS);
+const mapDispatchToProps = (dispatch) => ({
+  resetCurrentStates: (filterType, id, input) =>
+    dispatch(resetCurrentStatesAction(filterType, id, input)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WTS);

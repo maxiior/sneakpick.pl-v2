@@ -60,14 +60,13 @@ const StyledLabel = styled.label`
 
 const Wrapper = styled.div``;
 
-const Checkbox = ({ text, className, changeState, small, value }) => {
+const Checkbox = ({ text, className, changeState, small }) => {
   return (
     <Wrapper className={className}>
       <StyledLabel small={small}>
         <div>{text}</div>
         <StyledInput
           type="checkbox"
-          checked={value}
           onChange={() => changeState(text, null, "checkbox")}
         />
         <Checkmark small={small} />

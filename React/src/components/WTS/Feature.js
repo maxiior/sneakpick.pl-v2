@@ -45,7 +45,6 @@ const Feature = ({
   number,
   filterType,
   changeState,
-  value,
   ...props
 }) => {
   return (
@@ -64,7 +63,6 @@ const Feature = ({
           <StyledInput
             type={number ? "number" : "text"}
             placeholder={placeholder}
-            value={value}
             onChange={(e) => {
               if (number) changeState(filterType, e.target.value, "number");
               else changeState(filterType, e.target.value, "text");

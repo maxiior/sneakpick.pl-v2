@@ -166,11 +166,38 @@ const LeftPanel = styled.div`
 
 const SingleItem = () => {
   const { slug } = useParams();
-  const [data, setData] = useState({ product: [] });
+  const [data, setData] = useState({ product: {} });
+
+  const bump = () => {
+    axiosInstance
+      .post("bump/" + data.product.id, {
+        id: data.product.id,
+      })
+      .then((response) => {
+        setData({ product: response.data });
+      })
+      .catch((error) => {});
+  };
+
+  const resolution = (table) => {
+    let date = "";
+    table.forEach((e) => {
+      date += e + ".";
+    });
+    return date.substr(0, 10);
+  };
 
   useEffect(() => {
-    axiosInstance.get(slug + "/").then((res) => {
-      setData({ product: res.data });
+    axiosInstance.get(slug).then((response) => {
+      setData({ product: response.data });
+      setData({
+        product: {
+          ...response.data,
+          published: resolution(
+            response.data.published.substr(0, 10).split("-").reverse()
+          ),
+        },
+      });
     });
   }, []);
 
@@ -185,8 +212,8 @@ const SingleItem = () => {
           </TopLeft>
           <TopRight>
             <Bump>Follow</Bump>
-            <Bump>Bump</Bump>
-            <NumberOfBumps>+10</NumberOfBumps>
+            <Bump onClick={() => bump()}>Bump</Bump>
+            <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
           </TopRight>
         </TopPanel>
         <Panel>
@@ -198,7 +225,7 @@ const SingleItem = () => {
               <Paragraph>Szczegóły</Paragraph>
               <Information>
                 <Type>Rozmiar</Type>
-                <Value> {data.product.shoes_size}</Value>
+                <Value> {data.product.size}</Value>
               </Information>
               <Information>
                 <Type>Fit</Type>
@@ -222,7 +249,7 @@ const SingleItem = () => {
               </Information>
               <Information>
                 <Type>Dodane</Type>
-                <Value>19.08.2021</Value>
+                <Value>{data.product.published}</Value>
               </Information>
             </Informations>
             <Button>Kup teraz</Button>

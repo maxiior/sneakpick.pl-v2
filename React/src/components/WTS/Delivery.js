@@ -25,12 +25,8 @@ const Delivery = ({ defaultValue, currentFilter, setCitiesArray }) => {
     <Wrapper>
       <Header>Dostarczenie</Header>
       <div>
-        <StyledCheckbox text="SHIP" value={currentFilter.SHIP} />
-        <StyledCheckbox
-          text="MEET"
-          checkbox={currentFilter.MEET}
-          value={currentFilter.MEET}
-        />
+        <StyledCheckbox text="SHIP" />
+        <StyledCheckbox text="MEET" />
       </div>
       {currentFilter.MEET && (
         <>

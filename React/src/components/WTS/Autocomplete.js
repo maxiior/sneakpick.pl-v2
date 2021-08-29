@@ -142,7 +142,7 @@ const Autocomplete = ({
         type="text"
         placeholder={placeholder}
         value={
-          currentFilter.brands !== "placeholder" ? currentFilter.brands : null
+          currentFilter.brands !== "placeholder" ? currentFilter.brands : ""
         }
         onChange={(e) => {
           if (!open) setOpen(true);
