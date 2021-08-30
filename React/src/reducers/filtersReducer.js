@@ -126,6 +126,7 @@ const initialState = {
       { id: 12, text: "multi", checked: false },
     ],
   },
+  mobileFilters: false,
 };
 
 const filtersReducer = (state = initialState, action) => {
@@ -167,6 +168,16 @@ const filtersReducer = (state = initialState, action) => {
           filter[key] = arr.map((option) => ({ ...option, checked: false }));
           return filter;
         }, {}),
+      };
+    case "OPEN_MOBILE_FILTERS":
+      return {
+        ...state,
+        mobileFilters: true,
+      };
+    case "CLOSE_MOBILE_FILTERS":
+      return {
+        ...state,
+        mobileFilters: false,
       };
     default:
       return state;

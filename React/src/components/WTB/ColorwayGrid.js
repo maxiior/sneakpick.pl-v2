@@ -8,8 +8,8 @@ import { colorwaysTheme } from "theme/ColorwaysTheme";
 
 const CW = styled.div`
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
+  width: 43.75px;
+  height: 43.75px;
   cursor: pointer;
   position: relative;
 
@@ -25,6 +25,13 @@ const CW = styled.div`
     css`
       background-image: url(${colorful});
     `}
+  
+  ${({ mobile }) =>
+    mobile &&
+    css`
+      width: 72.5px;
+      height: 72.5px;
+    `}
 `;
 
 const Checkmark = styled.div`
@@ -38,8 +45,14 @@ const Checkmark = styled.div`
 const CwsGrid = styled.div`
   display: grid;
   margin-top: 5px;
-  grid-gap: 10px;
+  grid-gap: 5px;
   grid-template-columns: auto auto auto auto;
+
+  ${({ mobile }) =>
+    mobile &&
+    css`
+      width: 305px;
+    `}
 `;
 
 const StyledInput = styled.input`
@@ -62,28 +75,37 @@ const StyledInput = styled.input`
   }
 `;
 
-const ColorwayGrid = ({ colors, changeState, filterType }) => {
+const ColorwayGrid = ({
+  colors,
+  changeState,
+  filterType,
+  mobile,
+  borderNone,
+}) => {
   return (
-    <Elements>
-      <Paragraph>CW</Paragraph>
-      <CwsGrid>
-        {colors.map((c) => (
-          <label key={c.id}>
-            <StyledInput
-              type="checkbox"
-              onChange={() => changeState(filterType, c.id)}
-              checked={c.checked}
-            />
-            <CW
-              style={{ backgroundColor: colorwaysTheme[c.text] }}
-              white={c.text === "white"}
-              multi={c.text === "multi"}
-            >
-              <Checkmark white={c.text === "white"}></Checkmark>
-            </CW>
-          </label>
-        ))}
-      </CwsGrid>
+    <Elements mobile={mobile} borderNone={borderNone}>
+      <div>
+        <Paragraph mobile={mobile}>CW</Paragraph>
+        <CwsGrid mobile={mobile}>
+          {colors.map((c) => (
+            <label key={c.id}>
+              <StyledInput
+                type="checkbox"
+                onChange={() => changeState(filterType, c.id)}
+                checked={c.checked}
+              />
+              <CW
+                style={{ backgroundColor: colorwaysTheme[c.text] }}
+                white={c.text === "white"}
+                multi={c.text === "multi"}
+                mobile={mobile}
+              >
+                <Checkmark white={c.text === "white"}></Checkmark>
+              </CW>
+            </label>
+          ))}
+        </CwsGrid>
+      </div>
     </Elements>
   );
 };

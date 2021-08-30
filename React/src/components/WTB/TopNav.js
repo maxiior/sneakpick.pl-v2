@@ -7,8 +7,8 @@ import Results from "components/WTB/Results";
 import ComboBox from "components/WTB/ComboBox";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import { fetchItems } from "actions/WTB";
-import { changeState } from "actions/itemsSelector";
+import { fetchItems as fetchItemsAction } from "actions/WTB";
+import { changeState as changeStateAction } from "actions/itemsSelector";
 
 const Nav = styled.div`
   position: relative;
@@ -162,9 +162,9 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchItems: (limit, offset, search) =>
-    dispatch(fetchItems(limit, offset, search)),
+    dispatch(fetchItemsAction(limit, offset, search)),
   changeState: (itemsSelectorType, data) =>
-    dispatch(changeState(itemsSelectorType, data)),
+    dispatch(changeStateAction(itemsSelectorType, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopNav);

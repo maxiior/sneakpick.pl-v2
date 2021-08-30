@@ -7,6 +7,7 @@ import Login from "components/Login/Login";
 import Register from "components/Register/Register";
 import styled from "styled-components";
 import { useState } from "react";
+import { connect } from "react-redux";
 
 const Main = styled.div`
   padding-top: 60px;
@@ -17,13 +18,13 @@ const Main = styled.div`
   }
 `;
 
-const MainTemplate = ({ children }) => {
+const MainTemplate = ({ children, mobileFilters }) => {
   const [loginView, setLoginView] = useState(false);
   const [registerView, setRegisterView] = useState(false);
 
   return (
     <>
-      <GlobalStyle scroll={loginView || registerView} />
+      <GlobalStyle scroll={loginView || registerView || mobileFilters} />
       {loginView && <Login setLoginView={setLoginView} />}
       {registerView && <Register setRegisterView={setRegisterView} />}
       <Nav setLoginView={setLoginView} setRegisterView={setRegisterView} />
@@ -37,4 +38,10 @@ MainTemplate.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default MainTemplate;
+const mapStateToProps = ({ filtersReducer }) => {
+  return {
+    mobileFilters: filtersReducer.mobileFilters,
+  };
+};
+
+export default connect(mapStateToProps)(MainTemplate);

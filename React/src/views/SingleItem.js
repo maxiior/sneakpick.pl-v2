@@ -174,7 +174,14 @@ const SingleItem = () => {
         id: data.product.id,
       })
       .then((response) => {
-        setData({ product: response.data });
+        setData({
+          product: {
+            ...response.data,
+            published: resolution(
+              response.data.published.substr(0, 10).split("-").reverse()
+            ),
+          },
+        });
       })
       .catch((error) => {});
   };
@@ -189,7 +196,6 @@ const SingleItem = () => {
 
   useEffect(() => {
     axiosInstance.get(slug).then((response) => {
-      setData({ product: response.data });
       setData({
         product: {
           ...response.data,

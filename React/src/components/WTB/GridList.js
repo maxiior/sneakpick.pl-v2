@@ -17,12 +17,18 @@ const GridElements = styled.div`
   ${({ medium }) =>
     medium &&
     css`
-      grid-template-columns: auto auto;
+      grid-template-columns: ${({ mobile }) =>
+        mobile ? "auto auto auto auto" : "auto auto"};
     `}
   ${({ large }) =>
     large &&
     css`
-      grid-template-columns: auto;
+      grid-template-columns: ${({ mobile }) => (mobile ? "auto auto" : "auto")};
+    `}
+  ${({ mobile }) =>
+    mobile &&
+    css`
+      width: 305px;
     `}
 `;
 
@@ -46,12 +52,12 @@ const Value = styled.span`
   ${({ medium }) =>
     medium &&
     css`
-      width: 92.5px;
+      width: ${({ mobile }) => (mobile ? "72.5px" : "92.5px")};
     `}
   ${({ large }) =>
     large &&
     css`
-      width: 190px;
+      width: ${({ mobile }) => (mobile ? "150px" : "190px")};
     `}
 `;
 
@@ -69,23 +75,34 @@ const StyledInput = styled.input`
   }
 `;
 
-const GridList = ({ name, elements, changeState, filterType, ...props }) => {
+const GridList = ({
+  name,
+  elements,
+  changeState,
+  filterType,
+  mobile,
+  ...props
+}) => {
   return (
-    <Elements>
-      <Paragraph>{name}</Paragraph>
-      <GridElements {...props}>
-        {elements.map((e) => (
-          <StyledLabel key={e.id}>
-            <StyledInput
-              id={e.id}
-              type="checkbox"
-              onChange={() => changeState(filterType, e.id)}
-              checked={e.checked}
-            />
-            <Value {...props}>{e.text}</Value>
-          </StyledLabel>
-        ))}
-      </GridElements>
+    <Elements mobile={mobile}>
+      <div>
+        <Paragraph mobile={mobile}>{name}</Paragraph>
+        <GridElements mobile={mobile} {...props}>
+          {elements.map((e) => (
+            <StyledLabel key={e.id}>
+              <StyledInput
+                id={e.id}
+                type="checkbox"
+                onChange={() => changeState(filterType, e.id)}
+                checked={e.checked}
+              />
+              <Value mobile={mobile} {...props}>
+                {e.text}
+              </Value>
+            </StyledLabel>
+          ))}
+        </GridElements>
+      </div>
     </Elements>
   );
 };

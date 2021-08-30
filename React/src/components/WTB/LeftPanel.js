@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";

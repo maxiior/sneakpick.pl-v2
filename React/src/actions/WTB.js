@@ -20,3 +20,15 @@ export const fetchItems = (limit, offset, search) => (dispatch) => {
       dispatch({ type: FETCH_FAILURE });
     });
 };
+
+export const openMobileFilters = () => {
+  return {
+    type: "OPEN_MOBILE_FILTERS",
+  };
+};
+
+export const closeMobileFilters = () => {
+  return {
+    type: "CLOSE_MOBILE_FILTERS",
+  };
+};

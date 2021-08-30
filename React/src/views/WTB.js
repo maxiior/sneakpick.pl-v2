@@ -3,6 +3,9 @@ import TopNav from "components/WTB/TopNav";
 import React, { useState } from "react";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
+import MobileFilters from "components/WTB/MobileFilters";
+import { connect } from "react-redux";
+import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 
 const Header = styled.header`
   display: flex;
@@ -24,7 +27,7 @@ const Wrapper = styled.main`
   height: 100%;
 `;
 
-const WTB = () => {
+const WTB = ({ mobileFilters }) => {
   const [steps, setSteps] = useState([
     {
       id: 1,
@@ -39,12 +42,26 @@ const WTB = () => {
   ]);
 
   return (
-    <Wrapper>
-      <Header>WANT TO BUY</Header>
-      <TopNav steps={steps} />
-      <Panel />
-    </Wrapper>
+    <>
+      {mobileFilters && (
+        <>
+          <ScrollToTop />
+          <MobileFilters />
+        </>
+      )}
+      <Wrapper>
+        <Header>WANT TO BUY</Header>
+        <TopNav steps={steps} />
+        <Panel />
+      </Wrapper>
+    </>
   );
 };
 
-export default WTB;
+const mapStateToProps = ({ filtersReducer }) => {
+  return {
+    mobileFilters: filtersReducer.mobileFilters,
+  };
+};
+
+export default connect(mapStateToProps)(WTB);
