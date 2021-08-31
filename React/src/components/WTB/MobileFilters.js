@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import styled from "styled-components";
 import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { IoMdClose } from "react-icons/io";
 import { closeMobileFilters as closeMobileFiltersAction } from "actions/WTB";
 import { resetAllStates as resetAllStatesAction } from "actions/filters";
+import useResizeObserver from "@react-hook/resize-observer";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -87,6 +88,17 @@ const Button = styled.div`
   user-select: none;
 `;
 
+const useSize = (target) => {
+  const [size, setSize] = useState();
+
+  useLayoutEffect(() => {
+    setSize(target.current.getBoundingClientRect());
+  }, [target]);
+
+  useResizeObserver(target, (entry) => setSize(entry.contentRect));
+  return size;
+};
+
 const MobileFilters = ({
   filterTypes,
   filters,
@@ -94,8 +106,15 @@ const MobileFilters = ({
   closeMobileFilters,
   resetAllStates,
 }) => {
+  const target = useRef(null);
+  const size = useSize(target);
+
+  if (size?.width === 0) {
+    closeMobileFilters();
+  }
+
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} ref={target}>
       <Header>
         <Title>Filtry</Title>
         <Icon onClick={() => closeMobileFilters()}>
