@@ -52,10 +52,10 @@ const Element = ({ text, changeState, filterType, checked, id, radio }) => {
         <StyledInput
           type="checkbox"
           onChange={() => {
-            if (radio) changeState(filterType, id, "radio");
-            else changeState(filterType, id, "checkbox");
+            if (radio) changeState(filterType, text, "radio");
+            else changeState(filterType, text, "checkbox");
           }}
-          checked={checked}
+          checked={checked.includes(text)}
         />
         <Checkbox />
         <Type other={text === "Inne"}>{text}</Type>

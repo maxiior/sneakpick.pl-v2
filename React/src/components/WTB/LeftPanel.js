@@ -32,51 +32,62 @@ const StyledLeftPanel = styled.div`
   }
 `;
 
-const LeftPanel = ({ filters, filterTypes }) => {
+const LeftPanel = ({ filters, filterTypes, currentFilters }) => {
   return (
     <StyledLeftPanel>
       <List
         name="Kategoria"
         elements={filters.categories}
         filterType={filterTypes.categories}
+        currentFilter={currentFilters.categories}
         radio
       />
       <List
         name="Marka"
         elements={filters.brands}
         filterType={filterTypes.brands}
+        currentFilter={currentFilters.brands}
       />
       <GridList
         name="Rodzaj"
         elements={filters.types}
         filterType={filterTypes.types}
+        currentFilter={currentFilters.types}
         medium
       />
       <GridList
         name="Stan"
         elements={filters.conditions}
         filterType={filterTypes.conditions}
+        currentFilter={currentFilters.conditions}
         small
       />
       <GridList
         name="Rozmiar"
         elements={filters.shoesSizes}
         filterType={filterTypes.shoesSizes}
+        currentFilter={currentFilters.shoesSizes}
         small
       />
       <GridList
         name="Rozmiar"
         elements={filters.clothesSizes}
         filterType={filterTypes.clothesSizes}
+        currentFilter={currentFilters.clothesSizes}
         small
       />
       <GridList
         name="Fit"
         elements={filters.fits}
         filterType={filterTypes.fits}
+        currentFilter={currentFilters.fits}
         large
       />
-      <ColorwayGrid colors={filters.colors} filterType={filterTypes.colors} />
+      <ColorwayGrid
+        colors={filters.colors}
+        filterType={filterTypes.colors}
+        currentFilter={currentFilters.colors}
+      />
     </StyledLeftPanel>
   );
 };
@@ -85,6 +96,7 @@ const mapStateToProps = ({ filtersReducer }) => {
   return {
     filterTypes: filtersReducer.filterTypes,
     filters: filtersReducer.filters,
+    currentFilters: filtersReducer.currentFilters,
   };
 };
 

@@ -105,6 +105,7 @@ const MobileFilters = ({
   className,
   closeMobileFilters,
   resetAllStates,
+  currentFilters,
 }) => {
   const target = useRef(null);
   const size = useSize(target);
@@ -125,6 +126,7 @@ const MobileFilters = ({
         name="Kategoria"
         elements={filters.categories}
         filterType={filterTypes.categories}
+        currentFilter={currentFilters.categories}
         radio
         mobile
       />
@@ -132,12 +134,14 @@ const MobileFilters = ({
         name="Marka"
         elements={filters.brands}
         filterType={filterTypes.brands}
+        currentFilter={currentFilters.brands}
         mobile
       />
       <GridList
         name="Rodzaj"
         elements={filters.types}
         filterType={filterTypes.types}
+        currentFilter={currentFilters.types}
         mobile
         large
       />
@@ -145,6 +149,7 @@ const MobileFilters = ({
         name="Stan"
         elements={filters.conditions}
         filterType={filterTypes.conditions}
+        currentFilter={currentFilters.conditions}
         mobile
         large
       />
@@ -152,6 +157,7 @@ const MobileFilters = ({
         name="Rozmiar"
         elements={filters.shoesSizes}
         filterType={filterTypes.shoesSizes}
+        currentFilter={currentFilters.shoesSizes}
         mobile
         medium
       />
@@ -159,6 +165,7 @@ const MobileFilters = ({
         name="Rozmiar"
         elements={filters.clothesSizes}
         filterType={filterTypes.clothesSizes}
+        currentFilter={currentFilters.clothesSizes}
         mobile
         medium
       />
@@ -166,12 +173,14 @@ const MobileFilters = ({
         name="Fit"
         elements={filters.fits}
         filterType={filterTypes.fits}
+        currentFilter={currentFilters.fits}
         mobile
         large
       />
       <ColorwayGrid
         colors={filters.colors}
         filterType={filterTypes.colors}
+        currentFilter={currentFilters.colors}
         mobile
         borderNone
       />
@@ -189,6 +198,7 @@ const mapStateToProps = ({ filtersReducer }) => {
   return {
     filterTypes: filtersReducer.filterTypes,
     filters: filtersReducer.filters,
+    currentFilters: filtersReducer.currentFilters,
   };
 };
 

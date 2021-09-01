@@ -11,120 +11,130 @@ const initialState = {
   },
   filters: {
     categories: [
-      { id: 1, text: "Sneakersy", checked: false },
-      { id: 2, text: "Hoodie", checked: false },
-      { id: 3, text: "Teesy", checked: false },
-      { id: 4, text: "Koszule", checked: false },
-      { id: 5, text: "Crewnecki", checked: false },
-      { id: 6, text: "Longsleevy", checked: false },
-      { id: 7, text: "Katany", checked: false },
-      { id: 8, text: "Kurtki", checked: false },
-      { id: 9, text: "Płaszcze", checked: false },
-      { id: 10, text: "Spodnie", checked: false },
-      { id: 11, text: "Szale", checked: false },
-      { id: 12, text: "Portfele", checked: false },
-      { id: 13, text: "Plecaki", checked: false },
-      { id: 14, text: "Zegarki", checked: false },
-      { id: 15, text: "Czapki", checked: false },
-      { id: 16, text: "Belty", checked: false },
-      { id: 17, text: "Bielizna", checked: false },
-      { id: 18, text: "Inne", checked: false },
+      { id: 1, text: "Sneakersy" },
+      { id: 2, text: "Hoodie" },
+      { id: 3, text: "Teesy" },
+      { id: 4, text: "Koszule" },
+      { id: 5, text: "Crewnecki" },
+      { id: 6, text: "Longsleevy" },
+      { id: 7, text: "Katany" },
+      { id: 8, text: "Kurtki" },
+      { id: 9, text: "Płaszcze" },
+      { id: 10, text: "Spodnie" },
+      { id: 11, text: "Szale" },
+      { id: 12, text: "Portfele" },
+      { id: 13, text: "Plecaki" },
+      { id: 14, text: "Zegarki" },
+      { id: 15, text: "Czapki" },
+      { id: 16, text: "Belty" },
+      { id: 17, text: "Bielizna" },
+      { id: 18, text: "Inne" },
     ],
     brands: [
-      { id: 1, text: "Nike", checked: false },
-      { id: 2, text: "Adidas", checked: false },
-      { id: 3, text: "Supreme", checked: false },
-      { id: 4, text: "Puma", checked: false },
-      { id: 5, text: "New Balance", checked: false },
-      { id: 6, text: "Vans", checked: false },
-      { id: 7, text: "Louis Vuitton", checked: false },
-      { id: 8, text: "Palace", checked: false },
-      { id: 9, text: "Diadora", checked: false },
-      { id: 10, text: "Reebok", checked: false },
-      { id: 11, text: "Balenciaga", checked: false },
-      { id: 12, text: "Lacoste", checked: false },
-      { id: 13, text: "Yeezy", checked: false },
-      { id: 14, text: "Off-White", checked: false },
-      { id: 15, text: "Converse", checked: false },
-      { id: 16, text: "Stone Island", checked: false },
-      { id: 17, text: "The North Face", checked: false },
-      { id: 18, text: "Ralph Lauren", checked: false },
-      { id: 19, text: "Guess", checked: false },
-      { id: 20, text: "Tommy Hilfiger", checked: false },
-      { id: 21, text: "VLONE", checked: false },
-      { id: 22, text: "Inne", checked: false },
+      { id: 1, text: "Nike" },
+      { id: 2, text: "Adidas" },
+      { id: 3, text: "Supreme" },
+      { id: 4, text: "Puma" },
+      { id: 5, text: "New Balance" },
+      { id: 6, text: "Vans" },
+      { id: 7, text: "Louis Vuitton" },
+      { id: 8, text: "Palace" },
+      { id: 9, text: "Diadora" },
+      { id: 10, text: "Reebok" },
+      { id: 11, text: "Balenciaga" },
+      { id: 12, text: "Lacoste" },
+      { id: 13, text: "Yeezy" },
+      { id: 14, text: "Off-White" },
+      { id: 15, text: "Converse" },
+      { id: 16, text: "Stone Island" },
+      { id: 17, text: "The North Face" },
+      { id: 18, text: "Ralph Lauren" },
+      { id: 19, text: "Guess" },
+      { id: 20, text: "Tommy Hilfiger" },
+      { id: 21, text: "VLONE" },
+      { id: 22, text: "Inne" },
     ],
     types: [
-      { id: 1, text: "MĘSKI", checked: false },
-      { id: 2, text: "DAMSKI", checked: false },
+      { id: 1, text: "MĘSKI" },
+      { id: 2, text: "DAMSKI" },
     ],
     conditions: [
-      { id: 1, text: "DS", checked: false },
-      { id: 2, text: "VNDS", checked: false },
-      { id: 3, text: "4/5", checked: false },
-      { id: 4, text: "3/5", checked: false },
-      { id: 5, text: "2/5", checked: false },
-      { id: 6, text: "1/5", checked: false },
+      { id: 1, text: "DS" },
+      { id: 2, text: "VNDS" },
+      { id: 3, text: "4/5" },
+      { id: 4, text: "3/5" },
+      { id: 5, text: "2/5" },
+      { id: 6, text: "1/5" },
     ],
     shoesSizes: [
-      { id: 1, text: "36.0", checked: false },
-      { id: 2, text: "36.5", checked: false },
-      { id: 3, text: "37.0", checked: false },
-      { id: 4, text: "37.5", checked: false },
-      { id: 5, text: "38.0", checked: false },
-      { id: 6, text: "38.5", checked: false },
-      { id: 7, text: "39.0", checked: false },
-      { id: 8, text: "39.5", checked: false },
-      { id: 9, text: "40.0", checked: false },
-      { id: 10, text: "40.5", checked: false },
-      { id: 11, text: "41.0", checked: false },
-      { id: 12, text: "41.5", checked: false },
-      { id: 13, text: "42.0", checked: false },
-      { id: 14, text: "42.5", checked: false },
-      { id: 15, text: "43.0", checked: false },
-      { id: 16, text: "43.5", checked: false },
-      { id: 17, text: "44.0", checked: false },
-      { id: 18, text: "44.5", checked: false },
-      { id: 19, text: "45.0", checked: false },
-      { id: 20, text: "45.5", checked: false },
-      { id: 21, text: "46.0", checked: false },
-      { id: 22, text: "46.5", checked: false },
-      { id: 23, text: "47.0", checked: false },
-      { id: 24, text: "47.5", checked: false },
-      { id: 25, text: "48.0", checked: false },
-      { id: 26, text: "48.5", checked: false },
-      { id: 27, text: "49.0", checked: false },
-      { id: 28, text: "49.5", checked: false },
-      { id: 29, text: "50.0", checked: false },
+      { id: 1, text: "36.0" },
+      { id: 2, text: "36.5" },
+      { id: 3, text: "37.0" },
+      { id: 4, text: "37.5" },
+      { id: 5, text: "38.0" },
+      { id: 6, text: "38.5" },
+      { id: 7, text: "39.0" },
+      { id: 8, text: "39.5" },
+      { id: 9, text: "40.0" },
+      { id: 10, text: "40.5" },
+      { id: 11, text: "41.0" },
+      { id: 12, text: "41.5" },
+      { id: 13, text: "42.0" },
+      { id: 14, text: "42.5" },
+      { id: 15, text: "43.0" },
+      { id: 16, text: "43.5" },
+      { id: 17, text: "44.0" },
+      { id: 18, text: "44.5" },
+      { id: 19, text: "45.0" },
+      { id: 20, text: "45.5" },
+      { id: 21, text: "46.0" },
+      { id: 22, text: "46.5" },
+      { id: 23, text: "47.0" },
+      { id: 24, text: "47.5" },
+      { id: 25, text: "48.0" },
+      { id: 26, text: "48.5" },
+      { id: 27, text: "49.0" },
+      { id: 28, text: "49.5" },
+      { id: 29, text: "50.0" },
     ],
     clothesSizes: [
-      { id: 1, text: "XXS", checked: false },
-      { id: 2, text: "XS", checked: false },
-      { id: 3, text: "S", checked: false },
-      { id: 4, text: "M", checked: false },
-      { id: 5, text: "L", checked: false },
-      { id: 6, text: "XL", checked: false },
-      { id: 7, text: "XXL", checked: false },
+      { id: 1, text: "XXS" },
+      { id: 2, text: "XS" },
+      { id: 3, text: "S" },
+      { id: 4, text: "M" },
+      { id: 5, text: "L" },
+      { id: 6, text: "XL" },
+      { id: 7, text: "XXL" },
     ],
     fits: [
-      { id: 1, text: "SLIM FIT", checked: false },
-      { id: 2, text: "REGULAR", checked: false },
-      { id: 3, text: "OVERSIZE", checked: false },
+      { id: 1, text: "SLIM FIT" },
+      { id: 2, text: "REGULAR" },
+      { id: 3, text: "OVERSIZE" },
     ],
     colors: [
-      { id: 1, text: "brown", checked: false },
-      { id: 2, text: "red", checked: false },
-      { id: 3, text: "orange", checked: false },
-      { id: 4, text: "yellow", checked: false },
-      { id: 5, text: "green", checked: false },
-      { id: 6, text: "blue", checked: false },
-      { id: 7, text: "purple", checked: false },
-      { id: 8, text: "pink", checked: false },
-      { id: 9, text: "black", checked: false },
-      { id: 10, text: "grey", checked: false },
-      { id: 11, text: "white", checked: false },
-      { id: 12, text: "multi", checked: false },
+      { id: 1, text: "brown" },
+      { id: 2, text: "red" },
+      { id: 3, text: "orange" },
+      { id: 4, text: "yellow" },
+      { id: 5, text: "green" },
+      { id: 6, text: "blue" },
+      { id: 7, text: "purple" },
+      { id: 8, text: "pink" },
+      { id: 9, text: "black" },
+      { id: 10, text: "grey" },
+      { id: 11, text: "white" },
+      { id: 12, text: "multi" },
     ],
+  },
+  currentFilters: {
+    brands: [],
+    categories: "",
+    types: [],
+    conditions: [],
+    clothesSizes: [],
+    shoesSizes: [],
+    fits: [],
+    colors: [],
   },
   mobileFilters: false,
 };
@@ -133,41 +143,66 @@ const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_STATE":
       if (action.payload.input === "checkbox") {
-        return {
-          ...state,
-          filters: {
-            ...state.filters,
-            [action.payload.filterType]: [
-              ...state.filters[action.payload.filterType].map((option) =>
-                option.id === action.payload.id
-                  ? { ...option, checked: !option.checked }
-                  : option
-              ),
-            ],
-          },
-        };
-      } else {
-        return {
-          ...state,
-          filters: {
-            ...state.filters,
-            [action.payload.filterType]: [
-              ...state.filters[action.payload.filterType].map((option) =>
-                option.id === action.payload.id
-                  ? { ...option, checked: !option.checked }
-                  : { ...option, checked: false }
-              ),
-            ],
-          },
-        };
-      }
+        if (
+          state.currentFilters[action.payload.filterType].includes(
+            action.payload.id
+          )
+        ) {
+          return {
+            ...state,
+            currentFilters: {
+              ...state.currentFilters,
+              [action.payload.filterType]: state.currentFilters[
+                action.payload.filterType
+              ].filter((i) => i !== action.payload.id),
+            },
+          };
+        } else {
+          return {
+            ...state,
+            currentFilters: {
+              ...state.currentFilters,
+              [action.payload.filterType]: [
+                ...state.currentFilters[action.payload.filterType],
+                action.payload.id,
+              ],
+            },
+          };
+        }
+      } else if (action.payload.input === "radio") {
+        if (
+          state.currentFilters[action.payload.filterType] === action.payload.id
+        ) {
+          return {
+            ...state,
+            currentFilters: {
+              ...state.currentFilters,
+              [action.payload.filterType]: "",
+            },
+          };
+        } else {
+          return {
+            ...state,
+            currentFilters: {
+              ...state.currentFilters,
+              [action.payload.filterType]: action.payload.id,
+            },
+          };
+        }
+      } else return state;
     case "RESET_ALL_STATES":
       return {
         ...state,
-        filters: Object.entries(state.filters).reduce((filter, [key, arr]) => {
-          filter[key] = arr.map((option) => ({ ...option, checked: false }));
-          return filter;
-        }, {}),
+        currentFilters: {
+          brands: [],
+          categories: "",
+          types: "",
+          conditions: "",
+          clothesSizes: "",
+          shoesSizes: "",
+          fits: "",
+          colors: "",
+        },
       };
     case "OPEN_MOBILE_FILTERS":
       return {

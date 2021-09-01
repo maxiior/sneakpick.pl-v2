@@ -81,6 +81,7 @@ const GridList = ({
   changeState,
   filterType,
   mobile,
+  currentFilter,
   ...props
 }) => {
   return (
@@ -91,10 +92,9 @@ const GridList = ({
           {elements.map((e) => (
             <StyledLabel key={e.id}>
               <StyledInput
-                id={e.id}
                 type="checkbox"
-                onChange={() => changeState(filterType, e.id)}
-                checked={e.checked}
+                onChange={() => changeState(filterType, e.text, "checkbox")}
+                checked={currentFilter.includes(e.text)}
               />
               <Value mobile={mobile} {...props}>
                 {e.text}
@@ -108,7 +108,8 @@ const GridList = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
 });
 
 export default connect(null, mapDispatchToProps)(GridList);

@@ -6,6 +6,7 @@ import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";
 import { connect } from "react-redux";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
+import OnSearch from "components/onSearch";
 
 const Header = styled.header`
   display: flex;
@@ -43,6 +44,7 @@ const WTB = ({ mobileFilters }) => {
 
   return (
     <>
+      <OnSearch />
       {mobileFilters && (
         <>
           <ScrollToTop />

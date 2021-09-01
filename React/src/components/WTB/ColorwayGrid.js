@@ -81,6 +81,7 @@ const ColorwayGrid = ({
   filterType,
   mobile,
   borderNone,
+  currentFilter,
 }) => {
   return (
     <Elements mobile={mobile} borderNone={borderNone}>
@@ -91,8 +92,8 @@ const ColorwayGrid = ({
             <label key={c.id}>
               <StyledInput
                 type="checkbox"
-                onChange={() => changeState(filterType, c.id)}
-                checked={c.checked}
+                onChange={() => changeState(filterType, c.text, "checkbox")}
+                checked={currentFilter.includes(c.text)}
               />
               <CW
                 style={{ backgroundColor: colorwaysTheme[c.text] }}
@@ -111,7 +112,8 @@ const ColorwayGrid = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id) => dispatch(changeStateAction(filterType, id)),
+  changeState: (filterType, id, input) =>
+    dispatch(changeStateAction(filterType, id, input)),
 });
 
 export default connect(null, mapDispatchToProps)(ColorwayGrid);

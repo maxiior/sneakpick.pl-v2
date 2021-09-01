@@ -27,7 +27,7 @@ const ShowMore = styled.div`
     `}
 `;
 
-const List = ({ name, elements, filterType, radio, mobile }) => {
+const List = ({ name, elements, filterType, radio, mobile, currentFilter }) => {
   const [showList, setShowList] = useState(false);
   const [amount, setAmount] = useState(6);
   const [showMore, setShowMore] = useState("Pokaż więcej");
@@ -52,10 +52,9 @@ const List = ({ name, elements, filterType, radio, mobile }) => {
           {elements.slice(0, amount).map((e) => (
             <Element
               key={e.id}
-              id={e.id}
               text={e.text}
               filterType={filterType}
-              checked={e.checked}
+              checked={currentFilter}
               radio={radio}
             />
           ))}
