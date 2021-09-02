@@ -34,6 +34,10 @@ const Reset = styled.button`
   font-size: 12px;
   cursor: pointer;
   outline: none;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Icon = styled(VscSearch)`

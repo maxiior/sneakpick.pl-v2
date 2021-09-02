@@ -1,14 +1,7 @@
 import { connect } from "react-redux";
 import { fetchItems as fetchItemsAction } from "actions/WTB";
 import { useHistory } from "react-router-dom";
-import { useRef } from "react";
-
-const useFirstRender = () => {
-  const ref = useRef(true);
-  const firstRender = ref.current;
-  ref.current = false;
-  return firstRender;
-};
+import { useFirstRender } from "components/useFirstRender";
 
 const OnSearch = ({
   currentPagination,
@@ -19,64 +12,59 @@ const OnSearch = ({
   let history = useHistory();
   let search = "?";
 
-  console.log(useFirstRender());
-
   if (useFirstRender()) {
+    if (window.location.search) search = window.location.search;
+    else search = "?limit=24&offset=0";
     history.push({
       pathname: "",
-      search: window.location.search,
-    });
-  } else if (
-    currentFilters.categories === "" &&
-    currentFilters.brands.length === 0 &&
-    currentFilters.types.length === 0 &&
-    currentFilters.conditions.length === 0 &&
-    currentFilters.fits.length === 0 &&
-    currentFilters.colors.length === 0 &&
-    window.location.search !== ""
-  ) {
-    history.push({
-      pathname: "",
-      search: "",
+      search: search,
     });
   } else {
     if (currentFilters.categories !== "")
       search += "category=" + currentFilters.categories;
     if (currentFilters.brands.length !== 0) {
-      search += "&brand=";
+      if (search !== "?") search += "&";
+      search += "brand=";
       currentFilters.brands.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";
       });
     }
     if (currentFilters.types.length !== 0) {
-      search += "&kind=";
+      if (search !== "?") search += "&";
+      search += "kind=";
       currentFilters.types.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";
       });
     }
     if (currentFilters.conditions.length !== 0) {
-      search += "&condition=";
+      if (search !== "?") search += "&";
+      search += "condition=";
       currentFilters.conditions.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";
       });
     }
     if (currentFilters.fits.length !== 0) {
-      search += "&fit=";
+      if (search !== "?") search += "&";
+      search += "fit=";
       currentFilters.fits.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";
       });
     }
     if (currentFilters.colors.length !== 0) {
-      search += "&colorway=";
+      if (search !== "?") search += "&";
+      search += "colorway=";
       currentFilters.colors.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";
       });
     }
+    if (search !== "?") search += "&";
+    search += "limit=" + currentPagination.toString();
+    search += "&offset=" + ((currentPage - 1) * currentPagination).toString();
 
     history.push({
       pathname: "",
@@ -84,11 +72,7 @@ const OnSearch = ({
     });
   }
 
-  fetchItems(
-    currentPagination,
-    (currentPage - 1) * currentPagination,
-    window.location.search
-  );
+  fetchItems(window.location.search);
   return null;
 };
 

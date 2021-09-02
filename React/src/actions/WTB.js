@@ -4,12 +4,9 @@ export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 export const FETCH_FAILURE = "FETCH_FAILURE";
 
-export const fetchItems = (limit, offset, search) => (dispatch) => {
+export const fetchItems = (search) => (dispatch) => {
   dispatch({ type: FETCH_REQUEST });
-  var url;
-
-  if (search) url = `${search}&limit=${limit}&offset=${offset}`;
-  else url = `?limit=${limit}&offset=${offset}`;
+  var url = `${search}`;
 
   return axiosInstance
     .get(url, {})

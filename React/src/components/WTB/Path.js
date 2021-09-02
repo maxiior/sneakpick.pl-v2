@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 const StyledPath = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -42,21 +43,38 @@ const Step = styled(Link)`
   }
 `;
 
-const Path = ({ steps, className }) => {
+const Path = ({ className, currentFilters }) => {
   return (
     <StyledPath className={className}>
       <ol>
         <li>
-          <Step to="/all">All</Step>
+          <Step to="/wtb">All</Step>
         </li>
-        {steps.map((step) => (
+        {currentFilters.categories !== "" && (
           <li>
-            <Step to={step.path}>{step.name}</Step>
+            <Step to={null}>{currentFilters.categories}</Step>
           </li>
-        ))}
+        )}
+        {currentFilters.brands.length === 1 ? (
+          <li>
+            <Step to={null}>{currentFilters.brands[0]}</Step>
+          </li>
+        ) : (
+          currentFilters.brands.length > 1 && (
+            <li>
+              <Step to={null}>Some brands</Step>
+            </li>
+          )
+        )}
       </ol>
     </StyledPath>
   );
 };
 
-export default Path;
+const mapStateToProps = ({ filtersReducer }) => {
+  return {
+    currentFilters: filtersReducer.currentFilters,
+  };
+};
+
+export default connect(mapStateToProps)(Path);

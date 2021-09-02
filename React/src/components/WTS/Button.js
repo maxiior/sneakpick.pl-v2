@@ -16,6 +16,10 @@ const Wrapper = styled.div`
   cursor: pointer;
   border-radius: 50%;
   margin-left: 20px;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Plus = styled(AiOutlinePlus)`

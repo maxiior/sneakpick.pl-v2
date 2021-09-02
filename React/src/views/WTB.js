@@ -1,12 +1,12 @@
 import Panel from "components/WTB/Panel";
 import TopNav from "components/WTB/TopNav";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";
 import { connect } from "react-redux";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
-import OnSearch from "components/onSearch";
+import OnSearch from "components/OnSearch";
 
 const Header = styled.header`
   display: flex;
@@ -19,8 +19,18 @@ const Header = styled.header`
   background-repeat: no-repeat;
   background-size: cover;
   color: ${({ theme }) => theme.blue};
-  font-size: 4em;
+  font-size: 4vw;
   user-select: none;
+
+  @media only screen and (max-width: 1200px) {
+    font-size: 6vw;
+  }
+  @media only screen and (max-width: 993px) {
+    font-size: 8vw;
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 10vw;
+  }
 `;
 
 const Wrapper = styled.main`
@@ -29,19 +39,6 @@ const Wrapper = styled.main`
 `;
 
 const WTB = ({ mobileFilters }) => {
-  const [steps, setSteps] = useState([
-    {
-      id: 1,
-      name: "Sneakersy",
-      path: "/all/sneakersy",
-    },
-    {
-      id: 2,
-      name: "Nike",
-      path: "/all/sneakersy/nike",
-    },
-  ]);
-
   return (
     <>
       <OnSearch />
@@ -53,7 +50,7 @@ const WTB = ({ mobileFilters }) => {
       )}
       <Wrapper>
         <Header>WANT TO BUY</Header>
-        <TopNav steps={steps} />
+        <TopNav />
         <Panel />
       </Wrapper>
     </>

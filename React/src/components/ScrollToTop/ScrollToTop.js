@@ -8,7 +8,7 @@ export const ScrollToTop = () => {
   };
   useEffect(() => {
     onTop();
-  }, [routePath]);
+  }, [routePath.pathname]);
 
   return null;
 };

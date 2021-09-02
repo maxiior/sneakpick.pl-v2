@@ -35,13 +35,7 @@ const Items = ({ items, results }) => {
         ))}
       </Grid>
       {results === 0 && (
-        <Blank>
-          Brak wyników wyszukiwania dla "
-          {window.location.search
-            .replaceAll("?search=", "")
-            .replaceAll("%20", " ")}
-          "
-        </Blank>
+        <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
       )}
     </StyledItems>
   );

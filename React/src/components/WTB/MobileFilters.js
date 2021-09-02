@@ -86,6 +86,10 @@ const Button = styled.div`
   font-size: 20px;
   cursor: pointer;
   user-select: none;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const useSize = (target) => {
@@ -186,7 +190,7 @@ const MobileFilters = ({
       />
       <Container>
         <Button onClick={() => resetAllStates()} clear>
-          CLEAR
+          RESET
         </Button>
         <Button>ZATWIERDŹ</Button>
       </Container>

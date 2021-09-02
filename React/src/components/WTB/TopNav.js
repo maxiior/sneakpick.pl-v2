@@ -92,23 +92,13 @@ const StyledFiltersPanel = styled(FiltersPanel)`
 `;
 
 const TopNav = ({
-  steps,
   results,
   sortingModes,
   paginationModes,
   currentPage,
   currentPagination,
-  fetchItems,
   changeState,
 }) => {
-  useEffect(() => {
-    fetchItems(
-      currentPagination,
-      (currentPage - 1) * currentPagination,
-      window.location.search
-    );
-  }, [currentPagination, currentPage]);
-
   useEffect(() => {
     if (
       currentPage > Math.ceil(results / currentPagination) &&
@@ -126,7 +116,7 @@ const TopNav = ({
         <RightPanel>
           <div>
             <Holder>
-              <StyledPath steps={steps} />
+              <StyledPath />
               <StyledResults results={results} />
             </Holder>
             <Holder>
@@ -161,8 +151,6 @@ const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItems: (limit, offset, search) =>
-    dispatch(fetchItemsAction(limit, offset, search)),
   changeState: (itemsSelectorType, data) =>
     dispatch(changeStateAction(itemsSelectorType, data)),
 });
