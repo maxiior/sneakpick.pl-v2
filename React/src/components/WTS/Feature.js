@@ -5,13 +5,16 @@ import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
+import { useFormContext } from "react-hook-form";
+import { Error } from "components/WTS/Error";
 
 const StyledInput = styled.input`
   outline: none;
   width: 70%;
   font-size: 16px;
   border: none;
-  border-bottom: 1px solid ${({ theme }) => theme.grey};
+  border-bottom: 1px solid
+    ${({ theme, error }) => (error ? theme.red : theme.grey)};
   padding: 5px 12px;
   color: ${({ theme }) => theme.darkGrey};
 
@@ -37,6 +40,7 @@ const Container = styled.div`
 `;
 
 const Feature = ({
+  title,
   name,
   placeholder,
   elements,
@@ -45,30 +49,51 @@ const Feature = ({
   number,
   filterType,
   changeState,
+  error,
   ...props
 }) => {
+  const { register, formState } = useFormContext();
+  const validator = register(name);
   return (
     <Wrapper>
-      <Header {...props}>{name}</Header>
+      <Header {...props}>{title}</Header>
       {combobox ? (
-        <Combobox elements={elements} filterType={filterType} />
+        <>
+          <Combobox elements={elements} filterType={filterType} />
+          {formState.errors.category && (
+            <Error>{formState.errors.category.message}</Error>
+          )}
+        </>
       ) : autocomplete ? (
-        <Autocomplete
-          elements={elements}
-          filterType={filterType}
-          placeholder={placeholder}
-        />
-      ) : (
-        <Container>
-          <StyledInput
-            type={number ? "number" : "text"}
+        <>
+          <Autocomplete
+            elements={elements}
+            filterType={filterType}
             placeholder={placeholder}
-            onChange={(e) => {
-              if (number) changeState(filterType, e.target.value, "number");
-              else changeState(filterType, e.target.value, "text");
-            }}
           />
-        </Container>
+          {formState.errors.brand && (
+            <Error>{formState.errors.brand.message}</Error>
+          )}
+        </>
+      ) : (
+        <>
+          <Container>
+            <StyledInput
+              type={number ? "number" : "text"}
+              error={formState.errors[name]}
+              name={name}
+              placeholder={placeholder}
+              onChange={(e) => {
+                validator.onChange(e);
+                if (number) changeState(filterType, e.target.value, "number");
+                else changeState(filterType, e.target.value, "text");
+              }}
+            />
+          </Container>
+          {formState.errors[name] && (
+            <Error>{formState.errors[name].message}</Error>
+          )}
+        </>
       )}
     </Wrapper>
   );

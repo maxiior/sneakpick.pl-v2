@@ -9,6 +9,9 @@ import { connect } from "react-redux";
 import axiosInstance from "axios/axios";
 import { resetCurrentStates as resetCurrentStatesAction } from "actions/WTS";
 import { useHistory } from "react-router-dom";
+import { useForm, FormProvider } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,7 +20,7 @@ const Wrapper = styled.div`
   user-select: none;
 `;
 
-const Container = styled.div`
+const Form = styled.form`
   width: 60%;
   padding: 30px 0;
 `;
@@ -32,7 +35,7 @@ const Panel = styled.div`
   margin-left: 25px;
 `;
 
-const Add = styled.div`
+const Add = styled.button`
   width: 100%;
   text-align: center;
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -41,6 +44,7 @@ const Add = styled.div`
   border-radius: 10px;
   cursor: pointer;
   margin-top: 50px;
+  border: 0;
 
   :hover {
     opacity: 0.9;
@@ -80,99 +84,123 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
       .catch((error) => {});
   };
 
+  const validationSchema = Yup.object().shape({
+    item_name: Yup.string().required("Pole jest wymagane."),
+    brand: Yup.string().required("Pole jest wymagane."),
+    category: Yup.string().required("Pole jest wymagane."),
+    description: Yup.string().required("Pole jest wymagane."),
+    type: Yup.string().required("Zaznacz jedną z opcji."),
+    condition: Yup.string().required("Zaznacz jedną z opcji."),
+    colorway: Yup.string().required("Zaznacz jedną z opcji."),
+    price: Yup.number().required("Pole jest wymagane."),
+    fit: Yup.string().required("Zaznacz jedną z opcji."),
+    shoeSize: Yup.string().required("Zaznacz jedną z opcji."),
+    clotheSize: Yup.string().required("Zaznacz jedną z opcji."),
+  });
+
+  const methods = useForm({
+    mode: "onSubmit",
+    resolver: yupResolver(validationSchema),
+  });
+
+  const { handleSubmit } = methods;
+
   return (
     <Wrapper>
-      <Container>
-        <Header>WANT TO SELL</Header>
-        <Panel>
-          <Feature
-            name="Nazwa przedmiotu"
-            placeholder="np. Nike Air Max 97"
-            filterType="name"
-            value={currentFilter.name}
-          />
-          <Feature
-            name="Marka"
-            placeholder="np. Nike"
-            elements={filters.brands}
-            filterType={filterTypes.brands}
-            autocomplete
-          />
-          <Feature
-            name="Kategoria"
-            placeholder="np. Teesy"
-            elements={filters.categories}
-            filterType={filterTypes.categories}
-            combobox
-          />
-          <Description
-            name="Opis"
-            placeholder="Opis"
-            filterType="description"
-          />
-          <GridList
-            title="Rodzaj"
-            name="types"
-            elements={filters.types}
-            filterType={filterTypes.types}
-            medium
-          />
-          <GridList
-            title="Stan"
-            name="condition"
-            elements={filters.conditions}
-            filterType={filterTypes.conditions}
-            small
-          />
-          {currentFilter.categories === "Sneakersy" && (
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(addingProcess)}>
+          <Header>WANT TO SELL</Header>
+          <Panel>
+            <Feature
+              title="Nazwa przedmiotu"
+              placeholder="np. Nike Air Max 97"
+              filterType={filterTypes.name}
+              name="item_name"
+            />
+            <Feature
+              title="Marka"
+              placeholder="np. Nike"
+              elements={filters.brands}
+              filterType={filterTypes.brands}
+              autocomplete
+            />
+            <Feature
+              title="Kategoria"
+              placeholder="np. Teesy"
+              elements={filters.categories}
+              filterType={filterTypes.categories}
+              combobox
+            />
+            <Description
+              name="Opis"
+              placeholder="Opis"
+              filterType="description"
+            />
             <GridList
-              title="Rozmiar"
-              name="shoesSizes"
-              elements={filters.shoesSizes}
-              filterType={filterTypes.shoesSizes}
-              currentFilter={currentFilter.shoesSizes}
+              title="Rodzaj"
+              name="type"
+              elements={filters.types}
+              filterType={filterTypes.types}
+              medium
+            />
+            <GridList
+              title="Stan"
+              name="condition"
+              elements={filters.conditions}
+              filterType={filterTypes.conditions}
               small
             />
-          )}
-          {currentFilter.categories !== "Sneakersy" &&
-            currentFilter.categories !== "placeholder" && (
-              <>
-                <GridList
-                  title="Rozmiar"
-                  name="clothesSizes"
-                  elements={filters.clothesSizes}
-                  filterType={filterTypes.clothesSizes}
-                  currentFilter={currentFilter.clothesSizes}
-                  small
-                />
-                <GridList
-                  title="Fit"
-                  name="fits"
-                  elements={filters.fits}
-                  filterType={filterTypes.fits}
-                  currentFilter={currentFilter.fits}
-                  medium
-                />
-              </>
+            {currentFilter.categories === "Sneakersy" && (
+              <GridList
+                title="Rozmiar"
+                name="shoeSize"
+                elements={filters.shoesSizes}
+                filterType={filterTypes.shoesSizes}
+                currentFilter={currentFilter.shoesSizes}
+                small
+              />
             )}
-          <ColorwayGrid
-            colors={filters.colors}
-            filterType={filterTypes.colors}
-          />
-          <Feature
-            name="Cena"
-            placeholder="0.00 PLN"
-            filterType="price"
-            number
-          />
-          <Delivery
-            defaultValue="Warszawa"
-            ship={currentFilter.SHIP}
-            meet={currentFilter.MEET}
-          />
-        </Panel>
-        <Add onClick={() => addingProcess()}>Dodaj ogłoszenie</Add>
-      </Container>
+            {currentFilter.categories !== "Sneakersy" &&
+              currentFilter.categories !== "placeholder" && (
+                <>
+                  <GridList
+                    title="Rozmiar"
+                    name="clotheSize"
+                    elements={filters.clothesSizes}
+                    filterType={filterTypes.clothesSizes}
+                    currentFilter={currentFilter.clothesSizes}
+                    small
+                  />
+                  <GridList
+                    title="Fit"
+                    name="fit"
+                    elements={filters.fits}
+                    filterType={filterTypes.fits}
+                    currentFilter={currentFilter.fits}
+                    medium
+                  />
+                </>
+              )}
+            <ColorwayGrid
+              colors={filters.colors}
+              filterType={filterTypes.colors}
+            />
+            <Feature
+              title="Cena"
+              placeholder="0.00 PLN"
+              filterType={filterTypes.price}
+              number
+              name="price"
+            />
+            <Delivery
+              defaultValue="Warszawa"
+              ship={currentFilter.SHIP}
+              meet={currentFilter.MEET}
+            />
+          </Panel>
+          <Add type="submit">Dodaj ogłoszenie</Add>
+        </Form>
+      </FormProvider>
     </Wrapper>
   );
 };

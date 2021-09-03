@@ -7,7 +7,7 @@ const initialState = {
     "Najnowsze",
   ],
   paginationModes: [24, 48],
-  currentSorting: "Domyślne",
+  currentSorting: 0,
   currentPagination: 24,
   currentPage: 1,
 };

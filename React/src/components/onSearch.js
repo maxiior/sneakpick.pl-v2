@@ -8,13 +8,14 @@ const OnSearch = ({
   currentPage,
   currentFilters,
   fetchItems,
+  currentSorting,
 }) => {
   let history = useHistory();
   let search = "?";
 
   if (useFirstRender()) {
     if (window.location.search) search = window.location.search;
-    else search = "?limit=24&offset=0";
+    else search = "?limit=24&offset=0&ordering=1";
     history.push({
       pathname: "",
       search: search,
@@ -65,6 +66,7 @@ const OnSearch = ({
     if (search !== "?") search += "&";
     search += "limit=" + currentPagination.toString();
     search += "&offset=" + ((currentPage - 1) * currentPagination).toString();
+    search += "&ordering=" + (currentSorting + 1).toString();
 
     history.push({
       pathname: "",
@@ -81,6 +83,7 @@ const mapStateToProps = ({ filtersReducer, itemsSelectorReducer }) => {
     currentFilters: filtersReducer.currentFilters,
     currentPagination: itemsSelectorReducer.currentPagination,
     currentPage: itemsSelectorReducer.currentPage,
+    currentSorting: itemsSelectorReducer.currentSorting,
   };
 };
 

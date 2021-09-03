@@ -110,6 +110,7 @@ const Error = styled.div`
   color: ${({ theme }) => theme.red};
   margin-top: 3px;
   width: 250px;
+  font-weight: 500;
 `;
 
 const Login = ({ setLoginView }) => {

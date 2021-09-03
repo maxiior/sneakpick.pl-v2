@@ -108,6 +108,7 @@ const Error = styled.div`
   margin-top: ${({ statute }) => (statute ? "-10px" : "3px")};
   margin-bottom: ${({ statute }) => (statute ? "15px" : "0")};
   width: 250px;
+  font-weight: 500;
 `;
 
 const Register = ({ setRegisterView }) => {

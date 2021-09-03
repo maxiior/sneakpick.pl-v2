@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import Header from "components/WTS/Header";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
+import { useFormContext } from "react-hook-form";
+import { Error } from "components/WTS/Error";
 
 const Option = styled.span`
   display: flex;
@@ -71,16 +73,27 @@ const GridList = ({
   title,
   ...props
 }) => {
+  const { register, formState } = useFormContext();
+  const validator = register(name);
+
   return (
     <Wrapper>
-      <Header>{title}</Header>
+      <Header>
+        {title}
+        {formState.errors[name] && (
+          <Error grid>{formState.errors[name].message}</Error>
+        )}
+      </Header>
       <Container {...props}>
         {elements.map((e, i) => (
           <StyledLabel key={i}>
             <StyledInput
               type="radio"
               name={name}
-              onChange={() => changeState(filterType, e.text, "radio")}
+              onChange={(el) => {
+                validator.onChange(el);
+                changeState(filterType, e.text, "radio");
+              }}
               checked={currentFilter && currentFilter === e.text}
             />
             <Option {...props}>{e.text}</Option>

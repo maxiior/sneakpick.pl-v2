@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Header from "components/WTS/Header";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
+import { useFormContext } from "react-hook-form";
+import { Error } from "components/WTS/Error";
 
 const TextArea = styled.textarea`
   outline: none;
@@ -10,7 +12,8 @@ const TextArea = styled.textarea`
   height: 150px;
   font-size: 16px;
   border: none;
-  border-bottom: 1px solid ${({ theme }) => theme.grey};
+  border-bottom: 1px solid
+    ${({ theme, error }) => (error ? theme.red : theme.grey)};
   padding: 5px 12px;
   resize: none;
   display: block;
@@ -45,7 +48,7 @@ const StyledHeader = styled(Header)`
 
 const Wrapper = styled.div``;
 
-const Description = ({ name, placeholder, filterType, changeState }) => {
+const Description = ({ name, placeholder, filterType, changeState, error }) => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -56,18 +59,27 @@ const Description = ({ name, placeholder, filterType, changeState }) => {
     else setColor("black");
   };
 
+  const { register, formState } = useFormContext();
+  const validator = register("description");
+
   return (
     <Wrapper>
       <StyledHeader>{name}</StyledHeader>
       <Counter color={color}>Pozostało {counter} znaków</Counter>
       <TextArea
+        name="description"
         placeholder={placeholder}
         onChange={(e) => {
+          validator.onChange(e);
           descriptionLength(e);
           changeState(filterType, e.target.value, "text");
         }}
         maxLength="1000"
+        error={formState.errors.description}
       />
+      {formState.errors.description && (
+        <Error>{formState.errors.description.message}</Error>
+      )}
     </Wrapper>
   );
 };

@@ -3,11 +3,13 @@ import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
+import { useFormContext } from "react-hook-form";
 
 const Wrapper = styled.div`
   width: 70%;
   border-bottom: 1px solid
-    ${({ theme, open }) => (open ? theme.blue : theme.grey)};
+    ${({ theme, open, error }) =>
+      open ? theme.blue : error ? theme.red : theme.grey};
   padding: 5px 12px;
   color: ${({ theme }) => theme.darkGrey};
   display: flex;
@@ -50,13 +52,6 @@ const Mode = styled.div`
     background-color: ${({ theme }) => theme.blue};
     color: ${({ theme }) => theme.white};
   }
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      background-color: ${({ theme }) => theme.blue};
-      color: ${({ theme }) => theme.white};
-    `}
 
   ${({ isHighlighted }) =>
     isHighlighted &&
@@ -129,22 +124,35 @@ const Autocomplete = ({
       setOpen(false);
     }
     if (e.key === "Enter" && cursor >= 0) {
+      e.preventDefault();
       setSearch(suggestions[cursor].text);
       changeState(filterType, suggestions[cursor].text, "radio");
       setOpen(false);
       setCursor(-1);
+      delete formState.errors["brand"];
     }
   };
 
+  const { register, formState } = useFormContext();
+  const validator = register("brand");
+
   return (
-    <Wrapper onClick={() => setOpen(!open)} ref={wrapperRef} open={open}>
+    <Wrapper
+      onClick={() => setOpen(!open)}
+      ref={wrapperRef}
+      open={open}
+      error={formState.errors.brand}
+    >
       <ValueHolder
         type="text"
+        name="brand"
+        autoComplete="off"
         placeholder={placeholder}
         value={
           currentFilter.brands !== "placeholder" ? currentFilter.brands : ""
         }
         onChange={(e) => {
+          validator.onChange(e);
           if (!open) setOpen(true);
           setSearch(e.target.value);
           changeState(filterType, e.target.value, "text");
@@ -157,10 +165,10 @@ const Autocomplete = ({
         <ModesContainer>
           {suggestions.slice(0, 8).map((e, i) => (
             <Mode
-              selected={currentFilter.categories === e.text}
               onClick={() => {
                 changeState(filterType, e.text, "radio");
                 setSearch(e.text);
+                delete formState.errors["brand"];
               }}
               isHighlighted={cursor === i}
             >

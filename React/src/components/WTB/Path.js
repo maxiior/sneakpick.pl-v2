@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { routes } from "routes";
 
 const StyledPath = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -48,7 +49,7 @@ const Path = ({ className, currentFilters }) => {
     <StyledPath className={className}>
       <ol>
         <li>
-          <Step to="/wtb">All</Step>
+          <Step to={routes.WTB}>All</Step>
         </li>
         {currentFilters.categories !== "" && (
           <li>

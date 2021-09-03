@@ -4,6 +4,8 @@ import styled, { css } from "styled-components";
 import { changeState as changeStateAction } from "actions/WTS";
 import { connect } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
+import { useFormContext } from "react-hook-form";
+import { Error } from "components/WTS/Error";
 
 const Elements = styled.div`
   width: 300px;
@@ -68,17 +70,28 @@ const StyledInput = styled.input`
 const Wrapper = styled.div``;
 
 const ColorwayGrid = ({ colors, filterType, changeState }) => {
+  const { register, formState } = useFormContext();
+  const validator = register("colorway");
+
   return (
     <Wrapper>
-      <Header>CW</Header>
+      <Header>
+        CW
+        {formState.errors.colorway && (
+          <Error grid>{formState.errors.colorway.message}</Error>
+        )}
+      </Header>
       <Elements>
         <CwsGrid>
           {colors.map((c, i) => (
             <label key={i}>
               <StyledInput
                 type="radio"
-                name="cw"
-                onChange={() => changeState(filterType, c.text, "radio")}
+                name="colorway"
+                onChange={(e) => {
+                  validator.onChange(e);
+                  changeState(filterType, c.text, "radio");
+                }}
               />
               <CW
                 style={{ backgroundColor: colorwaysTheme[c.text] }}

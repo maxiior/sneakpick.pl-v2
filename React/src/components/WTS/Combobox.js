@@ -3,11 +3,13 @@ import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { connect } from "react-redux";
 import { changeState as changeStateAction } from "actions/WTS";
+import { useFormContext } from "react-hook-form";
 
 const Wrapper = styled.div`
   width: 70%;
   border-bottom: 1px solid
-    ${({ theme, open }) => (open ? theme.blue : theme.grey)};
+    ${({ theme, open, error }) =>
+      open ? theme.blue : error ? theme.red : theme.grey};
   padding: 5px 12px;
   color: ${({ theme }) => theme.darkGrey};
   display: flex;
@@ -35,7 +37,22 @@ const ValueHolder = styled.div`
   color: ${({ theme }) => theme.darkGrey};
 `;
 
-const Mode = styled.div`
+const ModesContainer = styled.div`
+  width: 100%;
+  position: absolute;
+  background-color: ${({ theme }) => theme.white};
+  display: ${({ open }) => (open ? "block" : "none")};
+  text-align: left;
+
+  left: 0;
+  top: 30px;
+  font-size: 14px;
+  font-weight: 400;
+  z-index: 500;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
+const Option = styled.span`
   padding: 0 10px;
   height: 25px;
   cursor: pointer;
@@ -46,28 +63,19 @@ const Mode = styled.div`
     background-color: ${({ theme }) => theme.blue};
     color: ${({ theme }) => theme.white};
   }
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      background-color: ${({ theme }) => theme.blue};
-      color: ${({ theme }) => theme.white};
-    `}
 `;
 
-const ModesContainer = styled.div`
-  width: 100%;
-  position: absolute;
-  background-color: ${({ theme }) => theme.white};
-  display: block;
-  text-align: left;
+const StyledInput = styled.input`
+  display: none;
 
-  left: 0;
-  top: 30px;
-  font-size: 14px;
-  font-weight: 400;
-  z-index: 500;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  :checked ~ ${Option} {
+    background-color: ${({ theme }) => theme.blue};
+    color: ${({ theme }) => theme.white};
+  }
+`;
+
+const StyledLabel = styled.label`
+  cursor: pointer;
 `;
 
 const useOutsideAlerter = (ref, setOpen) => {
@@ -89,28 +97,39 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setOpen);
 
+  const { register, formState } = useFormContext();
+  const validator = register("category");
+
   return (
-    <Wrapper onClick={() => setOpen(!open)} ref={wrapperRef} open={open}>
+    <Wrapper
+      onClick={() => setOpen(!open)}
+      ref={wrapperRef}
+      open={open}
+      error={formState.errors.category}
+    >
       <ValueHolder>
         {currentFilter.categories === "placeholder"
           ? "np. Teesy"
           : currentFilter.categories}
       </ValueHolder>
       <Arrow turned={open === true} />
-      {open && (
-        <ModesContainer>
-          {elements.map((e, i) => (
-            <Mode
-              selected={currentFilter.categories === e.text}
-              onClick={() => {
+      <ModesContainer open={open}>
+        {elements.map((e, i) => (
+          <StyledLabel key={i}>
+            <StyledInput
+              type="radio"
+              name="category"
+              onChange={(el) => {
+                validator.onChange(el);
                 changeState(filterType, e.text, "radio");
+                setOpen(false);
               }}
-            >
-              {e.text}
-            </Mode>
-          ))}
-        </ModesContainer>
-      )}
+              checked={currentFilter.categories === e.text}
+            />
+            <Option>{e.text}</Option>
+          </StyledLabel>
+        ))}
+      </ModesContainer>
     </Wrapper>
   );
 };

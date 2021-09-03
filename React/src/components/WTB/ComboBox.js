@@ -107,10 +107,9 @@ const ComboBox = ({
   sorting,
 }) => {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(() => {
-    if (sorting) return currentSorting;
-    else return currentPagination;
-  });
+  const [mode, setMode] = useState(() =>
+    sorting ? elements[0] : currentPagination
+  );
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setOpen);
@@ -128,7 +127,7 @@ const ComboBox = ({
                 selected={mode === element}
                 onClick={() => {
                   setMode(element);
-                  changeState(itemsSelectorType, elements[i]);
+                  changeState(itemsSelectorType, sorting ? i : elements[i]);
                 }}
               >
                 {element}
