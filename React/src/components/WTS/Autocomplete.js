@@ -147,6 +147,7 @@ const Autocomplete = ({
         type="text"
         name="brand"
         autoComplete="off"
+        maxLength={100}
         placeholder={placeholder}
         value={
           currentFilter.brands !== "placeholder" ? currentFilter.brands : ""

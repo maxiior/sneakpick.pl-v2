@@ -165,7 +165,7 @@ const LeftPanel = styled.div`
 `;
 
 const SingleItem = () => {
-  const { slug } = useParams();
+  const { item } = useParams();
   const [data, setData] = useState({ product: {} });
 
   const bump = () => {
@@ -195,7 +195,7 @@ const SingleItem = () => {
   };
 
   useEffect(() => {
-    axiosInstance.get(slug).then((response) => {
+    axiosInstance.get(item).then((response) => {
       setData({
         product: {
           ...response.data,

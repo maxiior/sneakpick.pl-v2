@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Photos from "components/WTS/Photos";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -92,7 +93,9 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
     type: Yup.string().required("Zaznacz jedną z opcji."),
     condition: Yup.string().required("Zaznacz jedną z opcji."),
     colorway: Yup.string().required("Zaznacz jedną z opcji."),
-    price: Yup.number().required("Pole jest wymagane."),
+    price: Yup.number()
+      .typeError("Wprowadzona wartość musi być liczbą.")
+      .required("Pole jest wymagane."),
     fit: Yup.string().required("Zaznacz jedną z opcji."),
     shoeSize: Yup.string().required("Zaznacz jedną z opcji."),
     clotheSize: Yup.string().required("Zaznacz jedną z opcji."),
@@ -131,6 +134,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
               filterType={filterTypes.categories}
               combobox
             />
+            <Photos />
             <Description
               name="Opis"
               placeholder="Opis"
@@ -187,7 +191,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
             />
             <Feature
               title="Cena"
-              placeholder="0.00 PLN"
+              placeholder="0,00 PLN"
               filterType={filterTypes.price}
               number
               name="price"

@@ -9,6 +9,7 @@ import WTB from "views/WTB";
 import WTS from "views/WTS";
 import SingleItem from "views/SingleItem";
 import Home from "views/Home";
+import Profile from "views/Profile";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />
+              <Route path={routes.PROFILE} component={Profile} />
             </Switch>
           </MainTemplate>
         </ThemeProvider>

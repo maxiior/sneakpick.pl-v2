@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "components/WTS/Header";
 import Combobox from "components/WTS/Combobox";
@@ -10,7 +10,7 @@ import { Error } from "components/WTS/Error";
 
 const StyledInput = styled.input`
   outline: none;
-  width: 70%;
+  width: 100%;
   font-size: 16px;
   border: none;
   border-bottom: 1px solid
@@ -39,6 +39,20 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Holder = styled.div`
+  width: 70%;
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const PLN = styled.span`
+  position: absolute;
+  right: 12px;
+  color: ${({ theme }) => theme.blue};
+  pointer-events: none;
+`;
+
 const Feature = ({
   title,
   name,
@@ -54,6 +68,18 @@ const Feature = ({
 }) => {
   const { register, formState } = useFormContext();
   const validator = register(name);
+  const [value, setValue] = useState();
+
+  const transformPrice = (e) => {
+    if (e.target.value.includes(".")) {
+      var numbers = e.target.value.split(".");
+      e.target.value =
+        numbers[0].substring(0, 6) + "." + numbers[1].substring(0, 2);
+    } else if (e.target.value === "") {
+    } else {
+      e.target.value = e.target.value.substring(0, 6) + ".00";
+    }
+  };
   return (
     <Wrapper>
       <Header {...props}>{title}</Header>
@@ -78,17 +104,26 @@ const Feature = ({
       ) : (
         <>
           <Container>
-            <StyledInput
-              type={number ? "number" : "text"}
-              error={formState.errors[name]}
-              name={name}
-              placeholder={placeholder}
-              onChange={(e) => {
-                validator.onChange(e);
-                if (number) changeState(filterType, e.target.value, "number");
-                else changeState(filterType, e.target.value, "text");
-              }}
-            />
+            <Holder>
+              <StyledInput
+                autoComplete="off"
+                type={number ? "number" : "text"}
+                maxLength={100}
+                onBlur={(e) => number && transformPrice(e)}
+                step={number && "0.01"}
+                error={formState.errors[name]}
+                name={name}
+                placeholder={placeholder}
+                onChange={(e) => {
+                  validator.onChange(e);
+                  if (number) {
+                    changeState(filterType, e.target.value, "number");
+                    setValue(e.target.value);
+                  } else changeState(filterType, e.target.value, "text");
+                }}
+              />
+              {number && value && <PLN>PLN</PLN>}
+            </Holder>
           </Container>
           {formState.errors[name] && (
             <Error>{formState.errors[name].message}</Error>
