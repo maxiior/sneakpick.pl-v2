@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { routes, endpoints } from "routes";
 
 const State = styled.div`
   margin-left: 10px;
@@ -81,13 +82,21 @@ const StyledLink = styled(Link)`
 `;
 
 const SingleItem = ({ name, price, state, photo, id }) => {
+  const getPhoto = (photo) => {
+    return routes.DOMAIN + endpoints.IMAGES + photo;
+  };
+
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
       <StyledLink to={`wtb/${id}`}>
         <Item>
           <View>
             <State>{state}</State>
-            <Photo style={{ backgroundImage: `url(${photo})` }}></Photo>
+            <Photo
+              style={{
+                backgroundImage: `url(${getPhoto(photo[0].file_name)})`,
+              }}
+            ></Photo>
           </View>
           <Informations>
             <div>

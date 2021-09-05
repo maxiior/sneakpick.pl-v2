@@ -1,4 +1,5 @@
 export const routes = {
+  DOMAIN: "http://localhost:8000",
   HOME: "/",
   WTB: "/wtb",
   WTS: "/wts",
@@ -11,4 +12,8 @@ export const routes = {
   BUSINESSCONTACT: "/businesscontact",
   ITEM: "/wtb/:item",
   PROFILE: "/profile/:user",
+};
+
+export const endpoints = {
+  IMAGES: "/static/product/images/",
 };

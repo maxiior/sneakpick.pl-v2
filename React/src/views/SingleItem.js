@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "axios/axios";
 import styled, { css } from "styled-components";
 import Path from "components/SingleItem/Path";
-import Image from "components/SingleItem/Image";
+import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
 
 const Wrapper = styled.main`
@@ -224,7 +224,7 @@ const SingleItem = () => {
         </TopPanel>
         <Panel>
           <LeftPanel>
-            <Image />
+            <Images images={data.product.images} />
           </LeftPanel>
           <RightPanel>
             <Informations>

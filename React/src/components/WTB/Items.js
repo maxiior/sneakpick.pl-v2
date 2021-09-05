@@ -1,7 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import SingleItem from "components/WTB/SingleItem";
-import fila from "components/WTB/pictures/fila.jpg";
 import { connect } from "react-redux";
 
 const StyledItems = styled.div`
@@ -23,14 +22,14 @@ const Items = ({ items, results }) => {
   return (
     <StyledItems>
       <Grid container spacing={2}>
-        {items.map((announ) => (
+        {items.map((item) => (
           <SingleItem
-            key={announ.id}
-            photo={fila}
-            name={announ.name}
-            price={announ.price}
-            state={announ.condition}
-            id={announ.id}
+            key={item.id}
+            photo={item.images}
+            name={item.name}
+            price={item.price}
+            state={item.condition}
+            id={item.id}
           />
         ))}
       </Grid>
