@@ -4,8 +4,8 @@ import Grid from "@material-ui/core/Grid";
 import { FiCamera } from "react-icons/fi";
 
 const Photo = styled.div`
-  height: 120px;
-  width: 160px;
+  padding-top: 20%;
+  padding-bottom: 20%;
   background-color: ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;

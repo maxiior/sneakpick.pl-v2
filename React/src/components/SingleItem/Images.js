@@ -78,14 +78,12 @@ const Images = ({ images }) => {
   const [current, setCurrent] = useState(0);
   var photos = [];
 
-  if (images !== undefined) {
-    for (var i = 6 - images.length; i > 0; i--) {
-      photos.push(
-        <Grid item xs={2} sm={2} lg={2} xl={2} key={i}>
-          <IconPhoto></IconPhoto>
-        </Grid>
-      );
-    }
+  for (var i = 6 - images?.length; i > 0; i--) {
+    photos.push(
+      <Grid item xs={2} sm={2} lg={2} xl={2} key={i}>
+        <IconPhoto></IconPhoto>
+      </Grid>
+    );
   }
 
   return (
@@ -106,26 +104,25 @@ const Images = ({ images }) => {
         />
         <StyledArrow
           onClick={() => {
-            if (current < images.length - 1) setCurrent(current + 1);
+            if (current < images?.length - 1) setCurrent(current + 1);
           }}
         />
       </MainPhoto>
       <PhotosList>
         <Grid container spacing={1}>
-          {images !== undefined &&
-            images.map((e, i) => (
-              <Grid item xs={2} sm={2} lg={2} xl={2}>
-                <IconPhoto
-                  style={{
-                    backgroundImage: `url(${getPhoto(e.file_name)})`,
-                  }}
-                  highlight={current === i}
-                  onClick={() => {
-                    setCurrent(i);
-                  }}
-                ></IconPhoto>
-              </Grid>
-            ))}
+          {images?.map((e, i) => (
+            <Grid item xs={2} sm={2} lg={2} xl={2}>
+              <IconPhoto
+                style={{
+                  backgroundImage: `url(${getPhoto(e.file_name)})`,
+                }}
+                highlight={current === i}
+                onClick={() => {
+                  setCurrent(i);
+                }}
+              ></IconPhoto>
+            </Grid>
+          ))}
           {photos}
         </Grid>
       </PhotosList>
