@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "components/WTS/Header";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
@@ -12,17 +12,28 @@ const Container = styled.div`
 `;
 
 const Photos = () => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  var photos = [];
+
+  for (var i = 0; i < 6; i++) {
+    photos.push(
+      <PhotoHolder
+        selectedFiles={selectedFiles}
+        setSelectedFiles={setSelectedFiles}
+        index={i}
+      />
+    );
+  }
+
+  console.log(selectedFiles);
+
   return (
     <Wrapper>
       <Header>Zdjęcia</Header>
       <Container>
         <Grid container spacing={2}>
-          <PhotoHolder />
-          <PhotoHolder />
-          <PhotoHolder />
-          <PhotoHolder />
-          <PhotoHolder />
-          <PhotoHolder />
+          {photos}
         </Grid>
       </Container>
     </Wrapper>
