@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { routes } from "routes";
 
 const StyledPath = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -47,7 +48,7 @@ const Path = ({ category, brand, className }) => {
     <StyledPath className={className}>
       <ol>
         <li>
-          <Step to="/wtb">All</Step>
+          <Step to={routes.WTB}>All</Step>
         </li>
         <li>
           <Step to={null}>{category}</Step>

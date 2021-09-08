@@ -5,6 +5,8 @@ import styled, { css } from "styled-components";
 import Path from "components/SingleItem/Path";
 import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
+import { endpoints } from "routes";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -133,7 +135,18 @@ const Value = styled.div`
     css`
       color: ${({ theme }) => theme.blue};
       font-size: 30px;
+      margin-bottom: 20px;
     `}
+`;
+
+const Owner = styled(Link)`
+  font-weight: 500;
+  color: ${({ theme }) => theme.black};
+  text-decoration: none;
+
+  :hover {
+    color: ${({ theme }) => theme.blue};
+  }
 `;
 
 const Paragraph = styled.div`
@@ -170,7 +183,7 @@ const SingleItem = () => {
 
   const bump = () => {
     axiosInstance
-      .post("bump/" + data.product.id, {
+      .post(endpoints.BUMP + data.product.id, {
         id: data.product.id,
       })
       .then((response) => {
@@ -243,7 +256,7 @@ const SingleItem = () => {
               </Information>
               <Information>
                 <Type>Colorway</Type>
-                <Value> {data.product.colorway}</Value>
+                <Value>{data.product.colorway}</Value>
               </Information>
               <Paragraph>Opis</Paragraph>
               <Value description>{data.product.description}</Value>
@@ -251,7 +264,9 @@ const SingleItem = () => {
               <Value price>{data.product.price} PLN</Value>
               <Information>
                 <Type>Sprzedający</Type>
-                <Value>Jan Kowalski</Value>
+                <Owner to={"/profile/" + data.product.owner}>
+                  {data.product.first_name} {data.product.last_name}
+                </Owner>
               </Information>
               <Information>
                 <Type>Dodane</Type>

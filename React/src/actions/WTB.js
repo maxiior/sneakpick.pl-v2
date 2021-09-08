@@ -6,10 +6,9 @@ export const FETCH_FAILURE = "FETCH_FAILURE";
 
 export const fetchItems = (search) => (dispatch) => {
   dispatch({ type: FETCH_REQUEST });
-  var url = `${search}`;
 
   return axiosInstance
-    .get(url, {})
+    .get(search, {})
     .then((payload) => {
       dispatch({ type: FETCH_SUCCESS, payload });
     })

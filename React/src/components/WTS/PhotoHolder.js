@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { FiCamera } from "react-icons/fi";
 import { IoTrashOutline } from "react-icons/io5";
+import { useFormContext } from "react-hook-form";
+import { Error } from "components/WTS/Error";
 
 const Input = styled.input`
   display: none;
@@ -10,6 +12,7 @@ const Input = styled.input`
 const Icon = styled(FiCamera)`
   font-size: 50px;
   color: ${({ theme }) => theme.white};
+  visibility: ${({ image }) => image && "hidden"};
 `;
 
 const Photo = styled.label`
@@ -37,12 +40,13 @@ const Photo = styled.label`
 
 const Remove = styled(IoTrashOutline)`
   border-radius: 50%;
-  font-size: 30px;
+  font-size: 35px;
   padding: 5px;
   background-color: ${({ theme }) => theme.white};
   position: absolute;
   cursor: pointer;
   display: none;
+  z-index: 100;
 
   :hover + ${Photo} {
     filter: brightness(50%);
@@ -62,28 +66,38 @@ const Container = styled.div`
 `;
 
 const PhotoHolder = ({ index, selectedFiles, setSelectedFiles }) => {
+  const { register, formState } = useFormContext();
+  const validator = register("photo");
+
   return (
     <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
+      {formState.errors.photo && (
+        <Error>{formState.errors.photo.message}</Error>
+      )}
       <Container image={selectedFiles[index] !== undefined}>
-        <Remove />
+        <Remove
+          onClick={() =>
+            setSelectedFiles(selectedFiles.filter((e, i) => i !== index && e))
+          }
+        />
         <Photo
           image={
             selectedFiles[index] !== undefined &&
             URL.createObjectURL(selectedFiles[index])
           }
         >
-          {selectedFiles[index] === undefined && (
-            <>
-              <Input
-                type="file"
-                multiple
-                onChange={(e) =>
-                  setSelectedFiles([...selectedFiles, ...e.target.files])
-                }
-              />
-              <Icon />
-            </>
-          )}
+          {/* {selectedFiles[index] === undefined && ( */}
+          <Input
+            name="photo"
+            type="file"
+            multiple
+            onChange={(e) => {
+              validator.onChange(e);
+              setSelectedFiles([...selectedFiles, ...e.target.files]);
+            }}
+          />
+          {/* )} */}
+          <Icon image={selectedFiles[index] !== undefined} />
         </Photo>
       </Container>
     </Grid>

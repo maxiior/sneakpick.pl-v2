@@ -5,6 +5,7 @@ import Search from "components/Nav/Search";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { routes } from "routes";
 
 const StyledNav = styled.nav`
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -75,8 +76,8 @@ const Nav = ({ setLoginView, setRegisterView }) => {
 
   const goSearch = (e) => {
     history.push({
-      pathname: "/wtb/",
-      search: "?search=" + data.search,
+      pathname: routes.WTB,
+      search: "?search=" + data.search + routes.DEFAULT_SEARCH,
     });
     window.location.reload();
   };

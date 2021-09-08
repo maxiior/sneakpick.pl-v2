@@ -94,7 +94,7 @@ const SingleItem = ({ name, price, state, photo, id }) => {
             <State>{state}</State>
             <Photo
               style={{
-                backgroundImage: `url(${getPhoto(photo[0].file_name)})`,
+                backgroundImage: `url(${getPhoto(photo[0]?.file_name)})`,
               }}
             ></Photo>
           </View>

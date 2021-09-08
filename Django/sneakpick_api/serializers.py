@@ -28,12 +28,15 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
 
+    first_name = serializers.CharField(source='owner.first_name')
+    last_name = serializers.CharField(source='owner.last_name')
+
     class Meta:
         model = Product
         fields = ['id', 'name', 'condition',
                   'price', 'size', 'fit', 'kind',
                   'description', 'brand', 'category',
-                  'colorway', 'ship', 'meet', 'total_bumps', 'published', 'images']
+                  'colorway', 'ship', 'meet', 'total_bumps', 'published', 'images', 'first_name', 'last_name', 'owner']
         read_only_fields = ['owner', 'created_at']
 
     def get_category_name(self, obj):

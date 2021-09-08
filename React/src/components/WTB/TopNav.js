@@ -7,7 +7,6 @@ import Results from "components/WTB/Results";
 import ComboBox from "components/WTB/ComboBox";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import { fetchItems as fetchItemsAction } from "actions/WTB";
 import { changeState as changeStateAction } from "actions/itemsSelector";
 
 const Nav = styled.div`

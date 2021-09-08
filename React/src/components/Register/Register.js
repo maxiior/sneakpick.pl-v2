@@ -7,6 +7,7 @@ import axiosInstance from "axios/axios";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -153,7 +154,7 @@ const Register = ({ setRegisterView }) => {
 
   const registerProcess = (data) => {
     axiosInstance
-      .post("user/register/", {
+      .post(endpoints.REGISTER, {
         first_name: data.first_name,
         last_name: data.last_name,
         city: data.city,

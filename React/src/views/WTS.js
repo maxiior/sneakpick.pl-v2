@@ -13,6 +13,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Photos from "components/WTS/Photos";
+import { endpoints, routes } from "routes";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -61,7 +62,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
 
   const addingProcess = () => {
     axiosInstance
-      .post("", {
+      .post(endpoints.MAIN, {
         name: currentFilter.name,
         brand: currentFilter.brands,
         category: currentFilter.categories,
@@ -80,9 +81,36 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
         meet: currentFilter.MEET,
       })
       .then((response) => {
-        if (response.status === 201) history.push({ pathname: "/wtb/" });
+        if (response.status === 201) history.push({ pathname: routes.WTB });
       })
       .catch((error) => {});
+  };
+
+  const checkIfFilesAreTooBig = (files) => {
+    let valid = true;
+    if (files) {
+      files.map((file) => {
+        const size = file.size / 1024 / 1024;
+        if (size > 2) {
+          valid = false;
+        }
+      });
+    }
+    return valid;
+  };
+
+  const checkIfFilesAreCorrectType = (files) => {
+    let valid = true;
+    if (files) {
+      files.map((file) => {
+        if (
+          !["application/pdf", "image/jpeg", "image/png"].includes(file.type)
+        ) {
+          valid = false;
+        }
+      });
+    }
+    return valid;
   };
 
   const validationSchema = Yup.object().shape({
@@ -99,6 +127,20 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
     fit: Yup.string().required("Zaznacz jedną z opcji."),
     shoeSize: Yup.string().required("Zaznacz jedną z opcji."),
     clotheSize: Yup.string().required("Zaznacz jedną z opcji."),
+    photo: Yup.mixed()
+      .required("You need to provide a file")
+      .test("fileSize", "File Size is too large", (value) => {
+        console.log(value[0].size);
+        return value[0].size <= 5242880;
+      })
+      .test("fileType", "Unsupported File Format", (value) =>
+        ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      ),
+    // .test(
+    //   "is-big-file",
+    //   "VALIDATION_FIELD_FILE_WRONG_TYPE",
+    //   checkIfFilesAreCorrectType
+    // ),
   });
 
   const methods = useForm({

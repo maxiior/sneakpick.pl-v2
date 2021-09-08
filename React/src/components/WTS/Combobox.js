@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { connect } from "react-redux";
@@ -72,6 +72,13 @@ const StyledInput = styled.input`
     background-color: ${({ theme }) => theme.blue};
     color: ${({ theme }) => theme.white};
   }
+
+  ${({ isHighlighted }) =>
+    isHighlighted &&
+    css`
+      background-color: ${({ theme }) => theme.blue};
+      color: ${({ theme }) => theme.white};
+    `}
 `;
 
 const StyledLabel = styled.label`
@@ -100,6 +107,39 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
   const { register, formState } = useFormContext();
   const validator = register("category");
 
+  const [cursor, setCursor] = useState(-1);
+
+  const handleUserKeyPress = useCallback((e) => {
+    e.preventDefault();
+
+    if (e.key === "ArrowDown") {
+      open && setCursor((c) => (c < elements.length - 1 ? c + 1 : c));
+    }
+    if (e.key === "ArrowUp") {
+      setCursor((c) => (c > 0 ? c - 1 : 0));
+    }
+    if (e.key === "Escape") {
+      setOpen(false);
+    }
+    if (e.key === "Enter" && cursor >= 0) {
+      // e.preventDefault();
+      // setSearch(suggestions[cursor].text);
+      // changeState(filterType, suggestions[cursor].text, "radio");
+      // setOpen(false);
+      // setCursor(-1);
+      // delete formState.errors["brand"];
+    }
+  }, []);
+
+  useEffect(() => {
+    if (open === true) {
+      window.addEventListener("keydown", handleUserKeyPress);
+      return () => {
+        window.removeEventListener("keydown", handleUserKeyPress);
+      };
+    }
+  }, [handleUserKeyPress, open]);
+
   return (
     <Wrapper
       onClick={() => setOpen(!open)}
@@ -125,6 +165,7 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
                 setOpen(false);
               }}
               checked={currentFilter.categories === e.text}
+              isHighlighted={cursor === i}
             />
             <Option>{e.text}</Option>
           </StyledLabel>

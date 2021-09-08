@@ -6,6 +6,7 @@ import axiosInstance from "axios/axios";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -128,7 +129,7 @@ const Login = ({ setLoginView }) => {
 
   const loginProcess = (data) => {
     axiosInstance
-      .post("token/", {
+      .post(endpoints.TOKEN, {
         email: data.email,
         password: data.password,
       })

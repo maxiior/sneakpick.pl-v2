@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { fetchItems as fetchItemsAction } from "actions/WTB";
 import { useHistory } from "react-router-dom";
 import { useFirstRender } from "components/useFirstRender";
+import { routes } from "routes";
 
 const OnSearch = ({
   currentPagination,
@@ -15,7 +16,7 @@ const OnSearch = ({
 
   if (useFirstRender()) {
     if (window.location.search) search = window.location.search;
-    else search = "?limit=24&offset=0&ordering=1";
+    else search = routes.DEFAULT_SEARCH;
     history.push({
       pathname: "",
       search: search,

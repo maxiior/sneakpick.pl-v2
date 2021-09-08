@@ -11,6 +11,12 @@ const Container = styled.div`
   display: flex;
 `;
 
+const Information = styled.div`
+  font-size: 12px;
+  color: ${({ theme }) => theme.darkGrey};
+  padding-bottom: 10px;
+`;
+
 const Photos = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
 
@@ -26,11 +32,13 @@ const Photos = () => {
     );
   }
 
-  console.log(selectedFiles);
-
   return (
     <Wrapper>
-      <Header>Zdjęcia</Header>
+      <Header nonPaddingBelow>Zdjęcia</Header>
+      <Information>
+        Pierwsze zdjęcie będzie zdjęciem głównym. Maksymalny rozmiar pliku to
+        5MB.
+      </Information>
       <Container>
         <Grid container spacing={2}>
           {photos}
