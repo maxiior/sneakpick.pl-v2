@@ -28,8 +28,10 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
 
-    first_name = serializers.CharField(source='owner.first_name')
-    last_name = serializers.CharField(source='owner.last_name')
+    first_name = serializers.CharField(
+        source='owner.first_name', required=False)
+    last_name = serializers.CharField(
+        source='owner.last_name', required=False)
 
     class Meta:
         model = Product

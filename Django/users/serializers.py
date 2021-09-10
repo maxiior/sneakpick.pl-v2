@@ -24,3 +24,9 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         LowercaseValidator().validate(password)
         SpecialCharactersValidator().validate(password)
         return password
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'city']

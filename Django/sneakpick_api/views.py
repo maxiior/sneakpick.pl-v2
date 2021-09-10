@@ -56,14 +56,14 @@ class ProductFilter(django_filters.FilterSet):
             ('price', '2'),
             ('-price', '3'),
             ('id', '4'),
-            ('published', '5'),
+            ('-published', '5'),
         )
     )
 
     class Meta:
         model = Product
         fields = ['category', 'brand',
-                  'kind', 'condition', 'fit', 'colorway', 'price']
+                  'kind', 'condition', 'fit', 'colorway', 'price', 'owner']
 
 
 class ProductList(generics.ListCreateAPIView):
@@ -84,3 +84,14 @@ class ProductDetail(generics.RetrieveDestroyAPIView):
     def get_object(self, queryset=None, **kwargs):
         item = self.kwargs.get('pk')
         return generics.get_object_or_404(Product, id=item)
+
+
+class UserProductList(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Product.productobjects.all()
+    serializer_class = ProductSerializer
+
+    def get_queryset(self, queryset=None, **kwargs):
+        user = self.kwargs.get('pk')
+        print(user)
+        return Product.object.filter(owner=user)

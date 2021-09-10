@@ -22,4 +22,6 @@ export const endpoints = {
   BLACKLIST: "user/logout/blacklist/",
   REGISTER: "user/register/",
   BUMP: "bump/",
+  USER: "user/",
+  USER_PRODUCTS_LIST: "user_list/",
 };

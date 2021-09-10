@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
-import axiosInstance from "axios/axios";
 import { IoLocationOutline } from "react-icons/io5";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import Items from "components/Profile/Items";
+import { fetchItems as fetchItemsAction } from "actions/profile";
+import { fetchUser as fetchUserAction } from "actions/profile";
+import { connect } from "react-redux";
+import axiosInstance from "axios/axios";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +47,7 @@ const Button = styled.div`
   font-size: 20px;
   user-select: none;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 5px 30px;
   display: flex;
   justify-content: center;
   border-radius: 10px;
@@ -68,11 +73,13 @@ const Informations = styled.div``;
 const LocationIcon = styled(IoLocationOutline)`
   font-size: 22px;
   color: ${({ theme }) => theme.darkGrey};
+  width: 30px;
 `;
 
 const ClockIcon = styled(AiOutlineClockCircle)`
   font-size: 20px;
   color: ${({ theme }) => theme.darkGrey};
+  width: 30px;
 `;
 
 const InformationHolder = styled.div`
@@ -95,6 +102,10 @@ const ButtonsHolder = styled.div`
   display: flex;
 `;
 
+const NumberOfItems = styled.div`
+  font-size: 20px;
+`;
+
 const Label = styled.div`
   background-color: ${({ theme }) => theme.veryDarkGrey};
   color: ${({ theme }) => theme.white};
@@ -103,17 +114,20 @@ const Label = styled.div`
   width: 250px;
   text-align: center;
   margin-top: -1px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
-const Profile = () => {
+const TopHolder = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+const Profile = ({ fetchItems, fetchUser, userData, results }) => {
   const { user } = useParams();
-  const [data, setData] = useState({ user: {} });
 
   useEffect(() => {
-    axiosInstance.get(user).then((response) => {
-      setData({ user: response.data });
-    });
+    fetchUser(user);
+    fetchItems(user);
   }, []);
 
   return (
@@ -122,18 +136,22 @@ const Profile = () => {
         <TopPanel>
           <Avatar />
           <RightPart>
-            <Name>Maksim Brzezinski</Name>
-            <ButtonsHolder>
-              <Button>DM</Button>
-              <Button>Follow</Button>
-              <Button>Callout</Button>
-              <Button>Legit</Button>
-            </ButtonsHolder>
+            <TopHolder>
+              <Name>
+                {userData.first_name} {userData.last_name}
+              </Name>
+              <ButtonsHolder>
+                <Button>DM</Button>
+                <Button>Follow</Button>
+                <Button>Callout</Button>
+                <Button>Legit</Button>
+              </ButtonsHolder>
+            </TopHolder>
             <Informations>
               <Header>O mnie:</Header>
               <InformationHolder>
                 <LocationIcon />
-                <InformationValue>Warszawa</InformationValue>
+                <InformationValue>{userData.city}</InformationValue>
               </InformationHolder>
               <InformationHolder>
                 <ClockIcon />
@@ -144,10 +162,26 @@ const Profile = () => {
         </TopPanel>
         <BottomPanel>
           <Label>Moje itemy</Label>
+          <NumberOfItems>
+            {results} {results === 1 ? "przedmiot" : "przedmiotów"}
+          </NumberOfItems>
+          <Items />
         </BottomPanel>
       </Container>
     </Wrapper>
   );
 };
 
-export default Profile;
+const mapStateToProps = ({ profileReducer }) => {
+  return {
+    userData: profileReducer.user,
+    results: profileReducer.results,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchItems: (user) => dispatch(fetchItemsAction(user)),
+  fetchUser: (user) => dispatch(fetchUserAction(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
