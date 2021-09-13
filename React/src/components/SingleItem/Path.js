@@ -51,10 +51,32 @@ const Path = ({ category, brand, className }) => {
           <Step to={routes.WTB}>All</Step>
         </li>
         <li>
-          <Step to={null}>{category}</Step>
+          <Step
+            to={
+              routes.WTB +
+              "?" +
+              routes.CATEGORY +
+              category +
+              "&" +
+              routes.DEFAULT_SEARCH
+            }
+          >
+            {category}
+          </Step>
         </li>
         <li>
-          <Step to={null}>{brand}</Step>
+          <Step
+            to={
+              routes.WTB +
+              "?" +
+              routes.BRAND +
+              brand +
+              "&" +
+              routes.DEFAULT_SEARCH
+            }
+          >
+            {brand}
+          </Step>
         </li>
       </ol>
     </StyledPath>

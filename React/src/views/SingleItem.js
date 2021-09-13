@@ -117,7 +117,9 @@ const RightPanel = styled.div`
   border-left: 1px solid ${({ theme }) => theme.lightGrey};
 `;
 
-const Type = styled.div``;
+const Type = styled.div`
+  user-select: none;
+`;
 
 const Value = styled.div`
   font-weight: 500;
@@ -153,6 +155,7 @@ const Paragraph = styled.div`
   font-size: 20px;
   margin-bottom: 10px;
   margin-top: 20px;
+  user-select: none;
 
   :first-child {
     margin-top: 0;

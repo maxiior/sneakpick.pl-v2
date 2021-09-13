@@ -23,10 +23,10 @@ const OnSearch = ({
     });
   } else {
     if (currentFilters.categories !== "")
-      search += "category=" + currentFilters.categories;
+      search += routes.CATEGORY + currentFilters.categories;
     if (currentFilters.brands.length !== 0) {
       if (search !== "?") search += "&";
-      search += "brand=";
+      search += routes.BRAND;
       currentFilters.brands.forEach((e, i, a) => {
         if (i === a.length - 1) search += e;
         else search += e + "+";

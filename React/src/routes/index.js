@@ -12,7 +12,10 @@ export const routes = {
   BUSINESSCONTACT: "/businesscontact",
   ITEM: "/wtb/:item",
   PROFILE: "/profile/:user",
-  DEFAULT_SEARCH: "?limit=24&offset=0&ordering=1",
+  PROFILE_SETTINGS: "/settings/profile",
+  DEFAULT_SEARCH: "limit=24&offset=0&ordering=1",
+  CATEGORY: "category=",
+  BRAND: "brand=",
 };
 
 export const endpoints = {
@@ -24,4 +27,5 @@ export const endpoints = {
   BUMP: "bump/",
   USER: "user/",
   USER_PRODUCTS_LIST: "user_list/",
+  ME: "user/me/",
 };

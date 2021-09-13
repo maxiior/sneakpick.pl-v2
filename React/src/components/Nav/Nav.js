@@ -77,7 +77,7 @@ const Nav = ({ setLoginView, setRegisterView }) => {
   const goSearch = (e) => {
     history.push({
       pathname: routes.WTB,
-      search: "?search=" + data.search + routes.DEFAULT_SEARCH,
+      search: "?search=" + data.search + "?" + routes.DEFAULT_SEARCH,
     });
     window.location.reload();
   };

@@ -49,6 +49,7 @@ const Item = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 `;
 
 const View = styled.div`

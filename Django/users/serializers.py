@@ -30,3 +30,35 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'city']
+
+
+class MyUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'city', 'email']
+
+
+class UserJustCitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['city']
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name', 'city']
+
+        def update(self, instance, validated_data):
+            if instance.user == self.context['request'].user:
+                instance.email = validated_data.get('email', instance.email)
+                instance.first_name = validated_data.get(
+                    'first_name', instance.first_name)
+                instance.last_name = validated_data.get(
+                    'last_name', instance.last_name)
+                instance.city = validated_data.get('city', instance.city)
+                instance.description = validated_data.get(
+                    'description', instance.description)
+                instance.save()
+
+            return instance

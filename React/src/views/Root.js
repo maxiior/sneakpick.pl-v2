@@ -10,6 +10,7 @@ import WTS from "views/WTS";
 import SingleItem from "views/SingleItem";
 import Home from "views/Home";
 import Profile from "views/Profile";
+import ProfileSettings from "views/ProfileSettings";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 
 const App = () => {
@@ -25,6 +26,10 @@ const App = () => {
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />
               <Route path={routes.PROFILE} component={Profile} />
+              <Route
+                path={routes.PROFILE_SETTINGS}
+                component={ProfileSettings}
+              />
             </Switch>
           </MainTemplate>
         </ThemeProvider>

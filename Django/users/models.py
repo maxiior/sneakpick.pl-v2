@@ -40,6 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=100, validators=[alphabets])
     last_name = models.CharField(max_length=100, validators=[alphabets])
     city = models.CharField(max_length=100, validators=[alphabets])
+    description = models.CharField(max_length=1000, blank=True)
     date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

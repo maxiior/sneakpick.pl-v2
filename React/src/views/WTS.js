@@ -130,7 +130,6 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
     photo: Yup.mixed()
       .required("You need to provide a file")
       .test("fileSize", "File Size is too large", (value) => {
-        console.log(value);
         return value && value[0].size <= 5242880;
       })
       .test("fileType", "Unsupported File Format", (value) =>
