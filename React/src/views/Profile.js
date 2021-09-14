@@ -52,7 +52,7 @@ const Profile = ({ fetchItems, results }) => {
         <BottomPanel>
           <Label>Moje itemy</Label>
           <NumberOfItems>
-            {results} {results === 1 ? "przedmiot" : "przedmiotów"}
+            {results} {results === 1 ? "przedmiot" : "przedmioty"}
           </NumberOfItems>
           <Items />
         </BottomPanel>
