@@ -68,7 +68,7 @@ const ProfileSettings = () => {
 
   const updatingProcess = (data) => {
     axiosInstance
-      .post(endpoints.EDIT, {
+      .put(endpoints.EDIT, {
         first_name: data.first_name,
         last_name: data.last_name,
         city: data.city,
@@ -101,18 +101,24 @@ const ProfileSettings = () => {
             header="Imię"
             value={data.first_name}
             placeholder="np. Jan"
+            setData={setData}
+            data={data}
           />
           <StyledDataBlock
             name="last_name"
             header="Nazwisko"
             value={data.last_name}
             placeholder="np. Kowalski"
+            setData={setData}
+            data={data}
           />
           <StyledDataBlock
             name="city"
             header="Miasto"
             value={data.city}
             placeholder="np. Warszawa"
+            setData={setData}
+            data={data}
           />
           <Description />
         </DataHolder>

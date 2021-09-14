@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,14 +40,19 @@ const Container = styled.div`
   position: relative;
 `;
 
-const DataBlock = ({ header, value, name, placeholder, className }) => {
-  const { register, formState } = useFormContext();
-  const validator = register(name);
-
-  const inputEl = useRef(null);
+const DataBlock = ({
+  header,
+  value,
+  name,
+  placeholder,
+  className,
+  setData,
+  data,
+}) => {
+  const { register, formState, reset } = useFormContext();
 
   useEffect(() => {
-    console.log(inputEl);
+    reset(value);
   }, []);
 
   return (
@@ -55,14 +60,13 @@ const DataBlock = ({ header, value, name, placeholder, className }) => {
       <Header>{header}</Header>
       <Container>
         <StyledInput
-          ref={inputEl}
           name={name}
           autoComplete="off"
           maxLength={100}
           value={value}
+          {...register(name)}
           onChange={(e) => {
-            validator.onChange(e);
-            console.log(e);
+            setData({ ...data, [name]: e.target.value });
           }}
           placeholder={placeholder}
           error={formState.errors[name]}
