@@ -8,5 +8,5 @@ export const theme = {
   blue: "#00b4ff",
   hoverBlue: "#4dc9ff",
   facebook: "#4c69ba",
-  red: "#ff0000",
+  red: "#F2324D",
 };

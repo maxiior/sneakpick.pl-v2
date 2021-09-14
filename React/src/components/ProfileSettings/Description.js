@@ -9,9 +9,10 @@ const TextArea = styled.textarea`
   border: none;
   border-bottom: 1px solid
     ${({ theme, error }) => (error ? theme.red : theme.grey)};
-  padding: 5px 12px;
+  padding: 5px;
   resize: none;
   display: block;
+  color: ${({ theme }) => theme.darkGrey};
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -33,7 +34,6 @@ const TextArea = styled.textarea`
 const Counter = styled.div`
   display: inline-block;
   font-size: 12px;
-  margin-left: 15px;
   color: ${({ color }) => color};
 `;
 
@@ -42,6 +42,7 @@ const Header = styled.div``;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 50px;
 `;
 
 const Container = styled.div``;
@@ -61,14 +62,15 @@ const Description = () => {
     <Wrapper>
       <Header>Kilka słów o Tobie</Header>
       <Container>
-        <Counter color={color}>Pozostało {counter} znaków</Counter>
         <TextArea
           name="description"
           onChange={(e) => {
             descriptionLength(e);
           }}
+          placeholder="Powiedz coś więcej o sobie..."
           maxLength="1000"
         />
+        <Counter color={color}>Pozostało {counter} znaków</Counter>
       </Container>
     </Wrapper>
   );

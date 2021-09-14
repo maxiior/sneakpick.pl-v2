@@ -13,6 +13,8 @@ import Profile from "views/Profile";
 import ProfileSettings from "views/ProfileSettings";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 import SettingsTemplate from "templates/SettingsTemplate";
+import AccountSettings from "views/AccountSettings";
+import CommunicatorTemplate from "templates/CommunicatorTemplate";
 
 const App = () => {
   return (
@@ -21,19 +23,25 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <ScrollToTop />
           <MainTemplate>
-            <Switch>
-              <Route exact path={routes.HOME} component={Home} />
-              <Route exact path={routes.WTB} component={WTB} />
-              <Route path={routes.WTS} component={WTS} />
-              <Route path={routes.ITEM} component={SingleItem} />
-              <Route path={routes.PROFILE} component={Profile} />
-              <SettingsTemplate>
-                <Route
-                  path={routes.PROFILE_SETTINGS}
-                  component={ProfileSettings}
-                />
-              </SettingsTemplate>
-            </Switch>
+            <CommunicatorTemplate>
+              <Switch>
+                <Route exact path={routes.HOME} component={Home} />
+                <Route exact path={routes.WTB} component={WTB} />
+                <Route path={routes.WTS} component={WTS} />
+                <Route path={routes.ITEM} component={SingleItem} />
+                <Route path={routes.PROFILE} component={Profile} />
+                <SettingsTemplate>
+                  <Route
+                    path={routes.PROFILE_SETTINGS}
+                    component={ProfileSettings}
+                  />
+                  <Route
+                    path={routes.ACCOUNT_SETTINGS}
+                    component={AccountSettings}
+                  />
+                </SettingsTemplate>
+              </Switch>
+            </CommunicatorTemplate>
           </MainTemplate>
         </ThemeProvider>
       </BrowserRouter>

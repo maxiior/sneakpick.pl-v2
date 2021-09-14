@@ -38,7 +38,10 @@ const Value = styled.div`
   margin-left: 5px;
 `;
 
-const Description = styled.div``;
+const Description = styled.div`
+  width: 100%;
+  margin-top: 15px;
+`;
 
 const Informations = ({ city }) => {
   return (

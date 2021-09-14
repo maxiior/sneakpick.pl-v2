@@ -6,6 +6,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "routes";
+import { Link } from "react-router-dom";
 
 const StyledNav = styled.nav`
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -25,7 +26,7 @@ const Logo = styled.img`
   cursor: pointer;
 `;
 
-const LogoHolder = styled.div`
+const LogoHolder = styled(Link)`
   padding: 0 40px;
 `;
 
@@ -85,7 +86,7 @@ const Nav = ({ setLoginView, setRegisterView }) => {
   return (
     <StyledNav>
       <DefaultBar>
-        <LogoHolder>
+        <LogoHolder to={routes.HOME}>
           <Logo src={logo} />
         </LogoHolder>
         <StyledSearch

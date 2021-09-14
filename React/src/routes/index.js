@@ -13,6 +13,7 @@ export const routes = {
   ITEM: "/wtb/:item",
   PROFILE: "/profile/:user",
   PROFILE_SETTINGS: "/settings/profile",
+  ACCOUNT_SETTINGS: "/settings/account",
   DEFAULT_SEARCH: "limit=24&offset=0&ordering=1",
   CATEGORY: "category=",
   BRAND: "brand=",
@@ -28,4 +29,5 @@ export const endpoints = {
   USER: "user/",
   USER_PRODUCTS_LIST: "user_list/",
   ME: "user/me/",
+  EDIT: "user/edit/",
 };

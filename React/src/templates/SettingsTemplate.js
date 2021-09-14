@@ -26,6 +26,7 @@ const Option = styled(NavLink)`
   text-decoration: none;
   color: ${({ theme }) => theme.black};
   display: block;
+  margin-bottom: 15px;
 
   :hover {
     color: ${({ theme }) => theme.blue};
@@ -36,13 +37,14 @@ const Option = styled(NavLink)`
   }
 `;
 
-const Form = styled.form`
+const Settings = styled.div`
   padding: 0 60px;
 `;
 
 const Header = styled.div`
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 500;
+  margin-bottom: 25px;
 `;
 
 const SettingsTemplate = ({ children }) => {
@@ -60,7 +62,7 @@ const SettingsTemplate = ({ children }) => {
             </Option>
           </Nav>
         </Menu>
-        <Form>{children}</Form>
+        <Settings>{children}</Settings>
       </Container>
     </Wrapper>
   );

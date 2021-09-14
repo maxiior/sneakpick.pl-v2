@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Informations from "components/Profile/Informations";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { fetchUser as fetchUserAction } from "actions/profile";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { routes } from "routes";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -64,14 +66,6 @@ const Button = styled.div`
   :last-child {
     margin: 0;
   }
-
-  ${({ edit }) =>
-    edit &&
-    css`
-      background-color: ${({ theme }) => theme.white};
-      color: ${({ theme }) => theme.darkGrey};
-      border: 1px solid ${({ theme }) => theme.darkGrey}; ;
-    `}
 `;
 
 const ButtonsHolder = styled.div`
@@ -102,6 +96,25 @@ const Measure = styled.div`
   margin-left: 5px;
 `;
 
+const Edit = styled(Link)`
+  background-color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.darkGrey};
+  border: 1px solid ${({ theme }) => theme.darkGrey};
+  font-size: 20px;
+  user-select: none;
+  cursor: pointer;
+  padding: 5px 30px;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  width: 185px;
+  text-decoration: none;
+
+  :hover {
+    opacity: 0.9;
+  }
+`;
+
 const TopPanel = ({ fetchUser, userData }) => {
   const { user } = useParams();
 
@@ -123,7 +136,7 @@ const TopPanel = ({ fetchUser, userData }) => {
           <ButtonsHolder>
             <Button>DM</Button>
             <Button>Follow</Button>
-            <Button edit>Edytuj profil</Button>
+            <Edit to={routes.PROFILE_SETTINGS}>Edytuj profil</Edit>
             {/* <Button>Callout</Button>
                 <Button>Legit</Button> */}
           </ButtonsHolder>
