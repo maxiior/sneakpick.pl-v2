@@ -2,6 +2,12 @@ import Option from "components/Nav/Option";
 import styled from "styled-components";
 import Logout from "components/Nav/Logout";
 import { routes } from "routes";
+import {
+  openRegisterView as openRegisterViewAction,
+  openLoginView as openLoginViewAction,
+  hideCommunicatorIcon as hideCommunicatorIconAction,
+} from "actions/interface";
+import { connect } from "react-redux";
 
 const StyledOptions = styled.div`
   display: flex;
@@ -20,7 +26,7 @@ const LoginSignUp = styled.div`
   cursor: pointer;
 `;
 
-const Options = ({ setLoginView, setRegisterView }) => {
+const Options = ({ openRegisterView, openLoginView, hideCommunicatorIcon }) => {
   return (
     <StyledOptions>
       <Option text="WTB" where={routes.WTB} />
@@ -32,7 +38,8 @@ const Options = ({ setLoginView, setRegisterView }) => {
       <LoginSignUp
         onClick={() => {
           window.scrollTo(0, 0);
-          setLoginView(true);
+          hideCommunicatorIcon();
+          openLoginView();
         }}
       >
         LOGIN
@@ -40,7 +47,8 @@ const Options = ({ setLoginView, setRegisterView }) => {
       <LoginSignUp
         onClick={() => {
           window.scrollTo(0, 0);
-          setRegisterView(true);
+          hideCommunicatorIcon();
+          openRegisterView();
         }}
       >
         SIGN UP
@@ -50,4 +58,10 @@ const Options = ({ setLoginView, setRegisterView }) => {
   );
 };
 
-export default Options;
+const mapDispatchToProps = (dispatch) => ({
+  openRegisterView: () => dispatch(openRegisterViewAction()),
+  openLoginView: () => dispatch(openLoginViewAction()),
+  hideCommunicatorIcon: () => dispatch(hideCommunicatorIconAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Options);

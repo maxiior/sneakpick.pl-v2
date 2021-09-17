@@ -8,6 +8,11 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { endpoints } from "routes";
+import {
+  closeRegisterView as closeRegisterViewAction,
+  displayCommunicatorIcon as displayCommunicatorIconAction,
+} from "actions/interface";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -15,7 +20,7 @@ const Wrapper = styled.div`
   overflow-y: auto;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
+  position: fixed;
   z-index: 999999;
   display: flex;
   justify-content: center;
@@ -112,7 +117,7 @@ const Error = styled.div`
   font-weight: 500;
 `;
 
-const Register = ({ setRegisterView }) => {
+const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
       .required("Pole jest wymagane.")
@@ -162,7 +167,10 @@ const Register = ({ setRegisterView }) => {
         password: data.password,
       })
       .then((response) => {
-        if (response.status === 201) setRegisterView(false);
+        if (response.status === 201) {
+          closeRegisterView();
+          displayCommunicatorIcon();
+        }
       })
       .catch((error) => {
         const problemsObj = { ...problems };
@@ -202,7 +210,12 @@ const Register = ({ setRegisterView }) => {
     <Wrapper>
       <FormProvider {...methods}>
         <Form onSubmit={handleSubmit(registerProcess)}>
-          <CLose onClick={() => setRegisterView(false)} />
+          <CLose
+            onClick={() => {
+              closeRegisterView();
+              displayCommunicatorIcon();
+            }}
+          />
           <LogoHolder>
             <Logo src={logo} />
           </LogoHolder>
@@ -297,4 +310,9 @@ const Register = ({ setRegisterView }) => {
   );
 };
 
-export default Register;
+const mapDispatchToProps = (dispatch) => ({
+  closeRegisterView: () => dispatch(closeRegisterViewAction()),
+  displayCommunicatorIcon: () => dispatch(displayCommunicatorIconAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Register);

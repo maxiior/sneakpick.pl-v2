@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -42,15 +43,23 @@ const Notification = styled.div`
   left: 0;
 `;
 
-const CommunicatorTemplate = ({ children }) => {
+const CommunicatorTemplate = ({ children, communicatorIcon }) => {
   return (
     <Wrapper>
-      <MessageIcon>
-        DM<Notification>2</Notification>
-      </MessageIcon>
+      {communicatorIcon && (
+        <MessageIcon>
+          DM<Notification>2</Notification>
+        </MessageIcon>
+      )}
       {children}
     </Wrapper>
   );
 };
 
-export default CommunicatorTemplate;
+const mapStateToProps = ({ interfaceReducer }) => {
+  return {
+    communicatorIcon: interfaceReducer.communicatorIcon,
+  };
+};
+
+export default connect(mapStateToProps)(CommunicatorTemplate);

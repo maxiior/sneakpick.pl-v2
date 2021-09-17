@@ -5,8 +5,8 @@ import Nav from "components/Nav/Nav";
 import Footer from "components/Footer/Footer";
 import Login from "components/Login/Login";
 import Register from "components/Register/Register";
+import Menu from "components/Menu/Menu";
 import styled from "styled-components";
-import { useState } from "react";
 import { connect } from "react-redux";
 
 const Main = styled.div`
@@ -18,16 +18,22 @@ const Main = styled.div`
   }
 `;
 
-const MainTemplate = ({ children, mobileFilters }) => {
-  const [loginView, setLoginView] = useState(false);
-  const [registerView, setRegisterView] = useState(false);
-
+const MainTemplate = ({
+  children,
+  mobileFilters,
+  menuView,
+  registerView,
+  loginView,
+}) => {
   return (
     <>
-      <GlobalStyle scroll={loginView || registerView || mobileFilters} />
-      {loginView && <Login setLoginView={setLoginView} />}
-      {registerView && <Register setRegisterView={setRegisterView} />}
-      <Nav setLoginView={setLoginView} setRegisterView={setRegisterView} />
+      <GlobalStyle
+        scroll={loginView || registerView || mobileFilters || menuView}
+      />
+      {menuView && <Menu />}
+      {loginView && <Login />}
+      {registerView && <Register />}
+      <Nav />
       <Main>{children}</Main>
       <Footer />
     </>
@@ -38,9 +44,12 @@ MainTemplate.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
+const mapStateToProps = ({ filtersReducer, interfaceReducer }) => {
   return {
     mobileFilters: filtersReducer.mobileFilters,
+    menuView: interfaceReducer.menuView,
+    loginView: interfaceReducer.loginView,
+    registerView: interfaceReducer.registerView,
   };
 };
 

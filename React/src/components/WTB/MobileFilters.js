@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   max-height: 100vh;
   overflow-y: auto;
   width: 100%;
-  position: absolute;
+  position: fixed;
   background-color: ${({ theme }) => theme.white};
   z-index: 1000;
   top: 0;

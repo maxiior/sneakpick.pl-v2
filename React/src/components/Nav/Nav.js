@@ -7,6 +7,11 @@ import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "routes";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  openMenuView as openMenuViewAction,
+  hideCommunicatorIcon as hideCommunicatorIconAction,
+} from "actions/interface";
 
 const StyledNav = styled.nav`
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -71,7 +76,7 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
   cursor: pointer;
 `;
 
-const Nav = ({ setLoginView, setRegisterView }) => {
+const Nav = ({ openMenuView, hideCommunicatorIcon }) => {
   let history = useHistory();
   const [data, setData] = useState({ search: "" });
 
@@ -95,12 +100,14 @@ const Nav = ({ setLoginView, setRegisterView }) => {
           data={data}
           setData={setData}
         />
-        <Options
-          setLoginView={setLoginView}
-          setRegisterView={setRegisterView}
-        />
+        <Options />
         <IconHolder>
-          <StyledAiOutlineMenu />
+          <StyledAiOutlineMenu
+            onClick={() => {
+              hideCommunicatorIcon();
+              openMenuView();
+            }}
+          />
         </IconHolder>
       </DefaultBar>
       <SearchBar>
@@ -115,4 +122,9 @@ const Nav = ({ setLoginView, setRegisterView }) => {
   );
 };
 
-export default Nav;
+const mapDispatchToProps = (dispatch) => ({
+  openMenuView: () => dispatch(openMenuViewAction()),
+  hideCommunicatorIcon: () => dispatch(hideCommunicatorIconAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Nav);

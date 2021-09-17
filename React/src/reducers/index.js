@@ -3,6 +3,7 @@ import announsReducer from "reducers/announsReducer";
 import itemsSelectorReducer from "reducers/itemsSelectorReducer";
 import addingItemReducer from "reducers/addingItemReducer";
 import profileReducer from "reducers/profileReducer";
+import interfaceReducer from "reducers/interfaceReducer";
 import { combineReducers } from "redux";
 
 const allReducers = combineReducers({
@@ -11,6 +12,7 @@ const allReducers = combineReducers({
   itemsSelectorReducer,
   addingItemReducer,
   profileReducer,
+  interfaceReducer,
 });
 
 export default allReducers;

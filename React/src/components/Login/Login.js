@@ -7,6 +7,11 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { endpoints } from "routes";
+import {
+  closeLoginView as closeLoginViewAction,
+  displayCommunicatorIcon as displayCommunicatorIconAction,
+} from "actions/interface";
+import { connect } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -14,7 +19,7 @@ const Wrapper = styled.div`
   overflow-y: auto;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
+  position: fixed;
   z-index: 999999;
   display: flex;
   justify-content: center;
@@ -114,7 +119,7 @@ const Error = styled.div`
   font-weight: 500;
 `;
 
-const Login = ({ setLoginView }) => {
+const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
   const [error, setError] = useState(false);
   const handleChange = () => {
     if (error) setError(false);
@@ -138,7 +143,8 @@ const Login = ({ setLoginView }) => {
         localStorage.setItem("refresh_token", response.data.refresh);
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
-        setLoginView(false);
+        displayCommunicatorIcon();
+        closeLoginView();
       })
       .catch((error) => {
         setError(true);
@@ -157,7 +163,12 @@ const Login = ({ setLoginView }) => {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(loginProcess)}>
-        <CLose onClick={() => setLoginView(false)} />
+        <CLose
+          onClick={() => {
+            displayCommunicatorIcon();
+            closeLoginView();
+          }}
+        />
         <LogoHolder>
           <Logo src={logo} />
         </LogoHolder>
@@ -196,4 +207,9 @@ const Login = ({ setLoginView }) => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  closeLoginView: () => dispatch(closeLoginViewAction()),
+  displayCommunicatorIcon: () => dispatch(displayCommunicatorIconAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
