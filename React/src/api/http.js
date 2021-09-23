@@ -1,8 +1,9 @@
 import axios from "axios";
+import { refresh } from "api/services/auth.service";
 
 const baseURL = "http://127.0.0.1:8000/api/";
 
-const axiosInstance = axios.create({
+const http = axios.create({
   baseURL: baseURL,
   timeout: 5000,
   headers: {
@@ -14,7 +15,7 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.response.use(
+http.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -54,21 +55,20 @@ axiosInstance.interceptors.response.use(
         console.log(tokenParts.exp);
 
         if (tokenParts.exp > now) {
-          return axiosInstance
-            .post("/token/refresh/", { refresh: refreshToken })
+          return refresh(refreshToken)
             .then((response) => {
               localStorage.setItem("access_token", response.data.access);
               localStorage.setItem("refresh_token", response.data.refresh);
 
-              axiosInstance.defaults.headers["Authorization"] =
+              http.defaults.headers["Authorization"] =
                 "JWT " + response.data.access;
               originalRequest.headers["Authorization"] =
                 "JWT " + response.data.access;
 
-              return axiosInstance(originalRequest);
+              return http(originalRequest);
             })
-            .catch((err) => {
-              console.log(err);
+            .catch((error) => {
+              console.log(error);
             });
         } else {
           console.log("Refresh token is expired", tokenParts.exp, now);
@@ -84,4 +84,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+export default http;

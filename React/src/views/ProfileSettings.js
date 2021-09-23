@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DataBlock from "components/ProfileSettings/DataBlock";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import { endpoints } from "routes";
 import Description from "components/ProfileSettings/Description";
 import * as Yup from "yup";
@@ -67,7 +67,7 @@ const ProfileSettings = () => {
   const { handleSubmit } = methods;
 
   const updatingProcess = (data) => {
-    axiosInstance
+    http
       .put(endpoints.EDIT, {
         first_name: data.first_name,
         last_name: data.last_name,
@@ -82,7 +82,7 @@ const ProfileSettings = () => {
   };
 
   useEffect(() => {
-    axiosInstance
+    http
       .get(endpoints.ME, {})
       .then((payload) => {
         setData(payload.data);

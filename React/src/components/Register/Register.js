@@ -3,16 +3,15 @@ import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Register/Checkbox";
 import logo from "assets/logo_dark.png";
-import axiosInstance from "axios/axios";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { endpoints } from "routes";
 import {
   closeRegisterView as closeRegisterViewAction,
   displayCommunicatorIcon as displayCommunicatorIconAction,
 } from "actions/interface";
 import { connect } from "react-redux";
+import { register } from "api/services/auth.service";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -158,14 +157,7 @@ const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
   });
 
   const registerProcess = (data) => {
-    axiosInstance
-      .post(endpoints.REGISTER, {
-        first_name: data.first_name,
-        last_name: data.last_name,
-        city: data.city,
-        email: data.email,
-        password: data.password,
-      })
+    register(data)
       .then((response) => {
         if (response.status === 201) {
           closeRegisterView();

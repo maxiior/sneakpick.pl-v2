@@ -1,7 +1,7 @@
 import React from "react";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import styled from "styled-components";
-import { endpoints } from "routes";
+import { logout } from "api/services/auth.service";
 
 const StyledLogout = styled.div`
   margin: 0 15px;
@@ -12,12 +12,10 @@ const StyledLogout = styled.div`
 
 const Logout = () => {
   const Blacklisting = () => {
-    const response = axiosInstance.post(endpoints.BLACKLIST, {
-      refresh_token: localStorage.getItem("refresh_token"),
-    });
+    logout();
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    axiosInstance.defaults.headers["Authorization"] = null;
+    http.defaults.headers["Authorization"] = null;
   };
 
   return <StyledLogout onClick={Blacklisting}>LOGOUT</StyledLogout>;

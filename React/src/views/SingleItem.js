@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import styled, { css } from "styled-components";
 import Path from "components/SingleItem/Path";
 import Images from "components/SingleItem/Images";
@@ -185,7 +185,7 @@ const SingleItem = () => {
   const [data, setData] = useState({ product: {} });
 
   const bump = () => {
-    axiosInstance
+    http
       .post(endpoints.BUMP + data.product.id, {
         id: data.product.id,
       })
@@ -211,7 +211,7 @@ const SingleItem = () => {
   };
 
   useEffect(() => {
-    axiosInstance.get(item).then((response) => {
+    http.get(item).then((response) => {
       setData({
         product: {
           ...response.data,

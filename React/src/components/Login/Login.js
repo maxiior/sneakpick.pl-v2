@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import logo from "assets/logo_dark.png";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { endpoints } from "routes";
 import {
   closeLoginView as closeLoginViewAction,
   displayCommunicatorIcon as displayCommunicatorIconAction,
 } from "actions/interface";
 import { connect } from "react-redux";
+import { login } from "api/services/auth.service";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -133,20 +133,16 @@ const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
   });
 
   const loginProcess = (data) => {
-    axiosInstance
-      .post(endpoints.TOKEN, {
-        email: data.email,
-        password: data.password,
-      })
+    login(data)
       .then((response) => {
         localStorage.setItem("access_token", response.data.access);
         localStorage.setItem("refresh_token", response.data.refresh);
-        axiosInstance.defaults.headers["Authorization"] =
+        http.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
         displayCommunicatorIcon();
         closeLoginView();
       })
-      .catch((error) => {
+      .catch(() => {
         setError(true);
       });
   };

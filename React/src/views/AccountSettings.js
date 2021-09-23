@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DataBlock from "components/AccountSettings/DataBlock";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import { endpoints } from "routes";
 
 const Header = styled.div`
@@ -23,7 +23,7 @@ const ProfileSettings = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    axiosInstance
+    http
       .get(endpoints.ME, {})
       .then((payload) => {
         setData(payload.data);

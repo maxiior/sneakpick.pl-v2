@@ -6,7 +6,7 @@ import ColorwayGrid from "components/WTS/ColorwayGrid";
 import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
 import { connect } from "react-redux";
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import { resetCurrentStates as resetCurrentStatesAction } from "actions/WTS";
 import { useHistory } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
@@ -61,7 +61,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
   }, []);
 
   const addingProcess = () => {
-    axiosInstance
+    http
       .post(endpoints.MAIN, {
         name: currentFilter.name,
         brand: currentFilter.brands,

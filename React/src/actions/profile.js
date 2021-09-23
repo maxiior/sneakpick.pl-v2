@@ -1,4 +1,4 @@
-import axiosInstance from "axios/axios";
+import http from "api/http";
 import { endpoints } from "routes";
 
 export const PROFILE_FETCH_ITEMS_REQUEST = "PROFILE_FETCH_ITEMS_REQUEST";
@@ -12,7 +12,7 @@ export const PROFILE_FETCH_USER_FAILURE = "PROFILE_FETCH_USER_FAILURE";
 export const fetchItems = (user) => (dispatch) => {
   dispatch({ type: PROFILE_FETCH_ITEMS_REQUEST });
 
-  return axiosInstance
+  return http
     .get(endpoints.USER_PRODUCTS_LIST + user, {})
     .then((payload) => {
       dispatch({ type: PROFILE_FETCH_ITEMS_SUCCESS, payload });
@@ -25,7 +25,7 @@ export const fetchItems = (user) => (dispatch) => {
 export const fetchUser = (user) => (dispatch) => {
   dispatch({ type: PROFILE_FETCH_USER_REQUEST });
 
-  return axiosInstance
+  return http
     .get(endpoints.USER + user, {})
     .then((payload) => {
       dispatch({ type: PROFILE_FETCH_USER_SUCCESS, payload });
