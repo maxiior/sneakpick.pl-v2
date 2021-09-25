@@ -14,6 +14,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Photos from "components/WTS/Photos";
 import { endpoints, routes } from "routes";
+import useAuthenticated from "hooks/useAuthenticated";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -55,6 +56,8 @@ const Add = styled.button`
 
 const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
   let history = useHistory();
+
+  useAuthenticated();
 
   useEffect(() => {
     resetCurrentStates();

@@ -22,7 +22,7 @@ export const routes = {
 export const endpoints = {
   MAIN: "",
   IMAGES: "/static/product/images/",
-  TOKEN: "token/",
+  LOGIN: "user/login/",
   BLACKLIST: "user/logout/blacklist/",
   REGISTER: "user/register/",
   BUMP: "bump/",

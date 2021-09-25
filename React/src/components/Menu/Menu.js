@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import logo from "assets/logo_dark.png";
 import { routes } from "routes";
 import { IoMdClose } from "react-icons/io";
-import { connect } from "react-redux";
 import {
-  closeMenuView as closeMenuViewAction,
-  openRegisterView as openRegisterViewAction,
-  openLoginView as openLoginViewAction,
-  displayCommunicatorIcon as displayCommunicatorIconAction,
-  hideCommunicatorIcon as hideCommunicatorIconAction,
-} from "actions/interface";
+  closeMenuView,
+  openRegisterView,
+  openLoginView,
+  displayCommunicatorIcon,
+  hideCommunicatorIcon,
+} from "store/interface/actions";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -126,19 +126,13 @@ const useSize = (target) => {
   return size;
 };
 
-const Menu = ({
-  className,
-  closeMenuView,
-  openRegisterView,
-  openLoginView,
-  displayCommunicatorIcon,
-  hideCommunicatorIcon,
-}) => {
+const Menu = ({ className }) => {
   const target = useRef(null);
   const size = useSize(target);
+  const dispatch = useDispatch();
 
   if (size?.width === 0) {
-    closeMenuView();
+    dispatch(closeMenuView());
   }
 
   return (
@@ -146,18 +140,18 @@ const Menu = ({
       <Header>
         <Close
           onClick={() => {
-            displayCommunicatorIcon();
-            closeMenuView();
+            dispatch(displayCommunicatorIcon());
+            dispatch(closeMenuView());
           }}
         />
         <LogoHolder to={routes.HOME}>
-          <Logo src={logo} onClick={() => closeMenuView()} />
+          <Logo src={logo} onClick={() => dispatch(closeMenuView())} />
         </LogoHolder>
       </Header>
       <OptionsHolder
         onClick={() => {
-          displayCommunicatorIcon();
-          closeMenuView();
+          dispatch(displayCommunicatorIcon());
+          dispatch(closeMenuView());
         }}
       >
         <Option to={routes.WTB}>WTB</Option>
@@ -170,18 +164,18 @@ const Menu = ({
       <ButtonHolder>
         <Button
           onClick={() => {
-            openLoginView();
-            closeMenuView();
-            hideCommunicatorIcon();
+            dispatch(openLoginView());
+            dispatch(closeMenuView());
+            dispatch(hideCommunicatorIcon());
           }}
         >
           LOGIN
         </Button>
         <Button
           onClick={() => {
-            openRegisterView();
-            closeMenuView();
-            hideCommunicatorIcon();
+            dispatch(openRegisterView());
+            dispatch(closeMenuView());
+            dispatch(hideCommunicatorIcon());
           }}
           dark
         >
@@ -192,12 +186,4 @@ const Menu = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  closeMenuView: () => dispatch(closeMenuViewAction()),
-  openRegisterView: () => dispatch(openRegisterViewAction()),
-  openLoginView: () => dispatch(openLoginViewAction()),
-  displayCommunicatorIcon: () => dispatch(displayCommunicatorIconAction()),
-  hideCommunicatorIcon: () => dispatch(hideCommunicatorIconAction()),
-});
-
-export default connect(null, mapDispatchToProps)(Menu);
+export default Menu;

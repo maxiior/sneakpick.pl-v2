@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import logo from "assets/logo_dark.png";
-import http from "api/http";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  closeLoginView as closeLoginViewAction,
-  displayCommunicatorIcon as displayCommunicatorIconAction,
-} from "actions/interface";
-import { connect } from "react-redux";
-import { login } from "api/services/auth.service";
+  closeLoginView,
+  displayCommunicatorIcon,
+} from "store/interface/actions";
+import { login } from "store/auth/actions";
+import { login as loginAction } from "store/auth/actions";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -119,7 +119,7 @@ const Error = styled.div`
   font-weight: 500;
 `;
 
-const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
+const Login = () => {
   const [error, setError] = useState(false);
   const handleChange = () => {
     if (error) setError(false);
@@ -132,17 +132,18 @@ const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
     password: Yup.string().required("Wpisz hasło."),
   });
 
+  const dispatch = useDispatch();
+
   const loginProcess = (data) => {
-    login(data)
+    dispatch(login(data))
       .then((response) => {
-        localStorage.setItem("access_token", response.data.access);
-        localStorage.setItem("refresh_token", response.data.refresh);
-        http.defaults.headers["Authorization"] =
-          "JWT " + localStorage.getItem("access_token");
-        displayCommunicatorIcon();
-        closeLoginView();
+        if (response.status === 200) {
+          dispatch(displayCommunicatorIcon());
+          dispatch(closeLoginView());
+          dispatch(loginAction);
+        }
       })
-      .catch(() => {
+      .catch((e) => {
         setError(true);
       });
   };
@@ -161,8 +162,8 @@ const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
       <Form onSubmit={handleSubmit(loginProcess)}>
         <CLose
           onClick={() => {
-            displayCommunicatorIcon();
-            closeLoginView();
+            dispatch(displayCommunicatorIcon());
+            dispatch(closeLoginView());
           }}
         />
         <LogoHolder>
@@ -203,9 +204,4 @@ const Login = ({ closeLoginView, displayCommunicatorIcon }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  closeLoginView: () => dispatch(closeLoginViewAction()),
-  displayCommunicatorIcon: () => dispatch(displayCommunicatorIconAction()),
-});
-
-export default connect(null, mapDispatchToProps)(Login);
+export default Login;

@@ -7,11 +7,11 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  closeRegisterView as closeRegisterViewAction,
-  displayCommunicatorIcon as displayCommunicatorIconAction,
-} from "actions/interface";
-import { connect } from "react-redux";
+  closeRegisterView,
+  displayCommunicatorIcon,
+} from "store/interface/actions";
 import { register } from "api/services/auth.service";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -116,7 +116,9 @@ const Error = styled.div`
   font-weight: 500;
 `;
 
-const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
+const Register = () => {
+  const dispatch = useDispatch();
+
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
       .required("Pole jest wymagane.")
@@ -160,8 +162,8 @@ const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
     register(data)
       .then((response) => {
         if (response.status === 201) {
-          closeRegisterView();
-          displayCommunicatorIcon();
+          dispatch(closeRegisterView());
+          dispatch(displayCommunicatorIcon());
         }
       })
       .catch((error) => {
@@ -204,8 +206,8 @@ const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
         <Form onSubmit={handleSubmit(registerProcess)}>
           <CLose
             onClick={() => {
-              closeRegisterView();
-              displayCommunicatorIcon();
+              dispatch(closeRegisterView());
+              dispatch(displayCommunicatorIcon());
             }}
           />
           <LogoHolder>
@@ -302,9 +304,4 @@ const Register = ({ closeRegisterView, displayCommunicatorIcon }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  closeRegisterView: () => dispatch(closeRegisterViewAction()),
-  displayCommunicatorIcon: () => dispatch(displayCommunicatorIconAction()),
-});
-
-export default connect(null, mapDispatchToProps)(Register);
+export default Register;

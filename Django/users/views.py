@@ -7,8 +7,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from users.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, MyUserSerializer, UserJustCitySerializer, UserUpdateSerializer
+from .serializers import UserSerializer, MyUserSerializer, UserJustCitySerializer, UserUpdateSerializer, LoginSerializer
 from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth.hashers import check_password
+from core.settings import SECRET_KEY, SIMPLE_JWT
+import jwt
 
 
 class CustomUserCreate(APIView):
@@ -63,6 +66,68 @@ class UserUpdate(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class Login(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            if(check_password(password, user.password)):
+                details = {}
+                refresh = RefreshToken.for_user(user)
+                details['email'] = user.email
+                details['access_token'] = str(refresh.access_token)
+                details['expires_in'] = int(
+                    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+                response = Response(details, status=status.HTTP_200_OK)
+                response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None',
+                                    max_age=300, path="/", expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                return response
+            else:
+                return Response({'Error': 'Wrong password'}, status.HTTP_403_FORBIDDEN)
+        else:
+            return Response({'Error': 'Account not active or bad request'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Refresh(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        if request.COOKIES.get('refresh_token'):
+            old_refresh = jwt.decode(request.COOKIES.get(
+                'refresh_token'), SECRET_KEY, algorithms=["HS256"])
+
+            user = User.objects.filter(id=old_refresh['user_id']).first()
+            refresh = RefreshToken.for_user(user)
+            details = {}
+            details['access_token'] = str(refresh.access_token)
+            details['expires_in'] = int(
+                SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+            response = Response(details, status=status.HTTP_200_OK)
+            response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None', max_age=300, path="/", expires=int(
+                SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+            return response
+        else:
+            return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Logout(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        if request.COOKIES.get('refresh_token'):
+            response = Response({}, status=status.HTTP_200_OK)
+            # response.delete_cookie('refresh_token')
+            response.set_cookie('refresh_token', httponly=True,
+                                secure=True,  samesite='None')
+            return response
+        else:
+            return Response({'Error': 'can not remove cookies'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 @api_view(['GET'])

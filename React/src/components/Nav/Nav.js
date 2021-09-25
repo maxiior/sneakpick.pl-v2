@@ -7,11 +7,8 @@ import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "routes";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import {
-  openMenuView as openMenuViewAction,
-  hideCommunicatorIcon as hideCommunicatorIconAction,
-} from "actions/interface";
+import { useDispatch } from "react-redux";
+import { openMenuView, hideCommunicatorIcon } from "store/interface/actions";
 
 const StyledNav = styled.nav`
   background-color: ${({ theme }) => theme.veryDarkGrey};
@@ -76,8 +73,9 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
   cursor: pointer;
 `;
 
-const Nav = ({ openMenuView, hideCommunicatorIcon }) => {
+const Nav = () => {
   let history = useHistory();
+  const dispatch = useDispatch();
   const [data, setData] = useState({ search: "" });
 
   const goSearch = (e) => {
@@ -104,8 +102,8 @@ const Nav = ({ openMenuView, hideCommunicatorIcon }) => {
         <IconHolder>
           <StyledAiOutlineMenu
             onClick={() => {
-              hideCommunicatorIcon();
-              openMenuView();
+              dispatch(hideCommunicatorIcon());
+              dispatch(openMenuView());
             }}
           />
         </IconHolder>
@@ -122,9 +120,4 @@ const Nav = ({ openMenuView, hideCommunicatorIcon }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  openMenuView: () => dispatch(openMenuViewAction()),
-  hideCommunicatorIcon: () => dispatch(hideCommunicatorIconAction()),
-});
-
-export default connect(null, mapDispatchToProps)(Nav);
+export default Nav;

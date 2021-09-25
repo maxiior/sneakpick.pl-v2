@@ -8,6 +8,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, FormProvider } from "react-hook-form";
 import Avatar from "components/ProfileSettings/Avatar";
+import useAuthenticated from "hooks/useAuthenticated";
+import { useSelector } from "react-redux";
 
 const Header = styled.div`
   font-size: 30px;
@@ -47,6 +49,11 @@ const Form = styled.form``;
 const ProfileSettings = () => {
   const [data, setData] = useState({});
 
+  useAuthenticated();
+  const isAuthenticated = useSelector(
+    (state) => state.authSlice.isAuthenticated
+  );
+
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
       .required("Pole jest wymagane.")
@@ -82,13 +89,15 @@ const ProfileSettings = () => {
   };
 
   useEffect(() => {
-    http
-      .get(endpoints.ME, {})
-      .then((payload) => {
-        setData(payload.data);
-      })
-      .catch((err) => {});
-  }, []);
+    if (isAuthenticated) {
+      http
+        .get(endpoints.ME, {})
+        .then((payload) => {
+          setData(payload.data);
+        })
+        .catch(() => {});
+    }
+  }, [isAuthenticated]);
 
   return (
     <FormProvider {...methods}>

@@ -151,7 +151,7 @@ AUTH_USER_MODEL = "users.User"
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=20),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -167,3 +167,6 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MERIA_URL = '/images/'
+
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_HTTPONLY = False

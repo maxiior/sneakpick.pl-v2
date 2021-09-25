@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DataBlock from "components/AccountSettings/DataBlock";
 import http from "api/http";
 import { endpoints } from "routes";
+import useAuthenticated from "hooks/useAuthenticated";
 
 const Header = styled.div`
   font-size: 30px;
@@ -22,13 +23,15 @@ const Form = styled.form``;
 const ProfileSettings = () => {
   const [data, setData] = useState({});
 
+  useAuthenticated();
+
   useEffect(() => {
     http
       .get(endpoints.ME, {})
       .then((payload) => {
         setData(payload.data);
       })
-      .catch((err) => {});
+      .catch(() => {});
   }, []);
 
   return (

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import Items from "components/Profile/Items";
-import { fetchItems as fetchItemsAction } from "actions/profile";
-import { connect } from "react-redux";
+import { fetchItems } from "store/profile/actions";
 import TopPanel from "components/Profile/TopPanel";
+import { useDispatch, useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,11 +38,13 @@ const Label = styled.div`
   user-select: none;
 `;
 
-const Profile = ({ fetchItems, results }) => {
+const Profile = () => {
   const { user } = useParams();
+  const dispatch = useDispatch();
+  const selector = useSelector((state) => state.profileSlice);
 
   useEffect(() => {
-    fetchItems(user);
+    dispatch(fetchItems(user));
   }, []);
 
   return (
@@ -52,7 +54,8 @@ const Profile = ({ fetchItems, results }) => {
         <BottomPanel>
           <Label>Moje itemy</Label>
           <NumberOfItems>
-            {results} {results === 1 ? "przedmiot" : "przedmioty"}
+            {selector.results}{" "}
+            {selector.results === 1 ? "przedmiot" : "przedmioty"}
           </NumberOfItems>
           <Items />
         </BottomPanel>
@@ -61,14 +64,4 @@ const Profile = ({ fetchItems, results }) => {
   );
 };
 
-const mapStateToProps = ({ profileReducer }) => {
-  return {
-    results: profileReducer.results,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchItems: (user) => dispatch(fetchItemsAction(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

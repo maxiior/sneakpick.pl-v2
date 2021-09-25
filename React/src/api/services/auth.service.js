@@ -2,16 +2,14 @@ import http from "api/http";
 import { endpoints } from "routes";
 
 export const login = async (credentials) => {
-  return await http.post(endpoints.TOKEN, {
+  return await http.post(endpoints.LOGIN, {
     email: credentials.email,
     password: credentials.password,
   });
 };
 
 export const logout = async () => {
-  await http.post(endpoints.BLACKLIST, {
-    refresh_token: localStorage.getItem("refresh_token"),
-  });
+  await http.post("/user/logout/");
   return true;
 };
 
@@ -25,6 +23,6 @@ export const register = async (credentials) => {
   });
 };
 
-export const refresh = async (refreshToken) => {
-  return await http.post("/token/refresh/", { refresh: refreshToken });
+export const refresh = async () => {
+  return await http.post("/user/refresh/", {});
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -43,7 +43,8 @@ const Notification = styled.div`
   left: 0;
 `;
 
-const CommunicatorTemplate = ({ children, communicatorIcon }) => {
+const CommunicatorTemplate = ({ children }) => {
+  const { communicatorIcon } = useSelector((state) => state.interfaceSlice);
   return (
     <Wrapper>
       {communicatorIcon && (
@@ -56,10 +57,4 @@ const CommunicatorTemplate = ({ children, communicatorIcon }) => {
   );
 };
 
-const mapStateToProps = ({ interfaceReducer }) => {
-  return {
-    communicatorIcon: interfaceReducer.communicatorIcon,
-  };
-};
-
-export default connect(mapStateToProps)(CommunicatorTemplate);
+export default CommunicatorTemplate;

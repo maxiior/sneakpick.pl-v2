@@ -1,7 +1,7 @@
 import React from "react";
-import http from "api/http";
 import styled from "styled-components";
-import { logout } from "api/services/auth.service";
+import { logout } from "store/auth/actions";
+import { useDispatch } from "react-redux";
 
 const StyledLogout = styled.div`
   margin: 0 15px;
@@ -11,14 +11,12 @@ const StyledLogout = styled.div`
 `;
 
 const Logout = () => {
+  const dispatch = useDispatch();
   const Blacklisting = () => {
-    logout();
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    http.defaults.headers["Authorization"] = null;
+    dispatch(logout());
   };
 
-  return <StyledLogout onClick={Blacklisting}>LOGOUT</StyledLogout>;
+  return <StyledLogout onClick={() => Blacklisting()}>LOGOUT</StyledLogout>;
 };
 
 export default Logout;

@@ -8,6 +8,7 @@ import Register from "components/Register/Register";
 import Menu from "components/Menu/Menu";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Main = styled.div`
   padding-top: 60px;
@@ -18,13 +19,11 @@ const Main = styled.div`
   }
 `;
 
-const MainTemplate = ({
-  children,
-  mobileFilters,
-  menuView,
-  registerView,
-  loginView,
-}) => {
+const MainTemplate = ({ children, mobileFilters }) => {
+  const { menuView, registerView, loginView } = useSelector(
+    (state) => state.interfaceSlice
+  );
+
   return (
     <>
       <GlobalStyle
@@ -44,12 +43,9 @@ MainTemplate.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = ({ filtersReducer, interfaceReducer }) => {
+const mapStateToProps = ({ filtersReducer }) => {
   return {
     mobileFilters: filtersReducer.mobileFilters,
-    menuView: interfaceReducer.menuView,
-    loginView: interfaceReducer.loginView,
-    registerView: interfaceReducer.registerView,
   };
 };
 

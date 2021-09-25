@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Informations from "components/Profile/Informations";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
-import { fetchUser as fetchUserAction } from "actions/profile";
-import { connect } from "react-redux";
+import { fetchUser } from "store/profile/actions";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
+import { useDispatch, useSelector } from "react-redux";
+import http from "api/http";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -115,12 +117,31 @@ const Edit = styled(Link)`
   }
 `;
 
-const TopPanel = ({ fetchUser, userData }) => {
+const TopPanel = () => {
   const { user } = useParams();
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profileSlice);
 
   useEffect(() => {
-    fetchUser(user);
+    dispatch(fetchUser(user));
   }, []);
+
+  const isAuthenticated = useSelector(
+    (state) => state.authSlice.isAuthenticated
+  );
+
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      http
+        .get(endpoints.ME, {})
+        .then((payload) => {
+          setData(payload.data);
+        })
+        .catch(() => {});
+    }
+  }, [isAuthenticated]);
 
   return (
     <Wrapper>
@@ -130,13 +151,15 @@ const TopPanel = ({ fetchUser, userData }) => {
       <RightContainer>
         <TopHolder>
           <Name>
-            {userData.first_name} {userData.last_name}
+            {profile.user.first_name} {profile.user.last_name}
             <ShieldIcon />
           </Name>
           <ButtonsHolder>
             <Button>DM</Button>
             <Button>Follow</Button>
-            <Edit to={routes.PROFILE_SETTINGS}>Edytuj profil</Edit>
+            {isAuthenticated && profile.user.id === data.id && (
+              <Edit to={routes.PROFILE_SETTINGS}>Edytuj profil</Edit>
+            )}
             {/* <Button>Callout</Button>
                 <Button>Legit</Button> */}
           </ButtonsHolder>
@@ -151,20 +174,10 @@ const TopPanel = ({ fetchUser, userData }) => {
             <Measure>obserwowanych</Measure>
           </FollowStatistic>
         </MiddleHolder>
-        <Informations city={userData.city} />
+        <Informations city={profile.user.city} />
       </RightContainer>
     </Wrapper>
   );
 };
 
-const mapStateToProps = ({ profileReducer }) => {
-  return {
-    userData: profileReducer.user,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchUser: (user) => dispatch(fetchUserAction(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopPanel);
+export default TopPanel;

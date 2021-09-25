@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { fetchItems as fetchItemsAction } from "actions/WTB";
 import { useHistory } from "react-router-dom";
-import { useFirstRender } from "components/useFirstRender";
+import { useFirstRender } from "hooks/useFirstRender";
 import { routes } from "routes";
 
 const OnSearch = ({

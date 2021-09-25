@@ -2,17 +2,19 @@ import filtersReducer from "reducers/filtersReducer";
 import announsReducer from "reducers/announsReducer";
 import itemsSelectorReducer from "reducers/itemsSelectorReducer";
 import addingItemReducer from "reducers/addingItemReducer";
-import profileReducer from "reducers/profileReducer";
-import interfaceReducer from "reducers/interfaceReducer";
 import { combineReducers } from "redux";
+import interfaceSlice from "store/interface/slice";
+import authSlice from "store/auth/slice";
+import profileSlice from "store/profile/slice";
 
 const allReducers = combineReducers({
   filtersReducer,
   announsReducer,
   itemsSelectorReducer,
   addingItemReducer,
-  profileReducer,
-  interfaceReducer,
+  profileSlice,
+  interfaceSlice,
+  authSlice,
 });
 
 export default allReducers;
