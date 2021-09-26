@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { changeState as changeStateAction } from "actions/filters";
-import { connect } from "react-redux";
+import { changeState } from "store/filters/actions";
+import { useDispatch } from "react-redux";
 
 const StyledElement = styled.div`
   margin: 2px 0;
@@ -45,15 +45,21 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, changeState, filterType, checked, id, radio }) => {
+const Element = ({ text, filterType, checked, radio }) => {
+  const dispatch = useDispatch();
+
   return (
     <StyledElement>
       <StyledLabel>
         <StyledInput
           type="checkbox"
           onChange={() => {
-            if (radio) changeState(filterType, text, "radio");
-            else changeState(filterType, text, "checkbox");
+            if (radio)
+              dispatch(changeState({ filterType, id: text, input: "radio" }));
+            else
+              dispatch(
+                changeState({ filterType, id: text, input: "checkbox" })
+              );
           }}
           checked={checked.includes(text)}
         />
@@ -64,9 +70,4 @@ const Element = ({ text, changeState, filterType, checked, id, radio }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(Element);
+export default Element;

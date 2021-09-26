@@ -6,6 +6,7 @@ import { combineReducers } from "redux";
 import interfaceSlice from "store/interface/slice";
 import authSlice from "store/auth/slice";
 import profileSlice from "store/profile/slice";
+import filtersSlice from "store/filters/slice";
 
 const allReducers = combineReducers({
   filtersReducer,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
   profileSlice,
   interfaceSlice,
   authSlice,
+  filtersSlice,
 });
 
 export default allReducers;

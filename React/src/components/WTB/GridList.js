@@ -1,8 +1,8 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/filters";
+import { useDispatch } from "react-redux";
+import { changeState } from "store/filters/actions";
 
 const GridElements = styled.div`
   display: grid;
@@ -78,12 +78,13 @@ const StyledInput = styled.input`
 const GridList = ({
   name,
   elements,
-  changeState,
   filterType,
   mobile,
   currentFilter,
   ...props
 }) => {
+  const dispatch = useDispatch();
+
   return (
     <Elements mobile={mobile}>
       <div>
@@ -93,7 +94,11 @@ const GridList = ({
             <StyledLabel key={e.id}>
               <StyledInput
                 type="checkbox"
-                onChange={() => changeState(filterType, e.text, "checkbox")}
+                onChange={() =>
+                  dispatch(
+                    changeState({ filterType, id: e.text, input: "checkbox" })
+                  )
+                }
                 checked={currentFilter.includes(e.text)}
               />
               <Value mobile={mobile} {...props}>
@@ -107,9 +112,4 @@ const GridList = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(GridList);
+export default GridList;

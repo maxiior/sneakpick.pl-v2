@@ -4,6 +4,7 @@ import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const StyledLeftPanel = styled.div`
   overflow-y: auto;
@@ -32,7 +33,11 @@ const StyledLeftPanel = styled.div`
   }
 `;
 
-const LeftPanel = ({ filters, filterTypes, currentFilters }) => {
+const LeftPanel = ({ filters, filterTypes }) => {
+  const currentFilters = useSelector(
+    (state) => state.filtersSlice.currentFilters
+  );
+
   return (
     <StyledLeftPanel>
       <List
@@ -96,7 +101,6 @@ const mapStateToProps = ({ filtersReducer }) => {
   return {
     filterTypes: filtersReducer.filterTypes,
     filters: filtersReducer.filters,
-    currentFilters: filtersReducer.currentFilters,
   };
 };
 

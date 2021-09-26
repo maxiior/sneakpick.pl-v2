@@ -1,7 +1,7 @@
 import { VscSearch } from "react-icons/vsc";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { resetAllStates as resetAllStatesAction } from "actions/filters";
+import { useDispatch } from "react-redux";
+import { resetAllStates } from "store/filters/actions";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -45,20 +45,17 @@ const Icon = styled(VscSearch)`
   margin-top: 3px;
 `;
 
-const FiltersHeader = ({ resetAllStates }) => {
+const FiltersHeader = () => {
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <Header>
         <Icon />
         <div>Filtrowanie</div>
       </Header>
-      <Reset onClick={() => resetAllStates()}>Reset</Reset>
+      <Reset onClick={() => dispatch(resetAllStates())}>Reset</Reset>
     </Wrapper>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  resetAllStates: () => dispatch(resetAllStatesAction()),
-});
-
-export default connect(null, mapDispatchToProps)(FiltersHeader);
+export default FiltersHeader;

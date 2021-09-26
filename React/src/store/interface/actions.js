@@ -39,3 +39,13 @@ export const hideCommunicatorIcon = createAsyncThunk(
   "interface/hideCommunicatorIcon",
   async () => {}
 );
+
+export const openMobileFilters = createAsyncThunk(
+  "filters/openMobileFilters",
+  async () => {}
+);
+
+export const closeMobileFilters = createAsyncThunk(
+  "filters/closeMobileFilters",
+  async () => {}
+);

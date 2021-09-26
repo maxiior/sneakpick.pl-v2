@@ -2,8 +2,8 @@ import colorful from "assets/other.png";
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/filters";
+import { changeState } from "store/filters/actions";
+import { useDispatch } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
 
 const CW = styled.div`
@@ -77,12 +77,13 @@ const StyledInput = styled.input`
 
 const ColorwayGrid = ({
   colors,
-  changeState,
   filterType,
   mobile,
   borderNone,
   currentFilter,
 }) => {
+  const dispatch = useDispatch();
+
   return (
     <Elements mobile={mobile} borderNone={borderNone}>
       <div>
@@ -92,7 +93,11 @@ const ColorwayGrid = ({
             <label key={c.id}>
               <StyledInput
                 type="checkbox"
-                onChange={() => changeState(filterType, c.text, "checkbox")}
+                onChange={() =>
+                  dispatch(
+                    changeState({ filterType, id: c.text, input: "checkbox" })
+                  )
+                }
                 checked={currentFilter.includes(c.text)}
               />
               <CW
@@ -111,9 +116,4 @@ const ColorwayGrid = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(ColorwayGrid);
+export default ColorwayGrid;
