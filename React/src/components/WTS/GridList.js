@@ -90,6 +90,7 @@ const GridList = ({
             <StyledInput
               type="radio"
               name={name}
+              {...register(name)}
               onChange={(el) => {
                 validator.onChange(el);
                 changeState(filterType, e.text, "radio");

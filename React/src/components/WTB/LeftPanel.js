@@ -3,7 +3,6 @@ import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 
 const StyledLeftPanel = styled.div`
@@ -33,9 +32,9 @@ const StyledLeftPanel = styled.div`
   }
 `;
 
-const LeftPanel = ({ filters, filterTypes }) => {
-  const currentFilters = useSelector(
-    (state) => state.filtersSlice.currentFilters
+const LeftPanel = () => {
+  const { currentFilters, filterTypes, filters } = useSelector(
+    (state) => state.filtersSlice
   );
 
   return (
@@ -97,11 +96,4 @@ const LeftPanel = ({ filters, filterTypes }) => {
   );
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
-  return {
-    filterTypes: filtersReducer.filterTypes,
-    filters: filtersReducer.filters,
-  };
-};
-
-export default connect(mapStateToProps)(LeftPanel);
+export default LeftPanel;

@@ -88,6 +88,7 @@ const ColorwayGrid = ({ colors, filterType, changeState }) => {
               <StyledInput
                 type="radio"
                 name="colorway"
+                {...register("colorway")}
                 onChange={(e) => {
                   validator.onChange(e);
                   changeState(filterType, c.text, "radio");

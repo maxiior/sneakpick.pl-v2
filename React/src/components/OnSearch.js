@@ -3,16 +3,17 @@ import { fetchItems as fetchItemsAction } from "actions/WTB";
 import { useHistory } from "react-router-dom";
 import { useFirstRender } from "hooks/useFirstRender";
 import { routes } from "routes";
+import { useSelector } from "react-redux";
 
 const OnSearch = ({
   currentPagination,
   currentPage,
-  currentFilters,
   fetchItems,
   currentSorting,
 }) => {
   let history = useHistory();
   let search = "?";
+  const { currentFilters } = useSelector((state) => state.filtersSlice);
 
   if (useFirstRender()) {
     if (window.location.search) search = window.location.search;
@@ -79,9 +80,8 @@ const OnSearch = ({
   return null;
 };
 
-const mapStateToProps = ({ filtersReducer, itemsSelectorReducer }) => {
+const mapStateToProps = ({ itemsSelectorReducer }) => {
   return {
-    currentFilters: filtersReducer.currentFilters,
     currentPagination: itemsSelectorReducer.currentPagination,
     currentPage: itemsSelectorReducer.currentPage,
     currentSorting: itemsSelectorReducer.currentSorting,

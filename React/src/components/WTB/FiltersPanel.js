@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { openMobileFilters as openMobileFiltersAction } from "actions/WTB";
+import { useDispatch } from "react-redux";
+import { openMobileFilters } from "store/interface/actions";
 import { HiAdjustments } from "react-icons/hi";
 
 const Wrapper = styled.div`
@@ -26,18 +26,16 @@ const Header = styled(HiAdjustments)`
   transform: rotate(90deg);
 `;
 
-const FiltersPanel = ({ className, openMobileFilters }) => {
+const FiltersPanel = ({ className }) => {
+  const dispatch = useDispatch();
+
   return (
     <Wrapper className={className}>
       <Container>
-        <Header onClick={() => openMobileFilters()} />
+        <Header onClick={() => dispatch(openMobileFilters())} />
       </Container>
     </Wrapper>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  openMobileFilters: () => dispatch(openMobileFiltersAction()),
-});
-
-export default connect(null, mapDispatchToProps)(FiltersPanel);
+export default FiltersPanel;

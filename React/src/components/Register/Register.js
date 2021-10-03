@@ -122,13 +122,16 @@ const Register = () => {
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
       .required("Pole jest wymagane.")
-      .matches("[A-Za-z]", "Podano nieprawidłowe imię."),
+      .matches("^[aA-zZĄąĆćĘęŁłŃńÓóŚśŻżŹź]+$", "Podano nieprawidłowe imię."),
     last_name: Yup.string()
       .required("Pole jest wymagane.")
-      .matches("[A-Za-z]", "Podano nieprawidłowe nazwisko."),
+      .matches(
+        "^[aA-zZĄąĆćĘęŁłŃńÓóŚśŻżŹź]+$",
+        "Podano nieprawidłowe nazwisko."
+      ),
     city: Yup.string()
       .required("Pole jest wymagane.")
-      .matches("[A-Za-z]", "Podano nieprawidłowe miasto."),
+      .matches("^[aA-zZĄąĆćĘęŁłŃńÓóŚśŻżŹź]+$", "Podano nieprawidłowe miasto."),
     email: Yup.string()
       .required("Pole jest wymagane.")
       .email("Email jest nieprawidłowy."),
@@ -218,6 +221,7 @@ const Register = () => {
             name="first_name"
             type="text"
             error={errors.first_name}
+            {...validate("first_name")}
             onChange={(e) => {
               first_name.onChange(e);
               handleChange(e);
@@ -230,6 +234,7 @@ const Register = () => {
             name="last_name"
             type="text"
             error={errors.last_name}
+            {...validate("last_name")}
             onChange={(e) => {
               last_name.onChange(e);
               handleChange(e);
@@ -242,6 +247,7 @@ const Register = () => {
             name="city"
             type="text"
             error={errors.city}
+            {...validate("city")}
             onChange={(e) => {
               city.onChange(e);
               handleChange(e);
@@ -254,6 +260,7 @@ const Register = () => {
             name="email"
             type="email"
             error={errors.email}
+            {...validate("email")}
             onChange={(e) => {
               email.onChange(e);
               handleChange(e);
@@ -268,6 +275,7 @@ const Register = () => {
             name="password"
             type="password"
             error={errors.password}
+            {...validate("password")}
             onChange={(e) => {
               password.onChange(e);
               handleChange(e);

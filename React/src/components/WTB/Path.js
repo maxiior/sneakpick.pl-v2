@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import { routes } from "routes";
+import { useSelector } from "react-redux";
 
 const StyledPath = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -44,7 +44,9 @@ const Step = styled(Link)`
   }
 `;
 
-const Path = ({ className, currentFilters }) => {
+const Path = ({ className }) => {
+  const { currentFilters } = useSelector((state) => state.filtersSlice);
+
   return (
     <StyledPath className={className}>
       <ol>
@@ -72,10 +74,4 @@ const Path = ({ className, currentFilters }) => {
   );
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
-  return {
-    currentFilters: filtersReducer.currentFilters,
-  };
-};
-
-export default connect(mapStateToProps)(Path);
+export default Path;

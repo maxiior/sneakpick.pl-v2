@@ -137,7 +137,7 @@ const Login = () => {
   const loginProcess = (data) => {
     dispatch(login(data))
       .then((response) => {
-        if (response.status === 200) {
+        if (response.payload.status === 200) {
           dispatch(displayCommunicatorIcon());
           dispatch(closeLoginView());
           dispatch(loginAction);
@@ -174,6 +174,7 @@ const Login = () => {
           name="email"
           type="text"
           error={errors.email || error}
+          {...validate("email")}
           onChange={(e) => {
             email.onChange(e);
             handleChange(e);
@@ -185,6 +186,7 @@ const Login = () => {
           name="password"
           type="password"
           error={errors.password || error}
+          {...validate("password")}
           onChange={(e) => {
             password.onChange(e);
             handleChange(e);

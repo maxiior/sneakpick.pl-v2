@@ -36,8 +36,8 @@ const Photos = () => {
     <Wrapper>
       <Header nonPaddingBelow>Zdjęcia</Header>
       <Information>
-        Pierwsze zdjęcie będzie zdjęciem głównym. Maksymalny rozmiar pliku to
-        5MB.
+        Pierwsze zdjęcie będzie zdjęciem głównym. Możesz dostać zdjęcia w
+        formacie: .jpeg, .png lub .jpg. Maksymalny rozmiar pliku to 5MB.
       </Information>
       <Container>
         <Grid container spacing={2}>

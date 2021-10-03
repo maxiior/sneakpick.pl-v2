@@ -3,10 +3,10 @@ import styled from "styled-components";
 import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
-import { connect } from "react-redux";
 import { IoMdClose } from "react-icons/io";
-import { closeMobileFilters as closeMobileFiltersAction } from "actions/WTB";
-import { resetAllStates as resetAllStatesAction } from "actions/filters";
+import { closeMobileFilters } from "store/interface/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { resetAllStates } from "store/filters/actions";
 import useResizeObserver from "@react-hook/resize-observer";
 
 const Wrapper = styled.div`
@@ -103,16 +103,13 @@ const useSize = (target) => {
   return size;
 };
 
-const MobileFilters = ({
-  filterTypes,
-  filters,
-  className,
-  closeMobileFilters,
-  resetAllStates,
-  currentFilters,
-}) => {
+const MobileFilters = ({ className }) => {
   const target = useRef(null);
   const size = useSize(target);
+  const dispatch = useDispatch();
+  const { filters, filterTypes, currentFilters } = useSelector(
+    (state) => state.filtersSlice
+  );
 
   if (size?.width === 0) {
     closeMobileFilters();
@@ -122,7 +119,7 @@ const MobileFilters = ({
     <Wrapper className={className} ref={target}>
       <Header>
         <Title>Filtry</Title>
-        <Icon onClick={() => closeMobileFilters()}>
+        <Icon onClick={() => dispatch(closeMobileFilters())}>
           <Close />
         </Icon>
       </Header>
@@ -189,7 +186,7 @@ const MobileFilters = ({
         borderNone
       />
       <Container>
-        <Button onClick={() => resetAllStates()} clear>
+        <Button onClick={() => dispatch(resetAllStates())} clear>
           RESET
         </Button>
         <Button>ZATWIERDŹ</Button>
@@ -198,17 +195,4 @@ const MobileFilters = ({
   );
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
-  return {
-    filterTypes: filtersReducer.filterTypes,
-    filters: filtersReducer.filters,
-    currentFilters: filtersReducer.currentFilters,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  closeMobileFilters: () => dispatch(closeMobileFiltersAction()),
-  resetAllStates: () => dispatch(resetAllStatesAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MobileFilters);
+export default MobileFilters;

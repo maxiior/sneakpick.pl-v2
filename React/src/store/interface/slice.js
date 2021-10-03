@@ -59,7 +59,7 @@ export const interfaceSlice = createSlice({
       state.mobileFilters = true;
     });
     builder.addCase(closeMobileFilters.fulfilled, (state) => {
-      state.closeMobileFilters = false;
+      state.mobileFilters = false;
     });
   },
 });

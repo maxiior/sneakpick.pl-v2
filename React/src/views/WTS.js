@@ -57,92 +57,79 @@ const Add = styled.button`
 const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
   let history = useHistory();
 
-  useAuthenticated();
+  //useAuthenticated();
 
   useEffect(() => {
     resetCurrentStates();
   }, []);
 
   const addingProcess = () => {
-    http
-      .post(endpoints.MAIN, {
-        name: currentFilter.name,
-        brand: currentFilter.brands,
-        category: currentFilter.categories,
-        description: currentFilter.description,
-        kind: currentFilter.types,
-        condition: currentFilter.conditions,
-        size: `${
-          currentFilter.categories === "Sneakersy"
-            ? currentFilter.shoesSizes
-            : currentFilter.clothesSizes
-        }`,
-        fit: currentFilter.fits,
-        colorway: currentFilter.colors,
-        price: currentFilter.price,
-        ship: currentFilter.SHIP,
-        meet: currentFilter.MEET,
-      })
-      .then((response) => {
-        if (response.status === 201) history.push({ pathname: routes.WTB });
-      })
-      .catch((error) => {});
-  };
-
-  const checkIfFilesAreTooBig = (files) => {
-    let valid = true;
-    if (files) {
-      files.map((file) => {
-        const size = file.size / 1024 / 1024;
-        if (size > 2) {
-          valid = false;
-        }
-      });
-    }
-    return valid;
-  };
-
-  const checkIfFilesAreCorrectType = (files) => {
-    let valid = true;
-    if (files) {
-      files.map((file) => {
-        if (
-          !["application/pdf", "image/jpeg", "image/png"].includes(file.type)
-        ) {
-          valid = false;
-        }
-      });
-    }
-    return valid;
+    // http
+    //   .post(endpoints.MAIN, {
+    //     name: currentFilter.name,
+    //     brand: currentFilter.brands,
+    //     category: currentFilter.categories,
+    //     description: currentFilter.description,
+    //     kind: currentFilter.types,
+    //     condition: currentFilter.conditions,
+    //     size: `${
+    //       currentFilter.categories === "Sneakersy"
+    //         ? currentFilter.shoesSizes
+    //         : currentFilter.clothesSizes
+    //     }`,
+    //     fit: currentFilter.fits,
+    //     colorway: currentFilter.colors,
+    //     price: currentFilter.price,
+    //     ship: currentFilter.SHIP,
+    //     meet: currentFilter.MEET,
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 201) history.push({ pathname: routes.WTB });
+    //   })
+    //   .catch((error) => {});
   };
 
   const validationSchema = Yup.object().shape({
     item_name: Yup.string().required("Pole jest wymagane."),
     brand: Yup.string().required("Pole jest wymagane."),
-    category: Yup.string().required("Pole jest wymagane."),
+    category: Yup.string().nullable().required("Pole jest wymagane."),
     description: Yup.string().required("Pole jest wymagane."),
-    type: Yup.string().required("Zaznacz jedną z opcji."),
-    condition: Yup.string().required("Zaznacz jedną z opcji."),
-    colorway: Yup.string().required("Zaznacz jedną z opcji."),
+    type: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+    condition: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+    colorway: Yup.string().nullable().required("Zaznacz jedną z opcji."),
     price: Yup.number()
       .typeError("Wprowadzona wartość musi być liczbą.")
       .required("Pole jest wymagane."),
-    fit: Yup.string().required("Zaznacz jedną z opcji."),
-    shoeSize: Yup.string().required("Zaznacz jedną z opcji."),
-    clotheSize: Yup.string().required("Zaznacz jedną z opcji."),
+    fit: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+    shoeSize: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+    clotheSize: Yup.string().nullable().required("Zaznacz jedną z opcji."),
     photo: Yup.mixed()
-      .required("You need to provide a file")
-      .test("fileSize", "File Size is too large", (value) => {
-        return value && value[0].size <= 5242880;
+      .test(
+        "numberOfFiles",
+        "Musisz umieścić co najmniej jedno zdjęcie.",
+        (value) => {
+          if (value.length > 0) return true;
+          return false;
+        }
+      )
+      .test("fileSize", "Zbyt duży rozmiar pliku.", (value) => {
+        if (value.length > 0) return value[0].size <= 5242880;
+        return false;
       })
-      .test("fileType", "Unsupported File Format", (value) =>
-        ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      .test(
+        "fileType",
+        "Umieszczono plik o niepoprawnym formacie.",
+        (value) => {
+          if (value.length === 0) return false;
+          for (var i = 0; i < value.length; i++) {
+            if (
+              !["image/jpeg", "image/png", "image/jpg"].includes(value[i].type)
+            )
+              return false;
+          }
+          return true;
+        }
       ),
-    // .test(
-    //   "is-big-file",
-    //   "VALIDATION_FIELD_FILE_WRONG_TYPE",
-    //   checkIfFilesAreCorrectType
-    // ),
   });
 
   const methods = useForm({

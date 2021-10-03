@@ -91,6 +91,7 @@ const PhotoHolder = ({ index, selectedFiles, setSelectedFiles }) => {
             name="photo"
             type="file"
             multiple
+            {...register("photo")}
             onChange={(e) => {
               validator.onChange(e);
               setSelectedFiles([...selectedFiles, ...e.target.files]);

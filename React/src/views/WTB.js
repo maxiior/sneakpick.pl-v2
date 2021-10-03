@@ -4,9 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";
-import { connect } from "react-redux";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 import OnSearch from "components/OnSearch";
+import { useSelector } from "react-redux";
 
 const Header = styled.header`
   display: flex;
@@ -38,7 +38,8 @@ const Wrapper = styled.main`
   height: 100%;
 `;
 
-const WTB = ({ mobileFilters }) => {
+const WTB = () => {
+  const { mobileFilters } = useSelector((state) => state.interfaceSlice);
   return (
     <>
       <OnSearch />
@@ -57,10 +58,4 @@ const WTB = ({ mobileFilters }) => {
   );
 };
 
-const mapStateToProps = ({ filtersReducer }) => {
-  return {
-    mobileFilters: filtersReducer.mobileFilters,
-  };
-};
-
-export default connect(mapStateToProps)(WTB);
+export default WTB;

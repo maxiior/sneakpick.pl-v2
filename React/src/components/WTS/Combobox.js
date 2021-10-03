@@ -159,6 +159,7 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
             <StyledInput
               type="radio"
               name="category"
+              {...register("category")}
               onChange={(el) => {
                 validator.onChange(el);
                 changeState(filterType, e.text, "radio");

@@ -152,6 +152,7 @@ const Autocomplete = ({
         value={
           currentFilter.brands !== "placeholder" ? currentFilter.brands : ""
         }
+        {...register("brand")}
         onChange={(e) => {
           validator.onChange(e);
           if (!open) setOpen(true);

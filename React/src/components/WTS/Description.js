@@ -69,6 +69,7 @@ const Description = ({ name, placeholder, filterType, changeState, error }) => {
       <TextArea
         name="description"
         placeholder={placeholder}
+        {...register("description")}
         onChange={(e) => {
           validator.onChange(e);
           descriptionLength(e);

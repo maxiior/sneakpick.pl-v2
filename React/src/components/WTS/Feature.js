@@ -109,11 +109,12 @@ const Feature = ({
                 autoComplete="off"
                 type={number ? "number" : "text"}
                 maxLength={100}
-                onBlur={(e) => number && transformPrice(e)}
                 step={number && "0.01"}
                 error={formState.errors[name]}
                 name={name}
                 placeholder={placeholder}
+                {...register(name)}
+                onBlur={(e) => number && transformPrice(e)}
                 onChange={(e) => {
                   validator.onChange(e);
                   if (number) {
