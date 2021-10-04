@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
-import { connect } from "react-redux";
-import { changeState } from "actions/itemsSelector";
+import { changeSelector } from "store/selectors/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -101,15 +101,14 @@ const ComboBox = ({
   name,
   elements,
   itemsSelectorType,
-  changeState,
-  currentPagination,
-  currentSorting,
   sorting,
 }) => {
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(() =>
-    sorting ? elements[0] : currentPagination
+  const { pagination } = useSelector(
+    (state) => state.selectorsSlice.currentSelectors
   );
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState(() => (sorting ? elements[0] : pagination));
+  const dispatch = useDispatch();
 
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setOpen);
@@ -127,7 +126,12 @@ const ComboBox = ({
                 selected={mode === element}
                 onClick={() => {
                   setMode(element);
-                  changeState(itemsSelectorType, sorting ? i : elements[i]);
+                  dispatch(
+                    changeSelector({
+                      type: itemsSelectorType,
+                      value: sorting ? i : elements[i],
+                    })
+                  );
                 }}
               >
                 {element}
@@ -140,17 +144,4 @@ const ComboBox = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (itemsSelectorType, data) =>
-    dispatch(changeState(itemsSelectorType, data)),
-});
-
-const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
-  return {
-    results: announsReducer.results,
-    currentPagination: itemsSelectorReducer.currentPagination,
-    currentSorting: itemsSelectorReducer.currentSorting,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ComboBox);
+export default ComboBox;

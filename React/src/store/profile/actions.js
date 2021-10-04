@@ -1,13 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as profile from "api/services/profile.service.js";
 
-export const fetchItems = createAsyncThunk("profile/fetchItems", async (id) => {
-  const result = await profile.fetchItems(id);
-  return { items: result.results, results: result.count };
-});
+export const fetchItems = createAsyncThunk(
+  "profile/fetchItems",
+  async (data) => {
+    const result = await profile.fetchItems(data);
+    return { items: result.results, results: result.count };
+  }
+);
 
-export const fetchUser = createAsyncThunk("profile/fetchUser", async (id) => {
-  const result = await profile.fetchUser(id);
+export const fetchUser = createAsyncThunk("profile/fetchUser", async (data) => {
+  const result = await profile.fetchUser(data);
   return {
     id: result.id,
     first_name: result.first_name,

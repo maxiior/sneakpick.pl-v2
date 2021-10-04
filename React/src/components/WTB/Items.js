@@ -1,7 +1,7 @@
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import SingleItem from "components/WTB/SingleItem";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const StyledItems = styled.div`
   box-sizing: border-box;
@@ -18,7 +18,8 @@ const Blank = styled.div`
   justify-content: center;
 `;
 
-const Items = ({ items, results }) => {
+const Items = () => {
+  const { results, items } = useSelector((state) => state.itemsSlice);
   return (
     <StyledItems>
       <Grid container spacing={2}>
@@ -40,11 +41,4 @@ const Items = ({ items, results }) => {
   );
 };
 
-const mapStateToProps = ({ announsReducer }) => {
-  return {
-    results: announsReducer.results,
-    items: announsReducer.items,
-  };
-};
-
-export default connect(mapStateToProps)(Items);
+export default Items;

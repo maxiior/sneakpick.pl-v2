@@ -1,7 +1,7 @@
 import { VscChevronLeft } from "react-icons/vsc";
 import styled, { css } from "styled-components";
-import { connect } from "react-redux";
-import { changeState } from "actions/itemsSelector";
+import { changeSelector } from "store/selectors/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Arrow = styled(VscChevronLeft)`
   font-size: 20px;
@@ -63,92 +63,88 @@ const Dots = styled.div`
   user-select: none;
 `;
 
-const PagesList = ({
-  className,
-  currentPage,
-  changeState,
-  results,
-  currentPagination,
-}) => {
-  const number = Math.ceil(results / currentPagination);
+const PagesList = ({ className }) => {
+  const { page, pagination } = useSelector(
+    (state) => state.selectorsSlice.currentSelectors
+  );
+  const { results } = useSelector((state) => state.itemsSlice.results);
+  const number = Math.ceil(results / pagination);
+  const dispatch = useDispatch();
 
   const changePage = (i) => {
-    changeState("currentPage", i);
+    dispatch(changeSelector({ type: "page", value: i }));
   };
 
   return (
     <StyledPagesList className={className}>
       <Arrow
-        onClick={() => currentPage > 1 && changePage(currentPage - 1)}
-        blocked={currentPage === 1}
+        onClick={() => page > 1 && changePage(page - 1)}
+        blocked={page === 1}
       />
-      {currentPage === 1 && (
-        <Number selected={currentPage === 1} onClick={() => changePage(1)}>
+      {page === 1 && (
+        <Number selected={page === 1} onClick={() => changePage(1)}>
           1
         </Number>
       )}
-      {currentPage === 1 && number > 2 && (
-        <Number selected={currentPage === 2} onClick={() => changePage(2)}>
+      {page === 1 && number > 2 && (
+        <Number selected={page === 2} onClick={() => changePage(2)}>
           2
         </Number>
       )}
-      {currentPage === 1 && number > 3 && (
-        <Number selected={currentPage === 3} onClick={() => changePage(3)}>
+      {page === 1 && number > 3 && (
+        <Number selected={page === 3} onClick={() => changePage(3)}>
           3
         </Number>
       )}
 
-      {currentPage > 2 && currentPage === number - 1 && (
+      {page > 2 && page === number - 1 && (
         <Number
-          selected={currentPage === currentPage - 1}
-          onClick={() => changePage(currentPage - 1)}
+          selected={page === page - 1}
+          onClick={() => changePage(page - 1)}
         >
-          {currentPage - 2}
+          {page - 2}
         </Number>
       )}
-      {currentPage > 1 && currentPage <= number - 2 && (
+      {page > 1 && page <= number - 2 && (
         <Number
-          selected={currentPage === currentPage - 1}
-          onClick={() => changePage(currentPage - 1)}
+          selected={page === page - 1}
+          onClick={() => changePage(page - 1)}
         >
-          {currentPage - 1}
+          {page - 1}
         </Number>
       )}
-      {currentPage > 1 && currentPage <= number - 2 && (
-        <Number selected={true} onClick={() => changePage(currentPage)}>
-          {currentPage}
+      {page > 1 && page <= number - 2 && (
+        <Number selected={true} onClick={() => changePage(page)}>
+          {page}
         </Number>
       )}
-      {currentPage > 1 && currentPage <= number - 2 && (
+      {page > 1 && page <= number - 2 && (
         <Number
-          selected={currentPage === currentPage + 1}
-          onClick={() => changePage(currentPage + 1)}
+          selected={page === page + 1}
+          onClick={() => changePage(page + 1)}
         >
-          {currentPage + 1}
+          {page + 1}
         </Number>
       )}
-      {currentPage < number - 2 && number > 4 && <Dots>...</Dots>}
-      {currentPage > number - 2 && currentPage < number && currentPage - 1 > 0 && (
+      {page < number - 2 && number > 4 && <Dots>...</Dots>}
+      {page > number - 2 && page < number && page - 1 > 0 && (
         <Number
-          selected={currentPage === currentPage - 1}
-          onClick={() => changePage(currentPage - 1)}
+          selected={page === page - 1}
+          onClick={() => changePage(page - 1)}
         >
-          {currentPage - 1}
+          {page - 1}
         </Number>
       )}
-      {currentPage > number - 2 &&
-        currentPage < number &&
-        currentPage > 0 &&
-        number > 2 && (
-          <Number selected={true} onClick={() => changePage(currentPage)}>
-            {currentPage}
-          </Number>
-        )}
-      {currentPage === number && currentPage > 1 && (
+      {page > number - 2 && page < number && page > 0 && number > 2 && (
+        <Number selected={true} onClick={() => changePage(page)}>
+          {page}
+        </Number>
+      )}
+      {page === number && page > 1 && (
         <>
           {number > 3 && (
             <Number
-              selected={currentPage === number - 3}
+              selected={page === number - 3}
               onClick={() => changePage(number - 3)}
             >
               {number - 3}
@@ -156,54 +152,35 @@ const PagesList = ({
           )}
           {number > 2 && (
             <Number
-              selected={currentPage === number - 2}
+              selected={page === number - 2}
               onClick={() => changePage(number - 2)}
             >
               {number - 2}
             </Number>
           )}
           <Number
-            selected={currentPage === number - 1}
+            selected={page === number - 1}
             onClick={() => changePage(number - 1)}
           >
             {number - 1}
           </Number>
-          <Number
-            selected={currentPage === number}
-            onClick={() => changePage(number)}
-          >
+          <Number selected={page === number} onClick={() => changePage(number)}>
             {number}
           </Number>
         </>
       )}
-      {currentPage !== number && (
-        <Number
-          selected={currentPage === number}
-          onClick={() => changePage(number)}
-        >
+      {page !== number && (
+        <Number selected={page === number} onClick={() => changePage(number)}>
           {number}
         </Number>
       )}
       <Arrow
         right
-        onClick={() => currentPage < number && changePage(currentPage + 1)}
-        blocked={currentPage === number}
+        onClick={() => page < number && changePage(page + 1)}
+        blocked={page === number}
       />
     </StyledPagesList>
   );
 };
 
-const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
-  return {
-    currentPage: itemsSelectorReducer.currentPage,
-    results: announsReducer.results,
-    currentPagination: itemsSelectorReducer.currentPagination,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (itemsSelectorType, data) =>
-    dispatch(changeState(itemsSelectorType, data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PagesList);
+export default PagesList;

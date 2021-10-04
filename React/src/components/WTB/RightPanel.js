@@ -1,7 +1,7 @@
 import Itmes from "components/WTB/Items";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const StyledRightPanel = styled.div`
   display: block;
@@ -22,11 +22,16 @@ const StyledPagesList = styled.div`
   padding-bottom: 40px;
 `;
 
-const RightPanel = ({ results, currentPagination }) => {
+const RightPanel = () => {
+  const { pagination } = useSelector(
+    (state) => state.selectorsSlice.currentSelectors
+  );
+  const { results } = useSelector((state) => state.itemsSlice.results);
+
   return (
     <StyledRightPanel>
       <Itmes />
-      {Math.ceil(results / currentPagination) > 1 && (
+      {Math.ceil(results / pagination) > 1 && (
         <StyledPagesList>
           <PagesList />
         </StyledPagesList>
@@ -35,11 +40,4 @@ const RightPanel = ({ results, currentPagination }) => {
   );
 };
 
-const mapStateToProps = ({ announsReducer, itemsSelectorReducer }) => {
-  return {
-    results: announsReducer.results,
-    currentPagination: itemsSelectorReducer.currentPagination,
-  };
-};
-
-export default connect(mapStateToProps)(RightPanel);
+export default RightPanel;

@@ -5,9 +5,9 @@ import styled from "styled-components";
 import Path from "components/WTB/Path";
 import Results from "components/WTB/Results";
 import ComboBox from "components/WTB/ComboBox";
-import { connect } from "react-redux";
 import { useEffect } from "react";
-import { changeState as changeStateAction } from "actions/itemsSelector";
+import { changeSelector } from "store/selectors/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Nav = styled.div`
   position: relative;
@@ -90,22 +90,29 @@ const StyledFiltersPanel = styled(FiltersPanel)`
   }
 `;
 
-const TopNav = ({
-  results,
-  sortingModes,
-  paginationModes,
-  currentPage,
-  currentPagination,
-  changeState,
-}) => {
+const TopNav = () => {
+  const dispatch = useDispatch();
+  const { page, pagination } = useSelector(
+    (state) => state.selectorsSlice.currentSelectors
+  );
+  const { sortingModes, paginationModes } = useSelector(
+    (state) => state.selectorsSlice
+  );
+  const { results } = useSelector((state) => state.itemsSlice);
+
   useEffect(() => {
     if (
-      currentPage > Math.ceil(results / currentPagination) &&
-      Math.ceil(results / currentPagination) > 1
+      page > Math.ceil(results / pagination) &&
+      Math.ceil(results / pagination) > 1
     ) {
-      changeState("currentPage", Math.ceil(results / currentPagination));
+      dispatch(
+        changeSelector({
+          type: "page",
+          value: Math.ceil(results / pagination),
+        })
+      );
     }
-  }, [currentPagination]);
+  }, [pagination]);
 
   return (
     <>
@@ -120,38 +127,23 @@ const TopNav = ({
             </Holder>
             <Holder>
               <StyledComboBox
-                itemsSelectorType="currentSorting"
+                itemsSelectorType="sorting"
                 name="Sortowanie"
                 elements={sortingModes}
                 sorting
               />
               <StyledComboBox
-                itemsSelectorType="currentPagination"
+                itemsSelectorType="pagination"
                 name="Pokaż"
                 elements={paginationModes}
               />
             </Holder>
           </div>
-          {Math.ceil(results / currentPagination) > 1 && <StyledPagesList />}
+          {Math.ceil(results / pagination) > 1 && <StyledPagesList />}
         </RightPanel>
       </Nav>
     </>
   );
 };
 
-const mapStateToProps = ({ itemsSelectorReducer, announsReducer }) => {
-  return {
-    results: announsReducer.results,
-    sortingModes: itemsSelectorReducer.sortingModes,
-    paginationModes: itemsSelectorReducer.paginationModes,
-    currentPagination: itemsSelectorReducer.currentPagination,
-    currentPage: itemsSelectorReducer.currentPage,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (itemsSelectorType, data) =>
-    dispatch(changeStateAction(itemsSelectorType, data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopNav);
+export default TopNav;
