@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { useDispatch } from "react-redux";
+import { changeState } from "store/creator/actions";
 
 const Checkmark = styled.span`
   position: absolute;
@@ -60,14 +60,18 @@ const StyledLabel = styled.label`
 
 const Wrapper = styled.div``;
 
-const Checkbox = ({ text, className, changeState, small }) => {
+const Checkbox = ({ type, className, small }) => {
+  const dispatch = useDispatch();
+
   return (
     <Wrapper className={className}>
       <StyledLabel small={small}>
-        <div>{text}</div>
+        <div>{type}</div>
         <StyledInput
           type="checkbox"
-          onChange={() => changeState(text, null, "checkbox")}
+          onChange={() =>
+            dispatch(changeState({ type: type, id: null, input: "checkbox" }))
+          }
         />
         <Checkmark small={small} />
       </StyledLabel>
@@ -75,9 +79,4 @@ const Checkbox = ({ text, className, changeState, small }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(Checkbox);
+export default Checkbox;

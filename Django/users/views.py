@@ -84,6 +84,7 @@ class Login(APIView):
                 details['access_token'] = str(refresh.access_token)
                 details['expires_in'] = int(
                     SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+                details['id'] = user.id
                 response = Response(details, status=status.HTTP_200_OK)
                 response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None',
                                     max_age=300, path="/", expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
@@ -108,6 +109,7 @@ class Refresh(APIView):
             details['access_token'] = str(refresh.access_token)
             details['expires_in'] = int(
                 SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+            details['id'] = user.id
             response = Response(details, status=status.HTTP_200_OK)
             response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None', max_age=300, path="/", expires=int(
                 SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))

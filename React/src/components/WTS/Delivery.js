@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import Checkbox from "components/WTS/Checkbox";
 import Header from "components/WTS/Header";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import StrictInput from "components/WTS/StrictInput";
-import { setCitiesArray as setCitiesArrayAction } from "actions/WTS";
+import { setCitiesArray } from "store/creator/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Wrapper = styled.div``;
 
@@ -16,22 +16,27 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-const Delivery = ({ defaultValue, currentFilter, setCitiesArray }) => {
+const Delivery = ({ defaultValue }) => {
+  const dispatch = useDispatch();
+  const { MEET, cities } = useSelector(
+    (state) => state.creatorSlice.currentFilters
+  );
+
   useEffect(() => {
-    setCitiesArray(defaultValue);
-  }, [currentFilter.MEET]);
+    dispatch(setCitiesArray(defaultValue));
+  }, [MEET]);
 
   return (
     <Wrapper>
       <Header>Dostarczenie</Header>
       <div>
-        <StyledCheckbox text="SHIP" />
-        <StyledCheckbox text="MEET" />
+        <StyledCheckbox type="SHIP" />
+        <StyledCheckbox type="MEET" />
       </div>
-      {currentFilter.MEET && (
+      {MEET && (
         <>
           <Header small>Miasto</Header>
-          {currentFilter.cities.map((city, i) => (
+          {cities.map((city, i) => (
             <StrictInput value={city} index={i} first={i === 0} />
           ))}
         </>
@@ -40,14 +45,4 @@ const Delivery = ({ defaultValue, currentFilter, setCitiesArray }) => {
   );
 };
 
-const mapStateToProps = ({ addingItemReducer }) => {
-  return {
-    currentFilter: addingItemReducer.currentFilters,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  setCitiesArray: (id) => dispatch(setCitiesArrayAction(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Delivery);
+export default Delivery;

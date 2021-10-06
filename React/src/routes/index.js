@@ -11,6 +11,7 @@ export const routes = {
   SUPPORT: "/support",
   BUSINESSCONTACT: "/businesscontact",
   ITEM: "/wtb/:item",
+  DEFAULT_PROFILE: "/profile/",
   PROFILE: "/profile/:user",
   PROFILE_SETTINGS: "/settings/profile",
   ACCOUNT_SETTINGS: "/settings/account",

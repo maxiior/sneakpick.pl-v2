@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Header from "components/WTS/Header";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { useDispatch } from "react-redux";
+import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
 import { Error } from "components/WTS/Error";
 
@@ -48,7 +48,8 @@ const StyledHeader = styled(Header)`
 
 const Wrapper = styled.div``;
 
-const Description = ({ name, placeholder, filterType, changeState, error }) => {
+const Description = ({ name, placeholder, filterType }) => {
+  const dispatch = useDispatch();
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -73,7 +74,9 @@ const Description = ({ name, placeholder, filterType, changeState, error }) => {
         onChange={(e) => {
           validator.onChange(e);
           descriptionLength(e);
-          changeState(filterType, e.target.value, "text");
+          dispatch(
+            changeState({ type: filterType, id: e.target.value, input: "text" })
+          );
         }}
         maxLength="1000"
         error={formState.errors.description}
@@ -85,9 +88,4 @@ const Description = ({ name, placeholder, filterType, changeState, error }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(Description);
+export default Description;

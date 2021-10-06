@@ -159,14 +159,30 @@ export const creatorSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addToCitiesArray.fulfilled, (state, action) => {
+    builder.addCase(changeState.fulfilled, (state, action) => {
+      console.log(action);
+      if (action.payload.input === "checkbox") {
+        state.currentFilters[action.payload.type] =
+          !state.currentFilters[action.payload.type];
+      } else if (
+        action.payload.input === "radio" ||
+        action.payload.input === "text"
+      ) {
+        state.currentFilters[action.payload.type] = action.payload.id;
+      } else if (action.payload.input === "number") {
+        state.currentFilters[action.payload.type] = parseFloat(
+          action.payload.id
+        );
+      }
+    });
+    builder.addCase(addToCitiesArray.fulfilled, (state) => {
       if (state.currentFilters.cities.length < 5) {
         state.currentFilters.cities = [...state.currentFilters.cities, ""];
       }
     });
     builder.addCase(removeFromCitiesArray.fulfilled, (state, action) => {
       state.currentFilters.cities = state.currentFilters.cities.filter(
-        (_, i) => i !== action.payload.index
+        (_, i) => i !== action.payload
       );
     });
     builder.addCase(updateCitiesArray.fulfilled, (state, action) => {
@@ -179,7 +195,7 @@ export const creatorSlice = createSlice({
         state.currentFilters.MEET &&
         state.currentFilters.cities.length === 0
       ) {
-        state.currentFilters.cities = [action.payload.id];
+        state.currentFilters.cities = [action.payload];
       } else if (state.currentFilters.cities.length === 0) {
         state.currentFilters.cities = [];
       }

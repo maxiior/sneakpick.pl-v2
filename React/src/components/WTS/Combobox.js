@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { useDispatch, useSelector } from "react-redux";
+import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
 
 const Wrapper = styled.div`
@@ -99,9 +99,13 @@ const useOutsideAlerter = (ref, setOpen) => {
   }, [ref]);
 };
 
-const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
+const Combobox = ({ elements, filterType }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
+  const dispatch = useDispatch();
+  const { categories } = useSelector(
+    (state) => state.creatorSlice.currentFilters
+  );
   useOutsideAlerter(wrapperRef, setOpen);
 
   const { register, formState } = useFormContext();
@@ -124,7 +128,7 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
     if (e.key === "Enter" && cursor >= 0) {
       // e.preventDefault();
       // setSearch(suggestions[cursor].text);
-      // changeState(filterType, suggestions[cursor].text, "radio");
+      // dispatch(changeState(filterType, suggestions[cursor].text, "radio"));
       // setOpen(false);
       // setCursor(-1);
       // delete formState.errors["brand"];
@@ -148,9 +152,7 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
       error={formState.errors.category}
     >
       <ValueHolder>
-        {currentFilter.categories === "placeholder"
-          ? "np. Teesy"
-          : currentFilter.categories}
+        {categories === "placeholder" ? "np. Teesy" : categories}
       </ValueHolder>
       <Arrow turned={open === true} />
       <ModesContainer open={open}>
@@ -162,10 +164,12 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
               {...register("category")}
               onChange={(el) => {
                 validator.onChange(el);
-                changeState(filterType, e.text, "radio");
+                dispatch(
+                  changeState({ type: filterType, id: e.text, input: "radio" })
+                );
                 setOpen(false);
               }}
-              checked={currentFilter.categories === e.text}
+              checked={categories === e.text}
               isHighlighted={cursor === i}
             />
             <Option>{e.text}</Option>
@@ -176,15 +180,4 @@ const Combobox = ({ elements, changeState, filterType, currentFilter }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-const mapStateToProps = ({ addingItemReducer }) => {
-  return {
-    currentFilter: addingItemReducer.currentFilters,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Combobox);
+export default Combobox;

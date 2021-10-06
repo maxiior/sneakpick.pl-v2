@@ -5,10 +5,10 @@ import GridList from "components/WTS/GridList";
 import ColorwayGrid from "components/WTS/ColorwayGrid";
 import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
-import { connect } from "react-redux";
 import http from "api/http";
-import { resetCurrentStates as resetCurrentStatesAction } from "actions/WTS";
+import { resetCurrentStates } from "store/creator/actions";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -54,13 +54,17 @@ const Add = styled.button`
   }
 `;
 
-const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
+const WTS = () => {
   let history = useHistory();
+  const dispatch = useDispatch();
+  const { filters, filterTypes, currentFilters } = useSelector(
+    (state) => state.creatorSlice
+  );
 
   //useAuthenticated();
 
   useEffect(() => {
-    resetCurrentStates();
+    dispatch(resetCurrentStates());
   }, []);
 
   const addingProcess = () => {
@@ -148,7 +152,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
             <Feature
               title="Nazwa przedmiotu"
               placeholder="np. Nike Air Max 97"
-              filterType={filterTypes.name}
+              filterType="name"
               name="item_name"
             />
             <Feature
@@ -185,25 +189,25 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
               filterType={filterTypes.conditions}
               small
             />
-            {currentFilter.categories === "Sneakersy" && (
+            {currentFilters.categories === "Sneakersy" && (
               <GridList
                 title="Rozmiar"
                 name="shoeSize"
                 elements={filters.shoesSizes}
                 filterType={filterTypes.shoesSizes}
-                currentFilter={currentFilter.shoesSizes}
+                currentFilter={currentFilters.shoesSizes}
                 small
               />
             )}
-            {currentFilter.categories !== "Sneakersy" &&
-              currentFilter.categories !== "placeholder" && (
+            {currentFilters.categories !== "Sneakersy" &&
+              currentFilters.categories !== "placeholder" && (
                 <>
                   <GridList
                     title="Rozmiar"
                     name="clotheSize"
                     elements={filters.clothesSizes}
                     filterType={filterTypes.clothesSizes}
-                    currentFilter={currentFilter.clothesSizes}
+                    currentFilter={currentFilters.clothesSizes}
                     small
                   />
                   <GridList
@@ -211,7 +215,7 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
                     name="fit"
                     elements={filters.fits}
                     filterType={filterTypes.fits}
-                    currentFilter={currentFilter.fits}
+                    currentFilter={currentFilters.fits}
                     medium
                   />
                 </>
@@ -223,14 +227,14 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
             <Feature
               title="Cena"
               placeholder="0,00 PLN"
-              filterType={filterTypes.price}
+              filterType="price"
               number
               name="price"
             />
             <Delivery
               defaultValue="Warszawa"
-              ship={currentFilter.SHIP}
-              meet={currentFilter.MEET}
+              ship={currentFilters.SHIP}
+              meet={currentFilters.MEET}
             />
           </Panel>
           <Add type="submit">Dodaj ogłoszenie</Add>
@@ -240,17 +244,4 @@ const WTS = ({ filters, filterTypes, currentFilter, resetCurrentStates }) => {
   );
 };
 
-const mapStateToProps = ({ addingItemReducer }) => {
-  return {
-    filters: addingItemReducer.filters,
-    filterTypes: addingItemReducer.filterTypes,
-    currentFilter: addingItemReducer.currentFilters,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  resetCurrentStates: (filterType, id, input) =>
-    dispatch(resetCurrentStatesAction(filterType, id, input)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WTS);
+export default WTS;

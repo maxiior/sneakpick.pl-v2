@@ -30,6 +30,7 @@ const App = () => {
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />
+              <Route exact path={routes.DEFAULT_PROFILE} component={Profile} />
               <Route path={routes.PROFILE} component={Profile} />
               <SettingsTemplate>
                 <Route

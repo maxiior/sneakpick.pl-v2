@@ -85,7 +85,7 @@ const ProfileSettings = () => {
         if (response.status === 201) {
         }
       })
-      .catch((error) => {});
+      .catch(() => {});
   };
 
   useEffect(() => {

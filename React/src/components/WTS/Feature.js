@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Header from "components/WTS/Header";
 import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { useDispatch } from "react-redux";
+import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
 import { Error } from "components/WTS/Error";
 
@@ -62,13 +62,13 @@ const Feature = ({
   autocomplete,
   number,
   filterType,
-  changeState,
   error,
   ...props
 }) => {
   const { register, formState } = useFormContext();
   const validator = register(name);
   const [value, setValue] = useState();
+  const dispatch = useDispatch();
 
   const transformPrice = (e) => {
     if (e.target.value.includes(".")) {
@@ -114,13 +114,35 @@ const Feature = ({
                 name={name}
                 placeholder={placeholder}
                 {...register(name)}
-                onBlur={(e) => number && transformPrice(e)}
+                onBlur={(e) => {
+                  number && transformPrice(e);
+                  dispatch(
+                    changeState({
+                      type: filterType,
+                      id: e.target.value,
+                      input: "number",
+                    })
+                  );
+                }}
                 onChange={(e) => {
                   validator.onChange(e);
                   if (number) {
-                    changeState(filterType, e.target.value, "number");
+                    dispatch(
+                      changeState({
+                        type: filterType,
+                        id: e.target.value,
+                        input: "number",
+                      })
+                    );
                     setValue(e.target.value);
-                  } else changeState(filterType, e.target.value, "text");
+                  } else
+                    dispatch(
+                      changeState({
+                        type: filterType,
+                        id: e.target.value,
+                        input: "text",
+                      })
+                    );
                 }}
               />
               {number && value && <PLN>PLN</PLN>}
@@ -135,9 +157,4 @@ const Feature = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(Feature);
+export default Feature;

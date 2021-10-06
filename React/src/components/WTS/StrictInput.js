@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import Button from "components/WTS/Button";
-import { updateCitiesArray as updateCitiesArrayAction } from "actions/WTS";
+import { updateCitiesArray } from "store/creator/actions";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,22 +24,20 @@ const StyledInput = styled.input`
   }
 `;
 
-const StrictInput = ({ updateCitiesArray, value, index, first }) => {
+const StrictInput = ({ value, index, first }) => {
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <StyledInput
         type="text"
         value={value}
-        onChange={(e) => updateCitiesArray(index, e.target.value)}
+        onChange={(e) =>
+          dispatch(updateCitiesArray({ index, id: e.target.value }))
+        }
       />
       {first ? <Button /> : <Button index={index} remove />}
     </Wrapper>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  updateCitiesArray: (index, id) =>
-    dispatch(updateCitiesArrayAction(index, id)),
-});
-
-export default connect(null, mapDispatchToProps)(StrictInput);
+export default StrictInput;

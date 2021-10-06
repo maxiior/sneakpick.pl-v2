@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { connect } from "react-redux";
-import { addToCitiesArray as addToCitiesArrayAction } from "actions/WTS";
-import { removeFromCitiesArray as removeFromCitiesArrayAction } from "actions/WTS";
+import { addToCitiesArray } from "store/creator/actions";
+import { removeFromCitiesArray } from "store/creator/actions";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   height: 25px;
@@ -32,12 +32,13 @@ const Minus = styled(AiOutlineMinus)`
   font-size: 15px;
 `;
 
-const Button = ({ addToCitiesArray, removeFromCitiesArray, index, remove }) => {
+const Button = ({ index, remove }) => {
+  const dispatch = useDispatch();
   return (
     <Wrapper
       onClick={() => {
-        if (remove) removeFromCitiesArray(index);
-        else addToCitiesArray();
+        if (remove) dispatch(removeFromCitiesArray(index));
+        else dispatch(addToCitiesArray());
       }}
       remove={remove}
     >
@@ -46,10 +47,4 @@ const Button = ({ addToCitiesArray, removeFromCitiesArray, index, remove }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addToCitiesArray: () => dispatch(addToCitiesArrayAction()),
-  removeFromCitiesArray: (index) =>
-    dispatch(removeFromCitiesArrayAction(index)),
-});
-
-export default connect(null, mapDispatchToProps)(Button);
+export default Button;

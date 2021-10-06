@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const changeState = createAsyncThunk(
   "creator/changeState",
   async (data) => {
+    console.log(data);
     return { type: data.type, id: data.id, input: data.input };
   }
 );

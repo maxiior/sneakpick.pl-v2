@@ -1,8 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import Header from "components/WTS/Header";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { useDispatch } from "react-redux";
+import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
 import { Error } from "components/WTS/Error";
 
@@ -67,7 +67,6 @@ const Wrapper = styled.div``;
 const GridList = ({
   name,
   elements,
-  changeState,
   filterType,
   currentFilter,
   title,
@@ -75,6 +74,7 @@ const GridList = ({
 }) => {
   const { register, formState } = useFormContext();
   const validator = register(name);
+  const dispatch = useDispatch();
 
   return (
     <Wrapper>
@@ -93,7 +93,9 @@ const GridList = ({
               {...register(name)}
               onChange={(el) => {
                 validator.onChange(el);
-                changeState(filterType, e.text, "radio");
+                dispatch(
+                  changeState({ type: filterType, id: e.text, input: "radio" })
+                );
               }}
               checked={currentFilter && currentFilter === e.text}
             />
@@ -105,9 +107,4 @@ const GridList = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(GridList);
+export default GridList;

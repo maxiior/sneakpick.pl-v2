@@ -23,7 +23,7 @@ const StyledDropdown = styled(Dropdown)`
   display: none;
 `;
 
-const StyledOption = styled.div`
+const Wrapper = styled.div`
   margin: 0 15px;
   position: relative;
 
@@ -34,12 +34,12 @@ const StyledOption = styled.div`
 
 const Option = ({ text, where }) => {
   return (
-    <StyledOption>
+    <Wrapper>
       <StyledNavLink exact={where === "/"} to={where} activeclass="active">
         {text}
       </StyledNavLink>
       <StyledDropdown />
-    </StyledOption>
+    </Wrapper>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
-import { connect } from "react-redux";
-import { changeState as changeStateAction } from "actions/WTS";
+import { changeState } from "store/creator/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormContext } from "react-hook-form";
 
 const Wrapper = styled.div`
@@ -89,15 +89,12 @@ const useOutsideAlerter = (ref, setOpen) => {
   }, [ref]);
 };
 
-const Autocomplete = ({
-  elements,
-  changeState,
-  filterType,
-  currentFilter,
-  placeholder,
-}) => {
+const Autocomplete = ({ elements, filterType, placeholder }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
+  const dispatch = useDispatch();
+  const { brands } = useSelector((state) => state.creatorSlice.currentFilters);
+
   useOutsideAlerter(wrapperRef, setOpen);
 
   const [search, setSearch] = useState("");
@@ -126,7 +123,13 @@ const Autocomplete = ({
     if (e.key === "Enter" && cursor >= 0) {
       e.preventDefault();
       setSearch(suggestions[cursor].text);
-      changeState(filterType, suggestions[cursor].text, "radio");
+      dispatch(
+        changeState({
+          type: filterType,
+          id: suggestions[cursor].text,
+          input: "radio",
+        })
+      );
       setOpen(false);
       setCursor(-1);
       delete formState.errors["brand"];
@@ -149,15 +152,15 @@ const Autocomplete = ({
         autoComplete="off"
         maxLength={100}
         placeholder={placeholder}
-        value={
-          currentFilter.brands !== "placeholder" ? currentFilter.brands : ""
-        }
+        value={brands !== "placeholder" ? brands : ""}
         {...register("brand")}
         onChange={(e) => {
           validator.onChange(e);
           if (!open) setOpen(true);
           setSearch(e.target.value);
-          changeState(filterType, e.target.value, "text");
+          dispatch(
+            changeState({ type: filterType, id: e.target.value, input: "text" })
+          );
           setCursor(-1);
         }}
         onKeyDown={(e) => keyboardNavigation(e)}
@@ -168,7 +171,9 @@ const Autocomplete = ({
           {suggestions.slice(0, 8).map((e, i) => (
             <Mode
               onClick={() => {
-                changeState(filterType, e.text, "radio");
+                dispatch(
+                  changeState({ type: filterType, id: e.text, input: "radio" })
+                );
                 setSearch(e.text);
                 delete formState.errors["brand"];
               }}
@@ -183,15 +188,4 @@ const Autocomplete = ({
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-const mapStateToProps = ({ addingItemReducer }) => {
-  return {
-    currentFilter: addingItemReducer.currentFilters,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Autocomplete);
+export default Autocomplete;

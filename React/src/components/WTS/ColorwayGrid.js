@@ -1,8 +1,8 @@
 import colorful from "assets/other.png";
 import Header from "components/WTS/Header";
 import styled, { css } from "styled-components";
-import { changeState as changeStateAction } from "actions/WTS";
-import { connect } from "react-redux";
+import { changeState } from "store/creator/actions";
+import { useDispatch } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
 import { useFormContext } from "react-hook-form";
 import { Error } from "components/WTS/Error";
@@ -69,9 +69,10 @@ const StyledInput = styled.input`
 
 const Wrapper = styled.div``;
 
-const ColorwayGrid = ({ colors, filterType, changeState }) => {
+const ColorwayGrid = ({ colors, filterType }) => {
   const { register, formState } = useFormContext();
   const validator = register("colorway");
+  const dispatch = useDispatch();
 
   return (
     <Wrapper>
@@ -91,7 +92,13 @@ const ColorwayGrid = ({ colors, filterType, changeState }) => {
                 {...register("colorway")}
                 onChange={(e) => {
                   validator.onChange(e);
-                  changeState(filterType, c.text, "radio");
+                  dispatch(
+                    changeState({
+                      type: filterType,
+                      id: c.text,
+                      input: "radio",
+                    })
+                  );
                 }}
               />
               <CW
@@ -109,9 +116,4 @@ const ColorwayGrid = ({ colors, filterType, changeState }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  changeState: (filterType, id, input) =>
-    dispatch(changeStateAction(filterType, id, input)),
-});
-
-export default connect(null, mapDispatchToProps)(ColorwayGrid);
+export default ColorwayGrid;
