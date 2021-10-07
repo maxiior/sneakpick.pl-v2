@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.core.validators import RegexValidator
+from sneakpick.models import Product
 
 
 class CustomAccountManager(BaseUserManager):
@@ -44,6 +45,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    followed = models.ManyToManyField(
+        Product, related_name="followed_products", blank=True)
 
     objects = CustomAccountManager()
     object = models.Manager()

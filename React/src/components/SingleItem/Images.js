@@ -92,7 +92,7 @@ const Images = ({ images }) => {
         <Photo
           style={{
             backgroundImage: `url(${
-              images !== undefined && getPhoto(images[current].file_name)
+              images !== undefined && getPhoto(images[current]?.file_name)
             })`,
           }}
         ></Photo>

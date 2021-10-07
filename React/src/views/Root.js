@@ -7,6 +7,7 @@ import { ThemeProvider } from "styled-components";
 import WTB from "views/WTB";
 import WTS from "views/WTS";
 import SingleItem from "views/SingleItem";
+import Followed from "views/Followed";
 import Home from "views/Home";
 import Profile from "views/Profile";
 import ProfileSettings from "views/ProfileSettings";
@@ -32,6 +33,7 @@ const App = () => {
               <Route path={routes.ITEM} component={SingleItem} />
               <Route exact path={routes.DEFAULT_PROFILE} component={Profile} />
               <Route path={routes.PROFILE} component={Profile} />
+              <Route path={routes.FOLLOWED} component={Followed} />
               <SettingsTemplate>
                 <Route
                   path={routes.PROFILE_SETTINGS}

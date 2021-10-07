@@ -38,7 +38,7 @@ const Condition = styled.div`
   margin-left: 15px;
 `;
 
-const Bump = styled.div`
+const Option = styled.div`
   background-color: ${({ theme }) => theme.blue};
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
@@ -186,9 +186,7 @@ const SingleItem = () => {
 
   const bump = () => {
     http
-      .post(endpoints.BUMP + data.product.id, {
-        id: data.product.id,
-      })
+      .post(endpoints.BUMP + data.product.id, {})
       .then((response) => {
         setData({
           product: {
@@ -199,7 +197,16 @@ const SingleItem = () => {
           },
         });
       })
-      .catch((error) => {});
+      .catch(() => {});
+  };
+
+  const follow = () => {
+    http
+      .get("user/followed/", {})
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(() => {});
   };
 
   const resolution = (table) => {
@@ -233,8 +240,8 @@ const SingleItem = () => {
             <Condition>{data.product.condition}</Condition>
           </TopLeft>
           <TopRight>
-            <Bump>Follow</Bump>
-            <Bump onClick={() => bump()}>Bump</Bump>
+            <Option onClick={() => follow()}>Follow</Option>
+            <Option onClick={() => bump()}>Bump</Option>
             <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
           </TopRight>
         </TopPanel>

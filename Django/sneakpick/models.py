@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-from users.models import User
 
 
 class Category(models.Model):
@@ -68,7 +67,7 @@ class Product(models.Model):
     ship = models.BooleanField()
     meet = models.BooleanField()
     bumps = models.ManyToManyField(
-        User, related_name="product_bumps", blank=True)
+        settings.AUTH_USER_MODEL, related_name="product_bumps", blank=True)
 
     def total_bumps(self):
         return self.bumps.count()

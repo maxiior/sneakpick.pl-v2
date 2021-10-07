@@ -14,7 +14,7 @@ class UserAdminConfig(UserAdmin):
     ordering = ('-date_joined',)
     list_display = ('email', 'id', 'first_name', 'last_name', 'city',
                     'is_active', 'is_staff')
-    fieldsets = ((None, {'fields': ('email', 'first_name', 'last_name', 'city',)}),
+    fieldsets = ((None, {'fields': ('email', 'first_name', 'last_name', 'city', 'followed')}),
                  ('Permissions', {'fields': ('is_staff', 'is_active')}))
 
     formfield_overrides = {

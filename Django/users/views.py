@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from sneakpick.models import Product
 from .serializers import RegisterUserSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -12,6 +13,9 @@ from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.hashers import check_password
 from core.settings import SECRET_KEY, SIMPLE_JWT
 import jwt
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 class CustomUserCreate(APIView):
@@ -87,7 +91,7 @@ class Login(APIView):
                 details['id'] = user.id
                 response = Response(details, status=status.HTTP_200_OK)
                 response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None',
-                                    max_age=300, path="/", expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                                    max_age=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()), path="/", expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
                 return response
             else:
                 return Response({'Error': 'Wrong password'}, status.HTTP_403_FORBIDDEN)
@@ -111,7 +115,7 @@ class Refresh(APIView):
                 SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
             details['id'] = user.id
             response = Response(details, status=status.HTTP_200_OK)
-            response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None', max_age=300, path="/", expires=int(
+            response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None', max_age=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()), path="/", expires=int(
                 SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
             return response
         else:
@@ -136,3 +140,39 @@ class Logout(APIView):
 @permission_classes([IsAuthenticated])
 def my_user_detail(request):
     return Response(MyUserSerializer(request.user).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def follow_product(request, pk):
+    if request.COOKIES.get('refresh_token'):
+        refresh = jwt.decode(request.COOKIES.get(
+            'refresh_token'), SECRET_KEY, algorithms=["HS256"])
+        user = User.objects.filter(id=refresh['user_id']).first()
+        product = Product.object.filter(id=pk).first()
+        if product in user.followed.all():
+            user.followed.remove(product)
+        else:
+            user.followed.add(product)
+
+        return Response({}, status=status.HTTP_200_OK)
+    else:
+        return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_followed_products(request):
+    if request.COOKIES.get('refresh_token'):
+        refresh = jwt.decode(request.COOKIES.get(
+            'refresh_token'), SECRET_KEY, algorithms=["HS256"])
+        user = User.objects.filter(id=refresh['user_id']).first()
+
+        products = {}
+
+        for product in user.followed.all():
+            products[product.name] = {
+                'size': product.size, 'price': product.price, 'condition': product.condition}
+        return Response(products, status=status.HTTP_200_OK)
+    else:
+        return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
