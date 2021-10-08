@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import MainTemplate from "templates/MainTemplate";
 import { routes } from "routes";
-
 import { theme } from "theme/mainTheme";
 import { ThemeProvider } from "styled-components";
 import WTB from "views/WTB";
@@ -16,9 +15,11 @@ import SettingsTemplate from "templates/SettingsTemplate";
 import AccountSettings from "views/AccountSettings";
 import CommunicatorTemplate from "templates/CommunicatorTemplate";
 import useRefreshToken from "hooks/useRefreshToken";
+import useFollowedItems from "hooks/useFollowedItems";
 
 const App = () => {
   useRefreshToken();
+  useFollowedItems();
 
   return (
     <BrowserRouter>

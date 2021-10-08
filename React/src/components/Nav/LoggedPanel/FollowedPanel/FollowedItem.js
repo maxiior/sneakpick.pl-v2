@@ -1,4 +1,8 @@
 import styled from "styled-components";
+import http from "api/http";
+import { endpoints } from "routes";
+import { removeFollowedItem } from "store/followed/actions";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,11 +63,23 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const FollowedItem = ({ name, size, condition, price }) => {
+const FollowedItem = ({ name, size, condition, price, id }) => {
+  const dispatch = useDispatch();
+
   const maxLength = (name) => {
     if (name.length > 30) return name.slice(0, 30) + "...";
     return name;
   };
+
+  const unfollow = () => {
+    http
+      .post(endpoints.FOLLOW + id, {})
+      .then((response) => {
+        dispatch(removeFollowedItem(id));
+      })
+      .catch(() => {});
+  };
+
   return (
     <Wrapper>
       <Image />
@@ -77,7 +93,7 @@ const FollowedItem = ({ name, size, condition, price }) => {
           <Price>{price}PLN</Price>
         </Holder>
         <Options>
-          <Option>Usuń z obserwowanych</Option>
+          <Option onClick={() => unfollow()}>Usuń z obserwowanych</Option>
         </Options>
       </Container>
     </Wrapper>

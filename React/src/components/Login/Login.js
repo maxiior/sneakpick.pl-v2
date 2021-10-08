@@ -12,6 +12,7 @@ import {
 import { login } from "store/auth/actions";
 import { login as loginAction } from "store/auth/actions";
 import { useDispatch } from "react-redux";
+import { fetchFollowedItems } from "store/followed/actions";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -141,6 +142,7 @@ const Login = () => {
           dispatch(displayCommunicatorIcon());
           dispatch(closeLoginView());
           dispatch(loginAction);
+          dispatch(fetchFollowedItems());
         }
       })
       .catch((e) => {

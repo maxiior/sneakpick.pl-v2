@@ -1,7 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { fetchFollowedItems } from "store/followed/actions";
 
 const Followed = () => {
-  return <div>Followed</div>;
+  const dispatch = useDispatch();
+
+  return <div onClick={() => dispatch(fetchFollowedItems())}>Followed</div>;
 };
 
 export default Followed;

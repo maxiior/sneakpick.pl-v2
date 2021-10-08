@@ -6,6 +6,7 @@ import filtersSlice from "store/filters/slice";
 import selectorsSlice from "store/selectors/slice";
 import itemsSlice from "store/items/slice";
 import creatorSlice from "store/creator/slice";
+import followedSlice from "store/followed/slice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     selectorsSlice,
     itemsSlice,
     creatorSlice,
+    followedSlice,
   },
 });
 

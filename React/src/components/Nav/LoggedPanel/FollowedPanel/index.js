@@ -2,6 +2,7 @@ import styled from "styled-components";
 import FollowedItem from "./FollowedItem";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
+import { useSelector } from "react-redux";
 
 const Header = styled.div`
   width: 100%;
@@ -20,6 +21,10 @@ const Button = styled(Link)`
   margin-top: 15px;
   display: block;
   text-decoration: none;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -28,26 +33,27 @@ const Wrapper = styled.div`
   top: 60px;
   right: 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  min-width: 500px;
   display: none;
   padding: 20px;
 `;
 
 const FollowedPanel = ({ className }) => {
+  const items = useSelector((state) => state.followedSlice.items);
+
   return (
     <Wrapper className={className}>
       <Header>MOJE OBSERWOWANE</Header>
-      <FollowedItem
-        name="Adidas Yeezy Boost 350 V2 Zyone"
-        size="44.0"
-        condition="DS"
-        price="1300.00"
-      />
-      <FollowedItem
-        name="Nike Vapor Max"
-        size="44.0"
-        condition="DS"
-        price="309.00"
-      />
+      {items.map((e, i) => (
+        <FollowedItem
+          key={i}
+          name={e.name}
+          size={e.size}
+          condition={e.condition}
+          price={e.price}
+          id={e.id}
+        />
+      ))}
       <Button to={routes.FOLLOWED}>OBSERWOWANE</Button>
     </Wrapper>
   );

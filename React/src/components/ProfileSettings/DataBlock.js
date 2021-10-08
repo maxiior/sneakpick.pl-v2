@@ -53,7 +53,7 @@ const DataBlock = ({
 
   useEffect(() => {
     reset(value);
-  }, []);
+  });
 
   return (
     <Wrapper className={className}>

@@ -171,8 +171,8 @@ def get_followed_products(request):
         products = {}
 
         for product in user.followed.all():
-            products[product.name] = {
-                'size': product.size, 'price': product.price, 'condition': product.condition}
+            products[product.name] = {'id': product.id,
+                                      'size': product.size, 'price': product.price, 'condition': product.condition}
         return Response(products, status=status.HTTP_200_OK)
     else:
         return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)

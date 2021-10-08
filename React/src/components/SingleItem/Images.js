@@ -113,6 +113,7 @@ const Images = ({ images }) => {
           {images?.map((e, i) => (
             <Grid item xs={2} sm={2} lg={2} xl={2}>
               <IconPhoto
+                key={i}
                 style={{
                   backgroundImage: `url(${getPhoto(e.file_name)})`,
                 }}

@@ -1,6 +1,5 @@
 import Option from "components/Nav/Option";
 import styled from "styled-components";
-import Logout from "components/Nav/Logout";
 import LoggedPanel from "components/Nav/LoggedPanel";
 import { routes } from "routes";
 import {

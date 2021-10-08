@@ -7,6 +7,8 @@ import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
 import { endpoints } from "routes";
 import { Link } from "react-router-dom";
+import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -39,7 +41,8 @@ const Condition = styled.div`
 `;
 
 const Option = styled.div`
-  background-color: ${({ theme }) => theme.blue};
+  background-color: ${({ theme, active }) =>
+    active ? theme.grey : theme.blue};
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
   font-size: 20px;
@@ -183,6 +186,9 @@ const LeftPanel = styled.div`
 const SingleItem = () => {
   const { item } = useParams();
   const [data, setData] = useState({ product: {} });
+  const dispatch = useDispatch();
+  const followedItems = useSelector((state) => state.followedSlice.items);
+  const [isFollowed, setIsFollowed] = useState(false);
 
   const bump = () => {
     http
@@ -200,11 +206,33 @@ const SingleItem = () => {
       .catch(() => {});
   };
 
+  const checkIfFollowed = () => {
+    let check = false;
+    followedItems.forEach((e) => {
+      if (e.id === data.product.id) check = true;
+    });
+    if (check) return true;
+    else return false;
+  };
+
   const follow = () => {
     http
-      .get("user/followed/", {})
+      .post(endpoints.FOLLOW + data.product.id, {})
       .then((response) => {
-        console.log(response);
+        if (isFollowed) {
+          dispatch(removeFollowedItem(data.product.id));
+        } else {
+          dispatch(
+            addFollowedItem({
+              name: data.product.name,
+              size: data.product.size,
+              condition: data.product.condition,
+              id: data.product.id,
+              price: data.product.price,
+            })
+          );
+        }
+        setIsFollowed(!isFollowed);
       })
       .catch(() => {});
   };
@@ -230,6 +258,11 @@ const SingleItem = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (checkIfFollowed()) setIsFollowed(true);
+    else setIsFollowed(false);
+  }, [data, followedItems]);
+
   return (
     <Wrapper>
       <Container>
@@ -240,7 +273,9 @@ const SingleItem = () => {
             <Condition>{data.product.condition}</Condition>
           </TopLeft>
           <TopRight>
-            <Option onClick={() => follow()}>Follow</Option>
+            <Option active={isFollowed} onClick={() => follow()}>
+              {isFollowed ? "Unfollow" : "Follow"}
+            </Option>
             <Option onClick={() => bump()}>Bump</Option>
             <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
           </TopRight>

@@ -123,7 +123,7 @@ const TopPanel = () => {
 
   useEffect(() => {
     dispatch(fetchUser(user));
-  }, []);
+  });
 
   const isAuthenticated = useSelector(
     (state) => state.authSlice.isAuthenticated

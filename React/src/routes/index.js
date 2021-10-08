@@ -33,4 +33,5 @@ export const endpoints = {
   USER_PRODUCTS_LIST: "user_list/",
   ME: "user/me/",
   EDIT: "user/edit/",
+  FOLLOWED: "user/followed/",
 };
