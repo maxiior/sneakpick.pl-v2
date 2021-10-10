@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
+import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
 
 const Wrapper = styled.div`
   width: 70%;
@@ -85,20 +86,6 @@ const StyledLabel = styled.label`
   cursor: pointer;
 `;
 
-const useOutsideAlerter = (ref, setOpen) => {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-};
-
 const Combobox = ({ elements, filterType }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
@@ -106,7 +93,7 @@ const Combobox = ({ elements, filterType }) => {
   const { categories } = useSelector(
     (state) => state.creatorSlice.currentFilters
   );
-  useOutsideAlerter(wrapperRef, setOpen);
+  useDetectOutsideClick(wrapperRef, setOpen);
 
   const { register, formState } = useFormContext();
   const validator = register("category");

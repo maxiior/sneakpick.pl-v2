@@ -189,6 +189,9 @@ const SingleItem = () => {
   const dispatch = useDispatch();
   const followedItems = useSelector((state) => state.followedSlice.items);
   const [isFollowed, setIsFollowed] = useState(false);
+  const isAuthenticated = useSelector(
+    (state) => state.authSlice.isAuthenticated
+  );
 
   const bump = () => {
     http
@@ -273,9 +276,11 @@ const SingleItem = () => {
             <Condition>{data.product.condition}</Condition>
           </TopLeft>
           <TopRight>
-            <Option active={isFollowed} onClick={() => follow()}>
-              {isFollowed ? "Unfollow" : "Follow"}
-            </Option>
+            {isAuthenticated && (
+              <Option active={isFollowed} onClick={() => follow()}>
+                {isFollowed ? "Unfollow" : "Follow"}
+              </Option>
+            )}
             <Option onClick={() => bump()}>Bump</Option>
             <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
           </TopRight>

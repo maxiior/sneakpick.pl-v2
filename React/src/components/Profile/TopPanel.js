@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import { useEffect } from "react";
+import styled, { css } from "styled-components";
 import Informations from "components/Profile/Informations";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { fetchUser } from "store/profile/actions";
@@ -28,6 +28,12 @@ const Avatar = styled.div`
   padding-bottom: 80%;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.grey};
+
+  ${({ editable }) =>
+    editable &&
+    css`
+      cursor: pointer;
+    `}
 `;
 
 const Name = styled.div`
@@ -132,7 +138,7 @@ const TopPanel = () => {
   return (
     <Wrapper>
       <LeftContainer>
-        <Avatar />
+        <Avatar editable={profile.user.id === user_id} />
       </LeftContainer>
       <RightContainer>
         <TopHolder>
@@ -141,8 +147,12 @@ const TopPanel = () => {
             <ShieldIcon />
           </Name>
           <ButtonsHolder>
-            <Button>DM</Button>
-            <Button>Follow</Button>
+            {isAuthenticated && profile.user.id !== user_id && (
+              <>
+                <Button>DM</Button>
+                <Button>Follow</Button>
+              </>
+            )}
             {isAuthenticated && profile.user.id === user_id && (
               <Edit to={routes.PROFILE_SETTINGS}>Edytuj profil</Edit>
             )}

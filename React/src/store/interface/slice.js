@@ -10,6 +10,8 @@ import {
   hideCommunicatorIcon,
   openMobileFilters,
   closeMobileFilters,
+  setInformationBlock,
+  resetInformationBlock,
 } from "store/interface/actions";
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   menuView: false,
   communicatorIcon: true,
   mobileFilters: false,
+  informationBlock: null,
 };
 
 export const interfaceSlice = createSlice({
@@ -60,6 +63,12 @@ export const interfaceSlice = createSlice({
     });
     builder.addCase(closeMobileFilters.fulfilled, (state) => {
       state.mobileFilters = false;
+    });
+    builder.addCase(setInformationBlock.fulfilled, (state, action) => {
+      state.informationBlock = action.payload;
+    });
+    builder.addCase(resetInformationBlock.fulfilled, (state) => {
+      state.informationBlock = null;
     });
   },
 });

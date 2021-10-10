@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Register/Checkbox";
@@ -12,6 +12,8 @@ import {
 } from "store/interface/actions";
 import { register } from "api/services/auth.service";
 import { useDispatch } from "react-redux";
+import { setInformationBlock } from "store/interface/actions";
+import { information_types } from "constants/informations";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -167,6 +169,7 @@ const Register = () => {
         if (response.status === 201) {
           dispatch(closeRegisterView());
           dispatch(displayCommunicatorIcon());
+          dispatch(setInformationBlock(information_types.account_created));
         }
       })
       .catch((error) => {

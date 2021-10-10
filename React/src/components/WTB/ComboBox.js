@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { changeSelector } from "store/selectors/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
 
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -82,20 +83,6 @@ const StyledComboBox = styled.div`
   display: inline-block;
 `;
 
-const useOutsideAlerter = (ref, setOpen) => {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-};
-
 const ComboBox = ({
   className,
   name,
@@ -111,7 +98,7 @@ const ComboBox = ({
   const dispatch = useDispatch();
 
   const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, setOpen);
+  useDetectOutsideClick(wrapperRef, setOpen);
 
   return (
     <StyledComboBox className={className}>

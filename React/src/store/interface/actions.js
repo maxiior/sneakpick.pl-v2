@@ -40,6 +40,18 @@ export const hideCommunicatorIcon = createAsyncThunk(
   async () => {}
 );
 
+export const setInformationBlock = createAsyncThunk(
+  "interface/setInformationBlock",
+  async (data) => {
+    return data;
+  }
+);
+
+export const resetInformationBlock = createAsyncThunk(
+  "interface/resetInformationBlock",
+  async () => {}
+);
+
 export const openMobileFilters = createAsyncThunk(
   "filters/openMobileFilters",
   async () => {}

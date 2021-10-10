@@ -38,22 +38,42 @@ const Wrapper = styled.div`
   padding: 20px;
 `;
 
+const FollowedItemsList = styled.div`
+  max-height: 206px;
+  overflow-y: auto;
+  padding-right: 20px;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.grey};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.blue};
+  }
+`;
+
 const FollowedPanel = ({ className }) => {
   const items = useSelector((state) => state.followedSlice.items);
 
   return (
     <Wrapper className={className}>
       <Header>MOJE OBSERWOWANE</Header>
-      {items.map((e, i) => (
-        <FollowedItem
-          key={i}
-          name={e.name}
-          size={e.size}
-          condition={e.condition}
-          price={e.price}
-          id={e.id}
-        />
-      ))}
+      <FollowedItemsList>
+        {items.map((e, i) => (
+          <FollowedItem
+            key={i}
+            name={e.name}
+            size={e.size}
+            condition={e.condition}
+            price={e.price}
+            id={e.id}
+          />
+        ))}
+      </FollowedItemsList>
       <Button to={routes.FOLLOWED}>OBSERWOWANE</Button>
     </Wrapper>
   );

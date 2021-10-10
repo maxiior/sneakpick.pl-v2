@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -45,9 +44,10 @@ const Notification = styled.div`
 
 const CommunicatorTemplate = ({ children }) => {
   const { communicatorIcon } = useSelector((state) => state.interfaceSlice);
+  const { isAuthenticated } = useSelector((state) => state.authSlice);
   return (
     <Wrapper>
-      {communicatorIcon && (
+      {communicatorIcon && isAuthenticated && (
         <MessageIcon>
           DM<Notification>2</Notification>
         </MessageIcon>

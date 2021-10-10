@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
 import { changeState } from "store/creator/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormContext } from "react-hook-form";
+import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
 
 const Wrapper = styled.div`
   width: 70%;
@@ -75,27 +76,13 @@ const ModesContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-const useOutsideAlerter = (ref, setOpen) => {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref]);
-};
-
 const Autocomplete = ({ elements, filterType, placeholder }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   const dispatch = useDispatch();
   const { brands } = useSelector((state) => state.creatorSlice.currentFilters);
 
-  useOutsideAlerter(wrapperRef, setOpen);
+  useDetectOutsideClick(wrapperRef, setOpen);
 
   const [search, setSearch] = useState("");
   const [cursor, setCursor] = useState(-1);

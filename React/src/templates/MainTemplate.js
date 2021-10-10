@@ -8,6 +8,7 @@ import Register from "components/Register/Register";
 import Menu from "components/Menu/Menu";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import InformationBlock from "components/InformationBlock";
 
 const Main = styled.div`
   padding-top: 60px;
@@ -19,15 +20,17 @@ const Main = styled.div`
 `;
 
 const MainTemplate = ({ children }) => {
-  const { menuView, registerView, loginView, mobileFilters } = useSelector(
-    (state) => state.interfaceSlice
-  );
+  const { menuView, registerView, loginView, mobileFilters, informationBlock } =
+    useSelector((state) => state.interfaceSlice);
 
   return (
     <>
       <GlobalStyle
         scroll={loginView || registerView || mobileFilters || menuView}
       />
+      {informationBlock !== null && (
+        <InformationBlock type={informationBlock} />
+      )}
       {menuView && <Menu />}
       {loginView && <Login />}
       {registerView && <Register />}

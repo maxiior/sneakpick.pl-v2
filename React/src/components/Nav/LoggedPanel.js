@@ -7,6 +7,7 @@ import { routes } from "routes";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "store/auth/actions";
 import FollowedPanel from "./LoggedPanel/FollowedPanel/";
+import NotificationsPanel from "./LoggedPanel/NotificationsPanel";
 
 const Wrapper = styled.div`
   display: inline-grid;
@@ -31,7 +32,7 @@ const ProfileIcon = styled(RiAccountCircleLine)`
   }
 `;
 
-const CartIcon = styled(GrStar)`
+const StarIcon = styled(GrStar)`
   color: ${({ theme }) => theme.veryDarkGrey};
   font-size: 22px;
   cursor: pointer;
@@ -85,7 +86,9 @@ const Option = styled(Link)`
   }
 `;
 
-const StyledCartPanel = styled(FollowedPanel)``;
+const StyledFollowedPanel = styled(FollowedPanel)``;
+
+const StyledNotificationsPanel = styled(NotificationsPanel)``;
 
 const Container = styled.div`
   position: relative;
@@ -101,13 +104,26 @@ const Container = styled.div`
       }
     `}
 
-  ${({ cart }) =>
-    cart &&
+  ${({ followed }) =>
+    followed &&
     css`
-      :hover ${StyledCartPanel} {
+      :hover ${StyledFollowedPanel} {
         display: block;
       }
     `}
+  
+  ${({ notifications }) =>
+    notifications &&
+    css`
+      :hover ${StyledNotificationsPanel} {
+        display: block;
+      }
+    `}
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
 `;
 
 const LoggedPanel = () => {
@@ -117,7 +133,9 @@ const LoggedPanel = () => {
   return (
     <Wrapper>
       <Container profile>
-        <ProfileIcon />
+        <StyledLink to={routes.DEFAULT_PROFILE + user_id}>
+          <ProfileIcon />
+        </StyledLink>
         <ProfilePanel>
           <Option to={routes.DEFAULT_PROFILE + user_id}>Moje konto</Option>
           <Option>Zamówienia</Option>
@@ -126,11 +144,14 @@ const LoggedPanel = () => {
           <Option onClick={() => dispatch(logout())}>Wyloguj się</Option>
         </ProfilePanel>
       </Container>
-      <Container cart>
-        <CartIcon />
-        <StyledCartPanel />
+      <Container followed>
+        <StarIcon />
+        <StyledFollowedPanel />
       </Container>
-      <NotificationIcon />
+      <Container notifications>
+        <NotificationIcon />
+        <StyledNotificationsPanel />
+      </Container>
     </Wrapper>
   );
 };
