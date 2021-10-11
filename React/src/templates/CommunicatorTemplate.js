@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import Communicator from "components/Communicator";
+import {
+  hideCommunicatorIcon,
+  openCommunicator,
+} from "store/interface/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -43,14 +48,30 @@ const Notification = styled.div`
 `;
 
 const CommunicatorTemplate = ({ children }) => {
+  const dispatch = useDispatch();
   const { communicatorIcon } = useSelector((state) => state.interfaceSlice);
   const { isAuthenticated } = useSelector((state) => state.authSlice);
+  const communicatorBar = useSelector(
+    (state) => state.interfaceSlice.communicatorBar
+  );
+
   return (
     <Wrapper>
-      {communicatorIcon && isAuthenticated && (
-        <MessageIcon>
-          DM<Notification>2</Notification>
-        </MessageIcon>
+      {isAuthenticated && (
+        <>
+          {communicatorIcon && (
+            <MessageIcon
+              onClick={() => {
+                dispatch(hideCommunicatorIcon());
+                dispatch(openCommunicator());
+              }}
+            >
+              <div>DM</div>
+              <Notification>2</Notification>
+            </MessageIcon>
+          )}
+          {communicatorBar && <Communicator />}
+        </>
       )}
       {children}
     </Wrapper>

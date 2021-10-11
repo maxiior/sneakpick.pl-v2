@@ -18,7 +18,7 @@ const StyledNav = styled.nav`
   position: -webkit-sticky;
   font-weight: 500;
   user-select: none;
-  z-index: 999;
+  z-index: 1000;
   white-space: nowrap;
 `;
 

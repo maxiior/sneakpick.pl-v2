@@ -17,6 +17,18 @@ const GlobalStyle = createGlobalStyle`
         font-size: 1.6rem;
         font-family: 'Work Sans', sans-serif;
         margin: 0;
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: ${({ theme }) => theme.grey};
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: ${({ theme }) => theme.blue};
+        }
     }
 
     body, input, textarea, button {

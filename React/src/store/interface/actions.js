@@ -61,3 +61,13 @@ export const closeMobileFilters = createAsyncThunk(
   "filters/closeMobileFilters",
   async () => {}
 );
+
+export const openCommunicator = createAsyncThunk(
+  "filters/openCommunicator",
+  async () => {}
+);
+
+export const hideCommunicator = createAsyncThunk(
+  "filters/hideCommunicator",
+  async () => {}
+);

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
