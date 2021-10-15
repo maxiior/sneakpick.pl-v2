@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import { useState, useLayoutEffect, useRef } from "react";
 import styled from "styled-components";
 import useResizeObserver from "@react-hook/resize-observer";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   width: 100%;
   position: fixed;
   background-color: ${({ theme }) => theme.white};
-  z-index: 1000;
+  z-index: 1001;
   top: 0;
   padding-bottom: 84px;
 

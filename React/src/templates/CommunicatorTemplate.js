@@ -5,6 +5,7 @@ import {
   openCommunicator,
 } from "store/interface/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Message from "components/Communicator/Message";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -47,6 +48,19 @@ const Notification = styled.div`
   left: 0;
 `;
 
+const Holder = styled.div`
+  padding-top: 60px;
+  z-index: 999;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  display: flex;
+
+  @media only screen and (max-width: 1200px) {
+    padding-top: 110px;
+  }
+`;
+
 const CommunicatorTemplate = ({ children }) => {
   const dispatch = useDispatch();
   const { communicatorIcon } = useSelector((state) => state.interfaceSlice);
@@ -70,7 +84,12 @@ const CommunicatorTemplate = ({ children }) => {
               <Notification>2</Notification>
             </MessageIcon>
           )}
-          {communicatorBar && <Communicator />}
+          {communicatorBar && (
+            <Holder>
+              <Message />
+              <Communicator />
+            </Holder>
+          )}
         </>
       )}
       {children}

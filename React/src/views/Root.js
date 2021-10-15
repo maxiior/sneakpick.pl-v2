@@ -9,6 +9,7 @@ import SingleItem from "views/SingleItem";
 import Followed from "views/Followed";
 import Home from "views/Home";
 import Profile from "views/Profile";
+import PageNotFound from "views/PageNotFound";
 import ProfileSettings from "views/ProfileSettings";
 import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 import SettingsTemplate from "templates/SettingsTemplate";
@@ -25,15 +26,15 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <ScrollToTop />
-        <MainTemplate>
-          <CommunicatorTemplate>
+        <CommunicatorTemplate>
+          <MainTemplate>
             <Switch>
               <Route exact path={routes.HOME} component={Home} />
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />
               <Route exact path={routes.DEFAULT_PROFILE} component={Profile} />
-              <Route path={routes.PROFILE} component={Profile} />
+              <Route exact path={routes.PROFILE} component={Profile} />
               <Route path={routes.FOLLOWED} component={Followed} />
               <SettingsTemplate>
                 <Route
@@ -46,8 +47,8 @@ const App = () => {
                 />
               </SettingsTemplate>
             </Switch>
-          </CommunicatorTemplate>
-        </MainTemplate>
+          </MainTemplate>
+        </CommunicatorTemplate>
       </ThemeProvider>
     </BrowserRouter>
   );

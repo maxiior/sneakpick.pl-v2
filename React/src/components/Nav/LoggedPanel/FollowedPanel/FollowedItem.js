@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import http from "api/http";
-import { endpoints } from "routes";
 import { removeFollowedItem } from "store/followed/actions";
 import { useDispatch } from "react-redux";
+import { routes, endpoints } from "routes";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,8 +16,11 @@ const Wrapper = styled.div`
 const Image = styled.div`
   height: 72px;
   min-width: 95px;
-  background-color: blue;
   cursor: pointer;
+  object-fit: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const Holder = styled.div`
@@ -63,12 +66,16 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const FollowedItem = ({ name, size, condition, price, id }) => {
+const FollowedItem = ({ name, size, condition, price, id, image }) => {
   const dispatch = useDispatch();
 
   const maxLength = (name) => {
     if (name.length > 30) return name.slice(0, 30) + "...";
     return name;
+  };
+
+  const getPhoto = (photo) => {
+    return routes.DOMAIN + endpoints.IMAGES + photo;
   };
 
   const unfollow = () => {
@@ -82,7 +89,11 @@ const FollowedItem = ({ name, size, condition, price, id }) => {
 
   return (
     <Wrapper>
-      <Image />
+      <Image
+        style={{
+          backgroundImage: `url(${getPhoto(image)})`,
+        }}
+      />
       <Container>
         <Holder>
           <Informations>

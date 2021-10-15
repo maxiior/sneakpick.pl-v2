@@ -17,14 +17,12 @@ const Wrapper = styled.div`
     }
   }
 
+  display: flex;
+  flex-direction: column;
   animation-name: displayCommunicator;
   animation-duration: 0.3s;
-  height: 100%;
   width: 350px;
-  background-color: #0d0d0d;
-  position: fixed;
-  right: 0;
-  z-index: 999;
+  background-color: ${({ theme }) => theme.almostBlack};
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 `;
 
@@ -63,7 +61,22 @@ const Header = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${({ theme }) => theme.grey};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.veryDarkGrey};
+  }
+`;
 
 const Communicator = () => {
   const dispatch = useDispatch();

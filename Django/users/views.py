@@ -16,6 +16,7 @@ import jwt
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from sneakpick.models import ProductImage
 
 
 class CustomUserCreate(APIView):
@@ -171,8 +172,12 @@ def get_followed_products(request):
         products = {}
 
         for product in user.followed.all():
+            image = ProductImage.objects.filter(product=product.id).first()
             products[product.name] = {'id': product.id,
-                                      'size': product.size, 'price': product.price, 'condition': product.condition}
+                                      'size': product.size,
+                                      'price': product.price,
+                                      'condition': product.condition,
+                                      'image': image.file_name}
         return Response(products, status=status.HTTP_200_OK)
     else:
         return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)

@@ -12,6 +12,7 @@ export const fetchFollowedItems = createAsyncThunk(
       condition: data[e].condition,
       id: data[e].id,
       price: data[e].price,
+      image: data[e].image,
     }));
   }
 );

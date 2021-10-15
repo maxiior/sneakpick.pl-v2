@@ -43,7 +43,7 @@ const Time = styled.div`
   padding-left: 10px;
 `;
 
-const ChatRoom = ({ name, lastMessage }) => {
+const ChatRoom = ({ name, lastMessage, id }) => {
   return (
     <Wrapper>
       <Avatar />

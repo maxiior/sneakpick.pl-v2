@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { VscChevronRight } from "react-icons/vsc";

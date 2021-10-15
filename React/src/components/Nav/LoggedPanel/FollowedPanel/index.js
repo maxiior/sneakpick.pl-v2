@@ -71,6 +71,7 @@ const FollowedPanel = ({ className }) => {
             condition={e.condition}
             price={e.price}
             id={e.id}
+            image={e.image}
           />
         ))}
       </FollowedItemsList>
