@@ -1,0 +1,8 @@
+djangorestframework==3.12.4
+djangorestframework-simplejwt==5.0.0
+django-cors-headers==3.7.0
+pytest==6.2.3
+pytest-django==4.2.0
+coverage==5.5
+pylint-django==2.4.4
+django-filter==2.4.0

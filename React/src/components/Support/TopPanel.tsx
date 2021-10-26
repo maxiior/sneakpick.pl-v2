@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.black};
   color: ${({ theme }) => theme.white};
-  height: 200px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
