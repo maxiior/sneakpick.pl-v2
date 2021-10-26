@@ -17,6 +17,7 @@ import AccountSettings from "views/AccountSettings";
 import CommunicatorTemplate from "templates/CommunicatorTemplate";
 import useRefreshToken from "hooks/useRefreshToken";
 import useFollowedItems from "hooks/useFollowedItems";
+import Support from "views/Support";
 
 const App = () => {
   useRefreshToken();
@@ -36,6 +37,7 @@ const App = () => {
               <Route exact path={routes.DEFAULT_PROFILE} component={Profile} />
               <Route exact path={routes.PROFILE} component={Profile} />
               <Route path={routes.FOLLOWED} component={Followed} />
+              <Route path={routes.SUPPORT} component={Support} />
               <SettingsTemplate>
                 <Route
                   path={routes.PROFILE_SETTINGS}
