@@ -22,7 +22,7 @@ const Photo = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   cursor: pointer;
   height: 100%;
   width: 100%;

@@ -33,7 +33,7 @@ const Condition = styled.div`
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
   font-size: 15px;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   display: flex;
   align-items: center;
   user-select: none;
@@ -46,7 +46,7 @@ const Option = styled.div`
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
   font-size: 20px;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   display: flex;
   align-items: center;
   user-select: none;
@@ -92,7 +92,7 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
 
   :hover {
     opacity: 0.9;
@@ -231,6 +231,7 @@ const SingleItem = () => {
               size: data.product.size,
               condition: data.product.condition,
               id: data.product.id,
+              image: data.product.images[0].file_name,
               price: data.product.price,
             })
           );

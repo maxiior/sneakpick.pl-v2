@@ -4,7 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 const StyledSearch = styled.input`
   outline: none;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   border: none;
   padding: 5px 10px 5px 35px;
   width: 100%;

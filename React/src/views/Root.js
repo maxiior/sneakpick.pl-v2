@@ -18,6 +18,12 @@ import CommunicatorTemplate from "templates/CommunicatorTemplate";
 import useRefreshToken from "hooks/useRefreshToken";
 import useFollowedItems from "hooks/useFollowedItems";
 import Support from "views/Support";
+import Talk from "views/Talk";
+import Proxy from "views/Proxy";
+import WTT from "views/WTT";
+import Steal from "views/Steal";
+import FAQ from "views/FAQ";
+import BusinessContact from "views/BusinessContact";
 
 const App = () => {
   useRefreshToken();
@@ -38,6 +44,15 @@ const App = () => {
               <Route exact path={routes.PROFILE} component={Profile} />
               <Route path={routes.FOLLOWED} component={Followed} />
               <Route path={routes.SUPPORT} component={Support} />
+              <Route path={routes.PROXY} component={Proxy} />
+              <Route path={routes.STEAL} component={Steal} />
+              <Route path={routes.WTT} component={WTT} />
+              <Route path={routes.TALK} component={Talk} />
+              <Route path={routes.FAQ} component={FAQ} />
+              <Route
+                path={routes.BUSINESSCONTACT}
+                component={BusinessContact}
+              />
               <SettingsTemplate>
                 <Route
                   path={routes.PROFILE_SETTINGS}

@@ -21,6 +21,7 @@ const Header = styled.header`
   color: ${({ theme }) => theme.blue};
   font-size: 4vw;
   user-select: none;
+  font-weight: 500;
 
   @media only screen and (max-width: 1200px) {
     font-size: 6vw;

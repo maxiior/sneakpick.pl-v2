@@ -38,7 +38,7 @@ const Form = styled.form`
   padding: 50px 80px;
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   height: 100%;
 `;
 
@@ -57,13 +57,13 @@ const StyledInput = styled.input`
 
 const LoginButton = styled.button`
   background-color: ${({ facebook, theme }) =>
-    facebook ? theme.facebook : theme.veryDarkGrey};
+    facebook ? theme.blue : theme.veryDarkGrey};
   color: ${({ theme }) => theme.white};
   width: 100%;
   padding: 10px 0;
   text-align: center;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   border: 0;
   display: block;
 

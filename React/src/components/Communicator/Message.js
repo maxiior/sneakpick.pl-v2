@@ -57,7 +57,7 @@ const Time = styled.div`
 const DisplayPanel = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.white};
-  border-radius: 5px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
 `;
 
 const BottomPanel = styled.div`

@@ -9,6 +9,6 @@ export const theme = {
   white: "#ffffff",
   blue: "#00b4ff",
   hoverBlue: "#4dc9ff",
-  facebook: "#4c69ba",
   red: "#F2324D",
+  borderRadius5: "5px",
 };

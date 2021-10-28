@@ -38,7 +38,7 @@ const Number = styled.div`
   width: 30px;
   height: 30px;
   background-color: ${({ theme }) => theme.lightGrey};
-  border-radius: 5px;
+  border-radius: ${({ theme }) => theme.borderRadius5};
   user-select: none;
   margin: 0 5px;
   cursor: pointer;
