@@ -19,14 +19,30 @@ const Paragraph = styled.div`
 const Description = styled.textarea`
   padding: 10px 12px;
   display: block;
-  border: 1px solid ${({ theme }) => theme.grey};
+  border: none;
+  border-bottom: 1px solid ${({ theme }) => theme.grey};
   outline: none;
   width: 100%;
   resize: none;
   height: 200px;
 
+  ::-webkit-scrollbar {
+    cursor: default;
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+      background-color: ${({ theme }) => theme.grey};
+      cursor: default;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background: ${({ theme }) => theme.blue};
+      cursor: default;
+  }
+
   :focus {
-    border: 1px solid ${({ theme }) => theme.blue};
+    border-bottom: 1px solid ${({ theme }) => theme.blue};
     color: ${({ theme }) => theme.blue};
   }
 `;
@@ -41,6 +57,10 @@ const Button = styled.div`
   text-align: center;
   font-weight: 500;
   margin-top: 10px;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const Contact: React.FC = () => {
@@ -48,7 +68,7 @@ const Contact: React.FC = () => {
     <Wrapper>
       <Header>Skontaktuj się z nami</Header>
       <Paragraph>Opisz problem</Paragraph>
-      <Description />
+      <Description placeholder="Opisz problem"/>
       <Button>Wyślij</Button>
     </Wrapper>
   );

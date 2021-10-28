@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Contact from "components/Support/Contact";
 import NotLoggedInformation from "components/Support/NotLoggedInformation";
 import TopPanel from "components/Support/TopPanel";
+import { useAppSelector } from "hooks/useAppSelector";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,13 +23,17 @@ const Container = styled.div`
 `;
 
 const Support: React.FC = () => {
+  const isAuthenticated = useAppSelector(
+    (state) => state.authSlice.isAuthenticated
+  );
+
   return (
     <Wrapper>
       <TopPanel />
       <BottomPanel>
         <Container>
-          <NotLoggedInformation />
-          <Contact />
+          {!isAuthenticated && <NotLoggedInformation />}
+          {isAuthenticated && <Contact />}
         </Container>
       </BottomPanel>
     </Wrapper>
