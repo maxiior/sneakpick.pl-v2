@@ -17,7 +17,7 @@ const BottomPanel = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
+  padding: 30px 0;
 `;
 
 const Container = styled.div`

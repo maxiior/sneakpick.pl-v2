@@ -41,6 +41,7 @@ const Wrapper = styled.main`
 
 const WTB = () => {
   const { mobileFilters } = useSelector((state) => state.interfaceSlice);
+
   return (
     <>
       <OnSearch />
