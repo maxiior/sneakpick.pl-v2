@@ -38,7 +38,7 @@ const Form = styled.form`
   padding: 50px 80px;
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   height: 100%;
 `;
 
@@ -63,7 +63,7 @@ const LoginButton = styled.button`
   padding: 10px 0;
   text-align: center;
   cursor: pointer;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   border: 0;
   display: block;
 

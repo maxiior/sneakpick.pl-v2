@@ -27,7 +27,7 @@ const Header = styled.div`
 const Reset = styled.button`
   padding: 3px 6px;
   background-color: ${({ theme }) => theme.blue};
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   border: none;
   color: ${({ theme }) => theme.white};
   display: inline-block;

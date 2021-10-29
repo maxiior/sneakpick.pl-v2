@@ -19,7 +19,7 @@ const Button = styled.div`
   padding: 5px 10px;
   display: flex;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   text-decoration: none;
   min-width: 90px;
 

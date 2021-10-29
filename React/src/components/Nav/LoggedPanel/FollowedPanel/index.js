@@ -16,7 +16,7 @@ const Button = styled(Link)`
   width: 100%;
   text-align: center;
   padding: 10px 0;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   cursor: pointer;
   margin-top: 15px;
   display: block;

@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 const Arrow = styled(MdKeyboardArrowDown)<{ open: Boolean }>`
   transition-duration: 0.5s;
   color: ${({ theme }) => theme.black};
+  font-size: 25px;
 
   ${({ open }) =>
     open &&

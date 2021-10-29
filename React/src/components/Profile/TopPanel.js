@@ -62,7 +62,7 @@ const Button = styled.div`
   padding: 5px 30px;
   display: flex;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   margin-right: 10px;
   width: 185px;
 
@@ -112,7 +112,7 @@ const Edit = styled(Link)`
   padding: 5px 30px;
   display: flex;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   width: 185px;
   text-decoration: none;
 

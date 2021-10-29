@@ -22,7 +22,7 @@ const Add = styled.button`
   background-color: ${({ theme }) => theme.blue};
   color: ${({ theme }) => theme.white};
   padding: 15px;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   cursor: pointer;
   margin-top: 50px;
   border: 0;

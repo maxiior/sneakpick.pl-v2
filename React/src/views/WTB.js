@@ -1,6 +1,5 @@
 import Panel from "components/WTB/Panel";
 import TopNav from "components/WTB/TopNav";
-import React from "react";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";

@@ -19,7 +19,7 @@ const Header = styled.div`
 const Paragraph = styled.div`
   font-size: 13px;
   padding-bottom: 2px;
-  margin-top: 15px;
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
@@ -31,12 +31,18 @@ const Button = styled.button`
   width: 100%;
   text-align: center;
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 20px;
   border: 0;
 
   :hover {
     opacity: 0.9;
   }
+`;
+
+const Information = styled.div`
+  margin-top: 5px;
+  font-size: 12px;
+  color: ${({ theme }) => theme.darkGrey};
 `;
 
 const Contact: React.FC = () => {
@@ -68,6 +74,10 @@ const Contact: React.FC = () => {
         />
         <Paragraph>Wiadomość</Paragraph>
         <Description />
+        <Information>
+          Prosimy o podanie szczegółów. Członek naszego zespołu Centrum Pomocy
+          Sneakpick odpowie tak szybko, jak to możliwe.
+        </Information>
         <Button type="submit">Wyślij</Button>
       </Form>
     </FormProvider>

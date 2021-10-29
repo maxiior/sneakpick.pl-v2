@@ -33,7 +33,7 @@ const Condition = styled.div`
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
   font-size: 15px;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   display: flex;
   align-items: center;
   user-select: none;
@@ -46,7 +46,7 @@ const Option = styled.div`
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
   font-size: 20px;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
   display: flex;
   align-items: center;
   user-select: none;
@@ -92,7 +92,7 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  border-radius: ${({ theme }) => theme.borderRadius5};
+  border-radius: ${({ theme }) => theme._5px};
 
   :hover {
     opacity: 0.9;
