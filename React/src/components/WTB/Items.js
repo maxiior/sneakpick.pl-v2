@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SingleItem from "components/WTB/SingleItem";
 import { useSelector } from "react-redux";
 
-const StyledItems = styled.div`
+const Wrapper = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 40px;
@@ -21,7 +21,7 @@ const Blank = styled.div`
 const Items = () => {
   const { results, items } = useSelector((state) => state.itemsSlice);
   return (
-    <StyledItems>
+    <Wrapper>
       <Grid container spacing={2}>
         {items.map((item) => (
           <SingleItem
@@ -37,7 +37,7 @@ const Items = () => {
       {results === 0 && (
         <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
       )}
-    </StyledItems>
+    </Wrapper>
   );
 };
 

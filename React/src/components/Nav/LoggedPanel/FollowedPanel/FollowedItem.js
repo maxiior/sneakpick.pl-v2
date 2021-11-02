@@ -2,7 +2,8 @@ import styled from "styled-components";
 import http from "api/http";
 import { removeFollowedItem } from "store/followed/actions";
 import { useDispatch } from "react-redux";
-import { routes, endpoints } from "routes";
+import { endpoints } from "routes";
+import { getPhoto } from "functions/getPhoto";
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,10 +73,6 @@ const FollowedItem = ({ name, size, condition, price, id, image }) => {
   const maxLength = (name) => {
     if (name.length > 30) return name.slice(0, 30) + "...";
     return name;
-  };
-
-  const getPhoto = (photo) => {
-    return routes.DOMAIN + endpoints.IMAGES + photo;
   };
 
   const unfollow = () => {

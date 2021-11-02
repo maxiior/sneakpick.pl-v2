@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import { VscChevronRight } from "react-icons/vsc";
-import { routes, endpoints } from "routes";
+import { getPhoto } from "functions/getPhoto";
 
 const Wrapper = styled.div`
   width: 85%;
@@ -71,10 +71,6 @@ const StyledArrow = styled(VscChevronRight)`
 `;
 
 const Images = ({ images }) => {
-  const getPhoto = (photo) => {
-    return routes.DOMAIN + endpoints.IMAGES + photo;
-  };
-
   const [current, setCurrent] = useState(0);
   var photos = [];
 

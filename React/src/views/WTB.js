@@ -18,18 +18,15 @@ const Header = styled.header`
   background-repeat: no-repeat;
   background-size: cover;
   color: ${({ theme }) => theme.blue};
-  font-size: 4vw;
+  font-size: 70px;
   user-select: none;
   font-weight: 500;
 
   @media only screen and (max-width: 1200px) {
-    font-size: 6vw;
-  }
-  @media only screen and (max-width: 993px) {
-    font-size: 8vw;
+    font-size: 60px;
   }
   @media only screen and (max-width: 768px) {
-    font-size: 10vw;
+    font-size: 8vw;
   }
 `;
 

@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import wtb from "assets/wtb.png";
+import home from "assets/test.png";
 import { Link } from "react-router-dom";
+import { routes } from "routes";
 
 const Wrapper = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  //background-image: url(${wtb});
+  background-image: url(${home});
   background-color: black;
   height: 350px;
   width: 100%;
@@ -27,9 +28,9 @@ const Wrapper = styled.header`
   }
 `;
 
-const Button = styled.div<{ buy?: Boolean }>`
+const Button = styled(Link)<{ buy?: Boolean }>`
   background-color: ${({ theme, buy }) => (buy ? theme.green : theme.red)};
-  width: 250px;
+  width: 220px;
   font-size: 35px;
   text-align: center;
   padding: 15px;
@@ -38,33 +39,57 @@ const Button = styled.div<{ buy?: Boolean }>`
   border-radius: ${({ theme }) => theme._5px};
   text-decoration: none;
   color: ${({ theme }) => theme.white};
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  :first-child {
+    margin-left: 0;
+  }
 
   :hover {
     filter: brightness(1.05);
   }
+
+  @media only screen and (max-width: 768px) {
+    width: 28vw;
+    height: 9vw;
+    font-size: 4vw;
+  }
 `;
 
 const Header = styled.div`
-  font-size: 6vw;
+  font-size: 110px;
   user-select: none;
   font-weight: 500;
+  text-align: center;
+
+  @media only screen and (max-width: 1200px) {
+    font-size: 90px;
+  }
+  @media only screen and (max-width: 768px) {
+    font-size: 12vw;
+  }
 `;
 
 const Container = styled.div``;
 
 const SubContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
-const TopPanel = () => {
+const TopPanel: React.FC = () => {
   return (
     <Wrapper>
       <Container>
         <Header>SNEAKPICK</Header>
         <SubContainer>
-          <Button buy>BUY</Button>
-          <Button>SELL</Button>
+          <Button to={routes.WTB} buy>
+            BUY
+          </Button>
+          <Button to={routes.WTS}>SELL</Button>
         </SubContainer>
       </Container>
     </Wrapper>
