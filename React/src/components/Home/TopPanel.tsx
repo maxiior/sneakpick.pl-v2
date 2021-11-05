@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import home from "assets/test.png";
+import home from "assets/home.png";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 
