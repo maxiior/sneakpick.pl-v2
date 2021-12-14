@@ -138,7 +138,7 @@ const TopPanel = () => {
   return (
     <Wrapper>
       <LeftContainer>
-        <Avatar editable={profile.user.id === user_id} />
+        <Avatar editable={user === user_id} />
       </LeftContainer>
       <RightContainer>
         <TopHolder>
@@ -147,13 +147,13 @@ const TopPanel = () => {
             <ShieldIcon />
           </Name>
           <ButtonsHolder>
-            {isAuthenticated && profile.user.id !== user_id && (
+            {isAuthenticated && user !== user_id && (
               <>
                 <Button>DM</Button>
                 <Button>Follow</Button>
               </>
             )}
-            {isAuthenticated && profile.user.id === user_id && (
+            {isAuthenticated && user === user_id && (
               <Edit to={routes.PROFILE_SETTINGS}>Edytuj profil</Edit>
             )}
             {/* <Button>Callout</Button>

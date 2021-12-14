@@ -24,6 +24,8 @@ import WTT from "views/WTT";
 import Steal from "views/Steal";
 import FAQ from "views/FAQ";
 import BusinessContact from "views/BusinessContact";
+import PasswordChange from "views/AccountSettings/PasswordChange";
+import EmailChange from "views/AccountSettings/EmailChange";
 
 const App = () => {
   useRefreshToken();
@@ -59,9 +61,15 @@ const App = () => {
                   component={ProfileSettings}
                 />
                 <Route
+                  exact
                   path={routes.ACCOUNT_SETTINGS}
                   component={AccountSettings}
                 />
+                <Route
+                  path={routes.PASSWORD_CHANGE}
+                  component={PasswordChange}
+                />
+                <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
               </SettingsTemplate>
             </Switch>
           </MainTemplate>

@@ -37,8 +37,8 @@ const Option = ({ text, where }) => {
     <Wrapper>
       <StyledNavLink exact={where === "/"} to={where} activeclass="active">
         {text}
+        <StyledDropdown />
       </StyledNavLink>
-      <StyledDropdown />
     </Wrapper>
   );
 };

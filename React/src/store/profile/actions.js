@@ -12,7 +12,6 @@ export const fetchItems = createAsyncThunk(
 export const fetchUser = createAsyncThunk("profile/fetchUser", async (data) => {
   const result = await profile.fetchUser(data);
   return {
-    id: result.id,
     first_name: result.first_name,
     last_name: result.last_name,
     city: result.city,

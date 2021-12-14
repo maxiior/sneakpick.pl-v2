@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useFormContext } from "react-hook-form";
 
 const TextArea = styled.textarea`
   outline: none;
@@ -47,7 +48,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div``;
 
-const Description = () => {
+const Description = ({ value, setData }) => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -58,17 +59,22 @@ const Description = () => {
     else setColor("black");
   };
 
+  const { register } = useFormContext();
+
   return (
     <Wrapper>
       <Header>Kilka słów o Tobie</Header>
       <Container>
         <TextArea
           name="description"
+          maxLength="1000"
+          value={value}
+          {...register("description")}
           onChange={(e) => {
             descriptionLength(e);
+            setData((data) => ({ ...data, description: e.target.value }));
           }}
           placeholder="Powiedz coś więcej o sobie..."
-          maxLength="1000"
         />
         <Counter color={color}>Pozostało {counter} znaków</Counter>
       </Container>

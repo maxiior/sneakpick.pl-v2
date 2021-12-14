@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from users.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, MyUserSerializer, UserJustCitySerializer, UserUpdateSerializer, LoginSerializer
+from .serializers import UserSerializer, RegisterUserSerializer, UserJustCitySerializer, UserUpdateSerializer, LoginSerializer
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.hashers import check_password
 from core.settings import SECRET_KEY, SIMPLE_JWT
@@ -140,7 +140,7 @@ class Logout(APIView):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def my_user_detail(request):
-    return Response(MyUserSerializer(request.user).data)
+    return Response(RegisterUserSerializer(request.user).data)
 
 
 @api_view(['POST'])

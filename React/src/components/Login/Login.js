@@ -123,7 +123,7 @@ const Error = styled.div`
 const Login = () => {
   const [error, setError] = useState(false);
   const handleChange = () => {
-    if (error) setError(false);
+    setError(false);
   };
 
   const validationSchema = Yup.object().shape({

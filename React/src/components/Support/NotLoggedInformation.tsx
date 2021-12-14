@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { openLoginView, openRegisterView } from "store/interface/actions";
 
 const Wrapper = styled.div`
   width: 50%;
@@ -40,12 +42,16 @@ const Holder = styled.div`
 `;
 
 const NotLoggedInformation: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <Wrapper>
       <Information>Zaloguj się, aby się z nami skontaktować.</Information>
       <Holder>
-        <Button signup>Sign Up</Button>
-        <Button>Login</Button>
+        <Button signup onClick={() => dispatch(openRegisterView())}>
+          Sign Up
+        </Button>
+        <Button onClick={() => dispatch(openLoginView())}>Login</Button>
       </Holder>
     </Wrapper>
   );

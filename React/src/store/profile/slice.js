@@ -21,7 +21,6 @@ export const profileSlice = createSlice({
       state.results = action.payload.results;
     });
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      state.user.id = action.payload.id;
       state.user.first_name = action.payload.first_name;
       state.user.last_name = action.payload.last_name;
       state.user.city = action.payload.city;

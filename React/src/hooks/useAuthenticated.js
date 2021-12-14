@@ -4,14 +4,12 @@ import { useHistory } from "react-router-dom";
 import { routes } from "routes";
 
 const useAuthenticated = () => {
-  const isAuthenticated = useSelector(
-    (state) => state.authSlice.isAuthenticated
-  );
+  const { isAuthenticated, pending } = useSelector((state) => state.authSlice);
   const history = useHistory();
 
   useEffect(() => {
-    if (!isAuthenticated) history.replace(routes.HOME);
-  }, []);
+    if (!pending && !isAuthenticated) history.replace(routes.HOME);
+  }, [pending]);
 };
 
 export default useAuthenticated;

@@ -40,10 +40,12 @@ export const login = createAsyncThunk(
 export const refresh = createAsyncThunk(
   "auth/refresh",
   async (_, { dispatch, getState }) => {
-    const result = await authService.refresh();
-    setAuthorizationHeader(result.data.access_token);
-    setRefreshDelay(result.data.expires_in, dispatch, getState);
-    return result;
+    try {
+      const result = await authService.refresh();
+      setAuthorizationHeader(result.data.access_token);
+      setRefreshDelay(result.data.expires_in, dispatch, getState);
+      return result;
+    } catch (e) {}
   }
 );
 
@@ -52,3 +54,5 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   setAuthorizationHeader("");
   return result;
 });
+
+export const pended = createAsyncThunk("auth/pended", async () => {});

@@ -1,7 +1,9 @@
 import http from "api/http";
 import * as authService from "api/services/auth.service";
-import { login as loginAction, logout as logoutAction } from "actions/auth";
-import { logout } from "api/services/auth.service";
+import {
+  login as loginAction,
+  logout as logoutAction,
+} from "store/auth/actions";
 
 const setAuthorizationHeaders = (access_token) => {
   if (access_token) {
@@ -26,7 +28,6 @@ const delayRefresh = (expiresIn, dispatch) => {
         dispatch(loginAction);
       })
       .catch((e) => {
-        // logout().catch(() => {});
         dispatch(logoutAction);
       });
   }, getExpireTime(expiresIn));

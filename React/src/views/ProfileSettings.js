@@ -64,6 +64,7 @@ const ProfileSettings = () => {
     city: Yup.string()
       .required("Pole jest wymagane.")
       .matches("[A-Za-z]", "Podano nieprawidłowe miasto."),
+    description: Yup.string(),
   });
 
   const methods = useForm({
@@ -129,7 +130,7 @@ const ProfileSettings = () => {
             setData={setData}
             data={data}
           />
-          <Description />
+          <Description value={data.description} setData={setData} />
         </DataHolder>
         <Add type="submit">Zaktualizuj profil</Add>
       </Form>

@@ -16,6 +16,8 @@ const Wrapper = styled.header`
   background-repeat: no-repeat;
   background-size: cover;
   color: ${({ theme }) => theme.white};
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
   @media only screen and (max-width: 1200px) {
     font-size: 6vw;

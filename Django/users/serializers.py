@@ -6,8 +6,8 @@ from .validators import MinimumLengthValidator, NumberValidator, UppercaseValida
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name',
-                  'city', 'password')
+        fields = ['id', 'email', 'first_name', 'last_name',
+                  'city', 'password', 'description']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -33,12 +33,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'city']
 
 
-class MyUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name', 'city', 'email']
-
-
 class UserJustCitySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -48,7 +42,8 @@ class UserJustCitySerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'city']
+        fields = ['email', 'first_name', 'last_name',
+                  'city', 'city', 'description']
 
         def update(self, instance, validated_data):
             if instance.user == self.context['request'].user:
@@ -63,6 +58,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
                 instance.save()
 
             return instance
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateSerializer, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
+        self.fields['description'].required = False
 
 
 class LoginSerializer(serializers.ModelSerializer):

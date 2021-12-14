@@ -32,14 +32,15 @@ const ShowAll = styled(Link)`
 
 interface iProps {
   header: String;
+  link: string;
 }
 
-const ItemsSection = ({ header }: iProps) => {
+const ItemsSection = ({ header, link }: iProps) => {
   return (
     <Wrapper>
       <TopPanel>
         <Header>{header}</Header>
-        <ShowAll to="/">Zobacz wszystkie</ShowAll>
+        <ShowAll to={link}>Zobacz wszystkie</ShowAll>
       </TopPanel>
       <ItemsList />
     </Wrapper>

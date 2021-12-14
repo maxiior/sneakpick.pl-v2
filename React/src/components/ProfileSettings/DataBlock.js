@@ -52,8 +52,8 @@ const DataBlock = ({
   const { register, formState, reset } = useFormContext();
 
   useEffect(() => {
-    reset(value);
-  }, []);
+    reset({ [name]: value });
+  }, [data]);
 
   return (
     <Wrapper className={className}>

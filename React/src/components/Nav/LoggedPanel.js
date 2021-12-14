@@ -75,6 +75,7 @@ const Option = styled(Link)`
   display: block;
   color: ${({ theme }) => theme.veryDarkGrey};
   text-decoration: none;
+  font-size: 14px;
 
   :hover {
     background-color: ${({ theme }) => theme.blue};

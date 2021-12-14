@@ -61,7 +61,7 @@ const WTS = () => {
     (state) => state.creatorSlice
   );
 
-  //useAuthenticated();
+  useAuthenticated();
 
   useEffect(() => {
     dispatch(resetCurrentStates());

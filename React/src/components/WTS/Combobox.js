@@ -12,7 +12,6 @@ const Wrapper = styled.div`
     ${({ theme, open, error }) =>
       open ? theme.blue : error ? theme.red : theme.grey};
   padding: 5px 12px;
-  color: ${({ theme }) => theme.darkGrey};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -64,22 +63,15 @@ const Option = styled.span`
     background-color: ${({ theme }) => theme.blue};
     color: ${({ theme }) => theme.white};
   }
+
+  background-color: ${({ theme, isHighlighted }) =>
+    isHighlighted ? theme.blue : theme.white};
+  color: ${({ theme, isHighlighted }) =>
+    isHighlighted ? theme.white : theme.darkGrey};
 `;
 
 const StyledInput = styled.input`
   display: none;
-
-  :checked ~ ${Option} {
-    background-color: ${({ theme }) => theme.blue};
-    color: ${({ theme }) => theme.white};
-  }
-
-  ${({ isHighlighted }) =>
-    isHighlighted &&
-    css`
-      background-color: ${({ theme }) => theme.blue};
-      color: ${({ theme }) => theme.white};
-    `}
 `;
 
 const StyledLabel = styled.label`
@@ -89,6 +81,7 @@ const StyledLabel = styled.label`
 const Combobox = ({ elements, filterType }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
+  const [cursor, setCursor] = useState(-1);
   const dispatch = useDispatch();
   const { categories } = useSelector(
     (state) => state.creatorSlice.currentFilters
@@ -98,29 +91,33 @@ const Combobox = ({ elements, filterType }) => {
   const { register, formState } = useFormContext();
   const validator = register("category");
 
-  const [cursor, setCursor] = useState(-1);
+  const handleUserKeyPress = useCallback(
+    (e) => {
+      e.preventDefault();
 
-  const handleUserKeyPress = useCallback((e) => {
-    e.preventDefault();
-
-    if (e.key === "ArrowDown") {
-      open && setCursor((c) => (c < elements.length - 1 ? c + 1 : c));
-    }
-    if (e.key === "ArrowUp") {
-      setCursor((c) => (c > 0 ? c - 1 : 0));
-    }
-    if (e.key === "Escape") {
-      setOpen(false);
-    }
-    if (e.key === "Enter" && cursor >= 0) {
-      // e.preventDefault();
-      // setSearch(suggestions[cursor].text);
-      // dispatch(changeState(filterType, suggestions[cursor].text, "radio"));
-      // setOpen(false);
-      // setCursor(-1);
-      // delete formState.errors["brand"];
-    }
-  }, []);
+      if (e.key === "ArrowDown") {
+        setCursor(cursor < elements.length - 1 ? cursor + 1 : cursor);
+      }
+      if (e.key === "ArrowUp") {
+        setCursor(cursor > 0 ? cursor - 1 : 0);
+      }
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+      if (e.key === "Enter" && cursor >= 0) {
+        e.preventDefault();
+        dispatch(
+          changeState({
+            type: filterType,
+            id: elements[cursor].text,
+            input: "radio",
+          })
+        );
+        setOpen(false);
+      }
+    },
+    [cursor, elements, dispatch, filterType]
+  );
 
   useEffect(() => {
     if (open === true) {
@@ -151,15 +148,15 @@ const Combobox = ({ elements, filterType }) => {
               {...register("category")}
               onChange={(el) => {
                 validator.onChange(el);
+                setCursor(i);
                 dispatch(
                   changeState({ type: filterType, id: e.text, input: "radio" })
                 );
                 setOpen(false);
               }}
               checked={categories === e.text}
-              isHighlighted={cursor === i}
             />
-            <Option>{e.text}</Option>
+            <Option isHighlighted={cursor === i}>{e.text}</Option>
           </StyledLabel>
         ))}
       </ModesContainer>
