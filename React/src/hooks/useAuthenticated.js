@@ -9,7 +9,7 @@ const useAuthenticated = () => {
 
   useEffect(() => {
     if (!pending && !isAuthenticated) history.replace(routes.HOME);
-  }, [pending]);
+  }, [pending, history, isAuthenticated]);
 };
 
 export default useAuthenticated;

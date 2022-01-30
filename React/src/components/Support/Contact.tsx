@@ -6,9 +6,14 @@ import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Description from "components/Support/Description";
+import { name } from "constants/name";
 
 const Form = styled.form`
   width: 50%;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
+    width: 80%;
+  }
 `;
 
 const Header = styled.div`
@@ -25,7 +30,6 @@ const Paragraph = styled.div`
 const Button = styled.button`
   background-color: ${({ theme }) => theme.black};
   color: ${({ theme }) => theme.white};
-  font-size: 18px;
   padding: 10px;
   cursor: pointer;
   width: 100%;
@@ -33,6 +37,7 @@ const Button = styled.button`
   font-weight: 500;
   margin-top: 20px;
   border: 0;
+  border-radius: 5px;
 
   :hover {
     opacity: 0.9;
@@ -75,8 +80,8 @@ const Contact: React.FC = () => {
         <Paragraph>Wiadomość</Paragraph>
         <Description />
         <Information>
-          Prosimy o podanie szczegółów. Członek naszego zespołu Centrum Pomocy
-          Sneakpick odpowie tak szybko, jak to możliwe.
+          Prosimy o podanie szczegółów. Członek naszego zespołu Centrum Pomocy{" "}
+          {name} odpowie tak szybko, jak to możliwe.
         </Information>
         <Button type="submit">Wyślij</Button>
       </Form>

@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import { routes } from "routes";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -9,13 +10,13 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
     width: 40%;
   }
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     width: 60%;
   }
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
     width: 90%;
   }
 `;
@@ -40,23 +41,6 @@ const Information = styled.div`
   justify-content: space-between;
 `;
 
-const Button = styled(Link)`
-  background-color: ${({ theme }) => theme.veryDarkGrey};
-  color: ${({ theme }) => theme.white};
-  user-select: none;
-  cursor: pointer;
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-  border-radius: ${({ theme }) => theme._5px};
-  text-decoration: none;
-
-  :hover {
-    opacity: 0.9;
-  }
-`;
-
 const Key = styled.div`
   user-select: none;
 `;
@@ -64,7 +48,6 @@ const Key = styled.div`
 const Value = styled.div<{
   $description?: boolean;
   $price?: boolean;
-  $capital?: boolean;
 }>`
   font-weight: 500;
 
@@ -80,7 +63,7 @@ const Value = styled.div<{
     $price &&
     css`
       color: ${({ theme }) => theme.blue};
-      font-size: 30px;
+      font-size: 25px;
       margin-bottom: 20px;
     `}
 `;
@@ -92,6 +75,24 @@ const Owner = styled(Link)`
 
   :hover {
     color: ${({ theme }) => theme.blue};
+  }
+`;
+
+const Button = styled(Link)`
+  background-color: ${({ theme }) => theme.veryDarkGrey};
+  color: ${({ theme }) => theme.white};
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: ${({ theme }) => theme._10px};
+  text-decoration: none;
+  font-size: 14px;
+
+  :hover {
+    opacity: 0.9;
   }
 `;
 
@@ -123,7 +124,12 @@ const Informations = ({ data }: { data: any }) => {
           <Value $price>{data.product.price} PLN</Value>
           <Information>
             <Key>Sprzedający</Key>
-            <Owner to={"/profile/" + data.product.owner}>
+            <Owner
+              to={routes.USER_PROFILE_PRODUCTS.replace(
+                ":user",
+                data.product.owner
+              )}
+            >
               {data.product.first_name} {data.product.last_name}
             </Owner>
           </Information>
@@ -132,9 +138,13 @@ const Informations = ({ data }: { data: any }) => {
             <Value>{data.product.published}</Value>
           </Information>
         </Holder>
-        <Button to="">Kup teraz</Button>
+        <Button to={routes.ORDER.replace(":item", data.product.id)}>
+          Kup teraz
+        </Button>
         <Button to="">DM</Button>
-        <Button to="">Callout</Button>
+        <Button to={routes.CALLOUT.replace(":item", data.product.id)}>
+          Callout
+        </Button>
       </Container>
     </Wrapper>
   );

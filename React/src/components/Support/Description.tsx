@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
 
-const Wrapper = styled.textarea<{ error: Boolean }>`
+const Wrapper = styled.textarea<{ error: boolean }>`
   padding: 10px 12px;
   display: block;
   border: none;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { name } from "constants/name";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,13 +14,17 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 80%;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
+    text-align: center;
+  }
 `;
 
-const Welcome = styled.div`
+const Header = styled.div`
   font-weight: 500;
 `;
 
-const Help = styled.div`
+const Paragraph = styled.div`
   font-size: 25px;
   font-weight: 500;
 `;
@@ -28,8 +33,8 @@ const TopPanel: React.FC = () => {
   return (
     <Wrapper>
       <Container>
-        <Welcome>Witamy w Centrum Pomocy Sneakpick</Welcome>
-        <Help>Jak możemy Ci pomóc?</Help>
+        <Header>Witamy w Centrum Pomocy {name}</Header>
+        <Paragraph>Jak możemy Ci pomóc?</Paragraph>
       </Container>
     </Wrapper>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Register/Checkbox";
@@ -14,6 +14,7 @@ import { register } from "api/services/auth.service";
 import { useDispatch } from "react-redux";
 import { setInformationBlock } from "store/interface/actions";
 import { information_types } from "constants/informations";
+import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -125,6 +126,8 @@ const Error = styled.div`
 
 const Register = () => {
   const dispatch = useDispatch();
+  const wrapperRef = useRef(null);
+  useDetectOutsideClick(wrapperRef, () => dispatch(closeRegisterView()));
 
   const validationSchema = Yup.object().shape({
     first_name: Yup.string()
@@ -214,7 +217,7 @@ const Register = () => {
   return (
     <Wrapper>
       <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit(registerProcess)}>
+        <Form onSubmit={handleSubmit(registerProcess)} ref={wrapperRef}>
           <CLose
             onClick={() => {
               dispatch(closeRegisterView());

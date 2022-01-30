@@ -1,5 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { openLoginView, openRegisterView } from "store/interface/actions";
 
@@ -12,13 +12,19 @@ const Information = styled.div`
   font-size: 18px;
 `;
 
-const Button = styled.div<{ signup?: Boolean }>`
-  background-color: ${({ theme }) => theme.black};
-  color: ${({ theme }) => theme.white};
-  font-size: 18px;
+const Holder = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+
+const Button = styled.div<{ signup?: boolean }>`
+  background-color: ${({ theme, signup }) =>
+    signup ? theme.white : theme.black};
+  color: ${({ theme, signup }) => (signup ? theme.black : theme.white)};
+  border: ${({ theme, signup }) => signup && `1px solid ${theme.black}`};
   padding: 10px;
   cursor: pointer;
-  width: 120px;
+  width: 150px;
   text-align: center;
   margin-left: 10px;
   font-weight: 500;
@@ -26,19 +32,6 @@ const Button = styled.div<{ signup?: Boolean }>`
   :first-child {
     margin-left: 0;
   }
-
-  ${({ signup }) =>
-    signup &&
-    css`
-      background-color: ${({ theme }) => theme.white};
-      color: ${({ theme }) => theme.black};
-      border: 1px solid ${({ theme }) => theme.black};
-    `}
-`;
-
-const Holder = styled.div`
-  display: flex;
-  margin-top: 10px;
 `;
 
 const NotLoggedInformation: React.FC = () => {

@@ -36,6 +36,7 @@ const Header = styled.div`
   user-select: none;
   font-weight: 500;
   text-align: center;
+  text-transform: uppercase;
 
   @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
     font-size: 90px;

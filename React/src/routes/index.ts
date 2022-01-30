@@ -26,7 +26,11 @@ export enum routes {
   USER_PROFILE_COMMENTS = "/profile/:user/comments",
   USER_PROFILE_PRODUCTS = "/profile/:user/products",
   ORDERS = "/orders",
+  ORDER = "/products/:item/order",
+  CALLOUT = "/products/:item/callout",
   STATUTE = "/statute",
+  CATEGORY_PATH = "/wtb?category={category}&limit=24&offset=0&ordering=1",
+  BRAND_PATH = "/wtb?brand={brand}&limit=24&offset=0&ordering=1",
 }
 
 export enum endpoints {
