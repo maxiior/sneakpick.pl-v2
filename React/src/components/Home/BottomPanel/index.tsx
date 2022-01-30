@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import ItemsSection from "components/Home/BottomPanel/ItemsSection";
+import ItemsSections from "components/Home/BottomPanel/ItemsSections";
 import QuickSell from "components/Home/BottomPanel/QuickSell";
 import ReleaseCalendar from "components/Home/BottomPanel/ReleaseCalendar";
 import TopSellers from "components/Home/BottomPanel/TopSellers";
-import { routes } from "routes";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,8 +22,7 @@ const BottomPanel: React.FC = () => {
     <Wrapper>
       <Container>
         <QuickSell />
-        <ItemsSection header="Popularne" link={routes.WTB + routes.POPULAR} />
-        <ItemsSection header="Najnowsze" link={routes.WTB + routes.NEWEST} />
+        <ItemsSections />
         <ReleaseCalendar />
         <TopSellers />
       </Container>

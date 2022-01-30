@@ -8,6 +8,7 @@ import { closeMobileFilters } from "store/interface/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { resetAllStates } from "store/filters/actions";
 import useResizeObserver from "@react-hook/resize-observer";
+import { useScrollToTop } from "hooks/useScrollToTop";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -110,6 +111,8 @@ const MobileFilters = ({ className }) => {
   const { filters, filterTypes, currentFilters } = useSelector(
     (state) => state.filtersSlice
   );
+
+  useScrollToTop();
 
   if (size?.width === 0) {
     closeMobileFilters();

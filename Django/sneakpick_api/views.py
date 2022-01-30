@@ -52,7 +52,7 @@ class ProductFilter(django_filters.FilterSet):
     order_by_field = 'ordering'
     ordering = OrderingFilter(
         fields=(
-            ('bumps', '1'),
+            ('-bumps', '1'),
             ('price', '2'),
             ('-price', '3'),
             ('id', '4'),

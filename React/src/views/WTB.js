@@ -3,7 +3,6 @@ import TopNav from "components/WTB/TopNav";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";
-import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 import OnSearch from "components/OnSearch";
 import { useSelector } from "react-redux";
 
@@ -41,12 +40,7 @@ const WTB = () => {
   return (
     <>
       <OnSearch />
-      {mobileFilters && (
-        <>
-          <ScrollToTop />
-          <MobileFilters />
-        </>
-      )}
+      {mobileFilters && <MobileFilters />}
       <Wrapper>
         <Header>WANT TO BUY</Header>
         <TopNav />

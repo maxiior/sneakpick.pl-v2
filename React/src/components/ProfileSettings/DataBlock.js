@@ -6,7 +6,23 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    display: block;
+  }
+`;
+
+const Header = styled.div`
+  font-size: 14px;
+  width: 150px;
+  color: ${({ theme }) => theme.darkGrey};
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    margin-bottom: 3px;
+  }
+`;
+
+const Container = styled.div`
+  position: relative;
 `;
 
 const StyledInput = styled.input`
@@ -22,6 +38,10 @@ const StyledInput = styled.input`
   :focus {
     border-bottom: 1px solid ${({ theme }) => theme.blue};
   }
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    width: 100%;
+  }
 `;
 
 const Error = styled.div`
@@ -32,12 +52,6 @@ const Error = styled.div`
   width: 250px;
   font-weight: 500;
   position: absolute;
-`;
-
-const Header = styled.div``;
-
-const Container = styled.div`
-  position: relative;
 `;
 
 const DataBlock = ({
@@ -53,7 +67,7 @@ const DataBlock = ({
 
   useEffect(() => {
     reset({ [name]: value });
-  }, [data]);
+  }, [data, name, value, reset]);
 
   return (
     <Wrapper className={className}>

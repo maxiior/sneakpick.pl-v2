@@ -11,5 +11,12 @@ export enum theme {
   hoverBlue = "#4dc9ff",
   red = "#F2324D",
   _5px = "5px",
+  _10px = "10px",
   green = "#7CD321",
+  max_width_XL = "1199px",
+  max_width_LG = "991px",
+  max_width_MD = "767px",
+  min_width_XL = "1200px",
+  min_width_LG = "992px",
+  min_width_MD = "768px",
 }

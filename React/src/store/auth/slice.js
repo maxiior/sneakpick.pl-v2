@@ -4,7 +4,7 @@ import { login, logout, refresh, pended } from "store/auth/actions";
 const initialState = {
   pending: true,
   isAuthenticated: false,
-  user_id: null,
+  user_id: "",
 };
 
 export const authSlice = createSlice({

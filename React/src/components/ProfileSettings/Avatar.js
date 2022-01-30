@@ -13,16 +13,6 @@ const StyledInput = styled.input`
   display: none;
 `;
 
-const Error = styled.div`
-  font-size: 11px;
-  color: ${({ theme }) => theme.red};
-  margin-top: ${({ statute }) => (statute ? "-10px" : "3px")};
-  margin-bottom: ${({ statute }) => (statute ? "15px" : "0")};
-  width: 250px;
-  font-weight: 500;
-  position: absolute;
-`;
-
 const PhotoHolder = styled.div`
   position: relative;
   height: 100%;
@@ -33,6 +23,8 @@ const PhotoHolder = styled.div`
 
 const Photo = styled.label`
   padding: 30px;
+  width: 90px;
+  height: 90px;
   background-color: ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;
@@ -40,18 +32,21 @@ const Photo = styled.label`
   border-radius: 50%;
   cursor: pointer;
 
-  background-image: url(${({ image }) => image});
+  background-image: url(${({ photo }) => photo});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
 
   :hover {
     background-color: ${({ theme }) => theme.blue};
-    opacity: ${({ image }) => image && "0.9"};
+    opacity: ${({ photo }) => photo && "0.9"};
   }
 `;
 
-const Header = styled.div``;
+const Header = styled.div`
+  color: ${({ theme }) => theme.darkGrey};
+  font-size: 14px;
+`;
 
 const Icon = styled(FiCamera)`
   font-size: 30px;
@@ -59,7 +54,7 @@ const Icon = styled(FiCamera)`
   visibility: ${({ image }) => image && "hidden"};
 `;
 
-const Avatar = ({ value, name, placeholder, className }) => {
+const Avatar = ({ photo, className }) => {
   const { register, formState } = useFormContext();
   const validator = register("photo");
 
@@ -67,11 +62,10 @@ const Avatar = ({ value, name, placeholder, className }) => {
     <Wrapper className={className}>
       <Header>Zdjęcie profilowe</Header>
       <PhotoHolder>
-        <Photo image>
+        <Photo photo={photo}>
           <StyledInput
             name="photo"
             type="file"
-            multiple
             onChange={(e) => {
               validator.onChange(e);
             }}

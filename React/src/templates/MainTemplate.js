@@ -1,14 +1,14 @@
-import React from "react";
 import PropTypes from "prop-types";
 import GlobalStyle from "theme/GlobalStyle";
-import Nav from "components/Nav/Nav";
+import Nav from "components/Nav";
 import Footer from "components/Footer/Footer";
-import Login from "components/Login/Login";
+import Login from "components/Login";
 import Register from "components/Register/Register";
-import Menu from "components/Menu/Menu";
+import MobileMenu from "components/MobileMenu";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import InformationBlock from "components/InformationBlock";
+import { useScrollToTop } from "hooks/useScrollToTop";
 
 const Main = styled.div`
   padding-top: 60px;
@@ -23,6 +23,8 @@ const MainTemplate = ({ children }) => {
   const { menuView, registerView, loginView, mobileFilters, informationBlock } =
     useSelector((state) => state.interfaceSlice);
 
+  useScrollToTop();
+
   return (
     <>
       <GlobalStyle
@@ -31,7 +33,7 @@ const MainTemplate = ({ children }) => {
       {informationBlock !== null && (
         <InformationBlock type={informationBlock} />
       )}
-      {menuView && <Menu />}
+      {menuView && <MobileMenu />}
       {loginView && <Login />}
       {registerView && <Register />}
       <Nav />

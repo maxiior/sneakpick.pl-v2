@@ -8,6 +8,11 @@ const initialState = {
     first_name: "",
     last_name: "",
     city: "",
+    rating: 2.5,
+    photo: "",
+    followers_count: 0,
+    following_count: 0,
+    description: "",
   },
 };
 

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "api/http";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Path from "components/SingleItem/Path";
 import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
 import { endpoints } from "routes";
-import { Link } from "react-router-dom";
 import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Informations from "components/SingleItem/Informations";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -26,6 +26,10 @@ const Header = styled.header`
   width: 100%;
   color: ${({ theme }) => theme.veryDarkGrey};
   font-size: 2em;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 1.5em;
+  }
 `;
 
 const Condition = styled.div`
@@ -38,14 +42,17 @@ const Condition = styled.div`
   align-items: center;
   user-select: none;
   margin-left: 15px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const Option = styled.div`
   background-color: ${({ theme, active }) =>
     active ? theme.grey : theme.blue};
   color: ${({ theme }) => theme.white};
-  padding: 5px 10px;
-  font-size: 20px;
+  padding: 10px 20px;
   border-radius: ${({ theme }) => theme._5px};
   display: flex;
   align-items: center;
@@ -58,117 +65,43 @@ const Option = styled.div`
   }
 `;
 
-// const Image = styled.div`
-//   height: 390px;
-//   background-color: ${({ theme }) => theme.grey};
-//   width: 45%;
-// `;
-
 const TopPanel = styled.div`
   display: flex;
   margin-bottom: 30px;
   justify-content: space-between;
   padding-bottom: 30px;
   border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
+
+  @media only screen and (max-width: 993px) {
+    display: block;
+  }
 `;
 
 const TopLeft = styled.div`
   display: flex;
   align-items: center;
+
+  @media only screen and (max-width: 993px) {
+    justify-content: center;
+  }
 `;
 
 const TopRight = styled.div`
   display: flex;
   align-items: center;
-`;
 
-const Button = styled.div`
-  background-color: ${({ theme }) => theme.veryDarkGrey};
-  color: ${({ theme }) => theme.white};
-  font-size: 20px;
-  user-select: none;
-  cursor: pointer;
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-  border-radius: ${({ theme }) => theme._5px};
-
-  :hover {
-    opacity: 0.9;
+  @media only screen and (max-width: 993px) {
+    justify-content: center;
   }
 `;
 
 const Panel = styled.div`
   display: flex;
   justify-content: space-between;
-`;
 
-const Informations = styled.div`
-  margin-bottom: 30px;
-`;
-
-const Information = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const RightPanel = styled.div`
-  box-sizing: border-box;
-  width: 30%;
-  padding-left: 20px;
-  border-left: 1px solid ${({ theme }) => theme.lightGrey};
-`;
-
-const Type = styled.div`
-  user-select: none;
-`;
-
-const Value = styled.div`
-  font-weight: 500;
-
-  ${({ description }) =>
-    description &&
-    css`
-      text-align: justify;
-      text-justify: inter-word;
-      font-weight: 300;
-    `}
-
-  ${({ price }) =>
-    price &&
-    css`
-      color: ${({ theme }) => theme.blue};
-      font-size: 30px;
-      margin-bottom: 20px;
-    `}
-`;
-
-const Owner = styled(Link)`
-  font-weight: 500;
-  color: ${({ theme }) => theme.black};
-  text-decoration: none;
-
-  :hover {
-    color: ${({ theme }) => theme.blue};
+  @media only screen and (max-width: 1200px) {
+    justify-content: center;
   }
-`;
-
-const Paragraph = styled.div`
-  font-size: 20px;
-  margin-bottom: 10px;
-  margin-top: 20px;
-  user-select: none;
-
-  :first-child {
-    margin-top: 0;
-  }
-
-  ${({ price }) =>
-    price &&
-    css`
-      margin-bottom: 0;
-    `}
 `;
 
 const NumberOfBumps = styled.div`
@@ -290,44 +223,7 @@ const SingleItem = () => {
           <LeftPanel>
             <Images images={data.product.images} />
           </LeftPanel>
-          <RightPanel>
-            <Informations>
-              <Paragraph>Szczegóły</Paragraph>
-              <Information>
-                <Type>Rozmiar</Type>
-                <Value> {data.product.size}</Value>
-              </Information>
-              <Information>
-                <Type>Fit</Type>
-                <Value> {data.product.fit}</Value>
-              </Information>
-              <Information>
-                <Type>Rodzaj</Type>
-                <Value> {data.product.kind}</Value>
-              </Information>
-              <Information>
-                <Type>Colorway</Type>
-                <Value>{data.product.colorway}</Value>
-              </Information>
-              <Paragraph>Opis</Paragraph>
-              <Value description>{data.product.description}</Value>
-              <Paragraph price>Cena</Paragraph>
-              <Value price>{data.product.price} PLN</Value>
-              <Information>
-                <Type>Sprzedający</Type>
-                <Owner to={"/profile/" + data.product.owner}>
-                  {data.product.first_name} {data.product.last_name}
-                </Owner>
-              </Information>
-              <Information>
-                <Type>Dodane</Type>
-                <Value>{data.product.published}</Value>
-              </Information>
-            </Informations>
-            <Button>Kup teraz</Button>
-            <Button>DM</Button>
-            <Button>Callout</Button>
-          </RightPanel>
+          <Informations data={data} />
         </Panel>
         <SimilarItems />
       </Container>

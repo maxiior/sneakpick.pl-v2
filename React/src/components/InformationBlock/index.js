@@ -34,6 +34,11 @@ const Container = styled.div`
   max-width: 600px;
 `;
 
+const Value = styled.div`
+  font-size: 12px;
+  margin-top: 3px;
+`;
+
 const Close = styled(IoMdClose)`
   right: 10px;
   top: 10px;
@@ -46,21 +51,14 @@ const Close = styled(IoMdClose)`
   }
 `;
 
-const Header = styled.div``;
-
-const Content = styled.div`
-  font-size: 12px;
-  margin-top: 3px;
-`;
-
 const InformationBlock = ({ type }) => {
   const dispatch = useDispatch();
 
   return (
     <Wrapper>
       <Container>
-        <Header>{informations[type].header}</Header>
-        <Content>{informations[type].content}</Content>
+        <div>{informations[type].header}</div>
+        <Value>{informations[type].content}</Value>
         <Close onClick={() => dispatch(resetInformationBlock())} />
       </Container>
     </Wrapper>

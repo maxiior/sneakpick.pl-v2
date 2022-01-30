@@ -30,6 +30,10 @@ const Wrapper = styled.div`
   @media only screen and (max-height: 867px) {
     padding: 30px 0;
     align-items: unset;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -38,7 +42,7 @@ const Form = styled.form`
   padding: 50px 80px;
   position: relative;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: ${({ theme }) => theme._5px};
+  border-radius: ${({ theme }) => theme._10px};
   height: 100%;
 `;
 
@@ -55,7 +59,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const LoginButton = styled.button`
+const Button = styled.button`
   background-color: ${({ facebook, theme }) =>
     facebook ? theme.blue : theme.veryDarkGrey};
   color: ${({ theme }) => theme.white};
@@ -63,9 +67,10 @@ const LoginButton = styled.button`
   padding: 10px 0;
   text-align: center;
   cursor: pointer;
-  border-radius: ${({ theme }) => theme._5px};
+  border-radius: ${({ theme }) => theme._10px};
   border: 0;
   display: block;
+  font-size: 14px;
 
   :hover {
     opacity: 0.9;
@@ -81,7 +86,7 @@ const Logo = styled.img`
   height: 22px;
 `;
 
-const LogoHolder = styled.div`
+const Holder = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -94,8 +99,8 @@ const FieldType = styled.div`
 `;
 
 const CLose = styled(IoMdClose)`
-  right: 10px;
-  top: 10px;
+  right: 15px;
+  top: 15px;
   cursor: pointer;
   position: absolute;
   color: ${({ theme }) => theme.veryDarkGrey};
@@ -216,9 +221,9 @@ const Register = () => {
               dispatch(displayCommunicatorIcon());
             }}
           />
-          <LogoHolder>
+          <Holder>
             <Logo src={logo} />
-          </LogoHolder>
+          </Holder>
           <FieldType>Imię</FieldType>
           <StyledInput
             name="first_name"
@@ -307,8 +312,8 @@ const Register = () => {
             name="statute"
           />
           {errors.statute && <Error statute>{errors.statute.message}</Error>}
-          <LoginButton type="submit">SIGN UP</LoginButton>
-          <LoginButton facebook>LOGIN WITH FACEBOOK</LoginButton>
+          <Button type="submit">SIGN UP</Button>
+          <Button facebook>LOGIN WITH FACEBOOK</Button>
         </Form>
       </FormProvider>
     </Wrapper>

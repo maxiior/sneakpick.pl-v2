@@ -1,6 +1,25 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    display: block;
+  }
+`;
+
+const Header = styled.div`
+  font-size: 14px;
+  width: 150px;
+  color: ${({ theme }) => theme.darkGrey};
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    margin-bottom: 3px;
+  }
+`;
 
 const TextArea = styled.textarea`
   outline: none;
@@ -38,16 +57,6 @@ const Counter = styled.div`
   color: ${({ color }) => color};
 `;
 
-const Header = styled.div``;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 50px;
-`;
-
-const Container = styled.div``;
-
 const Description = ({ value, setData }) => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
@@ -64,9 +73,8 @@ const Description = ({ value, setData }) => {
   return (
     <Wrapper>
       <Header>Kilka słów o Tobie</Header>
-      <Container>
+      <div>
         <TextArea
-          name="description"
           maxLength="1000"
           value={value}
           {...register("description")}
@@ -77,7 +85,7 @@ const Description = ({ value, setData }) => {
           placeholder="Powiedz coś więcej o sobie..."
         />
         <Counter color={color}>Pozostało {counter} znaków</Counter>
-      </Container>
+      </div>
     </Wrapper>
   );
 };

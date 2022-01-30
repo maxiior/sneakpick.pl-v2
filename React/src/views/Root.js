@@ -11,7 +11,6 @@ import Home from "views/Home";
 import Profile from "views/Profile";
 import PageNotFound from "views/PageNotFound";
 import ProfileSettings from "views/ProfileSettings";
-import { ScrollToTop } from "components/ScrollToTop/ScrollToTop";
 import SettingsTemplate from "templates/SettingsTemplate";
 import AccountSettings from "views/AccountSettings";
 import CommunicatorTemplate from "templates/CommunicatorTemplate";
@@ -34,7 +33,6 @@ const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <ScrollToTop />
         <CommunicatorTemplate>
           <MainTemplate>
             <Switch>
@@ -42,7 +40,6 @@ const App = () => {
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
               <Route path={routes.ITEM} component={SingleItem} />
-              <Route exact path={routes.DEFAULT_PROFILE} component={Profile} />
               <Route exact path={routes.PROFILE} component={Profile} />
               <Route path={routes.FOLLOWED} component={Followed} />
               <Route path={routes.SUPPORT} component={Support} />

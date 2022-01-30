@@ -1,7 +1,30 @@
-import React from "react";
 import styled from "styled-components";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { routes } from "routes";
+
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 15px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: underline;
+  color: ${({ theme }) => theme.black};
+
+  :hover {
+    color: ${({ theme }) => theme.blue};
+  }
+`;
 
 const Checkmark = styled.span`
   position: absolute;
@@ -44,39 +67,18 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledLabel = styled.label`
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding-left: 25px;
-  cursor: pointer;
-  font-size: 14px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  height: 15px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: underline;
-  color: ${({ theme }) => theme.black};
-
-  :hover {
-    color: ${({ theme }) => theme.blue};
-  }
-`;
-
-const Wrapper = styled.div``;
-
 const Checkbox = ({ className, setCheckbox, checkbox }) => {
   const { register } = useFormContext();
   const statute = register("statute");
   return (
-    <Wrapper className={className}>
-      <StyledLabel>
+    <div className={className}>
+      <Label>
         <div>
-          Akceptuj <StyledLink>regulamin strony</StyledLink>.
+          Akceptuj{" "}
+          <StyledLink target="_blank" to={routes.STATUTE}>
+            regulamin strony
+          </StyledLink>
+          .
         </div>
         <StyledInput
           type="checkbox"
@@ -87,8 +89,8 @@ const Checkbox = ({ className, setCheckbox, checkbox }) => {
           }}
         />
         <Checkmark />
-      </StyledLabel>
-    </Wrapper>
+      </Label>
+    </div>
   );
 };
 

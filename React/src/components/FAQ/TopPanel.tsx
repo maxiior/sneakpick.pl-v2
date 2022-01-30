@@ -14,9 +14,13 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 80%;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
+    text-align: center;
+  }
 `;
 
-const Help = styled.div`
+const Header = styled.div`
   font-size: 50px;
   font-weight: 500;
 `;
@@ -25,7 +29,7 @@ const TopPanel: React.FC = () => {
   return (
     <Wrapper>
       <Container>
-        <Help>FAQ</Help>
+        <Header>FAQ</Header>
       </Container>
     </Wrapper>
   );

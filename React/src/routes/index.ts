@@ -12,7 +12,6 @@ export enum routes {
   BUSINESSCONTACT = "/businesscontact",
   FOLLOWED = "/followed",
   ITEM = "/wtb/:item",
-  DEFAULT_PROFILE = "/profile/",
   PROFILE = "/profile/:user",
   PROFILE_SETTINGS = "/settings/profile",
   ACCOUNT_SETTINGS = "/settings/account",
@@ -21,11 +20,17 @@ export enum routes {
   DEFAULT_SEARCH = "limit=24&offset=0&ordering=1",
   CATEGORY = "category=",
   BRAND = "brand=",
-  POPULAR = "?limit=24&offset=0&ordering=3",
-  NEWEST = "?limit=24&offset=0&ordering=4",
+  POPULAR = "?limit=24&offset=0&ordering=1",
+  NEWEST = "?limit=24&offset=0&ordering=5",
+  FORGOTTEN_PASSWORD = "/password",
+  USER_PROFILE_COMMENTS = "/profile/:user/comments",
+  USER_PROFILE_PRODUCTS = "/profile/:user/products",
+  ORDERS = "/orders",
+  STATUTE = "/statute",
 }
 
 export enum endpoints {
+  USER_IMAGES = "/static/user/images/",
   HOST = "http://127.0.0.1:8000/api/",
   MAIN = "",
   IMAGES = "/static/product/images/",
@@ -38,5 +43,6 @@ export enum endpoints {
   USER_PRODUCTS_LIST = "user_list/",
   ME = "user/me/",
   EDIT = "user/edit/",
-  FOLLOWED = "user/followed/",
+  POST_FOLLOWED = "user/followed/{id}/",
+  GET_FOLLOWED = "user/followed/",
 }
