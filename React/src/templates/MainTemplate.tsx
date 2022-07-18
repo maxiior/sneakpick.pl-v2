@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import GlobalStyle from "theme/GlobalStyle";
 import Nav from "components/Nav";
 import Footer from "components/Footer/Footer";
@@ -6,7 +5,7 @@ import Login from "components/Login";
 import Register from "components/Register/Register";
 import MobileMenu from "components/MobileMenu";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "hooks/useAppSelector";
 import InformationBlock from "components/InformationBlock";
 import { useScrollToTop } from "hooks/useScrollToTop";
 
@@ -19,9 +18,9 @@ const Main = styled.div`
   }
 `;
 
-const MainTemplate = ({ children }) => {
+const MainTemplate = ({ children }: { children: React.ReactNode }) => {
   const { menuView, registerView, loginView, mobileFilters, informationBlock } =
-    useSelector((state) => state.interfaceSlice);
+    useAppSelector((state) => state.interfaceSlice);
 
   useScrollToTop();
 
@@ -41,10 +40,6 @@ const MainTemplate = ({ children }) => {
       <Footer />
     </>
   );
-};
-
-MainTemplate.propTypes = {
-  children: PropTypes.element.isRequired,
 };
 
 export default MainTemplate;

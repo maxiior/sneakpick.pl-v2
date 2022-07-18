@@ -1,17 +1,13 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 export const changeState = createAsyncThunk(
   "creator/changeState",
-  async (data) => {
-    console.log(data);
+  async (data: { type: string; id: string; input: string }) => {
     return { type: data.type, id: data.id, input: data.input };
   }
 );
 
-export const addToCitiesArray = createAsyncThunk(
-  "creator/addToCitiesArray",
-  async () => {}
-);
+export const addToCitiesArray = createAction("creator/addToCitiesArray");
 
 export const removeFromCitiesArray = createAsyncThunk(
   "creator/removeFromCitiesArray",
@@ -22,7 +18,7 @@ export const removeFromCitiesArray = createAsyncThunk(
 
 export const updateCitiesArray = createAsyncThunk(
   "creator/updateCitiesArray",
-  async (data) => {
+  async (data: { index: number; id: string }) => {
     return { index: data.index, id: data.id };
   }
 );

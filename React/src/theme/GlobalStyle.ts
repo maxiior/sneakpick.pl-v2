@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
+import { iTheme } from "theme/types/theme";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle<{ scroll: boolean; theme: iTheme }>`
     @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600&display=swap');
     *, *::before, *::after {
         box-sizing: border-box;

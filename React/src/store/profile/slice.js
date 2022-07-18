@@ -3,7 +3,9 @@ import { fetchItems, fetchUser } from "store/profile/actions";
 
 const initialState = {
   items: [],
-  results: 0,
+  comments: [],
+  items_results: 0,
+  comments_results: 0,
   user: {
     first_name: "",
     last_name: "",

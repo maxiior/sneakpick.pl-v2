@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const changeState = createAsyncThunk(
   "filters/changeState",
-  async (data) => {
+  async (data: any) => {
     return data;
   }
 );

@@ -8,7 +8,7 @@ import {
   resetCurrentStates,
 } from "store/creator/actions";
 
-const initialState = {
+const initialState: any = {
   filterTypes: {
     categories: "categories",
     brands: "brands",
@@ -160,7 +160,6 @@ export const creatorSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(changeState.fulfilled, (state, action) => {
-      console.log(action);
       if (action.payload.input === "checkbox") {
         state.currentFilters[action.payload.type] =
           !state.currentFilters[action.payload.type];
@@ -175,19 +174,19 @@ export const creatorSlice = createSlice({
         );
       }
     });
-    builder.addCase(addToCitiesArray.fulfilled, (state) => {
+    builder.addCase(addToCitiesArray, (state) => {
       if (state.currentFilters.cities.length < 5) {
         state.currentFilters.cities = [...state.currentFilters.cities, ""];
       }
     });
     builder.addCase(removeFromCitiesArray.fulfilled, (state, action) => {
       state.currentFilters.cities = state.currentFilters.cities.filter(
-        (_, i) => i !== action.payload
+        (_: any, i: any) => i !== action.payload
       );
     });
     builder.addCase(updateCitiesArray.fulfilled, (state, action) => {
-      state.currentFilters.cities = state.currentFilters.cities.map((c, i) =>
-        i === action.payload.index ? action.payload.id : c
+      state.currentFilters.cities = state.currentFilters.cities.map(
+        (c: any, i: any) => (i === action.payload.index ? action.payload.id : c)
       );
     });
     builder.addCase(setCitiesArray.fulfilled, (state, action) => {

@@ -1,33 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Element from "./Element";
 
 const ElementsList = styled.div`
   display: block;
 `;
 
-const ShowMore = styled.div`
+const ShowMore = styled.div<{ mobile?: boolean }>`
   color: ${({ theme }) => theme.darkGrey};
   font-size: 12px;
   margin-left: 20px;
   margin-top: 15px;
   cursor: pointer;
+  display: ${({ mobile }) => "flex"};
+  justify-content: ${({ mobile }) => "center"};
 
   :hover {
     color: ${({ theme }) => theme.blue};
   }
-
-  ${({ mobile }) =>
-    mobile &&
-    css`
-      display: flex;
-      justify-content: center;
-    `}
 `;
 
-const List = ({ name, elements, filterType, radio, mobile, currentFilter }) => {
+const List = ({
+  name,
+  elements,
+  filterType,
+  radio,
+  mobile,
+  currentFilter,
+}: any) => {
   const [showList, setShowList] = useState(false);
   const [amount, setAmount] = useState(6);
   const [showMore, setShowMore] = useState("Pokaż więcej");
@@ -49,7 +51,7 @@ const List = ({ name, elements, filterType, radio, mobile, currentFilter }) => {
       <div>
         <Paragraph mobile={mobile}>{name}</Paragraph>
         <ElementsList>
-          {elements.slice(0, amount).map((e) => (
+          {elements.slice(0, amount).map((e: any) => (
             <Element
               key={e.id}
               text={e.text}

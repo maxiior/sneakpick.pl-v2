@@ -6,10 +6,10 @@ import { changeState } from "store/filters/actions";
 import { useDispatch } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
 
-const CW = styled.div`
+const CW = styled.div<{ mobile: boolean; white: boolean; multi: boolean }>`
   box-sizing: border-box;
-  width: 43.75px;
-  height: 43.75px;
+  width: ${({ mobile }) => (mobile ? "72.5px" : "43.75px")};
+  height: ${({ mobile }) => (mobile ? "72.5px" : "43.75px")};
   cursor: pointer;
   position: relative;
 
@@ -25,34 +25,18 @@ const CW = styled.div`
     css`
       background-image: url(${colorful});
     `}
-  
-  ${({ mobile }) =>
-    mobile &&
-    css`
-      width: 72.5px;
-      height: 72.5px;
-    `}
 `;
 
-const Checkmark = styled.div`
-  ${({ white }) =>
-    white &&
-    css`
-      border-color: ${({ theme }) => theme.grey} !important;
-    `}
+const Checkmark = styled.div<{ white: boolean }>`
+  border-color: ${({ theme, white }) => white && theme.grey} !important;
 `;
 
-const CwsGrid = styled.div`
+const CwsGrid = styled.div<{ mobile: boolean }>`
   display: grid;
   margin-top: 5px;
   grid-gap: 5px;
   grid-template-columns: auto auto auto auto;
-
-  ${({ mobile }) =>
-    mobile &&
-    css`
-      width: 305px;
-    `}
+  width: ${({ mobile }) => mobile && "305px"};
 `;
 
 const StyledInput = styled.input`
@@ -81,7 +65,7 @@ const ColorwayGrid = ({
   mobile,
   borderNone,
   currentFilter,
-}) => {
+}: any) => {
   const dispatch = useDispatch();
 
   return (
@@ -89,7 +73,7 @@ const ColorwayGrid = ({
       <div>
         <Paragraph mobile={mobile}>CW</Paragraph>
         <CwsGrid mobile={mobile}>
-          {colors.map((c) => (
+          {colors.map((c: any) => (
             <label key={c.id}>
               <StyledInput
                 type="checkbox"
@@ -101,6 +85,7 @@ const ColorwayGrid = ({
                 checked={currentFilter.includes(c.text)}
               />
               <CW
+                // @ts-ignore
                 style={{ backgroundColor: colorwaysTheme[c.text] }}
                 white={c.text === "white"}
                 multi={c.text === "multi"}

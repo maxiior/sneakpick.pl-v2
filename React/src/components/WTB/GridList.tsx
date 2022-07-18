@@ -1,38 +1,33 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { changeState } from "store/filters/actions";
 
-const GridElements = styled.div`
+const GridElements = styled.div<{
+  small?: boolean;
+  medium?: boolean;
+  large?: boolean;
+  mobile: boolean;
+}>`
   display: grid;
   margin-top: 5px;
   grid-gap: 5px;
 
-  ${({ small }) =>
-    small &&
-    css`
-      grid-template-columns: auto auto auto;
-    `}
-  ${({ medium }) =>
-    medium &&
-    css`
-      grid-template-columns: ${({ mobile }) =>
-        mobile ? "auto auto auto auto" : "auto auto"};
-    `}
-  ${({ large }) =>
-    large &&
-    css`
-      grid-template-columns: ${({ mobile }) => (mobile ? "auto auto" : "auto")};
-    `}
-  ${({ mobile }) =>
-    mobile &&
-    css`
-      width: 305px;
-    `}
+  grid-template-columns: ${({ small }) => small && "auto auto auto"};
+  grid-template-columns: ${({ mobile, medium }) =>
+    medium && (mobile ? "auto auto auto auto" : "auto auto")};
+  grid-template-columns: ${({ mobile, large }) =>
+    large && (mobile ? "auto auto" : "auto")};
+  width: ${({ mobile }) => mobile && "305px"};
 `;
 
-const Value = styled.span`
+const Value = styled.span<{
+  small?: boolean;
+  medium?: boolean;
+  large?: boolean;
+  mobile: boolean;
+}>`
   display: flex;
   border: 1px solid ${({ theme }) => theme.grey};
   height: 30px;
@@ -44,28 +39,16 @@ const Value = styled.span`
   box-sizing: border-box;
   overflow: hidden;
 
-  ${({ small }) =>
-    small &&
-    css`
-      width: 60px;
-    `}
-  ${({ medium }) =>
-    medium &&
-    css`
-      width: ${({ mobile }) => (mobile ? "72.5px" : "92.5px")};
-    `}
-  ${({ large }) =>
-    large &&
-    css`
-      width: ${({ mobile }) => (mobile ? "150px" : "190px")};
-    `}
+  width: ${({ small }) => small && "60px"};
+  width: ${({ mobile, medium }) => medium && (mobile ? "72.5px" : "92.5px")};
+  width: ${({ mobile, large }) => large && (mobile ? "150px" : "190px")};
 `;
 
-const StyledLabel = styled.label`
+const Label = styled.label`
   cursor: pointer;
 `;
 
-const StyledInput = styled.input`
+const Input = styled.input`
   display: none;
 
   :checked ~ ${Value} {
@@ -82,7 +65,7 @@ const GridList = ({
   mobile,
   currentFilter,
   ...props
-}) => {
+}: any) => {
   const dispatch = useDispatch();
 
   return (
@@ -90,9 +73,9 @@ const GridList = ({
       <div>
         <Paragraph mobile={mobile}>{name}</Paragraph>
         <GridElements mobile={mobile} {...props}>
-          {elements.map((e) => (
-            <StyledLabel key={e.id}>
-              <StyledInput
+          {elements.map((e: any) => (
+            <Label key={e.id}>
+              <Input
                 type="checkbox"
                 onChange={() =>
                   dispatch(
@@ -104,7 +87,7 @@ const GridList = ({
               <Value mobile={mobile} {...props}>
                 {e.text}
               </Value>
-            </StyledLabel>
+            </Label>
           ))}
         </GridElements>
       </div>

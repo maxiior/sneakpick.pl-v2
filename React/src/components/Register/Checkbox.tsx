@@ -3,6 +3,8 @@ import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 
+const Wrapper = styled.div``;
+
 const Label = styled.label`
   display: flex;
   align-items: center;
@@ -16,6 +18,8 @@ const Label = styled.label`
   user-select: none;
   height: 15px;
 `;
+
+const Holder = styled.div``;
 
 const StyledLink = styled(Link)`
   text-decoration: underline;
@@ -67,19 +71,19 @@ const StyledInput = styled.input`
   }
 `;
 
-const Checkbox = ({ className, setCheckbox, checkbox }) => {
+const Checkbox = ({ className, setCheckbox, checkbox }: any) => {
   const { register } = useFormContext();
   const statute = register("statute");
   return (
-    <div className={className}>
+    <Wrapper className={className}>
       <Label>
-        <div>
+        <Holder>
           Akceptuj{" "}
           <StyledLink target="_blank" to={routes.STATUTE}>
             regulamin strony
           </StyledLink>
           .
-        </div>
+        </Holder>
         <StyledInput
           type="checkbox"
           {...statute}
@@ -90,7 +94,7 @@ const Checkbox = ({ className, setCheckbox, checkbox }) => {
         />
         <Checkmark />
       </Label>
-    </div>
+    </Wrapper>
   );
 };
 

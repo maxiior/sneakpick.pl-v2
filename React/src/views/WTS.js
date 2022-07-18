@@ -15,6 +15,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Photos from "components/WTS/Photos";
 import { endpoints, routes } from "routes";
 import useAuthenticated from "hooks/useAuthenticated";
+import TextInput from "components/WTS/TextInput";
+import Combobox from "components/WTS/Combobox";
+import Autocomplete from "components/WTS/Autocomplete";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -149,25 +152,22 @@ const WTS = () => {
         <Form onSubmit={handleSubmit(addingProcess)}>
           <Header>WANT TO SELL</Header>
           <Panel>
-            <Feature
+            <TextInput
               title="Nazwa przedmiotu"
               placeholder="np. Nike Air Max 97"
               filterType="name"
               name="item_name"
             />
-            <Feature
+            <Autocomplete
               title="Marka"
               placeholder="np. Nike"
               elements={filters.brands}
               filterType={filterTypes.brands}
-              autocomplete
             />
-            <Feature
+            <Combobox
               title="Kategoria"
-              placeholder="np. Teesy"
               elements={filters.categories}
               filterType={filterTypes.categories}
-              combobox
             />
             <Photos />
             <Description

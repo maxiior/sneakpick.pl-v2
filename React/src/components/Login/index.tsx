@@ -48,7 +48,7 @@ const Form = styled.form`
   height: 100%;
 `;
 
-const CLose = styled(IoMdClose)`
+const Close = styled(IoMdClose)`
   right: 15px;
   top: 15px;
   cursor: pointer;
@@ -131,11 +131,6 @@ const Error = styled.div`
 `;
 
 const Login: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [error, setError] = useState(false);
-  const wrapperRef = useRef(null);
-  useDetectOutsideClick(wrapperRef, () => dispatch(closeLoginView()));
-
   const validationSchema = Yup.object()
     .shape({
       email: Yup.string()
@@ -144,6 +139,11 @@ const Login: React.FC = () => {
       password: Yup.string().required("Wpisz hasło."),
     })
     .required();
+
+  const dispatch = useAppDispatch();
+  const wrapperRef = useRef(null);
+  const [error, setError] = useState(false);
+  useDetectOutsideClick(wrapperRef, () => dispatch(closeLoginView()));
 
   const loginProcess: SubmitHandler<iLogin> = (data) => {
     dispatch(login(data))
@@ -174,7 +174,7 @@ const Login: React.FC = () => {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit(loginProcess)} ref={wrapperRef}>
-        <CLose onClick={() => dispatch(closeLoginView())} />
+        <Close onClick={() => dispatch(closeLoginView())} />
         <Holder>
           <Logo src={logo} />
         </Holder>

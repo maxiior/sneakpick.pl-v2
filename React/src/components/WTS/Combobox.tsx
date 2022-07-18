@@ -1,12 +1,23 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
-import { useDispatch, useSelector } from "react-redux";
 import { changeState } from "store/creator/actions";
 import { useFormContext } from "react-hook-form";
 import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
+import Header from "components/WTS/Header";
+import { Error } from "components/WTS/Error";
+import { useAppSelector } from "hooks/useAppSelector";
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 const Wrapper = styled.div`
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
+const Container = styled.div<{ open: boolean; error: boolean }>`
   width: 70%;
   border-bottom: 1px solid
     ${({ theme, open, error }) =>
@@ -20,16 +31,11 @@ const Wrapper = styled.div`
   user-select: none;
 `;
 
-const Arrow = styled(VscTriangleDown)`
+const Arrow = styled(VscTriangleDown)<{ turned: boolean }>`
   transition-duration: 0.5s;
   font-size: 15px;
   color: ${({ theme }) => theme.blue};
-
-  ${({ turned }) =>
-    turned &&
-    css`
-      transform: rotate(180deg);
-    `}
+  transform: ${({ turned }) => turned && "rotate(180deg)"};
 `;
 
 const ValueHolder = styled.div`
@@ -37,7 +43,7 @@ const ValueHolder = styled.div`
   color: ${({ theme }) => theme.darkGrey};
 `;
 
-const ModesContainer = styled.div`
+const ModesContainer = styled.div<{ open: boolean }>`
   width: 100%;
   position: absolute;
   background-color: ${({ theme }) => theme.white};
@@ -52,7 +58,7 @@ const ModesContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 
-const Option = styled.span`
+const Option = styled.span<{ isHighlighted: boolean }>`
   padding: 0 10px;
   height: 25px;
   cursor: pointer;
@@ -78,12 +84,18 @@ const StyledLabel = styled.label`
   cursor: pointer;
 `;
 
-const Combobox = ({ elements, filterType }) => {
+interface iCombobox {
+  title: string;
+  filterType: string;
+  elements: { id: number; text: string }[];
+}
+
+const Combobox = ({ title, elements, filterType }: iCombobox) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   const [cursor, setCursor] = useState(-1);
-  const dispatch = useDispatch();
-  const { categories } = useSelector(
+  const dispatch = useAppDispatch();
+  const { categories } = useAppSelector(
     (state) => state.creatorSlice.currentFilters
   );
   useDetectOutsideClick(wrapperRef, setOpen);
@@ -129,37 +141,46 @@ const Combobox = ({ elements, filterType }) => {
   }, [handleUserKeyPress, open]);
 
   return (
-    <Wrapper
-      onClick={() => setOpen(!open)}
-      ref={wrapperRef}
-      open={open}
-      error={formState.errors.category}
-    >
-      <ValueHolder>
-        {categories === "placeholder" ? "np. Teesy" : categories}
-      </ValueHolder>
-      <Arrow turned={open === true} />
-      <ModesContainer open={open}>
-        {elements.map((e, i) => (
-          <StyledLabel key={i}>
-            <StyledInput
-              type="radio"
-              name="category"
-              {...register("category")}
-              onChange={(el) => {
-                validator.onChange(el);
-                setCursor(i);
-                dispatch(
-                  changeState({ type: filterType, id: e.text, input: "radio" })
-                );
-                setOpen(false);
-              }}
-              checked={categories === e.text}
-            />
-            <Option isHighlighted={cursor === i}>{e.text}</Option>
-          </StyledLabel>
-        ))}
-      </ModesContainer>
+    <Wrapper>
+      <Header>{title}</Header>
+      <Container
+        onClick={() => setOpen(!open)}
+        ref={wrapperRef}
+        open={open}
+        error={formState.errors.category}
+      >
+        <ValueHolder>
+          {categories === "placeholder" ? "np. Teesy" : categories}
+        </ValueHolder>
+        <Arrow turned={open === true} />
+        <ModesContainer open={open}>
+          {elements.map((e: { id: number; text: string }, i: number) => (
+            <StyledLabel key={i}>
+              <StyledInput
+                type="radio"
+                {...register("category")}
+                onChange={(el) => {
+                  validator.onChange(el);
+                  setCursor(i);
+                  dispatch(
+                    changeState({
+                      type: filterType,
+                      id: e.text,
+                      input: "radio",
+                    })
+                  );
+                  setOpen(false);
+                }}
+                checked={categories === e.text}
+              />
+              <Option isHighlighted={cursor === i}>{e.text}</Option>
+            </StyledLabel>
+          ))}
+        </ModesContainer>
+      </Container>
+      {formState.errors.category && (
+        <Error>{formState.errors.category.message}</Error>
+      )}
     </Wrapper>
   );
 };

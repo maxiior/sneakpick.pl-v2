@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import defaultUserPicture from "assets/svg/default_user_picture.svg";
+import Avatar from "components/Profile/Avatar";
 import styled, { css } from "styled-components";
 import Informations from "components/Profile/TopPanel/Informations";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
@@ -7,10 +8,10 @@ import { useParams } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "routes";
 import { getUserPhoto } from "functions/getUserPhoto";
-import defaultUserPicture from "assets/svg/default_user_picture.svg";
-import Avatar from "components/Profile/Avatar";
 import { useAppSelector } from "hooks/useAppSelector";
+import { useEffect } from "react";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import { openFollowedPopup, openFollowersPopup } from "store/profile/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -178,10 +179,8 @@ const TopPanel = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchUser(user))
-      .then(() => {})
-      .catch(() => {});
-  }, [user, dispatch]);
+    dispatch(fetchUser(user));
+  }, [dispatch, user]);
 
   return (
     <Wrapper>
@@ -231,11 +230,11 @@ const TopPanel = () => {
           </ButtonsHolder>
         </TopHolder>
         <MiddleHolder>
-          <FollowStatistic>
+          <FollowStatistic onClick={() => dispatch(openFollowersPopup())}>
             <Value>{profile.user.followers_count}</Value>
             <Measure>obserwujących</Measure>
           </FollowStatistic>
-          <FollowStatistic>
+          <FollowStatistic onClick={() => dispatch(openFollowedPopup())}>
             <Value>{profile.user.following_count}</Value>
             <Measure>obserwowanych</Measure>
           </FollowStatistic>

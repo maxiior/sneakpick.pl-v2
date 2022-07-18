@@ -3,7 +3,7 @@ import List from "components/WTB/List";
 import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "hooks/useAppSelector";
 
 const StyledLeftPanel = styled.div`
   overflow-y: auto;
@@ -32,8 +32,8 @@ const StyledLeftPanel = styled.div`
   }
 `;
 
-const LeftPanel = () => {
-  const { currentFilters, filterTypes, filters } = useSelector(
+const LeftPanel: React.FC = () => {
+  const { currentFilters, filterTypes, filters } = useAppSelector(
     (state) => state.filtersSlice
   );
 

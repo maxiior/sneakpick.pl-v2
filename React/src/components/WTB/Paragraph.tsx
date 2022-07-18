@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const Paragraph = styled.p`
+const Paragraph = styled.p<{ mobile: boolean }>`
   font-size: 16px;
   margin: 0;
   color: ${({ theme }) => theme.blue};

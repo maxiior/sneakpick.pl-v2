@@ -23,9 +23,10 @@ const BottomPanel = styled.div`
 `;
 
 const Label = styled(Link)<{ unactive?: boolean }>`
-  background-color: ${({ theme, unactive }) =>
+  border-top: 1px solid
+    ${({ theme, unactive }) => (unactive ? theme.grey : theme.veryDarkGrey)};
+  color: ${({ theme, unactive }) =>
     unactive ? theme.grey : theme.veryDarkGrey};
-  color: ${({ theme }) => theme.white};
   padding: 10px 30px;
   font-size: 16px;
   width: 200px;
@@ -39,7 +40,7 @@ const Label = styled(Link)<{ unactive?: boolean }>`
   display: flex;
   justify-content: center;
 
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     width: 100%;
     font-size: 14px;
   }
@@ -47,8 +48,9 @@ const Label = styled(Link)<{ unactive?: boolean }>`
 
 const Holder = styled.div`
   display: flex;
+  justify-content: center;
 
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
