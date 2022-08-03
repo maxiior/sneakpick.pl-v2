@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Image = styled.div<{ photo: string }>`
+const Image = styled(Link)<{ photo: string }>`
   height: 72px;
   min-width: 95px;
   cursor: pointer;
@@ -24,7 +24,7 @@ const Image = styled.div<{ photo: string }>`
   background-repeat: no-repeat;
   background-size: cover;
 
-  background-image: ${({ photo }) => photo && `url(${getPhoto(photo)})`};
+  background-image: ${({ photo }) => photo && `url(${photo})`};
 `;
 
 const Container = styled.div`
@@ -89,7 +89,10 @@ const FollowedItem = ({ data }: { data: iFollowed }) => {
 
   return (
     <Wrapper>
-      <Image photo={data.image} />
+      <Image
+        to={routes.ITEM.replace(":item", data.id)}
+        photo={getPhoto(data.photo[0]?.file_name)}
+      />
       <Container>
         <Holder to={routes.ITEM.replace(":item", data.id)}>
           <Informations>

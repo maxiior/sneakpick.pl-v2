@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchItems, fetchUser } from "store/profile/actions";
+import {
+  fetchItems,
+  fetchUser,
+  fetchFollowers,
+  fetchFollowing,
+  changeFollowersNumber,
+  changeFollowedNumber,
+} from "store/profile/actions";
 
 const initialState = {
   items: [],
@@ -7,14 +14,17 @@ const initialState = {
   items_results: 0,
   comments_results: 0,
   user: {
+    id: "",
     first_name: "",
     last_name: "",
     city: "",
-    rating: 2.5,
-    photo: "",
-    followers_count: 0,
-    following_count: 0,
     description: "",
+    photo: "",
+    rating: 0,
+    following_count: 0,
+    followers_count: 0,
+    following_details: [],
+    followers_details: [],
   },
 };
 
@@ -25,12 +35,29 @@ export const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchItems.fulfilled, (state, action) => {
       state.items = action.payload.items;
-      state.results = action.payload.results;
+      state.items_results = action.payload.items_results;
     });
     builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.user.id = action.payload.id;
       state.user.first_name = action.payload.first_name;
       state.user.last_name = action.payload.last_name;
-      state.user.city = action.payload.city;
+      state.user.description = action.payload.description;
+      state.user.photo = action.payload.photo;
+      state.user.following_count = action.payload.following_count;
+      state.user.followers_count = action.payload.followers_count;
+      state.user.rating = action.payload.rating;
+    });
+    builder.addCase(fetchFollowers.fulfilled, (state, action) => {
+      state.user.followers_details = [...action.payload];
+    });
+    builder.addCase(fetchFollowing.fulfilled, (state, action) => {
+      state.user.following_details = [...action.payload];
+    });
+    builder.addCase(changeFollowersNumber, (state, action) => {
+      state.user.followers_count += action.payload;
+    });
+    builder.addCase(changeFollowedNumber, (state, action) => {
+      state.user.following_count += action.payload;
     });
   },
 });

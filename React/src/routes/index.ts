@@ -42,11 +42,21 @@ export enum endpoints {
   BLACKLIST = "users/logout/blacklist/",
   REGISTER = "users/register/",
   BUMP = "bump/",
-  FOLLOW = "users/follow/",
-  USER = "users/",
-  USER_PRODUCTS_LIST = "user_list/",
+  FOLLOW = "users/me/followed-products/",
+  GET_USER = "users/{id}/",
+  USER_PRODUCTS_LIST = "products/?owner={id}",
   ME = "users/me/",
   EDIT = "users/edit/",
-  POST_FOLLOWED = "users/followed/{id}/",
-  GET_FOLLOWED = "users/followed/",
+
+  FOLLOWED_ITEMS = "users/me/followed-products/",
+  DELETE_FOLLOWED_ITEMS = "users/me/followed-products/{id}/",
+
+  GET_ALL_ITEMS = "products/{filters}",
+  GET_SINGLE_ITEM = "products/{id}",
+
+  GET_FOLLOWERS = "/users/{id}/followers/",
+  GET_FOLLOWING = "/users/{id}/following/",
+  POST_FOLLOW = "/users/me/followers/",
+  DELETE_UNFOLLOW = "/users/me/followers/{id}/",
+  GET_IS_FOLLOWED = "/users/{foreign_id}/followers/?id={id}",
 }

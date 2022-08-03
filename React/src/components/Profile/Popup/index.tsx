@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import { fetchFollowers, fetchFollowed } from "store/profile/actions";
+import { fetchFollowers, fetchFollowing } from "store/profile/actions";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "hooks/useAppSelector";
@@ -105,7 +105,7 @@ const Popup = () => {
 
   useEffect(() => {
     if (profilePopup === 1) dispatch(fetchFollowers(id));
-    else dispatch(fetchFollowed(id));
+    else dispatch(fetchFollowing(id));
   }, [dispatch, id, profilePopup]);
 
   return (

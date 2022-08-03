@@ -9,6 +9,7 @@ import { endpoints } from "routes";
 import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Informations from "components/SingleItem/Informations";
+import { fetchSingleItem } from "api/services/items.service";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -122,9 +123,7 @@ const SingleItem = () => {
   const dispatch = useDispatch();
   const followedItems = useSelector((state) => state.followedSlice.items);
   const [isFollowed, setIsFollowed] = useState(false);
-  const isAuthenticated = useSelector(
-    (state) => state.authSlice.isAuthenticated
-  );
+  const { isAuthenticated, user_id } = useSelector((state) => state.authSlice);
 
   const bump = () => {
     http
@@ -153,23 +152,27 @@ const SingleItem = () => {
 
   const follow = () => {
     http
-      .post(endpoints.FOLLOW + data.product.id, {})
-      .then((response) => {
-        if (isFollowed) {
-          dispatch(removeFollowedItem(data.product.id));
-        } else {
-          dispatch(
-            addFollowedItem({
-              name: data.product.name,
-              size: data.product.size,
-              condition: data.product.condition,
-              id: data.product.id,
-              image: data.product.images[0].file_name,
-              price: data.product.price,
-            })
-          );
-        }
-        setIsFollowed(!isFollowed);
+      .post(endpoints.FOLLOWED_ITEMS, { id: data.product.id })
+      .then(() => {
+        dispatch(
+          addFollowedItem({
+            name: data.product.name,
+            size: data.product.size,
+            condition: data.product.condition,
+            id: data.product.id,
+            price: data.product.price,
+            photo: data.product.images,
+          })
+        );
+        setIsFollowed(true);
+      })
+      .catch(() => {});
+  };
+
+  const unfollow = () => {
+    dispatch(removeFollowedItem(data.product.id))
+      .then(() => {
+        setIsFollowed(false);
       })
       .catch(() => {});
   };
@@ -183,7 +186,7 @@ const SingleItem = () => {
   };
 
   useEffect(() => {
-    http.get(item).then((response) => {
+    fetchSingleItem(item).then((response) => {
       setData({
         product: {
           ...response.data,
@@ -210,8 +213,11 @@ const SingleItem = () => {
             <Condition>{data.product.condition}</Condition>
           </TopLeft>
           <TopRight>
-            {isAuthenticated && (
-              <Option active={isFollowed} onClick={() => follow()}>
+            {isAuthenticated && data.product.owner !== user_id && (
+              <Option
+                active={isFollowed}
+                onClick={() => (isFollowed ? unfollow() : follow())}
+              >
                 {isFollowed ? "Unfollow" : "Follow"}
               </Option>
             )}

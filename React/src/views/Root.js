@@ -80,6 +80,7 @@ const App = () => {
                 />
                 <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
               </SettingsTemplate>
+              <Route component={PageNotFound} />
             </Switch>
           </MainTemplate>
         </CommunicatorTemplate>

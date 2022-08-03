@@ -87,7 +87,7 @@ const Button = styled(Link)`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  border-radius: ${({ theme }) => theme._10px};
+  border-radius: ${({ theme }) => theme._5px};
   text-decoration: none;
   font-size: 14px;
 

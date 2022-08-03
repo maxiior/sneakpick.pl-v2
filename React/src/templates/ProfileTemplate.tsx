@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch } from "hooks/useAppDispatch";
-//import { closeProfilePopup } from "store/interface/actions";
+import { closeProfilePopup } from "store/interface/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -62,7 +62,7 @@ const ProfileTemplate = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    //dispatch(closeProfilePopup());
+    dispatch(closeProfilePopup());
   }, [location, dispatch]);
 
   return (

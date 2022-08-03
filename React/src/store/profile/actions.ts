@@ -14,9 +14,14 @@ export const fetchUser = createAsyncThunk(
   async (data: string) => {
     const result = await profile.fetchUser(data);
     return {
+      id: result.id,
       first_name: result.first_name,
       last_name: result.last_name,
-      city: result.city,
+      description: result.description,
+      photo: result.profile_photo,
+      followers_count: result.followers_count,
+      following_count: result.following_count,
+      rating: result.average_rating,
     };
   }
 );
@@ -58,6 +63,32 @@ export const removeAnswear = createAsyncThunk(
   }
 );
 
-export const openFollowedPopup = createAction("profile/openFollowedPopup");
+export const changeFollowersNumber = createAction(
+  "profile/changeFollowersNumber",
+  (data: number) => {
+    return { payload: data };
+  }
+);
 
-export const openFollowersPopup = createAction("profile/openFollowersPopup");
+export const changeFollowedNumber = createAction(
+  "profile/changeFollowedNumber",
+  (data: number) => {
+    return { payload: data };
+  }
+);
+
+export const fetchFollowers = createAsyncThunk<any, string>(
+  "profile/fetchFollowers",
+  async (data) => {
+    const result = await profile.fetchFollowers(data);
+    return result.data.results;
+  }
+);
+
+export const fetchFollowing = createAsyncThunk<any, string>(
+  "profile/fetchFollowing",
+  async (data) => {
+    const result = await profile.fetchFollowing(data);
+    return result.data.results;
+  }
+);

@@ -3,10 +3,12 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { routes, endpoints } from "routes";
 import http from "api/http";
-import { useAppDispatch } from "store/types/dispatch";
+import { useAppDispatch } from "hooks/useAppDispatch";
 import { changeFollowedNumber } from "store/profile/actions";
 import { useAppSelector } from "hooks/useAppSelector";
 import { getUserPhoto } from "functions/getUserPhoto";
+import { iUser } from "types/user";
+import { iAuthentication } from "types/authentication";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -69,14 +71,22 @@ const Holder = styled.div`
   align-items: center;
 `;
 
-const Follower = ({ data, auth, popup }) => {
+const Follower = ({
+  data,
+  auth,
+  popup,
+}: {
+  data: iUser;
+  auth: iAuthentication;
+  popup: number;
+}) => {
   const [followed, setFollowed] = useState(data.is_followed);
   const { id } = useAppSelector((state) => state.profileSlice.user);
   const dispatch = useAppDispatch();
 
   const follow = () => {
     http
-      .post(endpoints.POST_FOLLOWERS, { id: data.id })
+      .post(endpoints.POST_FOLLOW, { id: data.id })
       .then(() => {
         setFollowed(true);
         if (auth.user_id === id) dispatch(changeFollowedNumber(1));
@@ -86,7 +96,7 @@ const Follower = ({ data, auth, popup }) => {
 
   const unfollow = () => {
     http
-      .delete(endpoints.DELETE_FOLLOWERS.replace("{id}", data.id))
+      .delete(endpoints.DELETE_UNFOLLOW.replace("{id}", data.id))
       .then(() => {
         setFollowed(false);
         if (auth.user_id === id) dispatch(changeFollowedNumber(-1));
@@ -102,10 +112,12 @@ const Follower = ({ data, auth, popup }) => {
     <Wrapper>
       <Holder>
         <Avatar
-          to={routes.USER_PRODUCTS.replace(":user", data.id)}
+          to={routes.USER_PROFILE_PRODUCTS.replace(":user", data.id)}
           photo={getUserPhoto(data.profile_photo)}
         />
-        <Informations to={routes.USER_PRODUCTS.replace(":user", data.id)}>
+        <Informations
+          to={routes.USER_PROFILE_PRODUCTS.replace(":user", data.id)}
+        >
           {data.first_name} {data.last_name}
         </Informations>
       </Holder>

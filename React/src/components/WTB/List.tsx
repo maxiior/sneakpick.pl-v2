@@ -11,7 +11,6 @@ const ElementsList = styled.div`
 const ShowMore = styled.div<{ mobile?: boolean }>`
   color: ${({ theme }) => theme.darkGrey};
   font-size: 12px;
-  margin-left: 20px;
   margin-top: 15px;
   cursor: pointer;
   display: ${({ mobile }) => "flex"};

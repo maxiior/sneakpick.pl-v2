@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 export const openLoginView = createAsyncThunk(
   "interface/openLoginView",
@@ -71,3 +71,9 @@ export const hideCommunicator = createAsyncThunk(
   "filters/hideCommunicator",
   async () => {}
 );
+
+export const openFollowingPopup = createAction("profile/openFollowingPopup");
+
+export const openFollowersPopup = createAction("profile/openFollowersPopup");
+
+export const closeProfilePopup = createAction("interface/closeProfilePopup");

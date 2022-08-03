@@ -2,12 +2,14 @@ import http from "api/http";
 import { endpoints } from "routes";
 
 export const fetchItems = async (id) => {
-  const { data } = await http.get(endpoints.USER_PRODUCTS_LIST + id);
+  const { data } = await http.get(
+    endpoints.USER_PRODUCTS_LIST.replace("{id}", id)
+  );
   return data;
 };
 
 export const fetchUser = async (id) => {
-  const { data } = await http.get(endpoints.USER + id);
+  const { data } = await http.get(endpoints.GET_USER.replace("{id}", id));
   return data;
 };
 
@@ -31,4 +33,12 @@ export const removeComment = async (data) => {
   return await http.delete(
     endpoints.DELETE_USER_COMMENTS.replace("{comment_id}", data)
   );
+};
+
+export const fetchFollowers = async (data) => {
+  return await http.get(endpoints.GET_FOLLOWERS.replace("{id}", data));
+};
+
+export const fetchFollowing = async (data) => {
+  return await http.get(endpoints.GET_FOLLOWING.replace("{id}", data));
 };

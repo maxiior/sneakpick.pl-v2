@@ -11,7 +11,10 @@ import { getUserPhoto } from "functions/getUserPhoto";
 import { useAppSelector } from "hooks/useAppSelector";
 import { useEffect } from "react";
 import { useAppDispatch } from "hooks/useAppDispatch";
-import { openFollowedPopup, openFollowersPopup } from "store/profile/actions";
+import {
+  openFollowingPopup,
+  openFollowersPopup,
+} from "store/interface/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -161,8 +164,11 @@ const Edit = styled(Link)`
 `;
 
 const Adnotation = styled(Link)`
-  color: ${({ theme }) => theme.blue};
-  font-weight: 500;
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.blue};
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -234,7 +240,7 @@ const TopPanel = () => {
             <Value>{profile.user.followers_count}</Value>
             <Measure>obserwujących</Measure>
           </FollowStatistic>
-          <FollowStatistic onClick={() => dispatch(openFollowedPopup())}>
+          <FollowStatistic onClick={() => dispatch(openFollowingPopup())}>
             <Value>{profile.user.following_count}</Value>
             <Measure>obserwowanych</Measure>
           </FollowStatistic>

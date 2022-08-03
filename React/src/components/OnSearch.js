@@ -78,8 +78,8 @@ const OnSearch = () => {
       });
     }
 
-    dispatch(fetchItems(window.location.search));
-  }, [currentFilters]);
+    dispatch(fetchItems(window.location.search.toLowerCase()));
+  }, [currentFilters, sorting, page, pagination]);
 
   return null;
 };

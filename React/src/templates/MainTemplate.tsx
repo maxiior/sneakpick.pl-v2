@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useAppSelector } from "hooks/useAppSelector";
 import InformationBlock from "components/InformationBlock";
 import { useScrollToTop } from "hooks/useScrollToTop";
+import Popup from "components/Profile/Popup";
 
 const Main = styled.div`
   padding-top: 60px;
@@ -19,8 +20,14 @@ const Main = styled.div`
 `;
 
 const MainTemplate = ({ children }: { children: React.ReactNode }) => {
-  const { menuView, registerView, loginView, mobileFilters, informationBlock } =
-    useAppSelector((state) => state.interfaceSlice);
+  const {
+    menuView,
+    registerView,
+    loginView,
+    mobileFilters,
+    informationBlock,
+    profilePopup,
+  } = useAppSelector((state) => state.interfaceSlice);
 
   useScrollToTop();
 
@@ -35,6 +42,7 @@ const MainTemplate = ({ children }: { children: React.ReactNode }) => {
       {menuView && <MobileMenu />}
       {loginView && <Login />}
       {registerView && <Register />}
+      {profilePopup !== 0 && <Popup />}
       <Nav />
       <Main>{children}</Main>
       <Footer />

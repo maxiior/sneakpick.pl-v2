@@ -14,6 +14,9 @@ import {
   resetInformationBlock,
   hideCommunicator,
   openCommunicator,
+  openFollowingPopup,
+  openFollowersPopup,
+  closeProfilePopup,
 } from "store/interface/actions";
 
 const initialState = {
@@ -24,6 +27,7 @@ const initialState = {
   communicatorBar: false,
   mobileFilters: false,
   informationBlock: null,
+  profilePopup: 0,
 };
 
 export const interfaceSlice = createSlice({
@@ -78,6 +82,15 @@ export const interfaceSlice = createSlice({
     });
     builder.addCase(openCommunicator.fulfilled, (state) => {
       state.communicatorBar = true;
+    });
+    builder.addCase(openFollowersPopup, (state) => {
+      state.profilePopup = 1;
+    });
+    builder.addCase(openFollowingPopup, (state) => {
+      state.profilePopup = 2;
+    });
+    builder.addCase(closeProfilePopup, (state) => {
+      state.profilePopup = 0;
     });
   },
 });
