@@ -25,6 +25,7 @@ const initialState = {
     followers_count: 0,
     following_details: [],
     followers_details: [],
+    is_followed: false,
   },
 };
 
@@ -46,6 +47,8 @@ export const profileSlice = createSlice({
       state.user.following_count = action.payload.following_count;
       state.user.followers_count = action.payload.followers_count;
       state.user.rating = action.payload.rating;
+      state.user.is_followed = action.payload.is_followed;
+      state.user.city = action.payload.city;
     });
     builder.addCase(fetchFollowers.fulfilled, (state, action) => {
       state.user.followers_details = [...action.payload];
@@ -54,7 +57,8 @@ export const profileSlice = createSlice({
       state.user.following_details = [...action.payload];
     });
     builder.addCase(changeFollowersNumber, (state, action) => {
-      state.user.followers_count += action.payload;
+      state.user.followers_count += action.payload.value;
+      state.user.is_followed = action.payload.is_followed;
     });
     builder.addCase(changeFollowedNumber, (state, action) => {
       state.user.following_count += action.payload;

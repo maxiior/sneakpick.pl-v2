@@ -58,7 +58,7 @@ class Product(models.Model):
     BRAND = ((brand, brand) for brand in BRAND)
     CATEGORY = ((category, category) for category in CATEGORY)
     STATUS_OPTIONS = (('draft', 'draft'), ('published', 'published'))
-    CONDITION_OPTIONS = (('new', 'new'), ('used', 'used'))
+    CONDITION_OPTIONS = (('ds', 'ds'), ('vnds', 'vnds'), ('4', '4'), ('3', '3'), ('2', '2'), ('1', '1'))
     COLORWAY_OPTIONS = (('brown', 'brown'), ('red', 'red'), ('orange', 'orange'), ('yellow', 'yellow'),
                         ('green', 'green'), ('blue', 'blue'), ('purple', 'purple'), ('pink', 'pink'), ('black', 'black'), ('grey', 'grey'), ('white', 'white'), ('multi', 'multi'))
     KIND_OPTIONS = (('męski', 'męski'), ('damski', 'damski'))

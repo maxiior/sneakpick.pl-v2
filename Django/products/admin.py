@@ -13,7 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ('-published',)
     list_display = ('name', 'price', 'owner_id', 'category', 'kind', 'size', 'fit', 'published', 'bought')
     fieldsets = (
-        (None, {'fields': ('name', 'price', 'description', 'category', 'kind', 'condition', 'size', 'fit', 'colorway', 'status', 'bought')}),
+        (None, {'fields': ('name', 'price', 'description', 'category', 'kind', 'condition', 'size', 'fit', 'colorway', 'status', 'bought', 'bumps')}),
 
     )
     formfield_overrides = {

@@ -21,14 +21,18 @@ from django_filters.filters import OrderingFilter
 import django_filters
 
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def bump(request, pk):
-    product = get_object_or_404(Product, id=pk)
-    product.bumps.add(request.user)
-    return redirect('products:product-detail', pk)
-
-
+    if request.user.is_authenticated:
+        if Product.objects.filter(id=pk, bumps=request.user.id).exists():
+            return Response({'Error': 'Already bumped'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            product = get_object_or_404(Product, id=pk)
+            product.bumps.add(request.user)
+            return Response({"total_bumps": product.bumps.count()}, status=status.HTTP_200_OK)
+            
 class MultipartJsonParser(parsers.MultiPartParser):
 
     def parse(self, stream, media_type=None, parser_context=None):

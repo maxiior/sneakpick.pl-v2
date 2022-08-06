@@ -38,7 +38,7 @@ const Container = styled.div`
   width: 400px;
   position: relative;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
     width: 80%;
   }
 `;
@@ -108,6 +108,8 @@ const Popup = () => {
     else dispatch(fetchFollowing(id));
   }, [dispatch, id, profilePopup]);
 
+  console.log(following_details.length);
+
   return (
     <Wrapper>
       <Container ref={wrapperRef}>
@@ -115,7 +117,7 @@ const Popup = () => {
         <Header>{profilePopup === 1 ? "Obserwujący" : "Obserwowani"}</Header>
         <List>
           {profilePopup === 1 ? (
-            followers_count > 0 ? (
+            following_details.length > 0 ? (
               followers_details.map((e) => (
                 <Follower data={e} auth={auth} popup={profilePopup} />
               ))
@@ -124,7 +126,7 @@ const Popup = () => {
                 Ten użytkownik nie posiada obserwujących.
               </Information>
             )
-          ) : following_count > 0 ? (
+          ) : following_details.length > 0 ? (
             following_details.map((e) => (
               <Follower data={e} auth={auth} popup={profilePopup} />
             ))

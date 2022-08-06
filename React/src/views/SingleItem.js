@@ -28,7 +28,7 @@ const Header = styled.header`
   color: ${({ theme }) => theme.veryDarkGrey};
   font-size: 2em;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     font-size: 1.5em;
   }
 `;
@@ -37,16 +37,12 @@ const Condition = styled.div`
   background-color: ${({ theme }) => theme.veryDarkGrey};
   color: ${({ theme }) => theme.white};
   padding: 5px 10px;
-  font-size: 15px;
-  border-radius: ${({ theme }) => theme._5px};
+  font-size: 12px;
+  border-radius: ${({ theme }) => theme.radious_SM};
   display: flex;
   align-items: center;
   user-select: none;
   margin-left: 15px;
-
-  @media only screen and (max-width: 768px) {
-    font-size: 12px;
-  }
 `;
 
 const Option = styled.div`
@@ -54,15 +50,24 @@ const Option = styled.div`
     active ? theme.grey : theme.blue};
   color: ${({ theme }) => theme.white};
   padding: 10px 20px;
-  border-radius: ${({ theme }) => theme._5px};
+  border-radius: ${({ theme }) => theme.radious_SM};
   display: flex;
   align-items: center;
   user-select: none;
   cursor: pointer;
   margin-right: 10px;
+  font-size: 14px;
 
   :hover {
     opacity: 0.9;
+  }
+`;
+
+const Holder = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
+    margin: 10px 0;
   }
 `;
 
@@ -73,7 +78,7 @@ const TopPanel = styled.div`
   padding-bottom: 30px;
   border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
 
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     display: block;
   }
 `;
@@ -82,7 +87,7 @@ const TopLeft = styled.div`
   display: flex;
   align-items: center;
 
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     justify-content: center;
   }
 `;
@@ -91,7 +96,7 @@ const TopRight = styled.div`
   display: flex;
   align-items: center;
 
-  @media only screen and (max-width: 993px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     justify-content: center;
   }
 `;
@@ -100,7 +105,7 @@ const Panel = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
     justify-content: center;
   }
 `;
@@ -115,6 +120,28 @@ const LeftPanel = styled.div`
   width: 70%;
   display: flex;
   justify-content: center;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
+    width: 90%;
+  }
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    width: 100%;
+  }
+`;
+
+const Center = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledInformations = styled(Informations)`
+  @media only screen and (min-width: 1201px) {
+    display: ${({ mobile }) => (mobile ? "none" : "block")};
+  }
+
+  @media only screen and (max-width: 1200px) {
+    display: ${({ mobile }) => (mobile ? "flex" : "none")};
+  }
 `;
 
 const SingleItem = () => {
@@ -127,14 +154,13 @@ const SingleItem = () => {
 
   const bump = () => {
     http
-      .post(endpoints.BUMP + data.product.id, {})
+      .post(endpoints.BUMP.replace("{id}", data.product.id), {})
       .then((response) => {
         setData({
           product: {
-            ...response.data,
-            published: resolution(
-              response.data.published.substr(0, 10).split("-").reverse()
-            ),
+            ...data.product,
+            total_bumps: response.data.total_bumps,
+            is_bumped: true,
           },
         });
       })
@@ -209,28 +235,41 @@ const SingleItem = () => {
         <Path category={data.product.category} brand={data.product.brand} />
         <TopPanel>
           <TopLeft>
-            <Header>{data.product.name}</Header>
-            <Condition>{data.product.condition}</Condition>
+            <Holder>
+              <Header>{data.product.name}</Header>
+              <Center>
+                <Condition>{data.product.condition?.toUpperCase()}</Condition>
+              </Center>
+            </Holder>
           </TopLeft>
           <TopRight>
-            {isAuthenticated && data.product.owner !== user_id && (
-              <Option
-                active={isFollowed}
-                onClick={() => (isFollowed ? unfollow() : follow())}
-              >
-                {isFollowed ? "Unfollow" : "Follow"}
-              </Option>
+            {isAuthenticated &&
+              data.product.owner !== undefined &&
+              data.product.owner !== user_id && (
+                <Option
+                  active={isFollowed}
+                  onClick={() => (isFollowed ? unfollow() : follow())}
+                >
+                  {isFollowed ? "Unfollow" : "Follow"}
+                </Option>
+              )}
+            {data.product.is_bumped !== undefined && (
+              <>
+                <Option onClick={() => bump()} active={data.product.is_bumped}>
+                  Bump
+                </Option>
+                <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
+              </>
             )}
-            <Option onClick={() => bump()}>Bump</Option>
-            <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
           </TopRight>
         </TopPanel>
         <Panel>
           <LeftPanel>
             <Images images={data.product.images} />
           </LeftPanel>
-          <Informations data={data} />
+          <StyledInformations data={data} owner={user_id} />
         </Panel>
+        <StyledInformations data={data} mobile owner={user_id} />
         <SimilarItems />
       </Container>
     </Wrapper>

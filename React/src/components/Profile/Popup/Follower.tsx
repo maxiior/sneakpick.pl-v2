@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import { routes, endpoints } from "routes";
-import http from "api/http";
+import { routes } from "routes";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { changeFollowedNumber } from "store/profile/actions";
 import { useAppSelector } from "hooks/useAppSelector";
 import { getUserPhoto } from "functions/getUserPhoto";
 import { iUser } from "types/user";
 import { iAuthentication } from "types/authentication";
+import { followUser, unfollowUser } from "api/services/profile.service";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -85,21 +85,23 @@ const Follower = ({
   const dispatch = useAppDispatch();
 
   const follow = () => {
-    http
-      .post(endpoints.POST_FOLLOW, { id: data.id })
-      .then(() => {
-        setFollowed(true);
-        if (auth.user_id === id) dispatch(changeFollowedNumber(1));
+    followUser(data.id)
+      .then((response) => {
+        if (response.status === 201) {
+          setFollowed(true);
+          if (auth.user_id === id) dispatch(changeFollowedNumber(1));
+        }
       })
       .catch(() => {});
   };
 
   const unfollow = () => {
-    http
-      .delete(endpoints.DELETE_UNFOLLOW.replace("{id}", data.id))
-      .then(() => {
-        setFollowed(false);
-        if (auth.user_id === id) dispatch(changeFollowedNumber(-1));
+    unfollowUser(data.id)
+      .then((response) => {
+        if (response.status === 200) {
+          setFollowed(false);
+          if (auth.user_id === id) dispatch(changeFollowedNumber(-1));
+        }
       })
       .catch(() => {});
   };

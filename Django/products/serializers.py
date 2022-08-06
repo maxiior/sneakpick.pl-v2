@@ -39,6 +39,8 @@ class ProductDeliverySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
+    is_bumped = serializers.SerializerMethodField()
+
     first_name = serializers.CharField(
         source='owner.first_name', required=False)
     last_name = serializers.CharField(
@@ -49,7 +51,8 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'condition',
                   'price', 'size', 'fit', 'kind',
                   'description', 'brand', 'category',
-                  'colorway', 'total_bumps', 'published', 'images', 'first_name', 'last_name', 'owner', 'views', 'bought']
+                  'colorway', 'total_bumps', 'published', 'images', 
+                  'is_bumped', 'first_name', 'last_name', 'owner', 'views', 'bought']
         read_only_fields = ['owner', 'created_at', 'views']
 
     # def get_category_name(self, obj):
@@ -99,6 +102,11 @@ class ProductSerializer(serializers.ModelSerializer):
                 'category': _('This category can not has this type of size.')
             })
         return attrs
+    
+    def get_is_bumped(self, obj):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            return Product.objects.filter(id=obj.id, bumps=request.user.id).exists()
 
 
 def handle_uploaded_file(file):

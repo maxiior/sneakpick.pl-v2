@@ -47,7 +47,6 @@ class FollowersAPI(APIView, Pagination):
         Follow the user specified by pk
         """
         follower = User.objects.filter(id=pk).first()
-        print(follower)
         id_from_request_body = request.data.get('id')
         following = User.objects.filter(id=id_from_request_body).first()
         if follower != request.user:
@@ -84,4 +83,4 @@ class FollowersAPI(APIView, Pagination):
             return Response({'Error': 'Not following'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             existing_follower.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_200_OK)

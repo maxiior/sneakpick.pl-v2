@@ -42,3 +42,11 @@ export const fetchFollowers = async (data) => {
 export const fetchFollowing = async (data) => {
   return await http.get(endpoints.GET_FOLLOWING.replace("{id}", data));
 };
+
+export const followUser = async (data) => {
+  return await http.post(endpoints.POST_FOLLOW, { id: data });
+};
+
+export const unfollowUser = async (data) => {
+  return await http.delete(endpoints.DELETE_UNFOLLOW.replace("{id}", data));
+};

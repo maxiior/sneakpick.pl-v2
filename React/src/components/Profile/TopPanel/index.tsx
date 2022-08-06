@@ -15,6 +15,8 @@ import {
   openFollowingPopup,
   openFollowersPopup,
 } from "store/interface/actions";
+import { followUser, unfollowUser } from "api/services/profile.service";
+import { changeFollowersNumber } from "store/profile/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -188,6 +190,22 @@ const TopPanel = () => {
     dispatch(fetchUser(user));
   }, [dispatch, user]);
 
+  const follow = () => {
+    followUser(user)
+      .then(() => {
+        dispatch(changeFollowersNumber({ value: 1, is_followed: true }));
+      })
+      .catch(() => {});
+  };
+
+  const unfollow = () => {
+    unfollowUser(user)
+      .then(() => {
+        dispatch(changeFollowersNumber({ value: -1, is_followed: false }));
+      })
+      .catch(() => {});
+  };
+
   return (
     <Wrapper>
       <LeftContainer>
@@ -225,7 +243,13 @@ const TopPanel = () => {
             {isAuthenticated && user !== user_id && (
               <>
                 <Button>DM</Button>
-                <Button>Follow</Button>
+                {profile.user.is_followed ? (
+                  <Button followed onClick={() => unfollow()}>
+                    Unfollow
+                  </Button>
+                ) : (
+                  <Button onClick={() => follow()}>Follow</Button>
+                )}
               </>
             )}
             {isAuthenticated && user === user_id && (

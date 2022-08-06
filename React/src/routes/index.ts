@@ -41,7 +41,7 @@ export enum endpoints {
   LOGIN = "users/login/",
   BLACKLIST = "users/logout/blacklist/",
   REGISTER = "users/register/",
-  BUMP = "bump/",
+  BUMP = "products/{id}/bump/",
   FOLLOW = "users/me/followed-products/",
   GET_USER = "users/{id}/",
   USER_PRODUCTS_LIST = "products/?owner={id}",

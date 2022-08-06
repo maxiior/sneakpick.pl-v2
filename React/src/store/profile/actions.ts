@@ -22,6 +22,8 @@ export const fetchUser = createAsyncThunk(
       followers_count: result.followers_count,
       following_count: result.following_count,
       rating: result.average_rating,
+      is_followed: result.is_followed,
+      city: result.city,
     };
   }
 );
@@ -65,7 +67,7 @@ export const removeAnswear = createAsyncThunk(
 
 export const changeFollowersNumber = createAction(
   "profile/changeFollowersNumber",
-  (data: number) => {
+  (data: { value: number; is_followed: boolean }) => {
     return { payload: data };
   }
 );
