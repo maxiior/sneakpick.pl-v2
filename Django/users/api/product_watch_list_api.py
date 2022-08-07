@@ -32,6 +32,7 @@ class ProductWatchlistAPI(APIView, Pagination):
         filtered_qs = GenericAPIViewFilter().filter_queryset(request, products_qs, self)
         paginated_qs = self.paginate_queryset(filtered_qs, request, view=self)
         product_serializer = ProductSerializer(paginated_qs, many=True)
+        product_serializer.context.update({"request": request})
         return self.get_paginated_response(product_serializer.data)
 
     @swagger_auto_schema(request_body=ProductIdSerializer, responses={201: ''})

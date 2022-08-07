@@ -145,7 +145,7 @@ const Answear = ({ data, me }: { data: iComment; me: string }) => {
             </Name>
             <Time>{date.time}</Time>
             <Paragraph>Odpowiedź</Paragraph>
-            <Content>{data.comment}</Content>
+            <Content>{data.content}</Content>
           </Informations>
           <Holder>
             {me === data.author.id && (

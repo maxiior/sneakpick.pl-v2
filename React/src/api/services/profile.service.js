@@ -24,8 +24,8 @@ export const addComment = async (data) => {
   return await http.post(
     endpoints.POST_USER_COMMENTS.replace("{id}", data.user),
     data.rating
-      ? { comment: data.comment, rating: 6 - data.rating }
-      : { comment: data.comment, parent: data.parent }
+      ? { content: data.content, rating: 6 - data.rating }
+      : { content: data.content, parent: data.parent }
   );
 };
 

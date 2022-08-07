@@ -14,7 +14,7 @@ interface iAuthor {
 
 export interface iComment {
   id: string;
-  comment: string;
+  content: string;
   rating: number;
   author: iAuthor;
   created_at: string;

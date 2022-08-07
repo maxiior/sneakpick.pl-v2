@@ -40,7 +40,7 @@ export const addComment = createAsyncThunk(
   "profile/addComment",
   async (data: {
     user: string;
-    comment: string;
+    content: string;
     rating?: number;
     parent?: string;
   }) => {
@@ -52,8 +52,8 @@ export const addComment = createAsyncThunk(
 export const removeComment = createAsyncThunk(
   "profile/removeComment",
   async (data: string) => {
-    await profile.removeComment(data);
-    return data;
+    const result = await profile.removeComment(data);
+    return { id: data, avg_rating: result.data.avg_rating };
   }
 );
 

@@ -62,7 +62,7 @@ const UserComments: React.FC = () => {
   const dispatch = useAppDispatch();
   const ref: any = useRef(null);
 
-  const { comments_results, comments } = useAppSelector(
+  const { comments_count, comments } = useAppSelector(
     (state) => state.profileSlice
   );
   const { user_id, isAuthenticated } = useAppSelector(
@@ -95,14 +95,14 @@ const UserComments: React.FC = () => {
       )}
       <Wrapper>
         <NumberOfComments>
-          {comments_results}{" "}
-          {comments_results === 1
+          {comments_count}{" "}
+          {comments_count === 1
             ? "komentarz"
-            : comments_results % 10 === (2 || 3 || 4)
+            : comments_count % 10 === (2 || 3 || 4)
             ? "komentarze"
             : "komentarzy"}
         </NumberOfComments>
-        {comments_results > 0 ? (
+        {comments_count > 0 ? (
           comments.map((e) => <SingleComment data={e} user={user} />)
         ) : (
           <Blank>Ten użytkownik nie posiada żadnych komentarzy.</Blank>

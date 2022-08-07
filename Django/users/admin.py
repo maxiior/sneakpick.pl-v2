@@ -59,13 +59,13 @@ class FollowersAdmin(admin.ModelAdmin):
 
 class ProfileCommentsAdmin(admin.ModelAdmin):
     model = ProfileComment
-    search_fields = ('author__id', 'related_user__id', 'created_at', 'comment')
+    search_fields = ('author__id', 'related_user__id', 'created_at', 'content')
     list_filter = ('rating',)
     ordering = ('-created_at',)
-    list_display = ('related_user', 'author', 'comment', 'rating', 'created_at')
+    list_display = ('related_user', 'author', 'content', 'rating', 'created_at')
     fieldsets = (
         (None, {
-            'fields': ('related_user', 'author', 'comment', 'rating', 'created_at')}),
+            'fields': ('related_user', 'author', 'content', 'rating', 'created_at')}),
                 )
     raw_id_fields = ('author', 'related_user')
     

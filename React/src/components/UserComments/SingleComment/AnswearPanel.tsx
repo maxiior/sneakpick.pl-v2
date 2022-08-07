@@ -67,7 +67,7 @@ const AnswearPanel = ({
     dispatch(
       addComment({
         user: user,
-        comment: answear,
+        content: answear,
         parent: comment_id,
       })
     )

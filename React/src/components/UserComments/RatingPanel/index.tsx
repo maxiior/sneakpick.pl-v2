@@ -58,7 +58,7 @@ const Paragraph = styled.div`
 
 const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
   const input = useRef<HTMLTextAreaElement>(null);
-  const [comment, setComment] = useState("");
+  const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
   const dispatch = useAppDispatch();
   const { user }: { user: string } = useParams();
@@ -67,13 +67,12 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
     dispatch(
       addComment({
         user: user,
-        comment: comment,
+        content: content,
         rating: rating,
       })
     )
       .then(() => {
         setRatingPanel(false);
-        dispatch(fetchUser(user));
       })
       .catch(() => {});
   };
@@ -89,10 +88,10 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
         onChange={(e) => {
           e.target.style.height = "";
           e.target.style.height = e.target.scrollHeight + "px";
-          setComment(e.target.value);
+          setContent(e.target.value);
         }}
         maxLength={500}
-        value={comment}
+        value={content}
       />
 
       <Holder>
@@ -101,7 +100,7 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
           cancel
           onClick={() => {
             input.current!.style.height = "32px";
-            setComment("");
+            setContent("");
             setRating(0);
           }}
         >

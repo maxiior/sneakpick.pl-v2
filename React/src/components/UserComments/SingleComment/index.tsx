@@ -117,9 +117,7 @@ const SingleComment = ({ data, user }: { data: iComment; user: string }) => {
 
   const removeingCommentProcess = () => {
     dispatch(removeComment(data.id))
-      .then(() => {
-        dispatch(fetchUser(user));
-      })
+      .then(() => {})
       .catch(() => {});
   };
 
@@ -155,7 +153,7 @@ const SingleComment = ({ data, user }: { data: iComment; user: string }) => {
             </Name>
             <Time>{date.time}</Time>
             <Rating rating={data.rating} />
-            <Content>{data.comment}</Content>
+            <Content>{data.content}</Content>
           </Informations>
           <Holder>
             {!answearPanel &&

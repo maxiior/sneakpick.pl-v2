@@ -52,11 +52,15 @@ export enum endpoints {
   DELETE_FOLLOWED_ITEMS = "users/me/followed-products/{id}/",
 
   GET_ALL_ITEMS = "products/{filters}",
-  GET_SINGLE_ITEM = "products/{id}",
+  GET_SINGLE_ITEM = "products/{id}/",
 
   GET_FOLLOWERS = "/users/{id}/followers/",
   GET_FOLLOWING = "/users/{id}/following/",
   POST_FOLLOW = "/users/me/followers/",
   DELETE_UNFOLLOW = "/users/me/followers/{id}/",
   GET_IS_FOLLOWED = "/users/{foreign_id}/followers/?id={id}",
+
+  GET_USER_COMMENTS = "/users/{id}/profile-comments/",
+  POST_USER_COMMENTS = "/users/{id}/profile-comments/",
+  DELETE_USER_COMMENTS = "/users/me/profile-comments/{comment_id}/",
 }

@@ -44,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    avg_rating = models.FloatField(default=0)
 
     objects = CustomAccountManager()
     object = models.Manager()
@@ -95,7 +96,7 @@ class ProfileComment(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments_added')
     rating = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
-    comment = models.CharField(max_length=500)
+    content = models.CharField(max_length=500)
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:

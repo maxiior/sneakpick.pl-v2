@@ -24,7 +24,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'email', 'password', 'first_name', 'last_name', 'city',
                   'description', 'following_count', 'followers_count',
-                  'average_rating', 'is_followed', 'profile_photo')
+                  'average_rating', 'is_followed', 'profile_photo', 'avg_rating')
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_password(self, password):
@@ -187,7 +187,7 @@ class ProfileCommentSerializer(serializers.ModelSerializer):
     responses = serializers.SerializerMethodField('get_custom_response_serializer')
     class Meta:
         model = ProfileComment
-        fields = ['id', 'comment', 'rating', 'author', 'created_at', 'parent', 'responses']
+        fields = ['id', 'content', 'rating', 'author', 'created_at', 'parent', 'responses']
         read_only_fields = ['author', 'created_at', 'id']
         
     def get_custom_user_serializer(self, obj):
