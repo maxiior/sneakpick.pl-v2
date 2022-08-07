@@ -31,10 +31,6 @@ const Logo = styled.img`
 const LogoHolder = styled(Link)`
   padding: 0 40px;
   text-decoration: none;
-
-  @media only screen and (max-width: 768px) {
-    padding: 0 0 0 20px;
-  }
 `;
 
 const SearchBar = styled.div`

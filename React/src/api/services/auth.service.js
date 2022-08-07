@@ -9,7 +9,7 @@ export const login = async (credentials) => {
 };
 
 export const logout = async () => {
-  await http.post("/user/logout/");
+  await http.post("/users/logout/");
   return true;
 };
 
@@ -24,5 +24,5 @@ export const register = async (credentials) => {
 };
 
 export const refresh = async () => {
-  return await http.post("/user/refresh/", {});
+  return await http.post("/users/refresh/", {});
 };

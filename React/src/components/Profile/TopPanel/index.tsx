@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import defaultUserPicture from "assets/svg/default_user_picture.svg";
+import Avatar from "components/Profile/Avatar";
 import styled, { css } from "styled-components";
 import Informations from "components/Profile/TopPanel/Informations";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
@@ -7,10 +8,15 @@ import { useParams } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { routes } from "routes";
 import { getUserPhoto } from "functions/getUserPhoto";
-import defaultUserPicture from "assets/svg/default_user_picture.svg";
-import Avatar from "components/Profile/Avatar";
 import { useAppSelector } from "hooks/useAppSelector";
+import { useEffect } from "react";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import {
+  openFollowingPopup,
+  openFollowersPopup,
+} from "store/interface/actions";
+import { followUser, unfollowUser } from "api/services/profile.service";
+import { changeFollowersNumber } from "store/profile/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -160,8 +166,11 @@ const Edit = styled(Link)`
 `;
 
 const Adnotation = styled(Link)`
-  color: ${({ theme }) => theme.blue};
-  font-weight: 500;
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme.blue};
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -178,10 +187,24 @@ const TopPanel = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchUser(user))
-      .then(() => {})
+    dispatch(fetchUser(user));
+  }, [dispatch, user]);
+
+  const follow = () => {
+    followUser(user)
+      .then(() => {
+        dispatch(changeFollowersNumber({ value: 1, is_followed: true }));
+      })
       .catch(() => {});
-  }, [user, dispatch]);
+  };
+
+  const unfollow = () => {
+    unfollowUser(user)
+      .then(() => {
+        dispatch(changeFollowersNumber({ value: -1, is_followed: false }));
+      })
+      .catch(() => {});
+  };
 
   return (
     <Wrapper>
@@ -220,7 +243,13 @@ const TopPanel = () => {
             {isAuthenticated && user !== user_id && (
               <>
                 <Button>DM</Button>
-                <Button>Follow</Button>
+                {profile.user.is_followed ? (
+                  <Button followed onClick={() => unfollow()}>
+                    Unfollow
+                  </Button>
+                ) : (
+                  <Button onClick={() => follow()}>Follow</Button>
+                )}
               </>
             )}
             {isAuthenticated && user === user_id && (
@@ -231,11 +260,11 @@ const TopPanel = () => {
           </ButtonsHolder>
         </TopHolder>
         <MiddleHolder>
-          <FollowStatistic>
+          <FollowStatistic onClick={() => dispatch(openFollowersPopup())}>
             <Value>{profile.user.followers_count}</Value>
             <Measure>obserwujących</Measure>
           </FollowStatistic>
-          <FollowStatistic>
+          <FollowStatistic onClick={() => dispatch(openFollowingPopup())}>
             <Value>{profile.user.following_count}</Value>
             <Measure>obserwowanych</Measure>
           </FollowStatistic>

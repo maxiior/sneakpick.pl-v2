@@ -69,7 +69,7 @@ const FollowedPanel = ({ className }: { className?: any }) => {
 
   return (
     <Wrapper className={className}>
-      <Header>MOJE OBSERWOWANE</Header>
+      <Header>Moje obserwowane</Header>
       {results > 0 ? (
         <List>
           {items.map((e, i) => (
@@ -81,7 +81,7 @@ const FollowedPanel = ({ className }: { className?: any }) => {
           Aktualnie nie posiadasz żadnych zaobserwowanych przedmiotów.
         </Empty>
       )}
-      <Button to={routes.FOLLOWED}>OBSERWOWANE</Button>
+      <Button to={routes.FOLLOWED}>Obserwowane</Button>
     </Wrapper>
   );
 };

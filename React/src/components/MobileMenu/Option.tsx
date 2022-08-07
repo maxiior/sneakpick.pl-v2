@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { iOption } from "types/MobileMenu/option";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import {
@@ -25,15 +25,7 @@ const Wrapper = styled(Link)`
   }
 `;
 
-const Option = ({
-  to,
-  content,
-  logout,
-}: {
-  to: string;
-  content: string;
-  logout?: boolean;
-}) => {
+const Option = ({ to, content, logout }: iOption) => {
   const dispatch = useAppDispatch();
 
   return (

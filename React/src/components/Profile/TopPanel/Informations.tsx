@@ -9,10 +9,15 @@ const Wrapper = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: block;
+  justify-content: center;
+`;
+
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
   font-size: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const Holder = styled.div`
@@ -57,16 +62,18 @@ const Informations = ({
 }) => {
   return (
     <Wrapper>
-      <Header>O mnie:</Header>
-      <Holder>
-        <LocationIcon />
-        <Value>{city}</Value>
-      </Holder>
-      <Holder>
-        <ClockIcon />
-        <Value>Aktywny(a) 2 godz. temu</Value>
-      </Holder>
-      <Description>{description}</Description>
+      <Container>
+        <Header>O mnie:</Header>
+        <Holder>
+          <LocationIcon />
+          <Value>{city}</Value>
+        </Holder>
+        <Holder>
+          <ClockIcon />
+          <Value>Aktywny(a) 2 godz. temu</Value>
+        </Holder>
+        <Description>{description}</Description>
+      </Container>
     </Wrapper>
   );
 };

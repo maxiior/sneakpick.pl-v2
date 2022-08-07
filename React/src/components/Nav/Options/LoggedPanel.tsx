@@ -140,11 +140,11 @@ const LoggedPanel = () => {
   return (
     <Wrapper>
       <Container profile>
-        <StyledLink to={routes.PROFILE.replace(":user", user_id)}>
+        <StyledLink to={routes.USER_PROFILE_PRODUCTS.replace(":user", user_id)}>
           <ProfileIcon />
         </StyledLink>
         <Holder>
-          <Option to={routes.PROFILE.replace(":user", user_id)}>
+          <Option to={routes.USER_PROFILE_PRODUCTS.replace(":user", user_id)}>
             Moje konto
           </Option>
           <Option to={routes.ORDERS}>Zamówienia</Option>

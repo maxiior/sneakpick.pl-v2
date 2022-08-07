@@ -24,7 +24,7 @@ const Blank = styled.div`
 `;
 
 const Items = () => {
-  const { items, results }: { items: iItem[]; results: number } =
+  const { items, items_results }: { items: iItem[]; items_results: number } =
     useAppSelector((state) => state.profileSlice);
 
   return (
@@ -34,7 +34,7 @@ const Items = () => {
           <SingleItem key={item.id} data={item} />
         ))}
       </Grid>
-      {results === 0 && (
+      {items_results === 0 && (
         <Blank>Ten użytkownik nie posiada żadnych itemów.</Blank>
       )}
     </Wrapper>

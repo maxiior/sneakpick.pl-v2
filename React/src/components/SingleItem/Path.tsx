@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
 const Wrapper = styled.div`
   color: ${({ theme }) => theme.darkGrey};
   font-weight: 400;
   display: inline-block;
+
+  @media only screen and (max-width: 993px) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const List = styled.ol`
@@ -59,11 +65,13 @@ const Path = ({
         </Element>
         <Element>
           <Step to={routes.CATEGORY_PATH.replace("{category}", category)}>
-            {category}
+            {firstLetterUppercase(category)}
           </Step>
         </Element>
         <Element>
-          <Step to={routes.BRAND_PATH.replace("{brand}", brand)}>{brand}</Step>
+          <Step to={routes.BRAND_PATH.replace("{brand}", brand)}>
+            {firstLetterUppercase(brand)}
+          </Step>
         </Element>
       </List>
     </Wrapper>

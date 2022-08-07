@@ -34,7 +34,9 @@ const Container = styled.div`
   max-width: 600px;
 `;
 
-const Value = styled.div`
+const Header = styled.div``;
+
+const Content = styled.div`
   font-size: 12px;
   margin-top: 3px;
 `;
@@ -57,8 +59,8 @@ const InformationBlock = ({ type }) => {
   return (
     <Wrapper>
       <Container>
-        <div>{informations[type].header}</div>
-        <Value>{informations[type].content}</Value>
+        <Header>{informations[type].header}</Header>
+        <Content>{informations[type].content}</Content>
         <Close onClick={() => dispatch(resetInformationBlock())} />
       </Container>
     </Wrapper>

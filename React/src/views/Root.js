@@ -22,9 +22,11 @@ import Proxy from "views/Proxy";
 import WTT from "views/WTT";
 import Steal from "views/Steal";
 import FAQ from "views/FAQ";
+import UserProducts from "views/UserProducts";
 import BusinessContact from "views/BusinessContact";
 import PasswordChange from "views/AccountSettings/PasswordChange";
 import EmailChange from "views/AccountSettings/EmailChange";
+import UserComments from "views/UserComments";
 
 const App = () => {
   useRefreshToken();
@@ -52,6 +54,16 @@ const App = () => {
                 path={routes.BUSINESSCONTACT}
                 component={BusinessContact}
               />
+              <Route
+                exact
+                path={routes.USER_PROFILE_COMMENTS}
+                component={UserComments}
+              />
+              <Route
+                exact
+                path={routes.USER_PROFILE_PRODUCTS}
+                component={UserProducts}
+              />
               <SettingsTemplate>
                 <Route
                   path={routes.PROFILE_SETTINGS}
@@ -68,6 +80,7 @@ const App = () => {
                 />
                 <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
               </SettingsTemplate>
+              <Route component={PageNotFound} />
             </Switch>
           </MainTemplate>
         </CommunicatorTemplate>

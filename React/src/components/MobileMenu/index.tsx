@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import useResizeObserver from "@react-hook/resize-observer";
 import logo from "assets/logo_dark.png";
+import Option from "components/MobileMenu/Option";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { IoMdClose } from "react-icons/io";
@@ -12,7 +13,6 @@ import {
 } from "store/interface/actions";
 import { useDispatch } from "react-redux";
 import { useState, useLayoutEffect, useRef } from "react";
-import Option from "components/MobileMenu/Option";
 import { useAppSelector } from "hooks/useAppSelector";
 
 const Wrapper = styled.div`
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.black};
   z-index: 1001;
   top: 0;
-  padding-bottom: 84px;
+  padding-bottom: 40px;
 
   ::-webkit-scrollbar {
     display: none;
@@ -90,9 +90,9 @@ const Button = styled.div<{ dark?: boolean }>`
   }
 `;
 
-const MobileMenu = ({ className }: { className: any }) => {
-  const target = useRef<HTMLDivElement>(null);
+const MobileMenu = ({ className }: { className?: any }) => {
   const dispatch = useDispatch();
+  const target = useRef<HTMLDivElement>(null);
   const auth = useAppSelector((state) => state.authSlice);
 
   const useSize = (target: any) => {
@@ -164,25 +164,27 @@ const MobileMenu = ({ className }: { className: any }) => {
           </>
         )}
       </OptionsHolder>
-      <ButtonsHolder>
-        <Button
-          onClick={() => {
-            dispatch(openLoginView());
-            dispatch(closeMenuView());
-          }}
-        >
-          LOGIN
-        </Button>
-        <Button
-          onClick={() => {
-            dispatch(openRegisterView());
-            dispatch(closeMenuView());
-          }}
-          dark
-        >
-          SIGN UP
-        </Button>
-      </ButtonsHolder>
+      {!auth.isAuthenticated && (
+        <ButtonsHolder>
+          <Button
+            onClick={() => {
+              dispatch(openLoginView());
+              dispatch(closeMenuView());
+            }}
+          >
+            LOGIN
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(openRegisterView());
+              dispatch(closeMenuView());
+            }}
+            dark
+          >
+            SIGN UP
+          </Button>
+        </ButtonsHolder>
+      )}
     </Wrapper>
   );
 };

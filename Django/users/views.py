@@ -1,67 +1,58 @@
-from rest_framework import status
+from django.http.response import HttpResponseRedirect
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import status, viewsets, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from sneakpick.models import Product
-from .serializers import RegisterUserSerializer
-from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from users.models import User
-from rest_framework import generics
-from .serializers import UserSerializer, RegisterUserSerializer, UserJustCitySerializer, UserUpdateSerializer, LoginSerializer
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from .serializers import AddressSerializer, AddressUpdateSerializer, CustomUserSerializer, ProfileCommentSerializer, UserIdSerializer, UserUpdateSerializer, PswdUpdateSerializer, LoginSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from users.models import Follower, ProfileComment, User, Address, Watchlist
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.hashers import check_password
-from core.settings import SECRET_KEY, SIMPLE_JWT
 import jwt
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from sneakpick.models import ProductImage
+from core.settings import SECRET_KEY, SIMPLE_JWT
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
+from core.APIViewExtension import GenericAPIViewFilter
+from products.models import Product
+from products.serializers import ProductSerializer, ProductIdSerializer
+from rest_framework.pagination import LimitOffsetPagination
+from products.pagination import Pagination
+from .api.following_api import FollowingAPI
+from .api.followers_api import FollowersAPI
+from .api.product_watch_list_api import ProductWatchlistAPI
 
 
-class CustomUserCreate(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        reg_serializer = RegisterUserSerializer(data=request.data)
-        if reg_serializer.is_valid():
-            newuser = reg_serializer.save()
-            if newuser:
-                return Response(status=status.HTTP_201_CREATED)
-        return Response(reg_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class BlacklistTokenView(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
-        except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-class OtherUserDetail(generics.RetrieveDestroyAPIView):
+class UserDetail(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
-    queryset = User.object.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
 
     def get_object(self, queryset=None, **kwargs):
-        item = self.kwargs.get('pk')
-        return generics.get_object_or_404(User, id=item)
+        id = self.kwargs.get('pk')
+        return generics.get_object_or_404(User, id=id)
 
 
-class UserCity(generics.RetrieveDestroyAPIView):
+class UsersList(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = User.object.all()
-    serializer_class = UserJustCitySerializer
+    serializer_class = CustomUserSerializer
 
-    def get_object(self, queryset=None, **kwargs):
-        item = self.kwargs.get('pk')
-        return generics.get_object_or_404(User, id=item)
+
+class UserCreate(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format='json'):
+        serializer = CustomUserSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserUpdate(generics.UpdateAPIView):
@@ -71,6 +62,68 @@ class UserUpdate(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class AddressView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = AddressSerializer
+    queryset = Address.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        id = request.user.id  # self.kwargs.get('pk')
+        addresses = Address.objects.filter(user=id).order_by("created_at")
+        serializer = AddressSerializer(
+            addresses, many=True, context={'request': request, })
+        return Response(serializer.data,  status=status.HTTP_200_OK)
+
+    def post(self, request, format='json'):
+        serializer = AddressSerializer(
+            data=request.data, context={'request': request})
+        if serializer.is_valid():
+            address = serializer.save()
+            if address:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddressUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AddressUpdateSerializer
+
+    def get_object(self, queryset=None, **kwargs):
+        user = self.request.user.id
+        id = self.kwargs.get('pk')
+        return generics.get_object_or_404(Address, user=user, id=id)
+
+    def delete(self, request, **kwargs):
+        id = self.kwargs.get('pk')
+        address = Address.objects.filter(user=request.user.id, id=id)
+        address.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PasswordUpdateView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = PswdUpdateSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class BlacklistTokenUpdateView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = ()
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class Login(APIView):
@@ -83,16 +136,33 @@ class Login(APIView):
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
             if(check_password(password, user.password)):
-                details = {}
                 refresh = RefreshToken.for_user(user)
-                details['email'] = user.email
-                details['access_token'] = str(refresh.access_token)
-                details['expires_in'] = int(
-                    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
-                details['id'] = user.id
+                access_token = str(refresh.access_token)
+                details = {
+                    'id': user.id,
+                    'email': user.email,
+                    'access_token': str(refresh.access_token),
+                    'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                }
                 response = Response(details, status=status.HTTP_200_OK)
-                response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None',
-                                    max_age=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()), path="/", expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                response.set_cookie('refresh_token',
+                                    str(refresh),
+                                    samesite='None',
+                                    # httponly=True,     # should be enabled in production environment
+                                    secure=True,       # should be enabled in production environment
+                                    max_age=int(
+                                        SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
+                                    path="/",
+                                    expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                response.set_cookie('access_token',
+                                    str(access_token),
+                                    # httponly=True,         # should be enabled in production environment
+                                    secure=True,           # should be enabled in production environment
+                                    samesite='None',
+                                    max_age=int(
+                                        SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                                    path="/",
+                                    expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
                 return response
             else:
                 return Response({'Error': 'Wrong password'}, status.HTTP_403_FORBIDDEN)
@@ -110,14 +180,33 @@ class Refresh(APIView):
 
             user = User.objects.filter(id=old_refresh['user_id']).first()
             refresh = RefreshToken.for_user(user)
-            details = {}
-            details['access_token'] = str(refresh.access_token)
-            details['expires_in'] = int(
-                SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
-            details['id'] = user.id
+            access_token = str(refresh.access_token)
+
+            details = {
+                'id': user.id,
+                'access_token': str(refresh.access_token),
+                'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+            }
+
             response = Response(details, status=status.HTTP_200_OK)
-            response.set_cookie('refresh_token', str(refresh), httponly=True, secure=True,  samesite='None', max_age=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()), path="/", expires=int(
-                SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+            response.set_cookie('refresh_token',
+                                str(refresh),
+                                # httponly=True,         # should be enabled in production environment
+                                secure=True,           # should be enabled in production environment
+                                samesite='None',
+                                max_age=int(
+                                    SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
+                                path="/",
+                                expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+            response.set_cookie('access_token',
+                                str(access_token),
+                                # httponly=True,         # should be enabled in production environment
+                                secure=True,           # should be enabled in production environment
+                                samesite='None',
+                                max_age=int(
+                                    SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                                path="/",
+                                expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
             return response
         else:
             return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
@@ -127,57 +216,86 @@ class Logout(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        if request.COOKIES.get('refresh_token'):
+        if request.COOKIES.get('refresh_token') and request.COOKIES.get('access_token'):
             response = Response({}, status=status.HTTP_200_OK)
             # response.delete_cookie('refresh_token')
-            response.set_cookie('refresh_token', httponly=True,
-                                secure=True,  samesite='None')
+            response.set_cookie('refresh_token', secure=True,  # httponly=True, # should be enabled in production environment
+                                samesite='None')
+            response.set_cookie('access_token',  secure=True, samesite='None')
             return response
         else:
-            return Response({'Error': 'can not remove cookies'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            return Response({'Error': 'can not remove cookies.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def my_user_detail(request):
-    return Response(RegisterUserSerializer(request.user).data)
+class ProfileCommentsAPI(APIView, Pagination):
+    @swagger_auto_schema(responses={200: ProfileCommentSerializer(many=True)}, paginator=Pagination())
+    def get(self, request, pk, format=None):
+        """
+        Get all comments for a user
+        """
+        user = User.objects.get(id=pk)
+        comments = ProfileComment.objects.filter(
+            related_user=user, parent=None)
+        paginated_comments = self.paginate_queryset(
+            comments, request, view=self)
+        serializer = ProfileCommentSerializer(
+            paginated_comments, many=True, context={'request': request})
+        return self.get_paginated_response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProfileCommentSerializer, responses={201: ''})
+    def post(self, request, pk, format=None):
+        """
+        Add a comment to a user
+        **author** field is not required. it is swagger bug that this fields appear in the request body
+        """
+        user = User.objects.get(id=pk)
+        if user == request.user and ("parent" not in request.data or request.data["parent"] is None):
+            return Response({'Error': 'Cannot comment on yourself'}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def follow_product(request, pk):
-    if request.COOKIES.get('refresh_token'):
-        refresh = jwt.decode(request.COOKIES.get(
-            'refresh_token'), SECRET_KEY, algorithms=["HS256"])
-        user = User.objects.filter(id=refresh['user_id']).first()
-        product = Product.object.filter(id=pk).first()
-        if product in user.followed.all():
-            user.followed.remove(product)
+        if "parent" in request.data and request.data["parent"] is not None:
+            if pk != request.user.id:
+                return Response({'Error': 'Cannot reply on another user profile'}, status=status.HTTP_400_BAD_REQUEST)
+            # request.data["rating"] = 0
+            parrent_comment = ProfileComment.objects.get(
+                id=request.data["parent"])
+            if ProfileComment.objects.filter(parent=parrent_comment).count() > 0:
+                return Response({'Error': 'Cannot reply more than once'}, status=status.HTTP_400_BAD_REQUEST)
+            if parrent_comment.parent is not None:
+                return Response({'Error': 'Cannot reply to a reply'}, status=status.HTTP_400_BAD_REQUEST)
+
+        comment_serializer = ProfileCommentSerializer(data=request.data, context={'request': request})
+
+        if comment_serializer.is_valid():
+            comments_count = ProfileComment.objects.filter(related_user=user).count()+1
+            avg_rating = (user.avg_rating*(comments_count-1) + request.data["rating"]) / float(comments_count)
+            User.objects.filter(id=pk).update(avg_rating=avg_rating)
+            comment_serializer.save(author=request.user, related_user=user)
+
+            return Response({"comment": comment_serializer.data, "avg_rating": avg_rating}, status=status.HTTP_201_CREATED)
         else:
-            user.followed.add(product)
+            return Response(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, comment_id, format=None):
+        if not ProfileComment.objects.filter(id=comment_id).exists():
+            return Response({'Error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({}, status=status.HTTP_200_OK)
-    else:
-        return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
+        comment = ProfileComment.objects.get(id=comment_id)
+        if comment.author == request.user:
+            comments_count = ProfileComment.objects.filter(related_user=comment.related_user).count()
+            user = User.objects.get(id=comment.related_user.id)
+            avg_rating = 0 if comments_count-1 == 0 else (user.avg_rating*comments_count - comment.rating) / float(comments_count-1)
+            User.objects.filter(id=user.id).update(avg_rating=avg_rating)
+
+            comment.delete()
+            return Response({"avg_rating": avg_rating}, status=status.HTTP_200_OK)
+        else:
+            return Response({'Error': 'Cannot delete comment, because you are not its author.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_followed_products(request):
-    if request.COOKIES.get('refresh_token'):
-        refresh = jwt.decode(request.COOKIES.get(
-            'refresh_token'), SECRET_KEY, algorithms=["HS256"])
-        user = User.objects.filter(id=refresh['user_id']).first()
+class SingleAddressView(generics.RetrieveDestroyAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
 
-        products = {}
-
-        for product in user.followed.all():
-            image = ProductImage.objects.filter(product=product.id).first()
-            products[product.name] = {'id': product.id,
-                                      'size': product.size,
-                                      'price': product.price,
-                                      'condition': product.condition,
-                                      'image': image.file_name}
-        return Response(products, status=status.HTTP_200_OK)
-    else:
-        return Response({'Error': 'no refresh_token cookie'}, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self, queryset=None, **kwargs):
+        id = self.kwargs.get('pk')
+        return generics.get_object_or_404(Address, id=id)

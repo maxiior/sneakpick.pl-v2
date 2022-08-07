@@ -1,15 +1,29 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ mobile: boolean }>`
   box-sizing: border-box;
   width: 30%;
   padding-left: 20px;
   border-left: 1px solid ${({ theme }) => theme.lightGrey};
+
+  ${({ mobile }) =>
+    mobile &&
+    css`
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      width: 100%;
+      padding-left: 0px;
+      padding-top: 20px;
+      border-left: 0px;
+      border-top: 1px solid ${({ theme }) => theme.lightGrey};
+    `}
 `;
 
-const Container = styled.div`
+const Holder = styled.div`
   @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
     width: 40%;
   }
@@ -21,7 +35,7 @@ const Container = styled.div`
   }
 `;
 
-const Holder = styled.div`
+const Container = styled.div`
   margin-bottom: 30px;
 `;
 
@@ -87,7 +101,7 @@ const Button = styled(Link)`
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
-  border-radius: ${({ theme }) => theme._10px};
+  border-radius: ${({ theme }) => theme.radious_SM};
   text-decoration: none;
   font-size: 14px;
 
@@ -96,27 +110,37 @@ const Button = styled(Link)`
   }
 `;
 
-const Informations = ({ data }: { data: any }) => {
+const Informations = ({
+  data,
+  mobile,
+  owner,
+  className,
+}: {
+  data: any;
+  mobile: boolean;
+  owner: string;
+  className?: any;
+}) => {
   return (
-    <Wrapper>
-      <Container>
-        <Holder>
+    <Wrapper mobile={mobile} className={className}>
+      <Holder>
+        <Container>
           <Paragraph>Szczegóły</Paragraph>
           <Information>
             <Key>Rozmiar</Key>
-            <Value> {data.product.size}</Value>
+            <Value> {data.product.size?.toUpperCase()}</Value>
           </Information>
           <Information>
             <Key>Fit</Key>
-            <Value> {data.product.fit}</Value>
+            <Value> {firstLetterUppercase(data.product.fit)}</Value>
           </Information>
           <Information>
             <Key>Rodzaj</Key>
-            <Value> {data.product.kind}</Value>
+            <Value> {firstLetterUppercase(data.product.kind)}</Value>
           </Information>
           <Information>
             <Key>Colorway</Key>
-            <Value>{data.product.colorway}</Value>
+            <Value>{firstLetterUppercase(data.product.colorway)}</Value>
           </Information>
           <Paragraph>Opis</Paragraph>
           <Value $description>{data.product.description}</Value>
@@ -137,15 +161,19 @@ const Informations = ({ data }: { data: any }) => {
             <Key>Dodane</Key>
             <Value>{data.product.published}</Value>
           </Information>
-        </Holder>
-        <Button to={routes.ORDER.replace(":item", data.product.id)}>
-          Kup teraz
-        </Button>
-        <Button to="">DM</Button>
-        <Button to={routes.CALLOUT.replace(":item", data.product.id)}>
-          Callout
-        </Button>
-      </Container>
+        </Container>
+        {data.product.owner && owner !== data.product.owner && (
+          <>
+            <Button to={routes.ORDER.replace(":item", data.product.id)}>
+              Kup teraz
+            </Button>
+            <Button to="">DM</Button>
+            <Button to={routes.CALLOUT.replace(":item", data.product.id)}>
+              Callout
+            </Button>
+          </>
+        )}
+      </Holder>
     </Wrapper>
   );
 };
