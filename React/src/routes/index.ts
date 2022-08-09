@@ -19,7 +19,7 @@ export enum routes {
   EMAIL_CHANGE = "/settings/account/email",
   DEFAULT_SEARCH = "limit=24&offset=0&ordering=1",
   CATEGORY = "category=",
-  BRAND = "brand=",
+  BRAND = "brand__in=",
   POPULAR = "?limit=24&offset=0&ordering=1",
   NEWEST = "?limit=24&offset=0&ordering=5",
   FORGOTTEN_PASSWORD = "/password",

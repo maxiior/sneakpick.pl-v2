@@ -6,11 +6,12 @@ import uuid
 import os.path
 
 
-CATEGORIES_WITHOUT_FIT = ["Buty", "Szale",
-                          "Portfele", "Plecaki", "Zegarki", "Czapki", "Paski"]
-CATEGORIES_WITH_FIT = ["Bluzy", "Koszulki", "Koszule",
-                       "Bluzki", "Katany", "Kurtki", "Płaszcze", "Spodnie", "Bielizna"]
-CLOTHES_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"]
+CATEGORY = ["sneakersy", "hoodie", "teesy", "koszule", "crewnecki", "longsleevy", "katany", "kurtki", "płaszcze",
+            "spodnie", "szale", "portfele", "plecaki", "zegarki", "czapki", "belty", "bielizna", "inne"]
+
+CATEGORIES_WITHOUT_FIT = ["sneakersy", "szale", "portfele", "plecaki", "zegarki", "czapki", "belty"]
+CATEGORIES_WITH_FIT = ["hoodie", "teesy", "koszule", "crewnecki", "longsleevy", "katany", "kurtki", "płaszcze", "spodnie", "bielizna"]
+CLOTHES_SIZES = ["xxs", "xs", "s", "m", "l", "xl", "xxl"]
 SHOES_SIZES = ['36.0', '36.5', '37.0', '37.5', '38.0', '38.5',
                '39.0', '39.5', '40.0', '40.5', '41.0', '41.5',
                '42.0', '42.5', '43.0', '43.5', '44.0', '44.5',

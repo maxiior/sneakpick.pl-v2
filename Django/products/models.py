@@ -62,8 +62,7 @@ class Product(models.Model):
     COLORWAY_OPTIONS = (('brown', 'brown'), ('red', 'red'), ('orange', 'orange'), ('yellow', 'yellow'),
                         ('green', 'green'), ('blue', 'blue'), ('purple', 'purple'), ('pink', 'pink'), ('black', 'black'), ('grey', 'grey'), ('white', 'white'), ('multi', 'multi'))
     KIND_OPTIONS = (('męski', 'męski'), ('damski', 'damski'))
-    FIT_OPTIONS = (('slim fit', 'slim fit'), ('regular',
-                   'regular'), ('oversize', 'oversize'))
+    FIT_OPTIONS = (('slim fit', 'slim fit'), ('regular', 'regular'), ('oversize', 'oversize'))
     SIZE = (('xxs', 'xxs'), ('xs', 'xs'), ('s', 's'),
             ('m', 'm'), ('l', 'l'), ('xl', 'xl'), ('xxl', 'xxl'),
             ('36.0', '36.0'), ('36.5', '36.5'), ('37.0', '37.0'),

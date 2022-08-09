@@ -68,11 +68,22 @@ class ProductFilter(django_filters.FilterSet):
             ('-published', '5'),
         )
     )
+    
 
     class Meta:
         model = Product
-        fields = ['category', 'brand',
-                  'kind', 'condition', 'fit', 'colorway', 'price', 'owner']
+        fields = {
+            'kind': ["in", "exact"],
+            'name': ["exact"],
+            'category': ["in", "exact"],
+            'owner': ["exact"],
+            'price': ["exact"],
+            'brand': ["in", "exact"],
+            'fit': ["in", "exact"],
+            'colorway': ["in", "exact"],
+            'size': ["in", "exact"],
+            'condition': ["in", "exact"]
+        }
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -84,19 +95,6 @@ class ProductViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter]
     parser_classes = [MultipartJsonParser, parsers.JSONParser]
     search_fields = ['name']
-    filter_fields = {
-        'kind': ["in", "exact"],
-        'name': ["exact"],
-        'category': ["in", "exact"],
-        'owner': ["exact"],
-        'price': ["exact"],
-        'brand': ["in", "exact"],
-        'fit': ["in", "exact"],
-        'colorway': ["in", "exact"],
-        'size': ["in", "exact"],
-        'condition': ["in", "exact"],
-        'name': ["exact"]
-    }
     filter_class = ProductFilter
 
 

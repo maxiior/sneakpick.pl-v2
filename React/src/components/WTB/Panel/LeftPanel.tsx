@@ -4,6 +4,7 @@ import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
 import { useAppSelector } from "hooks/useAppSelector";
+import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/categories";
 
 const StyledLeftPanel = styled.div`
   overflow-y: auto;
@@ -66,27 +67,34 @@ const LeftPanel: React.FC = () => {
         currentFilter={currentFilters.conditions}
         small
       />
-      <GridList
-        name="Rozmiar"
-        elements={filters.shoesSizes}
-        filterType={filterTypes.shoesSizes}
-        currentFilter={currentFilters.shoesSizes}
-        small
-      />
-      <GridList
-        name="Rozmiar"
-        elements={filters.clothesSizes}
-        filterType={filterTypes.clothesSizes}
-        currentFilter={currentFilters.clothesSizes}
-        small
-      />
-      <GridList
-        name="Fit"
-        elements={filters.fits}
-        filterType={filterTypes.fits}
-        currentFilter={currentFilters.fits}
-        large
-      />
+      {SNEAKERS_CATEGORIES.includes(currentFilters.categories) ? (
+        <GridList
+          name="Rozmiar"
+          elements={filters.shoesSizes}
+          filterType={filterTypes.shoesSizes}
+          currentFilter={currentFilters.shoesSizes}
+          small
+        />
+      ) : FIT_CATEGORIES.includes(currentFilters.categories) ? (
+        <GridList
+          name="Rozmiar"
+          elements={filters.clothesSizes}
+          filterType={filterTypes.clothesSizes}
+          currentFilter={currentFilters.clothesSizes}
+          small
+        />
+      ) : (
+        <></>
+      )}
+      {FIT_CATEGORIES.includes(currentFilters.categories) && (
+        <GridList
+          name="Fit"
+          elements={filters.fits}
+          filterType={filterTypes.fits}
+          currentFilter={currentFilters.fits}
+          large
+        />
+      )}
       <ColorwayGrid
         colors={filters.colors}
         filterType={filterTypes.colors}

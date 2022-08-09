@@ -32,36 +32,54 @@ const OnSearch = () => {
         search += routes.BRAND;
         currentFilters.brands.forEach((e, i, a) => {
           if (i === a.length - 1) search += e;
-          else search += e + "+";
+          else search += e + ",";
         });
       }
       if (currentFilters.types.length !== 0) {
         if (search !== "?") search += "&";
-        search += "kind=";
+        search += "kind__in=";
         currentFilters.types.forEach((e, i, a) => {
           if (i === a.length - 1) search += e;
-          else search += e + "+";
+          else search += e + ",";
         });
       }
       if (currentFilters.conditions.length !== 0) {
         if (search !== "?") search += "&";
-        search += "condition=";
+        search += "condition__in=";
         currentFilters.conditions.forEach((e, i, a) => {
           if (i === a.length - 1) search += e;
           else search += e + "+";
         });
       }
+
+      if (currentFilters.clothesSizes.length !== 0) {
+        if (search !== "?") search += "&";
+        search += "size__in=";
+        currentFilters.clothesSizes.forEach((e, i, a) => {
+          if (i === a.length - 1) search += e;
+          else search += e + ",";
+        });
+      }
+      if (currentFilters.shoesSizes.length !== 0) {
+        if (search !== "?") search += "&";
+        search += "size__in=";
+        currentFilters.shoesSizes.forEach((e, i, a) => {
+          if (i === a.length - 1) search += e;
+          else search += e + ",";
+        });
+      }
+
       if (currentFilters.fits.length !== 0) {
         if (search !== "?") search += "&";
-        search += "fit=";
+        search += "fit__in=";
         currentFilters.fits.forEach((e, i, a) => {
           if (i === a.length - 1) search += e;
-          else search += e + "+";
+          else search += e + ",";
         });
       }
       if (currentFilters.colors.length !== 0) {
         if (search !== "?") search += "&";
-        search += "colorway=";
+        search += "colorway__in=";
         currentFilters.colors.forEach((e, i, a) => {
           if (i === a.length - 1) search += e;
           else search += e + "+";
