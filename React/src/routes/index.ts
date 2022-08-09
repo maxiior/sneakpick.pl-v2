@@ -48,6 +48,8 @@ export enum endpoints {
   ME = "users/me/",
   EDIT = "users/edit/",
 
+  POST_ADD_ITEM = "products/",
+
   FOLLOWED_ITEMS = "users/me/followed-products/",
   DELETE_FOLLOWED_ITEMS = "users/me/followed-products/{id}/",
 

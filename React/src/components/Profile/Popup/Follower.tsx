@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { useAppDispatch } from "hooks/useAppDispatch";
-import { changeFollowedNumber } from "store/profile/actions";
+import { changeFollowingNumber } from "store/profile/actions";
 import { useAppSelector } from "hooks/useAppSelector";
 import { getUserPhoto } from "functions/getUserPhoto";
 import { iUser } from "types/user";
@@ -89,7 +89,7 @@ const Follower = ({
       .then((response) => {
         if (response.status === 201) {
           setFollowed(true);
-          if (auth.user_id === id) dispatch(changeFollowedNumber(1));
+          if (auth.user_id === id) dispatch(changeFollowingNumber(1));
         }
       })
       .catch(() => {});
@@ -100,7 +100,7 @@ const Follower = ({
       .then((response) => {
         if (response.status === 200) {
           setFollowed(false);
-          if (auth.user_id === id) dispatch(changeFollowedNumber(-1));
+          if (auth.user_id === id) dispatch(changeFollowingNumber(-1));
         }
       })
       .catch(() => {});

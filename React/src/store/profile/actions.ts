@@ -72,8 +72,8 @@ export const changeFollowersNumber = createAction(
   }
 );
 
-export const changeFollowedNumber = createAction(
-  "profile/changeFollowedNumber",
+export const changeFollowingNumber = createAction(
+  "profile/changeFollowingNumber",
   (data: number) => {
     return { payload: data };
   }

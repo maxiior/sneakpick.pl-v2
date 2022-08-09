@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getPhoto } from "functions/getPhoto";
 import { iItem } from "types/item";
+import { routes } from "routes";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -85,7 +86,7 @@ const Informations = styled.div`
 const SingleItem = ({ data }: { data: iItem }) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <StyledLink to={`../wtb/${data.id}`}>
+      <StyledLink to={`../..` + routes.ITEM.replace(":item", data.id)}>
         <Container>
           <Holder>
             <Condition>{data.condition}</Condition>

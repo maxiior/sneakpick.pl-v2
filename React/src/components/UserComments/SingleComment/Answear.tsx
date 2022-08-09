@@ -111,7 +111,6 @@ const Answear = ({ data, me }: { data: iComment; me: string }) => {
     formatDate(data.created_at)
   );
   const dispatch = useAppDispatch();
-  console.log(data);
 
   const removeingCommentProcess = () => {
     dispatch(removeAnswear({ id: data.id, parent: data.parent }))

@@ -91,13 +91,9 @@ const Popup = () => {
   const auth = useAppSelector((state) => state.authSlice);
   const { profilePopup } = useAppSelector((state) => state.interfaceSlice);
 
-  const {
-    followers_details,
-    id,
-    following_details,
-    followers_count,
-    following_count,
-  } = useAppSelector((state) => state.profileSlice.user);
+  const { followers_details, id, following_details } = useAppSelector(
+    (state) => state.profileSlice.user
+  );
   const wrapperRef = useRef(null);
   useDetectOutsideClick(wrapperRef, () => {
     dispatch(closeProfilePopup());
@@ -117,7 +113,7 @@ const Popup = () => {
         <Header>{profilePopup === 1 ? "Obserwujący" : "Obserwowani"}</Header>
         <List>
           {profilePopup === 1 ? (
-            following_details.length > 0 ? (
+            followers_details.length > 0 ? (
               followers_details.map((e) => (
                 <Follower data={e} auth={auth} popup={profilePopup} />
               ))

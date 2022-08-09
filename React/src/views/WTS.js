@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Feature from "components/WTS/Feature";
 import GridList from "components/WTS/GridList";
@@ -18,6 +18,7 @@ import useAuthenticated from "hooks/useAuthenticated";
 import TextInput from "components/WTS/TextInput";
 import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
+import { ImageValidators } from "validators/ImageValidators";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -70,30 +71,46 @@ const WTS = () => {
     dispatch(resetCurrentStates());
   }, []);
 
+  const [images, setImages] = useState([]);
+  const [imagesError, setImagesError] = useState(false);
+
   const addingProcess = () => {
-    // http
-    //   .post(endpoints.MAIN, {
-    //     name: currentFilter.name,
-    //     brand: currentFilter.brands,
-    //     category: currentFilter.categories,
-    //     description: currentFilter.description,
-    //     kind: currentFilter.types,
-    //     condition: currentFilter.conditions,
-    //     size: `${
-    //       currentFilter.categories === "Sneakersy"
-    //         ? currentFilter.shoesSizes
-    //         : currentFilter.clothesSizes
-    //     }`,
-    //     fit: currentFilter.fits,
-    //     colorway: currentFilter.colors,
-    //     price: currentFilter.price,
-    //     ship: currentFilter.SHIP,
-    //     meet: currentFilter.MEET,
-    //   })
-    //   .then((response) => {
-    //     if (response.status === 201) history.push({ pathname: routes.WTB });
-    //   })
-    //   .catch((error) => {});
+    if (ImageValidators.validate(images)) {
+      alert("Coś poszło nie tak");
+      return;
+    }
+    const payload = new FormData();
+
+    const data = {
+      name: currentFilters.name,
+      brand: currentFilters.brands.toLowerCase(),
+      category: currentFilters.categories.toLowerCase(),
+      description: currentFilters.description,
+      kind: currentFilters.types.toLowerCase(),
+      condition: currentFilters.conditions.toLowerCase(),
+      size: `${
+        currentFilters.categories === "Sneakersy"
+          ? currentFilters.shoesSizes.toLowerCase()
+          : currentFilters.clothesSizes.toLowerCase()
+      }`,
+      fit: currentFilters.fits.toLowerCase(),
+      colorway: currentFilters.colors.toLowerCase(),
+      price: currentFilters.price,
+      ship: currentFilters.SHIP,
+      meet: currentFilters.MEET,
+    };
+
+    for (const [key, value] of Object.entries(data))
+      payload.append(key, value.toString());
+
+    for (let i = 0; i < images.length; i++) payload.append("images", images[i]);
+
+    http
+      .post(endpoints.POST_ADD_ITEM, payload)
+      .then((response) => {
+        if (response.status === 201) history.push({ pathname: routes.WTB });
+      })
+      .catch(() => {});
   };
 
   const validationSchema = Yup.object().shape({
@@ -106,37 +123,29 @@ const WTS = () => {
     colorway: Yup.string().nullable().required("Zaznacz jedną z opcji."),
     price: Yup.number()
       .typeError("Wprowadzona wartość musi być liczbą.")
+      .min(0, "Wartość nie może być ujemna.")
       .required("Pole jest wymagane."),
-    fit: Yup.string().nullable().required("Zaznacz jedną z opcji."),
-    shoeSize: Yup.string().nullable().required("Zaznacz jedną z opcji."),
-    clotheSize: Yup.string().nullable().required("Zaznacz jedną z opcji."),
-    photo: Yup.mixed()
-      .test(
-        "numberOfFiles",
-        "Musisz umieścić co najmniej jedno zdjęcie.",
-        (value) => {
-          if (value.length > 0) return true;
-          return false;
-        }
-      )
-      .test("fileSize", "Zbyt duży rozmiar pliku.", (value) => {
-        if (value.length > 0) return value[0].size <= 5242880;
-        return false;
-      })
-      .test(
-        "fileType",
-        "Umieszczono plik o niepoprawnym formacie.",
-        (value) => {
-          if (value.length === 0) return false;
-          for (var i = 0; i < value.length; i++) {
-            if (
-              !["image/jpeg", "image/png", "image/jpg"].includes(value[i].type)
-            )
-              return false;
-          }
-          return true;
-        }
-      ),
+    isSneakers: Yup.boolean(),
+    hasFit: Yup.boolean(),
+    hasNoSize: Yup.boolean(),
+    fit: Yup.string()
+      .nullable()
+      .when("hasFit", {
+        is: true,
+        then: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+      }),
+    shoeSize: Yup.string()
+      .nullable()
+      .when("isSneakers", {
+        is: true,
+        then: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+      }),
+    clotheSize: Yup.string()
+      .nullable()
+      .when(["isSneakers", "hasNoSize"], {
+        is: (isSneakers, hasNoSize) => !isSneakers && !hasNoSize,
+        then: Yup.string().nullable().required("Zaznacz jedną z opcji."),
+      }),
   });
 
   const methods = useForm({
@@ -146,10 +155,15 @@ const WTS = () => {
 
   const { handleSubmit } = methods;
 
+  const onError = () => {
+    let error = ImageValidators.validate(images);
+    if (error) setImagesError(error);
+  };
+
   return (
     <Wrapper>
       <FormProvider {...methods}>
-        <Form onSubmit={handleSubmit(addingProcess)}>
+        <Form onSubmit={handleSubmit(addingProcess, onError)}>
           <Header>WANT TO SELL</Header>
           <Panel>
             <TextInput
@@ -169,7 +183,12 @@ const WTS = () => {
               elements={filters.categories}
               filterType={filterTypes.categories}
             />
-            <Photos />
+            <Photos
+              images={images}
+              setImages={setImages}
+              setImagesError={setImagesError}
+              imagesError={imagesError}
+            />
             <Description
               name="Opis"
               placeholder="Opis"

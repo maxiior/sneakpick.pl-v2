@@ -2,13 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchItems,
   fetchUser,
+  fetchComments,
+  changeFollowersNumber,
+  changeFollowingNumber,
   fetchFollowers,
   fetchFollowing,
-  changeFollowersNumber,
-  changeFollowedNumber,
-  fetchComments,
   addComment,
   removeComment,
+  removeAnswear,
 } from "store/profile/actions";
 
 const initialState = {
@@ -63,7 +64,7 @@ export const profileSlice = createSlice({
       state.user.followers_count += action.payload.value;
       state.user.is_followed = action.payload.is_followed;
     });
-    builder.addCase(changeFollowedNumber, (state, action) => {
+    builder.addCase(changeFollowingNumber, (state, action) => {
       state.user.following_count += action.payload;
     });
     builder.addCase(fetchComments.fulfilled, (state, action) => {
@@ -71,22 +72,25 @@ export const profileSlice = createSlice({
       state.comments_count = action.payload.comments_count;
     });
     builder.addCase(addComment.fulfilled, (state, action) => {
-      if (action.payload.comment.parent !== null) {
-        state.comments.map((e) =>
-          e.id === action.payload.comment.parent
-            ? (e.responses = [action.payload.comment])
-            : e
-        );
-      } else {
+      if ("comment" in action.payload) {
         state.comments = [action.payload.comment, ...state.comments];
         state.comments_count += 1;
         state.user.rating = action.payload.avg_rating;
+      } else if (action.payload.parent !== null) {
+        state.comments.map((e) =>
+          e.id === action.payload.parent ? (e.responses = [action.payload]) : e
+        );
       }
     });
     builder.addCase(removeComment.fulfilled, (state, action) => {
       state.comments = state.comments.filter((e) => e.id !== action.payload.id);
       state.comments_count -= 1;
       state.user.rating = action.payload.avg_rating;
+    });
+    builder.addCase(removeAnswear.fulfilled, (state, action) => {
+      state.comments.map((e) =>
+        e.id === action.payload ? (e.responses = []) : e
+      );
     });
   },
 });

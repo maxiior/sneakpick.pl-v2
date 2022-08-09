@@ -8,6 +8,11 @@ import Header from "components/WTS/Header";
 import { Error } from "components/WTS/Error";
 import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import {
+  FIT_CATEGORIES,
+  NO_SIZE_CATEGORIES,
+  SNEAKERS_CATEGORIES,
+} from "constants/categories";
 
 const Wrapper = styled.div`
   input::-webkit-outer-spin-button,
@@ -100,7 +105,7 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
   );
   useDetectOutsideClick(wrapperRef, setOpen);
 
-  const { register, formState } = useFormContext();
+  const { register, formState, setValue } = useFormContext();
   const validator = register("category");
 
   const handleUserKeyPress = useCallback(
@@ -118,6 +123,18 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
       }
       if (e.key === "Enter" && cursor >= 0) {
         e.preventDefault();
+
+        setValue("hasFit", FIT_CATEGORIES.includes(elements[cursor].text));
+        setValue(
+          "isSneakers",
+          SNEAKERS_CATEGORIES.includes(elements[cursor].text)
+        );
+        setValue(
+          "hasNoSize",
+          NO_SIZE_CATEGORIES.includes(elements[cursor].text)
+        );
+        setValue("category", elements[cursor].text);
+
         dispatch(
           changeState({
             type: filterType,
@@ -170,6 +187,10 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
                     })
                   );
                   setOpen(false);
+                  setValue("hasFit", FIT_CATEGORIES.includes(e.text));
+                  setValue("isSneakers", SNEAKERS_CATEGORIES.includes(e.text));
+                  setValue("hasNoSize", NO_SIZE_CATEGORIES.includes(e.text));
+                  setValue("category", e.text);
                 }}
                 checked={categories === e.text}
               />

@@ -7,6 +7,7 @@ import {
   setCitiesArray,
   resetCurrentStates,
 } from "store/creator/actions";
+import { getCategoriesIndexed } from "functions/getCategoriesIndexed";
 
 const initialState: any = {
   filterTypes: {
@@ -20,26 +21,7 @@ const initialState: any = {
     colors: "colors",
   },
   filters: {
-    categories: [
-      { id: 1, text: "Sneakersy" },
-      { id: 2, text: "Hoodie" },
-      { id: 3, text: "Teesy" },
-      { id: 4, text: "Koszule" },
-      { id: 5, text: "Crewnecki" },
-      { id: 6, text: "Longsleevy" },
-      { id: 7, text: "Katany" },
-      { id: 8, text: "Kurtki" },
-      { id: 9, text: "Płaszcze" },
-      { id: 10, text: "Spodnie" },
-      { id: 11, text: "Szale" },
-      { id: 12, text: "Portfele" },
-      { id: 13, text: "Plecaki" },
-      { id: 14, text: "Zegarki" },
-      { id: 15, text: "Czapki" },
-      { id: 16, text: "Belty" },
-      { id: 17, text: "Bielizna" },
-      { id: 18, text: "Inne" },
-    ],
+    categories: getCategoriesIndexed(),
     brands: [
       { id: 1, text: "Nike" },
       { id: 2, text: "Adidas" },
