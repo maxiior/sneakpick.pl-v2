@@ -61,7 +61,7 @@ const Path = ({
     <Wrapper className={className}>
       <List>
         <Element>
-          <Step to={routes.WTB}>All</Step>
+          <Step to={routes.WTB + routes.DEFAULT_SEARCH}>All</Step>
         </Element>
         <Element>
           <Step to={routes.CATEGORY_PATH.replace("{category}", category)}>

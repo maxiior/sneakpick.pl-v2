@@ -77,14 +77,17 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
 const Nav = () => {
   let history = useHistory();
   const dispatch = useDispatch();
-  const [data, setData] = useState({ search: "" });
+  const [data, setData] = useState("");
 
-  const goSearch = (e) => {
+  const goSearch = () => {
+    let search = "";
+    if (data) search = routes.DEFAULT_SEARCH + "&search=" + data;
+    else search = routes.DEFAULT_SEARCH;
+
     history.push({
       pathname: routes.WTB,
-      search: "?search=" + data.search + "?" + routes.DEFAULT_SEARCH,
+      search: search,
     });
-    window.location.reload();
   };
 
   return (

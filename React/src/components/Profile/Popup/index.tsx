@@ -104,8 +104,6 @@ const Popup = () => {
     else dispatch(fetchFollowing(id));
   }, [dispatch, id, profilePopup]);
 
-  console.log(following_details.length);
-
   return (
     <Wrapper>
       <Container ref={wrapperRef}>

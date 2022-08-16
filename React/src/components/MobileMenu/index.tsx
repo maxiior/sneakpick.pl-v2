@@ -149,7 +149,7 @@ const MobileMenu = ({ className }: { className?: any }) => {
             <Option to="" content="Powiadomienia" />
           </>
         )}
-        <Option content="WTB" to={routes.WTB} />
+        <Option content="WTB" to={routes.WTB + routes.DEFAULT_SEARCH} />
         <Option content="WTS" to={routes.WTS} />
         <Option content="WTT" to={routes.WTT} />
         <Option content="PROXY" to={routes.PROXY} />

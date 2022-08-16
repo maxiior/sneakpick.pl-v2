@@ -57,7 +57,7 @@ const PageNotFound = () => {
             Strona główna
             <Arrow />
           </StyledLink>
-          <StyledLink to={routes.WTB}>
+          <StyledLink to={routes.WTB + routes.DEFAULT_SEARCH}>
             Produkty
             <Arrow />
           </StyledLink>

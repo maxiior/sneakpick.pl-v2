@@ -5,6 +5,9 @@ import { routes } from "routes";
 import { openRegisterView, openLoginView } from "store/interface/actions";
 import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import { resetAllStates } from "store/filters/actions";
+import { useHistory } from "react-router-dom";
+import { onResetFilters } from "functions/onResetFilters";
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,10 +35,18 @@ const Button = styled.div`
 const Options = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated } = useAppSelector((state) => state.authSlice);
+  const history = useHistory();
 
   return (
     <Wrapper>
-      <Option text="WTB" to={routes.WTB} />
+      <Option
+        text="WTB"
+        to={routes.WTB + routes.DEFAULT_SEARCH}
+        onClick={() => {
+          dispatch(resetAllStates());
+          onResetFilters(history);
+        }}
+      />
       <Option text="WTS" to={routes.WTS} />
       <Option text="WTT" to={routes.WTT} />
       <Option text="PROXY" to={routes.PROXY} />

@@ -83,13 +83,7 @@ const StyledComboBox = styled.div`
   display: inline-block;
 `;
 
-const ComboBox = ({
-  className,
-  name,
-  elements,
-  itemsSelectorType,
-  sorting,
-}) => {
+const ComboBox = ({ className, name, elements, selectorType, sorting }) => {
   const { pagination } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
@@ -115,7 +109,7 @@ const ComboBox = ({
                   setMode(element);
                   dispatch(
                     changeSelector({
-                      type: itemsSelectorType,
+                      type: selectorType,
                       value: sorting ? i : elements[i],
                     })
                   );

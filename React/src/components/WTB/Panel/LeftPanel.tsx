@@ -43,62 +43,61 @@ const LeftPanel: React.FC = () => {
       <List
         name="Kategoria"
         elements={filters.categories}
-        filterType={filterTypes.categories}
-        currentFilter={currentFilters.categories}
-        radio
+        filterType={filterTypes.category}
+        currentFilter={currentFilters.category}
       />
       <List
         name="Marka"
         elements={filters.brands}
-        filterType={filterTypes.brands}
-        currentFilter={currentFilters.brands}
+        filterType={filterTypes.brand}
+        currentFilter={currentFilters.brand}
       />
       <GridList
         name="Rodzaj"
         elements={filters.types}
-        filterType={filterTypes.types}
-        currentFilter={currentFilters.types}
+        filterType={filterTypes.kind}
+        currentFilter={currentFilters.kind}
         medium
       />
       <GridList
         name="Stan"
         elements={filters.conditions}
-        filterType={filterTypes.conditions}
-        currentFilter={currentFilters.conditions}
+        filterType={filterTypes.condition}
+        currentFilter={currentFilters.condition}
         small
       />
-      {SNEAKERS_CATEGORIES.includes(currentFilters.categories) ? (
+      {SNEAKERS_CATEGORIES.includes(currentFilters.category) ? (
         <GridList
           name="Rozmiar"
           elements={filters.shoesSizes}
-          filterType={filterTypes.shoesSizes}
-          currentFilter={currentFilters.shoesSizes}
+          filterType={filterTypes.shoesSize}
+          currentFilter={currentFilters.shoesSize}
           small
         />
-      ) : FIT_CATEGORIES.includes(currentFilters.categories) ? (
+      ) : FIT_CATEGORIES.includes(currentFilters.category) ? (
         <GridList
           name="Rozmiar"
           elements={filters.clothesSizes}
-          filterType={filterTypes.clothesSizes}
-          currentFilter={currentFilters.clothesSizes}
+          filterType={filterTypes.clotheSize}
+          currentFilter={currentFilters.clotheSize}
           small
         />
       ) : (
         <></>
       )}
-      {FIT_CATEGORIES.includes(currentFilters.categories) && (
+      {FIT_CATEGORIES.includes(currentFilters.category) && (
         <GridList
           name="Fit"
           elements={filters.fits}
-          filterType={filterTypes.fits}
-          currentFilter={currentFilters.fits}
+          filterType={filterTypes.fit}
+          currentFilter={currentFilters.fit}
           large
         />
       )}
       <ColorwayGrid
-        colors={filters.colors}
-        filterType={filterTypes.colors}
-        currentFilter={currentFilters.colors}
+        colors={filters.colorways}
+        filterType={filterTypes.colorway}
+        currentFilter={currentFilters.colorway}
       />
     </StyledLeftPanel>
   );

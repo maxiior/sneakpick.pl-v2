@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { firstLetterUppercase } from "functions/firstLetterUppercase";
+import { mapKindToAppValue } from "functions/mapKindToAppValue";
 
 const Wrapper = styled.div<{ mobile: boolean }>`
   box-sizing: border-box;
@@ -136,7 +137,10 @@ const Informations = ({
           </Information>
           <Information>
             <Key>Rodzaj</Key>
-            <Value> {firstLetterUppercase(data.product.kind)}</Value>
+            <Value>
+              {" "}
+              {firstLetterUppercase(mapKindToAppValue(data.product.kind))}
+            </Value>
           </Information>
           <Information>
             <Key>Colorway</Key>

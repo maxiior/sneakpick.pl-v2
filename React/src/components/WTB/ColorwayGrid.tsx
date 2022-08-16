@@ -2,9 +2,10 @@ import colorful from "assets/other.png";
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
-import { changeState } from "store/filters/actions";
 import { useDispatch } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
+import { useHistory } from "react-router-dom";
+import { onFilterClick } from "functions/onFilterClick";
 
 const CW = styled.div<{ mobile: boolean; white: boolean; multi: boolean }>`
   box-sizing: border-box;
@@ -66,7 +67,7 @@ const ColorwayGrid = ({
   borderNone,
   currentFilter,
 }: any) => {
-  const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <Elements mobile={mobile} borderNone={borderNone}>
@@ -78,8 +79,11 @@ const ColorwayGrid = ({
               <StyledInput
                 type="checkbox"
                 onChange={() =>
-                  dispatch(
-                    changeState({ filterType, id: c.text, input: "checkbox" })
+                  onFilterClick(
+                    filterType.name,
+                    c.text,
+                    filterType.input,
+                    history
                   )
                 }
                 checked={currentFilter.includes(c.text)}

@@ -4,14 +4,14 @@ import { getCategoriesIndexed } from "functions/getCategoriesIndexed";
 
 const initialState = {
   filterTypes: {
-    categories: "categories",
-    brands: "brands",
-    types: "types",
-    conditions: "conditions",
-    shoesSizes: "shoesSizes",
-    clothesSizes: "clothesSizes",
-    fits: "fits",
-    colors: "colors",
+    category: { name: "category", input: "radio" },
+    brand: { name: "brand", input: "checkbox" },
+    kind: { name: "kind", input: "checkbox" },
+    condition: { name: "condition", input: "checkbox" },
+    shoesSize: { name: "shoesSize", input: "checkbox" },
+    clotheSize: { name: "clotheSize", input: "checkbox" },
+    fit: { name: "fit", input: "checkbox" },
+    colorway: { name: "colorway", input: "checkbox" },
   },
   filters: {
     categories: getCategoriesIndexed(),
@@ -40,12 +40,12 @@ const initialState = {
       { id: 22, text: "Inne" },
     ],
     types: [
-      { id: 1, text: "MĘSKI" },
-      { id: 2, text: "DAMSKI" },
+      { id: 1, text: "męski" },
+      { id: 2, text: "damski" },
     ],
     conditions: [
-      { id: 1, text: "DS" },
-      { id: 2, text: "VNDS" },
+      { id: 1, text: "ds" },
+      { id: 2, text: "vnds" },
       { id: 3, text: "4/5" },
       { id: 4, text: "3/5" },
       { id: 5, text: "2/5" },
@@ -83,20 +83,20 @@ const initialState = {
       { id: 29, text: "50.0" },
     ],
     clothesSizes: [
-      { id: 1, text: "XXS" },
-      { id: 2, text: "XS" },
-      { id: 3, text: "S" },
-      { id: 4, text: "M" },
-      { id: 5, text: "L" },
-      { id: 6, text: "XL" },
-      { id: 7, text: "XXL" },
+      { id: 1, text: "xxs" },
+      { id: 2, text: "xs" },
+      { id: 3, text: "s" },
+      { id: 4, text: "m" },
+      { id: 5, text: "l" },
+      { id: 6, text: "xl" },
+      { id: 7, text: "xxl" },
     ],
     fits: [
-      { id: 1, text: "SLIM FIT" },
-      { id: 2, text: "REGULAR" },
-      { id: 3, text: "OVERSIZE" },
+      { id: 1, text: "slim fit" },
+      { id: 2, text: "regular" },
+      { id: 3, text: "oversize" },
     ],
-    colors: [
+    colorways: [
       { id: 1, text: "brown" },
       { id: 2, text: "red" },
       { id: 3, text: "orange" },
@@ -112,14 +112,14 @@ const initialState = {
     ],
   },
   currentFilters: {
-    brands: [],
-    categories: "",
-    types: [],
-    conditions: [],
-    clothesSizes: [],
-    shoesSizes: [],
-    fits: [],
-    colors: [],
+    brand: [],
+    category: "",
+    kind: [],
+    condition: [],
+    clotheSize: [],
+    shoesSize: [],
+    fit: [],
+    colorway: [],
   },
 };
 
@@ -129,41 +129,38 @@ export const filtersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(changeState.fulfilled, (state, action) => {
-      if (action.payload.input === "checkbox") {
-        if (
-          state.currentFilters[action.payload.filterType].includes(
-            action.payload.id
-          )
-        ) {
-          state.currentFilters[action.payload.filterType] =
-            state.currentFilters[action.payload.filterType].filter(
-              (i) => i !== action.payload.id
-            );
-        } else {
-          state.currentFilters[action.payload.filterType] = [
-            ...state.currentFilters[action.payload.filterType],
-            action.payload.id,
-          ];
+      action.payload.forEach((el) => {
+        if (el.input === "checkbox") {
+          el.id.split(",").forEach((e) => {
+            if (state.currentFilters[el.filterType].includes(e)) {
+              state.currentFilters[el.filterType] = state.currentFilters[
+                el.filterType
+              ].filter((i) => i !== e);
+            } else {
+              state.currentFilters[el.filterType] = [
+                ...state.currentFilters[el.filterType],
+                e,
+              ];
+            }
+          });
+        } else if (el.input === "radio") {
+          if (state.currentFilters[el.filterType] === el.id) {
+            state.currentFilters[el.filterType] = "";
+          } else {
+            state.currentFilters[el.filterType] = el.id;
+          }
         }
-      } else if (action.payload.input === "radio") {
-        if (
-          state.currentFilters[action.payload.filterType] === action.payload.id
-        ) {
-          state.currentFilters[action.payload.filterType] = "";
-        } else {
-          state.currentFilters[action.payload.filterType] = action.payload.id;
-        }
-      }
+      });
     });
     builder.addCase(resetAllStates.fulfilled, (state) => {
-      state.currentFilters.brands = [];
-      state.currentFilters.categories = "";
-      state.currentFilters.types = [];
-      state.currentFilters.conditions = [];
-      state.currentFilters.clothesSizes = [];
-      state.currentFilters.shoesSizes = [];
-      state.currentFilters.fits = [];
-      state.currentFilters.colors = [];
+      state.currentFilters.brand = [];
+      state.currentFilters.category = "";
+      state.currentFilters.kind = [];
+      state.currentFilters.condition = [];
+      state.currentFilters.clotheSize = [];
+      state.currentFilters.shoesSize = [];
+      state.currentFilters.fit = [];
+      state.currentFilters.colorway = [];
     });
   },
 });

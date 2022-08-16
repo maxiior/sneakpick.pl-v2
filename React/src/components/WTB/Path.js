@@ -51,23 +51,34 @@ const Path = ({ className }) => {
     <StyledPath className={className}>
       <ol>
         <li>
-          <Step to={routes.WTB}>All</Step>
+          <Step to={routes.WTB + routes.DEFAULT_SEARCH}>All</Step>
         </li>
-        {currentFilters.categories !== "" && (
+        {currentFilters.category !== "" && (
           <li>
-            <Step to={null}>{currentFilters.categories}</Step>
+            <Step to={null}>{currentFilters.category}</Step>
           </li>
         )}
-        {currentFilters.brands.length === 1 ? (
+        {currentFilters.brand.length === 1 ? (
           <li>
-            <Step to={null}>{currentFilters.brands[0]}</Step>
+            <Step to={null}>{currentFilters.brand[0]}</Step>
           </li>
         ) : (
-          currentFilters.brands.length > 1 && (
-            <li>
-              <Step to={null}>Some brands</Step>
-            </li>
-          )
+          <>
+            {currentFilters.brand.length > 1 && (
+              <li>
+                {currentFilters.brand.map(
+                  (e, i) =>
+                    i < 3 && (
+                      <Step to={null}>
+                        {e}
+                        {i < currentFilters.brand.length - 1 && ", "}
+                      </Step>
+                    )
+                )}
+              </li>
+            )}
+            {currentFilters.brand.length >= 4 && " ..."}
+          </>
         )}
       </ol>
     </StyledPath>

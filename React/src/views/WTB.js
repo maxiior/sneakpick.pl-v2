@@ -3,8 +3,8 @@ import TopNav from "components/WTB/TopNav";
 import styled from "styled-components";
 import wtb from "assets/wtb.png";
 import MobileFilters from "components/WTB/MobileFilters";
-import OnSearch from "components/OnSearch";
 import { useSelector } from "react-redux";
+import { useLinkProperties } from "hooks/useLinkProperties";
 
 const Header = styled.header`
   display: flex;
@@ -36,10 +36,10 @@ const Wrapper = styled.main`
 
 const WTB = () => {
   const { mobileFilters } = useSelector((state) => state.interfaceSlice);
+  useLinkProperties();
 
   return (
     <>
-      <OnSearch />
       {mobileFilters && <MobileFilters />}
       <Wrapper>
         <Header>WANT TO BUY</Header>

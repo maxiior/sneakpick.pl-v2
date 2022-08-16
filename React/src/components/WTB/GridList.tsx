@@ -1,8 +1,8 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { changeState } from "store/filters/actions";
+import { useHistory } from "react-router-dom";
+import { onFilterClick } from "functions/onFilterClick";
 
 const GridElements = styled.div<{
   small?: boolean;
@@ -66,7 +66,7 @@ const GridList = ({
   currentFilter,
   ...props
 }: any) => {
-  const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <Elements mobile={mobile}>
@@ -78,14 +78,17 @@ const GridList = ({
               <Input
                 type="checkbox"
                 onChange={() =>
-                  dispatch(
-                    changeState({ filterType, id: e.text, input: "checkbox" })
+                  onFilterClick(
+                    filterType.name,
+                    e.text,
+                    filterType.input,
+                    history
                   )
                 }
                 checked={currentFilter.includes(e.text)}
               />
               <Value mobile={mobile} {...props}>
-                {e.text}
+                {e.text.toUpperCase()}
               </Value>
             </Label>
           ))}

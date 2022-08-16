@@ -1,7 +1,6 @@
-import React from "react";
 import styled, { css } from "styled-components";
-import { changeState } from "store/filters/actions";
-import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { onFilterClick } from "functions/onFilterClick";
 
 const StyledElement = styled.div`
   margin: 2px 0;
@@ -45,22 +44,17 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, filterType, checked, radio }) => {
-  const dispatch = useDispatch();
+const Element = ({ text, filterType, checked }) => {
+  const history = useHistory();
 
   return (
     <StyledElement>
       <StyledLabel>
         <StyledInput
           type="checkbox"
-          onChange={() => {
-            if (radio)
-              dispatch(changeState({ filterType, id: text, input: "radio" }));
-            else
-              dispatch(
-                changeState({ filterType, id: text, input: "checkbox" })
-              );
-          }}
+          onChange={() =>
+            onFilterClick(filterType.name, text, filterType.input, history)
+          }
           checked={checked.includes(text)}
         />
         <Checkbox />

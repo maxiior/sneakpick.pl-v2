@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetAllStates } from "store/filters/actions";
 import useResizeObserver from "@react-hook/resize-observer";
 import { useScrollToTop } from "hooks/useScrollToTop";
+import { useHistory } from "react-router-dom";
+import { onResetFilters } from "functions/onResetFilters";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -111,6 +113,7 @@ const MobileFilters = ({ className }) => {
   const { filters, filterTypes, currentFilters } = useSelector(
     (state) => state.filtersSlice
   );
+  const history = useHistory();
 
   useScrollToTop();
 
@@ -129,67 +132,73 @@ const MobileFilters = ({ className }) => {
       <List
         name="Kategoria"
         elements={filters.categories}
-        filterType={filterTypes.categories}
-        currentFilter={currentFilters.categories}
+        filterType={filterTypes.category}
+        currentFilter={currentFilters.category}
         radio
         mobile
       />
       <List
         name="Marka"
         elements={filters.brands}
-        filterType={filterTypes.brands}
-        currentFilter={currentFilters.brands}
+        filterType={filterTypes.brand}
+        currentFilter={currentFilters.brand}
         mobile
       />
       <GridList
         name="Rodzaj"
         elements={filters.types}
-        filterType={filterTypes.types}
-        currentFilter={currentFilters.types}
+        filterType={filterTypes.kind}
+        currentFilter={currentFilters.kind}
         mobile
         large
       />
       <GridList
         name="Stan"
         elements={filters.conditions}
-        filterType={filterTypes.conditions}
-        currentFilter={currentFilters.conditions}
+        filterType={filterTypes.condition}
+        currentFilter={currentFilters.condition}
         mobile
         large
       />
       <GridList
         name="Rozmiar"
         elements={filters.shoesSizes}
-        filterType={filterTypes.shoesSizes}
-        currentFilter={currentFilters.shoesSizes}
+        filterType={filterTypes.shoesSize}
+        currentFilter={currentFilters.shoesSize}
         mobile
         medium
       />
       <GridList
         name="Rozmiar"
         elements={filters.clothesSizes}
-        filterType={filterTypes.clothesSizes}
-        currentFilter={currentFilters.clothesSizes}
+        filterType={filterTypes.clotheSize}
+        currentFilter={currentFilters.clotheSize}
         mobile
         medium
       />
       <GridList
         name="Fit"
         elements={filters.fits}
-        filterType={filterTypes.fits}
-        currentFilter={currentFilters.fits}
+        filterType={filterTypes.fit}
+        currentFilter={currentFilters.fit}
         mobile
         large
       />
       <ColorwayGrid
-        colors={filters.colors}
-        filterType={filterTypes.colors}
-        currentFilter={currentFilters.colors}
+        colors={filters.colorways}
+        filterType={filterTypes.colorways}
+        currentFilter={currentFilters.colorways}
         mobile
         borderNone
       />
       <Container>
-        <Button onClick={() => dispatch(resetAllStates())} clear>
+        <Button
+          onClick={() => {
+            dispatch(resetAllStates());
+            onResetFilters(history);
+          }}
+          clear
+        >
           RESET
         </Button>
         <Button>ZATWIERDŹ</Button>

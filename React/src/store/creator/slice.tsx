@@ -18,7 +18,7 @@ const initialState: any = {
     shoesSizes: "shoesSizes",
     clothesSizes: "clothesSizes",
     fits: "fits",
-    colors: "colors",
+    colorways: "colorways",
   },
   filters: {
     categories: getCategoriesIndexed(),
@@ -103,7 +103,7 @@ const initialState: any = {
       { id: 2, text: "Regular" },
       { id: 3, text: "Oversize" },
     ],
-    colors: [
+    colorways: [
       { id: 1, text: "brown" },
       { id: 2, text: "red" },
       { id: 3, text: "orange" },
@@ -128,7 +128,7 @@ const initialState: any = {
     shoesSizes: "",
     clothesSizes: "",
     fits: "",
-    colors: "",
+    colorways: "",
     price: null,
     SHIP: false,
     MEET: false,
@@ -191,7 +191,7 @@ export const creatorSlice = createSlice({
       state.currentFilters.shoesSizes = "";
       state.currentFilters.clothesSizes = "";
       state.currentFilters.fits = "";
-      state.currentFilters.colors = "";
+      state.currentFilters.colorways = "";
       state.currentFilters.price = null;
       state.currentFilters.SHIP = false;
       state.currentFilters.MEET = false;

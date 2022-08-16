@@ -19,6 +19,7 @@ import TextInput from "components/WTS/TextInput";
 import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
 import { ImageValidators } from "validators/ImageValidators";
+import { mapKindToServerValue } from "functions/mapKindToServerValue";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -86,7 +87,7 @@ const WTS = () => {
       brand: currentFilters.brands.toLowerCase(),
       category: currentFilters.categories.toLowerCase(),
       description: currentFilters.description,
-      kind: currentFilters.types.toLowerCase(),
+      kind: mapKindToServerValue(currentFilters.types.toLowerCase()),
       condition: currentFilters.conditions.toLowerCase(),
       size: `${
         currentFilters.categories === "Sneakersy"
@@ -94,7 +95,7 @@ const WTS = () => {
           : currentFilters.clothesSizes.toLowerCase()
       }`,
       fit: currentFilters.fits.toLowerCase(),
-      colorway: currentFilters.colors.toLowerCase(),
+      colorway: currentFilters.colorways.toLowerCase(),
       price: currentFilters.price,
       ship: currentFilters.SHIP,
       meet: currentFilters.MEET,
@@ -108,7 +109,8 @@ const WTS = () => {
     http
       .post(endpoints.POST_ADD_ITEM, payload)
       .then((response) => {
-        if (response.status === 201) history.push({ pathname: routes.WTB });
+        if (response.status === 201)
+          history.push({ pathname: routes.WTB + routes.DEFAULT_SEARCH });
       })
       .catch(() => {});
   };
@@ -240,8 +242,8 @@ const WTS = () => {
                 </>
               )}
             <ColorwayGrid
-              colors={filters.colors}
-              filterType={filterTypes.colors}
+              colors={filters.colorways}
+              filterType={filterTypes.colorways}
             />
             <Feature
               title="Cena"

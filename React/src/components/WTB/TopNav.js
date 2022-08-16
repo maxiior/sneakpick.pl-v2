@@ -8,6 +8,8 @@ import ComboBox from "components/WTB/ComboBox";
 import { useEffect } from "react";
 import { changeSelector } from "store/selectors/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { sortingModes } from "constants/sortingModes";
+import { paginationModes } from "constants/paginationModes";
 
 const Nav = styled.div`
   position: relative;
@@ -95,9 +97,6 @@ const TopNav = () => {
   const { page, pagination } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
-  const { sortingModes, paginationModes } = useSelector(
-    (state) => state.selectorsSlice
-  );
   const { results } = useSelector((state) => state.itemsSlice);
 
   useEffect(() => {
@@ -127,13 +126,13 @@ const TopNav = () => {
             </Holder>
             <Holder>
               <StyledComboBox
-                itemsSelectorType="sorting"
+                selectorType="sorting"
                 name="Sortowanie"
                 elements={sortingModes}
                 sorting
               />
               <StyledComboBox
-                itemsSelectorType="pagination"
+                selectorType="pagination"
                 name="Pokaż"
                 elements={paginationModes}
               />

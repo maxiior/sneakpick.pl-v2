@@ -34,13 +34,14 @@ const Wrapper = styled.div`
   }
 `;
 
-const Option = ({ text, to }: iOption) => {
+const Option = ({ text, to, onClick }: iOption) => {
   return (
     <Wrapper>
       <StyledNavLink
         exact={to === routes.HOME}
         to={to}
         activeClassName="active"
+        onClick={() => onClick && onClick()}
       >
         {text}
         <StyledDropdown />

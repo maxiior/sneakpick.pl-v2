@@ -88,7 +88,7 @@ const TopPanel: React.FC = () => {
       <div>
         <Header>{name}</Header>
         <Holder>
-          <Button to={routes.WTB} buy>
+          <Button to={routes.WTB + routes.DEFAULT_SEARCH} buy>
             BUY
           </Button>
           <Button to={routes.WTS}>SELL</Button>

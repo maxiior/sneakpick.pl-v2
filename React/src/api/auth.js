@@ -14,7 +14,6 @@ const setAuthorizationHeaders = (access_token) => {
 };
 
 const getExpireTime = (expireTime) => {
-  console.log(expireTime);
   const expireTimeMs = expireTime * 1000;
   const offset = 10000;
   if (expireTimeMs < offset) return expireTimeMs * 0.5;
