@@ -42,7 +42,7 @@ const Label = styled(Link)<{ unactive?: boolean }>`
 
   @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     width: 100%;
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font_size_MD};
   }
 `;
 

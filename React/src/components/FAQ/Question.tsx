@@ -35,7 +35,7 @@ const Value = styled.div`
   text-justify: inter-word;
   margin-top: 15px;
   padding: 0 30px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Question = ({ question, answer }: iQuestion) => {

@@ -11,6 +11,9 @@ import useResizeObserver from "@react-hook/resize-observer";
 import { useScrollToTop } from "hooks/useScrollToTop";
 import { useHistory } from "react-router-dom";
 import { onResetFilters } from "functions/onResetFilters";
+import { displayCommunicatorIcon } from "store/interface/actions";
+import InputRange from "components/WTB/InputRange";
+import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/categories";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -35,7 +38,7 @@ const Wrapper = styled.div`
     background: ${({ theme }) => theme.blue};
   }
 
-  @media only screen and (min-width: 993px) {
+  @media only screen and (min-width: ${({ theme }) => theme.min_width_LG}) {
     display: none;
   }
 `;
@@ -44,8 +47,9 @@ const Header = styled.div`
   width: 100%;
   font-size: 30px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 10px 24px;
+  position: relative;
 `;
 
 const Close = styled(IoMdClose)`
@@ -60,11 +64,14 @@ const Close = styled(IoMdClose)`
 const Title = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const Icon = styled.div`
   display: flex;
   align-items: center;
+  right: 20px;
+  position: absolute;
 `;
 
 const Container = styled.div`
@@ -118,17 +125,30 @@ const MobileFilters = ({ className }) => {
   useScrollToTop();
 
   if (size?.width === 0) {
-    closeMobileFilters();
+    dispatch(closeMobileFilters());
+    dispatch(displayCommunicatorIcon());
   }
 
   return (
     <Wrapper className={className} ref={target}>
       <Header>
-        <Title>Filtry</Title>
-        <Icon onClick={() => dispatch(closeMobileFilters())}>
+        <Title>
+          <div>Filtry</div>
+        </Title>
+        <Icon
+          onClick={() => {
+            dispatch(closeMobileFilters());
+            dispatch(displayCommunicatorIcon());
+          }}
+        >
           <Close />
         </Icon>
       </Header>
+      <InputRange
+        filterType={filterTypes.price}
+        currentFilter={currentFilters.price}
+        mobile
+      />
       <List
         name="Kategoria"
         elements={filters.categories}
@@ -160,34 +180,41 @@ const MobileFilters = ({ className }) => {
         mobile
         large
       />
-      <GridList
-        name="Rozmiar"
-        elements={filters.shoesSizes}
-        filterType={filterTypes.shoesSize}
-        currentFilter={currentFilters.shoesSize}
-        mobile
-        medium
-      />
-      <GridList
-        name="Rozmiar"
-        elements={filters.clothesSizes}
-        filterType={filterTypes.clotheSize}
-        currentFilter={currentFilters.clotheSize}
-        mobile
-        medium
-      />
-      <GridList
-        name="Fit"
-        elements={filters.fits}
-        filterType={filterTypes.fit}
-        currentFilter={currentFilters.fit}
-        mobile
-        large
-      />
+      {SNEAKERS_CATEGORIES.includes(currentFilters.category) ? (
+        <GridList
+          name="Rozmiar"
+          elements={filters.shoesSizes}
+          filterType={filterTypes.shoesSize}
+          currentFilter={currentFilters.shoesSize}
+          mobile
+          medium
+        />
+      ) : FIT_CATEGORIES.includes(currentFilters.category) ? (
+        <GridList
+          name="Rozmiar"
+          elements={filters.clothesSizes}
+          filterType={filterTypes.clotheSize}
+          currentFilter={currentFilters.clotheSize}
+          mobile
+          medium
+        />
+      ) : (
+        <></>
+      )}
+      {FIT_CATEGORIES.includes(currentFilters.category) && (
+        <GridList
+          name="Fit"
+          elements={filters.fits}
+          filterType={filterTypes.fit}
+          currentFilter={currentFilters.fit}
+          mobile
+          large
+        />
+      )}
       <ColorwayGrid
         colors={filters.colorways}
-        filterType={filterTypes.colorways}
-        currentFilter={currentFilters.colorways}
+        filterType={filterTypes.colorway}
+        currentFilter={currentFilters.colorway}
         mobile
         borderNone
       />
@@ -199,9 +226,16 @@ const MobileFilters = ({ className }) => {
           }}
           clear
         >
-          RESET
+          Reset
         </Button>
-        <Button>ZATWIERDŹ</Button>
+        <Button
+          onClick={() => {
+            dispatch(closeMobileFilters());
+            dispatch(displayCommunicatorIcon());
+          }}
+        >
+          Zatwierdź
+        </Button>
       </Container>
     </Wrapper>
   );

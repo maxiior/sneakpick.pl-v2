@@ -2,6 +2,7 @@ import Itmes from "components/WTB/Items";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import ItemsLoadingScreen from "./ItemsLoadingScreen";
 
 const StyledRightPanel = styled.div`
   display: block;
@@ -23,15 +24,15 @@ const StyledPagesList = styled.div`
 `;
 
 const RightPanel = () => {
-  const { pagination } = useSelector(
+  const { limit } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
-  const { results } = useSelector((state) => state.itemsSlice.results);
+  const { results, pending, items } = useSelector((state) => state.itemsSlice);
 
   return (
     <StyledRightPanel>
-      <Itmes />
-      {Math.ceil(results / pagination) > 1 && (
+      {pending ? <ItemsLoadingScreen /> : <Itmes />}
+      {Math.ceil(results / limit) > 1 && items.length > 0 && (
         <StyledPagesList>
           <PagesList />
         </StyledPagesList>

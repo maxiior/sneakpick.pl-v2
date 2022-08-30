@@ -14,7 +14,7 @@ const Input = styled.textarea`
   border-radius: 5px;
   padding: 8px 12px;
   outline: none;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   overflow-wrap: break-word;
   overflow: hidden;
@@ -28,7 +28,7 @@ const Button = styled.div<{ cancel?: boolean }>`
   background-color: ${({ theme, cancel }) =>
     cancel ? theme.white : theme.blue};
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   user-select: none;
   text-align: center;

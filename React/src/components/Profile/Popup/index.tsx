@@ -80,7 +80,7 @@ const List = styled.div`
 `;
 
 const Information = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   text-align: center;
   padding: 15px 0px;
 `;

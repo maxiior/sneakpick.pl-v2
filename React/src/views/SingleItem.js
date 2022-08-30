@@ -56,7 +56,7 @@ const Option = styled.div`
   user-select: none;
   cursor: pointer;
   margin-right: 10px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
     opacity: 0.9;

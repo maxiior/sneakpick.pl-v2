@@ -34,9 +34,10 @@ const Items = () => {
           />
         ))}
       </Grid>
-      {results === 0 && (
-        <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
-      )}
+      {results === 0 ||
+        (items.length === 0 && (
+          <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
+        ))}
     </Wrapper>
   );
 };

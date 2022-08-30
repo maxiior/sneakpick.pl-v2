@@ -45,7 +45,7 @@ const Photo = styled.label`
 
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Icon = styled(FiCamera)`

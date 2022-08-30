@@ -11,7 +11,7 @@ const Label = styled.label`
   position: relative;
   padding-left: 25px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

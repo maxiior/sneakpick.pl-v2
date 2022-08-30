@@ -7,6 +7,7 @@ import { mapKindToAppValue } from "functions/mapKindToAppValue";
 import { fetchItems } from "store/items/actions";
 import { useHistory } from "react-router-dom";
 import { routes } from "routes";
+import { changeSelector } from "store/selectors/actions";
 
 export const useLinkProperties = () => {
   const dispatch = useAppDispatch();
@@ -20,11 +21,18 @@ export const useLinkProperties = () => {
     const properties = decodeURI(window.location.search.replace("?", ""));
     const splittedProperties = properties.split("&");
 
-    var arr: any = [];
+    var filters: any = [];
+    var selectors: any = [];
+    var limit = "";
 
     try {
       splittedProperties.forEach((e) => {
-        const prop: string[] = e.replace("__in", "").split("=");
+        const prop: string[] = e
+          .replace("__in", "")
+          .replace("__lte", "")
+          .split("=");
+
+        if (prop[0] === "limit") limit = prop[1];
 
         let values: string[] = prop[1].split(",");
         let query: string = "";
@@ -35,23 +43,48 @@ export const useLinkProperties = () => {
         });
 
         if (
-          !["limit", "offset", "ordering"].includes(prop[0]) &&
+          !["limit", "page", "ordering"].includes(prop[0]) &&
           filterTypes[prop[0]]
         ) {
-          arr.push({
+          filters.push({
             filterType: filterTypes[prop[0]].name,
             id: query,
             input: filterTypes[prop[0]].input,
           });
+        } else if (["limit", "ordering", "page"].includes(prop[0]) && prop[1]) {
+          selectors.push({
+            selectorType: prop[0],
+            value: prop[1],
+          });
         }
       });
 
-      dispatch(changeState(arr));
-      const search = window.location.search
-        .toLowerCase()
-        .replace("shoessize", "size")
-        .replace("clothesize", "size");
-      dispatch(fetchItems(search));
+      let search = "?";
+
+      splittedProperties.forEach((e, i) => {
+        const prop: string[] = e.split("=");
+
+        if (prop[0] === "page")
+          search +=
+            "offset=" + ((parseInt(prop[1]) - 1) * parseInt(limit)).toString();
+        else {
+          search += prop[0] + "=" + prop[1];
+        }
+
+        if (i !== splittedProperties.length - 1) search += "&";
+      });
+
+      dispatch(changeState(filters));
+      dispatch(changeSelector(selectors));
+
+      dispatch(
+        fetchItems(
+          search
+            .toLowerCase()
+            .replace("shoessize", "size")
+            .replace("clothesize", "size")
+        )
+      );
     } catch (e) {
       history.push({
         pathname: "",

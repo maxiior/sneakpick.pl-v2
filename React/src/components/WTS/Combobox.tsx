@@ -57,7 +57,7 @@ const ModesContainer = styled.div<{ open: boolean }>`
 
   left: 0;
   top: 30px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   font-weight: 400;
   z-index: 500;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

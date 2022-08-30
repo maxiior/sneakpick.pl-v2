@@ -2,7 +2,6 @@ import colorful from "assets/other.png";
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
-import { useDispatch } from "react-redux";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
 import { useHistory } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
@@ -86,7 +85,7 @@ const ColorwayGrid = ({
                     history
                   )
                 }
-                checked={currentFilter.includes(c.text)}
+                checked={currentFilter && currentFilter.includes(c.text)}
               />
               <CW
                 // @ts-ignore

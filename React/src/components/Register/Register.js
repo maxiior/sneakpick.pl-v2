@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Register/Checkbox";
-import logo from "assets/logo_dark.png";
+import logo from "assets/logo.png";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -71,7 +71,7 @@ const Button = styled.button`
   border-radius: ${({ theme }) => theme._10px};
   border: 0;
   display: block;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
     opacity: 0.9;
@@ -83,8 +83,8 @@ const Button = styled.button`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
 `;
 
 const Holder = styled.div`

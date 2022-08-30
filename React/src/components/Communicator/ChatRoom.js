@@ -39,7 +39,7 @@ const LastMessage = styled.div`
 
 const Time = styled.div`
   color: ${({ theme }) => theme.blue};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   padding-left: 10px;
 `;
 

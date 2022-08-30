@@ -23,9 +23,12 @@ const StyledNav = styled.nav`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LogoHolder = styled(Link)`

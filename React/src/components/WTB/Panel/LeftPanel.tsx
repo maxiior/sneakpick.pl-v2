@@ -5,6 +5,7 @@ import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
 import { useAppSelector } from "hooks/useAppSelector";
 import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/categories";
+import InputRange from "components/WTB/InputRange";
 
 const StyledLeftPanel = styled.div`
   overflow-y: auto;
@@ -40,6 +41,10 @@ const LeftPanel: React.FC = () => {
 
   return (
     <StyledLeftPanel>
+      <InputRange
+        filterType={filterTypes.price}
+        currentFilter={currentFilters.price}
+      />
       <List
         name="Kategoria"
         elements={filters.categories}

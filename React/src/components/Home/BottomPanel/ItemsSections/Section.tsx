@@ -25,7 +25,7 @@ const Header = styled.div`
 `;
 
 const Button = styled(Link)`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   color: ${({ theme }) => theme.blue};
   text-decoration: none;
   margin-left: 10px;

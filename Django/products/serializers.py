@@ -62,6 +62,8 @@ class ProductSerializer(serializers.ModelSerializer):
     # def get_brand_name(self, obj):
     #     return obj.brand.name
 
+
+
     def create(self, validated_data):
         if 'owner' in validated_data:
             validated_data.pop('owner')

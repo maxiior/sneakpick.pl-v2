@@ -11,7 +11,7 @@ const DataHolder = styled.div``;
 const Form = styled.form``;
 
 const Paragraph = styled.p`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   margin: 20px 0 5px 0;
   color: ${({ theme }) => theme.darkGrey};
 `;

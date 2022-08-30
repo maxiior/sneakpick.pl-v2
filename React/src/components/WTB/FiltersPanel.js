@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { openMobileFilters } from "store/interface/actions";
 import { HiAdjustments } from "react-icons/hi";
+import { hideCommunicatorIcon } from "store/interface/actions";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,7 +33,12 @@ const FiltersPanel = ({ className }) => {
   return (
     <Wrapper className={className}>
       <Container>
-        <Header onClick={() => dispatch(openMobileFilters())} />
+        <Header
+          onClick={() => {
+            dispatch(openMobileFilters());
+            dispatch(hideCommunicatorIcon());
+          }}
+        />
       </Container>
     </Wrapper>
   );

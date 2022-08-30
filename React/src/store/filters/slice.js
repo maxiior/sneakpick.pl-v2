@@ -12,6 +12,7 @@ const initialState = {
     clotheSize: { name: "clotheSize", input: "checkbox" },
     fit: { name: "fit", input: "checkbox" },
     colorway: { name: "colorway", input: "checkbox" },
+    price: { name: "price", input: "range" },
   },
   filters: {
     categories: getCategoriesIndexed(),
@@ -120,6 +121,7 @@ const initialState = {
     shoesSize: [],
     fit: [],
     colorway: [],
+    price: -1,
   },
 };
 
@@ -149,6 +151,8 @@ export const filtersSlice = createSlice({
           } else {
             state.currentFilters[el.filterType] = el.id;
           }
+        } else if (el.input === "range") {
+          state.currentFilters[el.filterType] = el.id;
         }
       });
     });
@@ -161,6 +165,7 @@ export const filtersSlice = createSlice({
       state.currentFilters.shoesSize = [];
       state.currentFilters.fit = [];
       state.currentFilters.colorway = [];
+      state.currentFilters.price = -1;
     });
   },
 });

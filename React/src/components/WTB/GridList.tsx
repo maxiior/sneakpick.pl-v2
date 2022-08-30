@@ -31,7 +31,7 @@ const Value = styled.span<{
   display: flex;
   border: 1px solid ${({ theme }) => theme.grey};
   height: 30px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   color: ${({ theme }) => theme.grey};
   align-items: center;

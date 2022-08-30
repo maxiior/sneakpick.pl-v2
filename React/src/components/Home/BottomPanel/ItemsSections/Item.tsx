@@ -44,7 +44,7 @@ const View = styled.div`
 const State = styled.div`
   margin-left: 10px;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   position: absolute;
   background-color: ${({ theme }) => theme.veryDarkGrey};
   padding: 2px 8px;
@@ -82,7 +82,7 @@ const Informations = styled.div`
 
   h2 {
     margin: 0;
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font_size_MD};
     font-weight: 600;
     color: ${({ theme }) => theme.blue};
   }

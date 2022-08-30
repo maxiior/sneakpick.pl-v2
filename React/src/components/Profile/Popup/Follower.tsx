@@ -37,7 +37,7 @@ const Informations = styled(Link)`
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.veryDarkGrey};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Button = styled.div<{ followed?: boolean }>`
@@ -45,7 +45,7 @@ const Button = styled.div<{ followed?: boolean }>`
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.blue};
   padding: 0px 20px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   user-select: none;
   display: flex;

@@ -3,9 +3,9 @@ import { changeSelector } from "store/selectors/actions";
 
 const initialState = {
   currentSelectors: {
-    sorting: 0,
-    pagination: 24,
     page: 1,
+    limit: 24,
+    ordering: 0,
   },
 };
 
@@ -15,7 +15,9 @@ export const selectorsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(changeSelector.fulfilled, (state, action) => {
-      state.currentSelectors[action.payload.type] = action.payload.value;
+      action.payload.forEach((element) => {
+        state.currentSelectors[element.selectorType] = parseInt(element.value);
+      });
     });
   },
 });

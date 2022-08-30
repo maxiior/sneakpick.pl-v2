@@ -104,7 +104,7 @@ const Button = styled(Link)`
   margin-bottom: 10px;
   border-radius: ${({ theme }) => theme.radious_SM};
   text-decoration: none;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
     opacity: 0.9;

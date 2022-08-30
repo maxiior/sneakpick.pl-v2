@@ -17,11 +17,11 @@ export enum routes {
   ACCOUNT_SETTINGS = "/settings/account",
   PASSWORD_CHANGE = "/settings/account/password",
   EMAIL_CHANGE = "/settings/account/email",
-  DEFAULT_SEARCH = "?limit=24&offset=0&ordering=1",
+  DEFAULT_SEARCH = "?limit=24&page=1&ordering=0",
   CATEGORY = "category=",
   BRAND = "brand__in=",
-  POPULAR = "?limit=24&offset=0&ordering=1",
-  NEWEST = "?limit=24&offset=0&ordering=5",
+  POPULAR = "?limit=24&page=1&ordering=3",
+  NEWEST = "?limit=24&page=1&ordering=4",
   FORGOTTEN_PASSWORD = "/password",
   USER_PROFILE_COMMENTS = "/profile/:user/comments",
   USER_PROFILE_PRODUCTS = "/profile/:user/products",
@@ -29,8 +29,8 @@ export enum routes {
   ORDER = "/products/:item/order",
   CALLOUT = "/products/:item/callout",
   STATUTE = "/statute",
-  CATEGORY_PATH = "/wtb?category={category}&limit=24&offset=0&ordering=1",
-  BRAND_PATH = "/wtb?brand={brand}&limit=24&offset=0&ordering=1",
+  CATEGORY_PATH = "/wtb?category={category}&limit=24&page=1&ordering=1",
+  BRAND_PATH = "/wtb?brand={brand}&limit=24&page=1&ordering=1",
 }
 
 export enum endpoints {

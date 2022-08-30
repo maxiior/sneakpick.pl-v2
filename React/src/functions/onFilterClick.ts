@@ -14,7 +14,10 @@ export const onFilterClick = (
   const dict: { [key: string]: string } = {};
 
   splittedProperties.forEach((e) => {
-    const prop: string[] = e.replace("__in", "").split("=");
+    const prop: string[] = e
+      .replace("__in", "")
+      .replace("__lte", "")
+      .split("=");
     dict[prop[0]] = prop[1];
   });
 
@@ -45,20 +48,30 @@ export const onFilterClick = (
         else dict[filterType] = query;
       }
       break;
+
+    case "range":
+      dict[filterType] = value;
+      break;
   }
 
   let search: string = "?";
 
   if (dict["category"]) {
-    if (dict["category"] === "Sneakersy") delete dict["clotheSize"];
-    else delete dict["shoesSize"];
+    if (dict["category"] === "Sneakersy") {
+      delete dict["clotheSize"];
+      delete dict["fit"];
+    } else delete dict["shoesSize"];
   }
 
   Object.entries(dict).forEach((e, i) => {
-    if (!["category", "limit", "offset", "ordering"].includes(e[0])) {
+    if (!["category", "limit", "ordering", "price", "page"].includes(e[0])) {
       if (i === Object.entries(dict).length - 1)
         search += e[0] + "__in=" + e[1];
       else search += e[0] + "__in=" + e[1] + "&";
+    } else if (e[0] === "price") {
+      if (i === Object.entries(dict).length - 1)
+        search += e[0] + "__lte=" + e[1];
+      else search += e[0] + "__lte=" + e[1] + "&";
     } else {
       if (i === Object.entries(dict).length - 1) search += e[0] + "=" + e[1];
       else search += e[0] + "=" + e[1] + "&";

@@ -5,7 +5,7 @@ import { onFilterClick } from "functions/onFilterClick";
 const StyledElement = styled.div`
   margin: 2px 0;
   display: block;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Checkbox = styled.div`

@@ -11,6 +11,7 @@ export enum theme {
   hoverBlue = "#4dc9ff",
   red = "#F2324D",
   radious_SM = "5px",
+  font_size_MD = "14px",
   _5px = "5px",
   _10px = "10px",
   green = "#7CD321",

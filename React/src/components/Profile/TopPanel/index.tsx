@@ -77,7 +77,7 @@ const Button = styled.div<{ followed?: boolean }>`
   background-color: ${({ theme, followed }) =>
     followed ? theme.grey : theme.blue};
   color: ${({ theme }) => theme.white};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   cursor: pointer;
   padding: 10px 0px;
@@ -149,7 +149,7 @@ const Edit = styled(Link)`
   background-color: ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.darkGrey};
   border: 1px solid ${({ theme }) => theme.darkGrey};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   cursor: pointer;
   padding: 10px 30px;
@@ -170,7 +170,7 @@ const Adnotation = styled(Link)`
   background-color: ${({ theme }) => theme.blue};
   padding: 4px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   display: flex;
   justify-content: center;

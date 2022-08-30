@@ -1,24 +1,16 @@
 import { VscChevronLeft } from "react-icons/vsc";
 import styled, { css } from "styled-components";
-import { changeSelector } from "store/selectors/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { onFilterClick } from "functions/onFilterClick";
+import { useHistory } from "react-router-dom";
 
 const Arrow = styled(VscChevronLeft)`
   font-size: 20px;
   color: ${({ theme }) => theme.blue};
   cursor: pointer;
 
-  ${({ right }) =>
-    right &&
-    css`
-      transform: rotate(180deg);
-    `}
-
-  ${({ blocked }) =>
-    blocked &&
-    css`
-      color: ${({ theme }) => theme.darkGrey} !important;
-    `}
+  transform: ${({ right }) => right && "rotate(180deg)"};
+  color: ${({ theme, blocked }) => blocked && theme.darkGrey} !important;
 `;
 
 const StyledPagesList = styled.div`
@@ -64,15 +56,15 @@ const Dots = styled.div`
 `;
 
 const PagesList = ({ className }) => {
-  const { page, pagination } = useSelector(
+  const { page, limit } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
-  const { results } = useSelector((state) => state.itemsSlice.results);
-  const number = Math.ceil(results / pagination);
-  const dispatch = useDispatch();
+  const { results } = useSelector((state) => state.itemsSlice);
+  const number = Math.ceil(results / limit);
+  const history = useHistory();
 
   const changePage = (i) => {
-    dispatch(changeSelector({ type: "page", value: i }));
+    onFilterClick("page", i, "radio", history);
   };
 
   return (

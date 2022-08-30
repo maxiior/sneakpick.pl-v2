@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 const Option = styled.div`
   padding: 10px 15px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   border-right: 3px solid ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.veryDarkGrey};
 

@@ -63,7 +63,7 @@ const Options = styled.div`
 `;
 
 const Option = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   color: ${({ theme }) => theme.veryDarkGrey};
   width: 100px;

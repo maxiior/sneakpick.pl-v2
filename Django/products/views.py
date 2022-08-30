@@ -61,11 +61,11 @@ class ProductFilter(django_filters.FilterSet):
     order_by_field = 'ordering'
     ordering = OrderingFilter(
         fields=(
-            ('-bumps', '1'),
-            ('price', '2'),
-            ('-price', '3'),
-            ('id', '4'),
-            ('-published', '5'),
+            ('-bumps', '0'),
+            ('price', '1'),
+            ('-price', '2'),
+            ('id', '3'),
+            ('-published', '4'),
         )
     )
     
@@ -77,7 +77,7 @@ class ProductFilter(django_filters.FilterSet):
             'name': ["exact"],
             'category': ["in", "exact"],
             'owner': ["exact"],
-            'price': ["exact"],
+            'price': ["lte"],
             'brand': ["in", "exact"],
             'fit': ["in", "exact"],
             'colorway': ["in", "exact"],
@@ -96,6 +96,19 @@ class ProductViewSet(viewsets.ModelViewSet):
     parser_classes = [MultipartJsonParser, parsers.JSONParser]
     search_fields = ['name']
     filter_class = ProductFilter
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+
+        data = {
+            'results': serializer.data,
+            'count': len(queryset),
+            'max_price': Product.objects.order_by('-price')[0].price
+        }
+
+        return Response(data)
 
 
 @api_view(['POST'])

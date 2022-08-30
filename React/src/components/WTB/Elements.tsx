@@ -6,7 +6,7 @@ const Elements = styled.div<{ borderNone?: boolean; mobile: boolean }>`
   box-sizing: border-box;
   border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
   display: ${({ mobile }) => mobile && "flex"};
-  justify-content: ${({ mobile }) => mobile && "flex"};
+  justify-content: ${({ mobile }) => mobile && "center"};
   border: ${({ borderNone }) => borderNone && "none"};
 `;
 

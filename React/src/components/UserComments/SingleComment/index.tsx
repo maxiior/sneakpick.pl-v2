@@ -65,7 +65,7 @@ const Informations = styled.div`
 
 const Content = styled.div`
   margin-top: 10px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Button = styled.div<{ remove?: boolean }>`
@@ -74,7 +74,7 @@ const Button = styled.div<{ remove?: boolean }>`
   background-color: ${({ theme, remove }) =>
     remove ? theme.grey : theme.blue};
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   user-select: none;
   :hover {
