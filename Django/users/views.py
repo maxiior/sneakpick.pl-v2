@@ -20,7 +20,7 @@ from core.APIViewExtension import GenericAPIViewFilter
 from products.models import Product
 from products.serializers import ProductSerializer, ProductIdSerializer
 from rest_framework.pagination import LimitOffsetPagination
-from products.pagination import Pagination
+from core.pagination import Pagination
 from .api.following_api import FollowingAPI
 from .api.followers_api import FollowersAPI
 from .api.product_watch_list_api import ProductWatchlistAPI

@@ -16,7 +16,7 @@ const Header = styled.header`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: ${({ theme }) => theme.blue};
+  color: ${({ theme }) => theme.white};
   font-size: 70px;
   user-select: none;
   font-weight: 500;

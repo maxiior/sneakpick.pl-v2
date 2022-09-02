@@ -36,4 +36,5 @@ urlpatterns = [
     path('api/chat/', include('chat.urls', namespace='chat')),
     path('api/checkout/', include('checkout.urls', namespace='checkout')),
     path('api/support/', include('support.urls', namespace='support')),
+    path('api/steal/', include('steal.urls', namespace='steal')),
 ]

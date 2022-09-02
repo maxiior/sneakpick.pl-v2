@@ -15,7 +15,7 @@ from products.models import Product, Delivery
 from users.models import Address, User
 import base64, requests, json 
 import time
-from products.pagination import Pagination
+from core.pagination import Pagination
 from drf_yasg.utils import swagger_auto_schema
 
 

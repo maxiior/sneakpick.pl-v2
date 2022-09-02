@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from users.serializers import ProfileCommentSerializer
 from users.models import ProfileComment, User
 from drf_yasg.utils import swagger_auto_schema
-from products.pagination import Pagination
+from core.pagination import Pagination
 
 class ProfileCommentsAPI(APIView, Pagination):
     @swagger_auto_schema(responses={200: ProfileCommentSerializer(many=True)}, paginator=Pagination())

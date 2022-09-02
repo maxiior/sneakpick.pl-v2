@@ -3,7 +3,7 @@ from ..serializers import CustomUserSerializer
 from users.models import Follower, User
 from drf_yasg.utils import swagger_auto_schema
 from core.APIViewExtension import GenericAPIViewFilter
-from products.pagination import Pagination
+from core.pagination import Pagination
 
 
 class FollowingAPI(APIView, Pagination):

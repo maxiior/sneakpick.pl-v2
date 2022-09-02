@@ -38,6 +38,7 @@ export enum endpoints {
   HOST = "http://127.0.0.1:8000/api/",
   MAIN = "",
   IMAGES = "/static/product/images/",
+  STORES_IMAGES = "/static/store/images/",
   LOGIN = "users/login/",
   BLACKLIST = "users/logout/blacklist/",
   REGISTER = "users/register/",
@@ -65,4 +66,6 @@ export enum endpoints {
   GET_USER_COMMENTS = "/users/{id}/profile-comments/",
   POST_USER_COMMENTS = "/users/{id}/profile-comments/",
   DELETE_USER_COMMENTS = "/users/me/profile-comments/{comment_id}/",
+
+  GET_STEALS = "/steal/?limit=24&offset={0}",
 }

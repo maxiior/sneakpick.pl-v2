@@ -7,6 +7,7 @@ import selectorsSlice from "store/selectors/slice";
 import itemsSlice from "store/items/slice";
 import creatorSlice from "store/creator/slice";
 import followedSlice from "store/followed/slice";
+import stealSlice from "store/steal/slice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     itemsSlice,
     creatorSlice,
     followedSlice,
+    stealSlice,
   },
 });
 
