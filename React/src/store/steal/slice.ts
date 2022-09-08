@@ -5,7 +5,7 @@ const initialState: any = {
   steals: { today: [], later: [] },
   today_count: 0,
   later_count: 0,
-  pending: true,
+  init_pending: true,
   reloading_pending: false,
   limit: 24,
   offset: 0,
@@ -25,7 +25,7 @@ export const stealSlice = createSlice({
         };
         state.today_count += action.payload.today_count;
         state.later_count += action.payload.later_count;
-        state.pending = false;
+        state.init_pending = false;
         state.reloading_pending = false;
 
         if (

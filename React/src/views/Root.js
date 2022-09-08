@@ -27,6 +27,9 @@ import BusinessContact from "views/BusinessContact";
 import PasswordChange from "views/AccountSettings/PasswordChange";
 import EmailChange from "views/AccountSettings/EmailChange";
 import UserComments from "views/UserComments";
+import AccountActivation from "views/AccountActivation";
+import PasswordResetting from "views/PasswordResetting";
+import NewPassword from "views/NewPassword";
 
 const App = () => {
   useRefreshToken();
@@ -50,6 +53,15 @@ const App = () => {
               <Route path={routes.WTT} component={WTT} />
               <Route path={routes.TALK} component={Talk} />
               <Route path={routes.FAQ} component={FAQ} />
+              <Route
+                path={routes.PASSWORD_RESETTING}
+                component={PasswordResetting}
+              />
+              <Route path={routes.NEW_PASSWORD} component={NewPassword} />
+              <Route
+                path={routes.ACCOUNT_ACTIVATION}
+                component={AccountActivation}
+              />
               <Route
                 path={routes.BUSINESSCONTACT}
                 component={BusinessContact}

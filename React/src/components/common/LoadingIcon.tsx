@@ -42,9 +42,9 @@ const Block = styled.div`
   }
 `;
 
-const LoadingIcon = () => {
+const LoadingIcon = ({ className }: { className?: any }) => {
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Block></Block>
       <Block></Block>
       <Block></Block>

@@ -28,9 +28,12 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const turnOnPending = createAction("profile/turnOnPending");
+
 export const fetchComments = createAsyncThunk<any, string>(
   "profile/fetchComments",
-  async (data) => {
+  async (data, { dispatch }) => {
+    dispatch(turnOnPending());
     const result = await profile.fetchComments(data);
     return { comments: result.results.reverse(), comments_count: result.count };
   }

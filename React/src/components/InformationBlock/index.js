@@ -39,6 +39,8 @@ const Header = styled.div``;
 const Content = styled.div`
   font-size: 12px;
   margin-top: 3px;
+  text-align: justify;
+  text-justify: inter-word;
 `;
 
 const Close = styled(IoMdClose)`

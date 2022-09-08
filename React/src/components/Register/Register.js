@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setInformationBlock } from "store/interface/actions";
 import { information_types } from "constants/informations";
 import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
+import LoadingIcon from "components/common/LoadingIcon";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -124,6 +125,11 @@ const Error = styled.div`
   font-weight: 500;
 `;
 
+const LoadingIconHolder = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const Register = () => {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
@@ -170,14 +176,17 @@ const Register = () => {
     email: false,
     password: false,
   });
+  const [pending, setPending] = useState(false);
 
   const registerProcess = (data) => {
+    setPending(true);
     register(data)
       .then((response) => {
         if (response.status === 201) {
           dispatch(closeRegisterView());
           dispatch(displayCommunicatorIcon());
           dispatch(setInformationBlock(information_types.account_created));
+          setPending(false);
         }
       })
       .catch((error) => {
@@ -186,6 +195,7 @@ const Register = () => {
           problemsObj[err] = true;
         });
         setProblems(problemsObj);
+        setPending(false);
       });
   };
 
@@ -315,8 +325,16 @@ const Register = () => {
             name="statute"
           />
           {errors.statute && <Error statute>{errors.statute.message}</Error>}
-          <Button type="submit">SIGN UP</Button>
-          <Button facebook>LOGIN WITH FACEBOOK</Button>
+          {pending ? (
+            <LoadingIconHolder>
+              <LoadingIcon />
+            </LoadingIconHolder>
+          ) : (
+            <>
+              <Button type="submit">SIGN UP</Button>
+              <Button facebook>LOGIN WITH FACEBOOK</Button>
+            </>
+          )}
         </Form>
       </FormProvider>
     </Wrapper>

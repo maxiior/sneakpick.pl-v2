@@ -10,6 +10,7 @@ import {
   addComment,
   removeComment,
   removeAnswear,
+  turnOnPending,
 } from "store/profile/actions";
 
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
     followers_details: [],
     is_followed: false,
   },
+  pending: true,
 };
 
 export const profileSlice = createSlice({
@@ -70,6 +72,7 @@ export const profileSlice = createSlice({
     builder.addCase(fetchComments.fulfilled, (state, action) => {
       state.comments = action.payload.comments;
       state.comments_count = action.payload.comments_count;
+      state.pending = false;
     });
     builder.addCase(addComment.fulfilled, (state, action) => {
       if ("comment" in action.payload) {
@@ -91,6 +94,9 @@ export const profileSlice = createSlice({
       state.comments.map((e) =>
         e.id === action.payload ? (e.responses = []) : e
       );
+    });
+    builder.addCase(turnOnPending, (state) => {
+      state.pending = true;
     });
   },
 });

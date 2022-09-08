@@ -4,7 +4,7 @@ import SingleSteal from "./SingleSteal";
 import Grid from "@material-ui/core/Grid";
 import { useAppSelector } from "hooks/useAppSelector";
 import StealsLoadingScreen from "./StealsLoadingScreen";
-import LoadingIcon from "./LoadingIcon";
+import LoadingIcon from "../common/LoadingIcon";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -29,13 +29,12 @@ const Holder = styled.div`
 `;
 
 const BottomPanel = () => {
-  const { steals, today_count, pending, reloading_pending } = useAppSelector(
-    (state) => state.stealSlice
-  );
+  const { steals, today_count, init_pending, reloading_pending } =
+    useAppSelector((state) => state.stealSlice);
 
   return (
     <Wrapper>
-      {pending ? (
+      {init_pending ? (
         <StealsLoadingScreen />
       ) : (
         <>

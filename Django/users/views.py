@@ -1,3 +1,6 @@
+from base64 import urlsafe_b64decode
+import email
+from re import sub
 from django.http.response import HttpResponseRedirect
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, viewsets, generics
@@ -25,7 +28,76 @@ from .api.following_api import FollowingAPI
 from .api.followers_api import FollowersAPI
 from .api.product_watch_list_api import ProductWatchlistAPI
 from .api.profile_comments_api import ProfileCommentsAPI
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_text
+from .utils import generate_activation_token, password_reset_token
+from django.core.mail import EmailMessage
+from django.conf import settings
 
+@api_view(['POST'])
+def send_password_resetting_message(request):
+    try:
+        email = request.data['email']
+
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+
+            email_subject = "Resetowanie hasła konta Sneakpick"
+            email_body = render_to_string('password_resetting/index.html', {
+                'user': user,
+                'domain': settings.FRONTEND_APP_ADDRESS,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': password_reset_token.make_token(user)
+            })
+
+            email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[email])
+            email.content_subtype='html'
+            email.send()
+        return Response(status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+@api_view(['PUT'])
+def set_new_password(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except:
+        user=None
+    
+    if user and password_reset_token.check_token(user, token):
+        user.set_password(request.data['password'])
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
+
+def send_activation_email(user, request):
+    email_subject = "Aktywuj Twoje konto Sneakpick"
+    email_body = render_to_string('authentication/index.html', {
+        'user': user,
+        'domain': settings.FRONTEND_APP_ADDRESS,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': generate_activation_token.make_token(user)
+    })
+
+    email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
+    email.content_subtype='html'
+    email.send()
+
+@api_view(['POST'])
+def activate_user(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except Exception as e:
+        user=None
+
+    if user and generate_activation_token.check_token(user,token):
+        user.is_active = True
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
 
 class UserDetail(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -52,6 +124,7 @@ class UserCreate(APIView):
             user = serializer.save()
             if user:
                 json = serializer.data
+                send_activation_email(user, request)
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -136,39 +209,42 @@ class Login(APIView):
         password = request.data.get('password')
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-            if(check_password(password, user.password)):
-                refresh = RefreshToken.for_user(user)
-                access_token = str(refresh.access_token)
-                details = {
-                    'id': user.id,
-                    'email': user.email,
-                    'access_token': str(refresh.access_token),
-                    'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
-                }
-                response = Response(details, status=status.HTTP_200_OK)
-                response.set_cookie('refresh_token',
-                                    str(refresh),
-                                    samesite='None',
-                                    # httponly=True,     # should be enabled in production environment
-                                    secure=True,       # should be enabled in production environment
-                                    max_age=int(
-                                        SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
-                                    path="/",
-                                    expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
-                response.set_cookie('access_token',
-                                    str(access_token),
-                                    # httponly=True,         # should be enabled in production environment
-                                    secure=True,           # should be enabled in production environment
-                                    samesite='None',
-                                    max_age=int(
-                                        SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
-                                    path="/",
-                                    expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
-                return response
+            if check_password(password, user.password):
+                if user.is_active:
+                    refresh = RefreshToken.for_user(user)
+                    access_token = str(refresh.access_token)
+                    details = {
+                        'id': user.id,
+                        'email': user.email,
+                        'access_token': str(refresh.access_token),
+                        'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                    }
+                    response = Response(details, status=status.HTTP_200_OK)
+                    response.set_cookie('refresh_token',
+                                        str(refresh),
+                                        samesite='None',
+                                        # httponly=True,     # should be enabled in production environment
+                                        secure=True,       # should be enabled in production environment
+                                        max_age=int(
+                                            SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
+                                        path="/",
+                                        expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                    response.set_cookie('access_token',
+                                        str(access_token),
+                                        # httponly=True,         # should be enabled in production environment
+                                        secure=True,           # should be enabled in production environment
+                                        samesite='None',
+                                        max_age=int(
+                                            SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                                        path="/",
+                                        expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
+                    return response
+                else:
+                    return Response({'Error': 'Account not active'}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'Error': 'Wrong password'}, status.HTTP_403_FORBIDDEN)
+                return Response({'Error': 'Wrong password'}, status=status.HTTP_403_FORBIDDEN)
         else:
-            return Response({'Error': 'Account not active or bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'Error': 'Account not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class Refresh(APIView):
@@ -235,3 +311,5 @@ class SingleAddressView(generics.RetrieveDestroyAPIView):
     def get_object(self, queryset=None, **kwargs):
         id = self.kwargs.get('pk')
         return generics.get_object_or_404(Address, id=id)
+
+

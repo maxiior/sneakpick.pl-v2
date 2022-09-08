@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Avatar = styled(Link)<{ photo?: string }>`
   height: 50px;
   width: 50px;
-  background-color: ${({ theme }) => theme.grey};
+  background-color: ${({ theme }) => theme.lightGrey};
   border-radius: 50%;
   cursor: pointer;
   background-image: url(${({ photo }) => photo});

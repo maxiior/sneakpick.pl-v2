@@ -10,7 +10,10 @@ export enum routes {
   FAQ = "/faq",
   SUPPORT = "/support",
   BUSINESSCONTACT = "/businesscontact",
+  ACCOUNT_ACTIVATION = "/activation/:uid/:token",
+  NEW_PASSWORD = "/new-password/:uid/:token",
   FOLLOWED = "/followed",
+  PASSWORD_RESETTING = "/password-resetting",
   ITEM = "/wtb/:item",
   PROFILE = "/profile/:user",
   PROFILE_SETTINGS = "/settings/profile",
@@ -22,7 +25,6 @@ export enum routes {
   BRAND = "brand__in=",
   POPULAR = "?limit=24&page=1&ordering=3",
   NEWEST = "?limit=24&page=1&ordering=4",
-  FORGOTTEN_PASSWORD = "/password",
   USER_PROFILE_COMMENTS = "/profile/:user/comments",
   USER_PROFILE_PRODUCTS = "/profile/:user/products",
   ORDERS = "/orders",
@@ -68,4 +70,10 @@ export enum endpoints {
   DELETE_USER_COMMENTS = "/users/me/profile-comments/{comment_id}/",
 
   GET_STEALS = "/steal/?limit=24&offset={0}",
+
+  ACCOUNT_ACTIVATION = "/users/activate-user/{uid}/{token}/",
+
+  PASSWORD_RESETTING_MESSAGE = "/users/password-resetting-message/",
+
+  SET_NEW_PASSWORD = "/users/new-password/{uid}/{token}/",
 }

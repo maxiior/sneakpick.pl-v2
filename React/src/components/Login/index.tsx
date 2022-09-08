@@ -142,20 +142,32 @@ const Login: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const wrapperRef = useRef(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   useDetectOutsideClick(wrapperRef, () => dispatch(closeLoginView()));
 
   const loginProcess: SubmitHandler<iLogin> = (data) => {
     dispatch(login(data))
+      .unwrap()
       .then((response: any) => {
-        if (response.payload.status === 200) {
+        if (response.status === 200) {
           dispatch(displayCommunicatorIcon());
           dispatch(closeLoginView());
           dispatch(fetchFollowedItems());
         }
       })
-      .catch(() => {
-        setError(true);
+      .catch((e) => {
+        const status: number = e.status;
+        switch (status) {
+          case 400:
+            setError(
+              "To konto nie zostało jeszcze aktywowane. Sprawdź swojego maila."
+            );
+            break;
+          case 403:
+          case 404:
+            setError("Wprowadzony adres email lub hasło są nieprawidłowe.");
+            break;
+        }
       });
   };
 
@@ -181,30 +193,28 @@ const Login: React.FC = () => {
         <Type>Email</Type>
         <StyledInput
           type="text"
-          error={!!errors.email || error}
+          error={!!errors.email || !!error}
           {...validate("email")}
           onChange={(e) => {
             email.onChange(e);
-            setError(false);
+            setError("");
           }}
         />
         {errors.email && <Error>{errors.email.message}</Error>}
         <Type>Hasło</Type>
         <StyledInput
           type="password"
-          error={!!errors.password || error}
+          error={!!errors.password || !!error}
           {...validate("password")}
           onChange={(e) => {
             password.onChange(e);
-            setError(false);
+            setError("");
           }}
         />
         {errors.password && <Error>{errors.password.message}</Error>}
-        {error && (
-          <Error>Wprowadzony adres email lub hasło są nieprawidłowe.</Error>
-        )}
+        {error && <Error>{error}</Error>}
         <PasswordForgotten
-          to={routes.FORGOTTEN_PASSWORD}
+          to={routes.PASSWORD_RESETTING}
           onClick={() => dispatch(closeLoginView())}
         >
           Zapomniałeś hasła?

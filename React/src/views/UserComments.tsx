@@ -8,6 +8,7 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 import { fetchComments } from "store/profile/actions";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import CommentsLoadingScreen from "components/UserComments/CommentsLoadingScreen";
 
 const Button = styled.div`
   user-select: none;
@@ -62,7 +63,7 @@ const UserComments: React.FC = () => {
   const dispatch = useAppDispatch();
   const ref: any = useRef(null);
 
-  const { comments_count, comments } = useAppSelector(
+  const { comments_count, comments, pending } = useAppSelector(
     (state) => state.profileSlice
   );
   const { user_id, isAuthenticated } = useAppSelector(
@@ -94,18 +95,24 @@ const UserComments: React.FC = () => {
         </>
       )}
       <Wrapper>
-        <NumberOfComments>
-          {comments_count}{" "}
-          {comments_count === 1
-            ? "komentarz"
-            : comments_count % 10 === (2 || 3 || 4)
-            ? "komentarze"
-            : "komentarzy"}
-        </NumberOfComments>
-        {comments_count > 0 ? (
-          comments.map((e) => <SingleComment data={e} user={user} />)
+        {pending ? (
+          <CommentsLoadingScreen />
         ) : (
-          <Blank>Ten użytkownik nie posiada żadnych komentarzy.</Blank>
+          <>
+            <NumberOfComments>
+              {comments_count}{" "}
+              {comments_count === 1
+                ? "komentarz"
+                : comments_count % 10 === (2 || 3 || 4)
+                ? "komentarze"
+                : "komentarzy"}
+            </NumberOfComments>
+            {comments_count > 0 ? (
+              comments.map((e) => <SingleComment data={e} user={user} />)
+            ) : (
+              <Blank>Ten użytkownik nie posiada żadnych komentarzy.</Blank>
+            )}
+          </>
         )}
       </Wrapper>
     </ProfileTemplate>

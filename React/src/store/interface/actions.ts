@@ -42,7 +42,7 @@ export const hideCommunicatorIcon = createAsyncThunk(
 
 export const setInformationBlock = createAsyncThunk(
   "interface/setInformationBlock",
-  async (data) => {
+  async (data: string) => {
     return data;
   }
 );

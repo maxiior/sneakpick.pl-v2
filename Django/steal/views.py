@@ -26,7 +26,7 @@ class StealViewSet(viewsets.ModelViewSet):
                 today_results.append(i)
             else:
                 later_results.append(i)
-
+        
         data = {
             'results': {
                 'today': today_results,
