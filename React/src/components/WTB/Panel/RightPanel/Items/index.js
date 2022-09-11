@@ -1,6 +1,6 @@
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
-import SingleItem from "components/WTB/SingleItem";
+import SingleItem from "components/WTB/common/SingleItem";
 import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
@@ -30,14 +30,14 @@ const Items = () => {
             name={item.name}
             price={item.price}
             state={item.condition}
+            for_trade={item.for_trade}
             id={item.id}
           />
         ))}
       </Grid>
-      {results === 0 ||
-        (items.length === 0 && (
-          <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
-        ))}
+      {(results === 0 || items.length === 0) && (
+        <Blank>Brak wyników wyszukiwania dla wprowadzonych danych.</Blank>
+      )}
     </Wrapper>
   );
 };

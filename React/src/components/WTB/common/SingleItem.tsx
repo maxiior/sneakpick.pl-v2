@@ -2,17 +2,37 @@ import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getPhoto } from "functions/getPhoto";
+import { RiArrowLeftRightLine } from "react-icons/ri";
 
 const State = styled.div`
-  margin-left: 10px;
-  margin-top: 10px;
-  font-size: ${({ theme }) => theme.font_size_MD};
-  position: absolute;
   background-color: ${({ theme }) => theme.veryDarkGrey};
-  padding: 2px 8px;
-  border-radius: 3px;
+  padding: 3px 8px;
+  border-radius: 5px;
   color: ${({ theme }) => theme.white};
   text-transform: uppercase;
+  font-size: ${({ theme }) => theme.font_size_MD};
+  margin-right: 3px;
+`;
+
+const TradeIconHolder = styled.div`
+  padding: 3px 8px;
+  border-radius: 5px;
+  background-color: #ffb81c;
+  display: flex;
+  align-items: center;
+`;
+
+const TradeIcon = styled(RiArrowLeftRightLine)`
+  color: ${({ theme }) => theme.white};
+`;
+
+const IconsHolder = styled.div`
+  margin-left: 10px;
+  margin-top: 10px;
+
+  position: absolute;
+  display: flex;
+  align-items: center;
 `;
 
 const Informations = styled.div`
@@ -72,7 +92,7 @@ const Photo = styled.div<{ image: string }>`
 
 const PhotoPlaceHolder = styled.div`
   background-color: ${({ theme }) => theme.lightGrey};
-  height: 253px;
+  padding-bottom: 75%;
   width: 100%;
 
   animation: loading 1s linear infinite alternate;
@@ -124,13 +144,20 @@ const Lane = styled.div`
   }
 `;
 
-const SingleItem = ({ name, price, state, photo, id }: any) => {
+const SingleItem = ({ name, price, state, photo, id, for_trade }: any) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
       <StyledLink to={id && `wtb/${id}`} unclickable={!id}>
         <Item>
           <View>
-            {state && <State>{state}</State>}
+            <IconsHolder>
+              {state && <State>{state}</State>}
+              {for_trade && (
+                <TradeIconHolder>
+                  <TradeIcon />
+                </TradeIconHolder>
+              )}
+            </IconsHolder>
             {photo ? (
               <Photo image={`url(${getPhoto(photo[0]?.file_name)})`} />
             ) : (

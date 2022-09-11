@@ -1,4 +1,4 @@
-import Itmes from "components/WTB/Items";
+import Itmes from "components/WTB/Panel/RightPanel/Items";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
 import { useSelector } from "react-redux";

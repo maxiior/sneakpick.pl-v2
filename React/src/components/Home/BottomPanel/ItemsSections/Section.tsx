@@ -31,14 +31,14 @@ const Button = styled(Link)`
   margin-left: 10px;
 `;
 
-const Section = ({ header, items, to }: iSection) => {
+const Section = ({ header, items, to, pending }: iSection) => {
   return (
     <Wrapper>
       <TopPanel>
         <Header>{header}</Header>
         <Button to={to}>Zobacz wszystkie</Button>
       </TopPanel>
-      <ItemsList items={items} />
+      <ItemsList items={items} pending={pending} />
     </Wrapper>
   );
 };

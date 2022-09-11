@@ -30,8 +30,8 @@ const Delivery = ({ defaultValue }) => {
     <Wrapper>
       <Header>Dostarczenie</Header>
       <div>
-        <StyledCheckbox type="SHIP" />
-        <StyledCheckbox type="MEET" />
+        <StyledCheckbox type="SHIP" name="SHIP" />
+        <StyledCheckbox type="MEET" name="MEET" />
       </div>
       {MEET && (
         <>

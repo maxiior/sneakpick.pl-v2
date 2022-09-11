@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
 const StyledElement = styled.div`
   margin: 2px 0;
@@ -58,7 +59,7 @@ const Element = ({ text, filterType, checked }) => {
           checked={checked.includes(text)}
         />
         <Checkbox />
-        <Type other={text === "Inne"}>{text}</Type>
+        <Type other={text === "inne"}>{firstLetterUppercase(text)}</Type>
       </StyledLabel>
     </StyledElement>
   );

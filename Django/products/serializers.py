@@ -4,6 +4,7 @@ from .models import Product, ProductImage, Delivery
 from users.serializers import CustomUserSerializer
 import uuid
 import os.path
+from users.models import Watchlist
 
 
 CATEGORY = ["sneakersy", "hoodie", "teesy", "koszule", "crewnecki", "longsleevy", "katany", "kurtki", "płaszcze",
@@ -46,6 +47,8 @@ class ProductSerializer(serializers.ModelSerializer):
         source='owner.first_name', required=False)
     last_name = serializers.CharField(
         source='owner.last_name', required=False)
+    
+    is_followed = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -53,7 +56,8 @@ class ProductSerializer(serializers.ModelSerializer):
                   'price', 'size', 'fit', 'kind',
                   'description', 'brand', 'category',
                   'colorway', 'total_bumps', 'published', 'images', 
-                  'is_bumped', 'first_name', 'last_name', 'owner', 'views', 'bought']
+                  'is_bumped', 'first_name', 'last_name', 'owner', 
+                  'views', 'bought', 'for_trade', 'is_followed']
         read_only_fields = ['owner', 'created_at', 'views']
 
     # def get_category_name(self, obj):
@@ -62,7 +66,13 @@ class ProductSerializer(serializers.ModelSerializer):
     # def get_brand_name(self, obj):
     #     return obj.brand.name
 
-
+    def get_is_followed(self, obj):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            item = Watchlist.objects.filter(user=request.user, product=obj)
+            if item.exists():
+                return True
+        return False
 
     def create(self, validated_data):
         if 'owner' in validated_data:

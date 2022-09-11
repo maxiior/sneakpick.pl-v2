@@ -20,6 +20,8 @@ import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
 import { ImageValidators } from "validators/ImageValidators";
 import { mapKindToServerValue } from "functions/mapKindToServerValue";
+import ForTradeInput from "components/WTS/ForTradeInput";
+import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/filters";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -99,6 +101,7 @@ const WTS = () => {
       price: currentFilters.price,
       ship: currentFilters.SHIP,
       meet: currentFilters.MEET,
+      for_trade: currentFilters.for_trade,
     };
 
     for (const [key, value] of Object.entries(data))
@@ -110,7 +113,7 @@ const WTS = () => {
       .post(endpoints.POST_ADD_ITEM, payload)
       .then((response) => {
         if (response.status === 201)
-          history.push({ pathname: routes.WTB + routes.DEFAULT_SEARCH });
+          history.push(routes.WTB + routes.DEFAULT_SEARCH);
       })
       .catch(() => {});
   };
@@ -196,6 +199,7 @@ const WTS = () => {
               placeholder="Opis"
               filterType="description"
             />
+            <ForTradeInput />
             <GridList
               title="Rodzaj"
               name="type"
@@ -210,7 +214,7 @@ const WTS = () => {
               filterType={filterTypes.conditions}
               small
             />
-            {currentFilters.categories === "Sneakersy" && (
+            {SNEAKERS_CATEGORIES.includes(currentFilters.categories) && (
               <GridList
                 title="Rozmiar"
                 name="shoeSize"
@@ -220,31 +224,31 @@ const WTS = () => {
                 small
               />
             )}
-            {currentFilters.categories !== "Sneakersy" &&
-              currentFilters.categories !== "placeholder" && (
-                <>
-                  <GridList
-                    title="Rozmiar"
-                    name="clotheSize"
-                    elements={filters.clothesSizes}
-                    filterType={filterTypes.clothesSizes}
-                    currentFilter={currentFilters.clothesSizes}
-                    small
-                  />
-                  <GridList
-                    title="Fit"
-                    name="fit"
-                    elements={filters.fits}
-                    filterType={filterTypes.fits}
-                    currentFilter={currentFilters.fits}
-                    medium
-                  />
-                </>
-              )}
+            {FIT_CATEGORIES.includes(currentFilters.categories) && (
+              <>
+                <GridList
+                  title="Rozmiar"
+                  name="clotheSize"
+                  elements={filters.clothesSizes}
+                  filterType={filterTypes.clothesSizes}
+                  currentFilter={currentFilters.clothesSizes}
+                  small
+                />
+                <GridList
+                  title="Fit"
+                  name="fit"
+                  elements={filters.fits}
+                  filterType={filterTypes.fits}
+                  currentFilter={currentFilters.fits}
+                  medium
+                />
+              </>
+            )}
             <ColorwayGrid
               colors={filters.colorways}
               filterType={filterTypes.colorways}
             />
+
             <Feature
               title="Cena"
               placeholder="0,00 PLN"

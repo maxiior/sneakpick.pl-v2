@@ -98,7 +98,7 @@ const FollowedItem = ({ data }: { data: iFollowed }) => {
           <Informations>
             <Name>{maxLength(data.name)}</Name>
             <Parameter>Rozmiar: {data.size}</Parameter>
-            <Parameter>Stan: {data.condition}</Parameter>
+            <Parameter>Stan: {data.condition.toUpperCase()}</Parameter>
           </Informations>
           <Price>{data.price}PLN</Price>
         </Holder>

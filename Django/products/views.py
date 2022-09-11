@@ -19,6 +19,8 @@ import json
 from django.shortcuts import redirect
 from django_filters.filters import OrderingFilter
 import django_filters
+from django.db.models import Count
+
 
 
 
@@ -59,9 +61,10 @@ class MultipartJsonParser(parsers.MultiPartParser):
 
 class ProductFilter(django_filters.FilterSet):
     order_by_field = 'ordering'
+    
     ordering = OrderingFilter(
         fields=(
-            ('-bumps', '0'),
+            ('-bumps_count', '0'),
             ('price', '1'),
             ('-price', '2'),
             ('id', '3'),
@@ -87,7 +90,7 @@ class ProductFilter(django_filters.FilterSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.filter(bought=False).all()
+    queryset = Product.objects.annotate(bumps_count=Count('bumps')).all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = Pagination

@@ -2,6 +2,7 @@ import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import Item from "components/Home/BottomPanel/ItemsSections/Item";
 import { iItem } from "types/item";
+import ItemsLoadingScreen from "components/Home/BottomPanel/ItemsSections/ItemsLoadingScreen";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,19 +28,31 @@ const Container = styled.div`
   max-width: calc(100% - 8px);
   padding-bottom: 10px;
 
-  @media only screen and (max-width: 589px) {
+  /* @media only screen and (max-width: 589px) {
     min-width: 980px;
-  }
+  } */
 `;
 
-const ItemsList = ({ items }: { items: iItem[] }) => {
+const ItemsList = ({
+  items,
+  pending,
+}: {
+  items: iItem[];
+  pending: boolean;
+}) => {
   return (
     <Wrapper>
       <Container>
         <Grid container spacing={2}>
-          {items.map((e) => (
-            <Item key={e.id} data={e} />
-          ))}
+          {pending ? (
+            <ItemsLoadingScreen />
+          ) : (
+            <>
+              {items.map((e) => (
+                <Item key={e.id} data={e} />
+              ))}
+            </>
+          )}
         </Grid>
       </Container>
     </Wrapper>

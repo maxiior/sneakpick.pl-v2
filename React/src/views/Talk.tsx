@@ -1,7 +1,7 @@
 import React from "react";
 
 const Talk = () => {
-  return <div></div>;
+  return <div>Talk</div>;
 };
 
 export default Talk;

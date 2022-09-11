@@ -98,6 +98,7 @@ class Product(models.Model):
     #ship = models.BooleanField()
     #meet = models.BooleanField()
     bought = models.BooleanField(default=False)
+    for_trade = models.BooleanField(default=False)
     bumps = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="product_bumps", blank=True)
 

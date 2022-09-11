@@ -12,7 +12,8 @@ import {
   FIT_CATEGORIES,
   NO_SIZE_CATEGORIES,
   SNEAKERS_CATEGORIES,
-} from "constants/categories";
+} from "constants/filters";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
 const Wrapper = styled.div`
   input::-webkit-outer-spin-button,
@@ -167,7 +168,9 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
         error={formState.errors.category}
       >
         <ValueHolder>
-          {categories === "placeholder" ? "np. Teesy" : categories}
+          {categories === "placeholder"
+            ? "np. Teesy"
+            : firstLetterUppercase(categories)}
         </ValueHolder>
         <Arrow turned={open === true} />
         <ModesContainer open={open}>
@@ -194,7 +197,9 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
                 }}
                 checked={categories === e.text}
               />
-              <Option isHighlighted={cursor === i}>{e.text}</Option>
+              <Option isHighlighted={cursor === i}>
+                {firstLetterUppercase(e.text)}
+              </Option>
             </StyledLabel>
           ))}
         </ModesContainer>

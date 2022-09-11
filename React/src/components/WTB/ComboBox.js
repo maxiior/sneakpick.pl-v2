@@ -103,11 +103,7 @@ const ComboBox = ({ className, name, elements, selectorType, sorting }) => {
           <ModesContainer>
             {elements.map((element, i) => (
               <Mode
-                selected={
-                  sorting
-                    ? i.toString() === ordering
-                    : limit === element.toString()
-                }
+                selected={sorting ? i === ordering : limit === element}
                 onClick={() =>
                   onFilterClick(
                     selectorType,

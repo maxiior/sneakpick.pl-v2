@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom";
 import { onResetFilters } from "functions/onResetFilters";
 import { displayCommunicatorIcon } from "store/interface/actions";
 import InputRange from "components/WTB/InputRange";
-import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/categories";
+import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/filters";
 
 const Wrapper = styled.div`
   min-height: 100vh;

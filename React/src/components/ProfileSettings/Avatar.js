@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useFormContext } from "react-hook-form";
 import { FiCamera } from "react-icons/fi";
+import { IoTrashOutline } from "react-icons/io5";
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,14 +11,6 @@ const Wrapper = styled.div`
 
 const StyledInput = styled.input`
   display: none;
-`;
-
-const PhotoHolder = styled.div`
-  position: relative;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Photo = styled.label`
@@ -32,7 +24,7 @@ const Photo = styled.label`
   border-radius: 50%;
   cursor: pointer;
 
-  background-image: url(${({ photo }) => photo});
+  background-image: url(${({ image }) => image});
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -40,6 +32,35 @@ const Photo = styled.label`
   :hover {
     background-color: ${({ theme }) => theme.blue};
     opacity: ${({ photo }) => photo && "0.9"};
+    filter: ${({ image }) => image && "brightness(50%)"};
+  }
+`;
+
+const Remove = styled(IoTrashOutline)`
+  border-radius: 50%;
+  font-size: 35px;
+  padding: 5px;
+  background-color: ${({ theme }) => theme.white};
+  position: absolute;
+  cursor: pointer;
+  display: none;
+  z-index: 100;
+
+  :hover + ${Photo} {
+    filter: brightness(50%);
+  }
+`;
+
+const PhotoHolder = styled.div`
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  :hover ${Remove} {
+    /* ${({ $isImage }) => $isImage && "display: block"}; */
+    display: block;
   }
 `;
 
@@ -54,23 +75,31 @@ const Icon = styled(FiCamera)`
   visibility: ${({ image }) => image && "hidden"};
 `;
 
-const Avatar = ({ photo, className }) => {
-  const { register, formState } = useFormContext();
-  const validator = register("photo");
-
+const Avatar = ({ image, setImage }) => {
   return (
-    <Wrapper className={className}>
+    <Wrapper>
       <Header>Zdjęcie profilowe</Header>
       <PhotoHolder>
-        <Photo photo={photo}>
+        <Remove />
+        <Photo
+          image={
+            image
+              ? typeof image === "string"
+                ? image
+                : URL.createObjectURL(image)
+              : null
+          }
+        >
           <StyledInput
             name="photo"
             type="file"
             onChange={(e) => {
-              validator.onChange(e);
+              if (e.target.files.length > 0) {
+                setImage(() => e.target.files[0]);
+              }
             }}
           />
-          <Icon />
+          {!image && <Icon />}
         </Photo>
       </PhotoHolder>
     </Wrapper>

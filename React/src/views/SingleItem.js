@@ -10,6 +10,7 @@ import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Informations from "components/SingleItem/Informations";
 import { fetchSingleItem } from "api/services/items.service";
+import { RiArrowLeftRightLine } from "react-icons/ri";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -43,6 +44,20 @@ const Condition = styled.div`
   align-items: center;
   user-select: none;
   margin-left: 15px;
+  margin-right: 5px;
+`;
+
+const TradeIconHolder = styled.div`
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #ffb81c;
+  display: flex;
+  align-items: center;
+`;
+
+const TradeIcon = styled(RiArrowLeftRightLine)`
+  color: ${({ theme }) => theme.white};
 `;
 
 const Option = styled.div`
@@ -144,6 +159,13 @@ const StyledInformations = styled(Informations)`
   }
 `;
 
+const Text = styled.div`
+  color: ${({ theme }) => theme.blue};
+  padding: 10px 20px;
+  user-select: none;
+  font-size: 16px;
+`;
+
 const SingleItem = () => {
   const { item } = useParams();
   const [data, setData] = useState({ product: {} });
@@ -165,15 +187,6 @@ const SingleItem = () => {
         });
       })
       .catch(() => {});
-  };
-
-  const checkIfFollowed = () => {
-    let check = false;
-    followedItems.forEach((e) => {
-      if (e.id === data.product.id) check = true;
-    });
-    if (check) return true;
-    else return false;
   };
 
   const follow = () => {
@@ -225,9 +238,21 @@ const SingleItem = () => {
   }, []);
 
   useEffect(() => {
-    if (checkIfFollowed()) setIsFollowed(true);
-    else setIsFollowed(false);
-  }, [data, followedItems]);
+    setIsFollowed(data.product.is_followed);
+  }, []);
+
+  const checkIfFollowed = () => {
+    let check = false;
+    followedItems.forEach((e) => {
+      if (e.id === data.product.id) check = true;
+    });
+    if (check) return true;
+    else return false;
+  };
+
+  useEffect(() => {
+    setIsFollowed(checkIfFollowed());
+  }, [followedItems]);
 
   return (
     <Wrapper>
@@ -239,6 +264,11 @@ const SingleItem = () => {
               <Header>{data.product.name}</Header>
               <Center>
                 <Condition>{data.product.condition?.toUpperCase()}</Condition>
+                {data.product.for_trade && (
+                  <TradeIconHolder>
+                    <TradeIcon />
+                  </TradeIconHolder>
+                )}
               </Center>
             </Holder>
           </TopLeft>
@@ -255,9 +285,16 @@ const SingleItem = () => {
               )}
             {data.product.is_bumped !== undefined && (
               <>
-                <Option onClick={() => bump()} active={data.product.is_bumped}>
-                  Bump
-                </Option>
+                {isAuthenticated ? (
+                  <Option
+                    onClick={() => bump()}
+                    active={data.product.is_bumped}
+                  >
+                    Bump
+                  </Option>
+                ) : (
+                  <Text>Bumps</Text>
+                )}
                 <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
               </>
             )}

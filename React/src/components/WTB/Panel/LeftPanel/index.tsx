@@ -4,7 +4,7 @@ import GridList from "components/WTB/GridList";
 import ColorwayGrid from "components/WTB/ColorwayGrid";
 import styled from "styled-components";
 import { useAppSelector } from "hooks/useAppSelector";
-import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/categories";
+import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/filters";
 import InputRange from "components/WTB/InputRange";
 
 const StyledLeftPanel = styled.div`

@@ -106,12 +106,11 @@ class AddressUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    profile_image = serializers.FileField(required=False, write_only=True)
-    profile_photo = serializers.ReadOnlyField()
+    profile_photo = serializers.FileField(required=False)
     
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'city', 'description', 'profile_photo', 'profile_image')
+        fields = ('email', 'first_name', 'last_name', 'city', 'description', 'profile_photo')
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateSerializer, self).__init__(*args, **kwargs)
@@ -125,7 +124,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             instance.last_name = validated_data.get('last_name', instance.last_name)
             instance.city = validated_data.get('city', instance.city)
             instance.description = validated_data.get('description', instance.description)
-            uploaded_file = validated_data.get('profile_image', None)
+            uploaded_file = validated_data.get('profile_photo', None)
             if uploaded_file:
                 validate_extension(uploaded_file.name)
                 instance.profile_photo = handle_uploaded_file(uploaded_file)

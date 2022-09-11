@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { firstLetterUppercase } from "functions/firstLetterUppercase";
 import { mapKindToAppValue } from "functions/mapKindToAppValue";
+import { FIT_CATEGORIES } from "constants/filters";
+import { useAppSelector } from "hooks/useAppSelector";
 
 const Wrapper = styled.div<{ mobile: boolean }>`
   box-sizing: border-box;
@@ -122,6 +124,8 @@ const Informations = ({
   owner: string;
   className?: any;
 }) => {
+  const { isAuthenticated } = useAppSelector((state) => state.authSlice);
+
   return (
     <Wrapper mobile={mobile} className={className}>
       <Holder>
@@ -131,10 +135,12 @@ const Informations = ({
             <Key>Rozmiar</Key>
             <Value> {data.product.size?.toUpperCase()}</Value>
           </Information>
-          <Information>
-            <Key>Fit</Key>
-            <Value> {firstLetterUppercase(data.product.fit)}</Value>
-          </Information>
+          {FIT_CATEGORIES.includes(data.product.category) && (
+            <Information>
+              <Key>Fit</Key>
+              <Value> {firstLetterUppercase(data.product.fit)}</Value>
+            </Information>
+          )}
           <Information>
             <Key>Rodzaj</Key>
             <Value>
@@ -171,10 +177,14 @@ const Informations = ({
             <Button to={routes.ORDER.replace(":item", data.product.id)}>
               Kup teraz
             </Button>
-            <Button to="">DM</Button>
-            <Button to={routes.CALLOUT.replace(":item", data.product.id)}>
-              Callout
-            </Button>
+            {isAuthenticated && (
+              <>
+                <Button to="">DM</Button>
+                <Button to={routes.CALLOUT.replace(":item", data.product.id)}>
+                  Callout
+                </Button>
+              </>
+            )}
           </>
         )}
       </Holder>

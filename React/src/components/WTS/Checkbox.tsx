@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { changeState } from "store/creator/actions";
 
-const Checkmark = styled.span`
+const Checkmark = styled.span<{ small: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -44,7 +44,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{ small: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
@@ -60,17 +60,17 @@ const StyledLabel = styled.label`
 
 const Wrapper = styled.div``;
 
-const Checkbox = ({ type, className, small }) => {
+const Checkbox = ({ name, type, className, small }: any) => {
   const dispatch = useDispatch();
 
   return (
     <Wrapper className={className}>
       <StyledLabel small={small}>
-        <div>{type}</div>
+        <div>{name}</div>
         <StyledInput
           type="checkbox"
           onChange={() =>
-            dispatch(changeState({ type: type, id: null, input: "checkbox" }))
+            dispatch(changeState({ type: type, id: "", input: "checkbox" }))
           }
         />
         <Checkmark small={small} />
