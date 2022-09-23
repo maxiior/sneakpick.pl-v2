@@ -30,7 +30,7 @@ from .api.product_watch_list_api import ProductWatchlistAPI
 from .api.profile_comments_api import ProfileCommentsAPI
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from .utils import generate_activation_token, password_reset_token
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -61,7 +61,7 @@ def send_password_resetting_message(request):
 @api_view(['PUT'])
 def set_new_password(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_b64decode(uidb64))
+        uid = force_str(urlsafe_b64decode(uidb64))
         user = User.object.get(pk=uid)
     except:
         user=None
@@ -88,7 +88,7 @@ def send_activation_email(user, request):
 @api_view(['POST'])
 def activate_user(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_b64decode(uidb64))
+        uid = force_str(urlsafe_b64decode(uidb64))
         user = User.object.get(pk=uid)
     except Exception as e:
         user=None
