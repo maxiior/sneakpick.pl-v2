@@ -55,10 +55,11 @@ const StyledInput = styled.input`
 `;
 
 const Error = styled.div`
-  font-size: 11px;
-  color: ${({ theme }) => theme.red};
-  margin-top: 3px;
-  font-weight: 500;
+  background-color: ${({ theme }) => theme.red};
+  padding: 5px;
+  color: white;
+  font-size: 12px;
+  margin-top: 5px;
 `;
 
 const Paragraph = styled.div`
@@ -114,13 +115,13 @@ const NewPassword = () => {
   const [pending, setPending] = useState(false);
   const dispatch = useAppDispatch();
 
-  const registerProcess = (data) => {
+  const settingNewPasswordProcess = (data) => {
     setPending(true);
     setNewPassword(data, uid, token)
       .then((response) => {
         if (response.status === 200) {
-          history.push(routes.WTB + routes.DEFAULT_SEARCH);
           setPending(false);
+          history.push(routes.HOME);
           dispatch(setInformationBlock(information_types.password_reseted));
         }
       })
@@ -145,7 +146,7 @@ const NewPassword = () => {
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit(registerProcess)}>
+      <Form onSubmit={handleSubmit(settingNewPasswordProcess)}>
         <Header>Resetowanie hasła</Header>
         <Text>Wprowadź poniżej nowe hasło do Twojego konta.</Text>
         <Paragraph>Nowe hasło</Paragraph>

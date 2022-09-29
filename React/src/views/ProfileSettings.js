@@ -14,18 +14,19 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 import { getUserPhoto } from "functions/getUserPhoto";
 import { setInformationBlock } from "store/interface/actions";
 import { information_types } from "constants/informations";
+import SettingsTemplate from "templates/SettingsTemplate";
 
 const Header = styled.div`
   font-size: 30px;
   font-weight: 500;
 `;
 
-const Add = styled.button`
+const Button = styled.button`
   width: 100%;
   text-align: center;
   background-color: ${({ theme }) => theme.blue};
   color: ${({ theme }) => theme.white};
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
   cursor: pointer;
   margin-top: 50px;
@@ -88,11 +89,12 @@ const ProfileSettings = () => {
     payload.append("description", data.description);
 
     if (image instanceof File) payload.append("profile_photo", image);
+    else if (image === null) payload.append("remove_photo", true);
 
     http
       .put(endpoints.EDIT, payload)
       .then((response) => {
-        if (response.status === 201)
+        if (response.status === 200)
           dispatch(setInformationBlock(information_types.profile_updated));
       })
       .catch(() => {});
@@ -112,40 +114,42 @@ const ProfileSettings = () => {
   }, [isAuthenticated]);
 
   return (
-    <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(updatingProcess)}>
-        <Header>Szczegóły profilu</Header>
-        <DataHolder>
-          <Avatar image={image} setImage={setImage} />
-          <StyledDataBlock
-            name="first_name"
-            header="Imię"
-            value={data.first_name}
-            placeholder="np. Jan"
-            setData={setData}
-            data={data}
-          />
-          <StyledDataBlock
-            name="last_name"
-            header="Nazwisko"
-            value={data.last_name}
-            placeholder="np. Kowalski"
-            setData={setData}
-            data={data}
-          />
-          <StyledDataBlock
-            name="city"
-            header="Miasto"
-            value={data.city}
-            placeholder="np. Warszawa"
-            setData={setData}
-            data={data}
-          />
-          <Description value={data.description} setData={setData} />
-        </DataHolder>
-        <Add type="submit">Zaktualizuj profil</Add>
-      </Form>
-    </FormProvider>
+    <SettingsTemplate>
+      <FormProvider {...methods}>
+        <Form onSubmit={handleSubmit(updatingProcess)}>
+          <Header>Szczegóły profilu</Header>
+          <DataHolder>
+            <Avatar image={image} setImage={setImage} />
+            <StyledDataBlock
+              name="first_name"
+              header="Imię"
+              value={data.first_name}
+              placeholder="np. Jan"
+              setData={setData}
+              data={data}
+            />
+            <StyledDataBlock
+              name="last_name"
+              header="Nazwisko"
+              value={data.last_name}
+              placeholder="np. Kowalski"
+              setData={setData}
+              data={data}
+            />
+            <StyledDataBlock
+              name="city"
+              header="Miasto"
+              value={data.city}
+              placeholder="np. Warszawa"
+              setData={setData}
+              data={data}
+            />
+            <Description value={data.description} setData={setData} />
+          </DataHolder>
+          <Button type="submit">Zaktualizuj profil</Button>
+        </Form>
+      </FormProvider>
+    </SettingsTemplate>
   );
 };
 

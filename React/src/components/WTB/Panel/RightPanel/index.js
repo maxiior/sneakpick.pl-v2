@@ -2,9 +2,9 @@ import Itmes from "components/WTB/Panel/RightPanel/Items";
 import PagesList from "components/WTB/PagesList";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import ItemsLoadingScreen from "./ItemsLoadingScreen";
+import ItemsLoadingScreen from "components/common/ItemsLoadingScreen";
 
-const StyledRightPanel = styled.div`
+const Wrapper = styled.div`
   display: block;
   width: 100%;
   min-height: 100vh;
@@ -23,6 +23,10 @@ const StyledPagesList = styled.div`
   padding-bottom: 40px;
 `;
 
+const Holder = styled.div`
+  padding: 40px;
+`;
+
 const RightPanel = () => {
   const { limit } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
@@ -30,14 +34,14 @@ const RightPanel = () => {
   const { results, pending, items } = useSelector((state) => state.itemsSlice);
 
   return (
-    <StyledRightPanel>
-      {pending ? <ItemsLoadingScreen /> : <Itmes />}
+    <Wrapper>
+      <Holder>{pending ? <ItemsLoadingScreen /> : <Itmes />}</Holder>
       {Math.ceil(results / limit) > 1 && items.length > 0 && (
         <StyledPagesList>
           <PagesList />
         </StyledPagesList>
       )}
-    </StyledRightPanel>
+    </Wrapper>
   );
 };
 

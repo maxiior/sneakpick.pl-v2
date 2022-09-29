@@ -11,6 +11,8 @@ import {
   removeComment,
   removeAnswear,
   turnOnPending,
+  resetComments,
+  resetItems,
 } from "store/profile/actions";
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   comments: [],
   items_results: 0,
   comments_count: 0,
+  items_pending: true,
   user: {
     id: "",
     first_name: "",
@@ -32,7 +35,11 @@ const initialState = {
     followers_details: [],
     is_followed: false,
   },
-  pending: true,
+  init_pending: true,
+  reloading_pending: false,
+  all_loaded: false,
+  limit: 10,
+  offset: 0,
 };
 
 export const profileSlice = createSlice({
@@ -43,6 +50,7 @@ export const profileSlice = createSlice({
     builder.addCase(fetchItems.fulfilled, (state, action) => {
       state.items = action.payload.items;
       state.items_results = action.payload.items_results;
+      state.items_pending = false;
     });
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.user.id = action.payload.id;
@@ -70,9 +78,15 @@ export const profileSlice = createSlice({
       state.user.following_count += action.payload;
     });
     builder.addCase(fetchComments.fulfilled, (state, action) => {
-      state.comments = action.payload.comments;
-      state.comments_count = action.payload.comments_count;
-      state.pending = false;
+      if (action.payload) {
+        state.comments = [...state.comments, ...action.payload.comments];
+        state.comments_count = action.payload.comments_count;
+        state.init_pending = false;
+        state.reloading_pending = false;
+
+        if (action.payload.comments.length < state.limit)
+          state.all_loaded = true;
+      }
     });
     builder.addCase(addComment.fulfilled, (state, action) => {
       if ("comment" in action.payload) {
@@ -96,7 +110,18 @@ export const profileSlice = createSlice({
       );
     });
     builder.addCase(turnOnPending, (state) => {
-      state.pending = true;
+      state.reloading_pending = true;
+      state.offset += state.limit;
+    });
+    builder.addCase(resetComments, (state) => {
+      state.all_loaded = false;
+      state.comments = [];
+      state.init_pending = true;
+      state.offset = 0;
+    });
+    builder.addCase(resetItems, (state) => {
+      state.items = [];
+      state.items_pending = true;
     });
   },
 });

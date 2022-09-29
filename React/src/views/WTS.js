@@ -22,6 +22,8 @@ import { ImageValidators } from "validators/ImageValidators";
 import { mapKindToServerValue } from "functions/mapKindToServerValue";
 import ForTradeInput from "components/WTS/ForTradeInput";
 import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/filters";
+import { setInformationBlock } from "store/interface/actions";
+import { information_types } from "constants/informations";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -112,8 +114,10 @@ const WTS = () => {
     http
       .post(endpoints.POST_ADD_ITEM, payload)
       .then((response) => {
-        if (response.status === 201)
+        if (response.status === 201) {
           history.push(routes.WTB + routes.DEFAULT_SEARCH);
+          dispatch(setInformationBlock(information_types.item_added));
+        }
       })
       .catch(() => {});
   };

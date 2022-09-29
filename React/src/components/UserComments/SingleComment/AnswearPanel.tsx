@@ -64,17 +64,19 @@ const AnswearPanel = ({
   const dispatch = useAppDispatch();
 
   const answearingProcess = () => {
-    dispatch(
-      addComment({
-        user: user,
-        content: answear,
-        parent: comment_id,
-      })
-    )
-      .then(() => {
-        setAnswearPanel(false);
-      })
-      .catch(() => {});
+    if (answear) {
+      dispatch(
+        addComment({
+          user: user,
+          content: answear,
+          parent: comment_id,
+        })
+      )
+        .then(() => {
+          setAnswearPanel(false);
+        })
+        .catch(() => {});
+    } else setAnswearPanel(false);
   };
 
   return (

@@ -14,7 +14,7 @@ class ProfileCommentsAPI(APIView, Pagination):
         """
         user = User.objects.get(id=pk)
         comments = ProfileComment.objects.filter(
-            related_user=user, parent=None)
+            related_user=user, parent=None).order_by("-created_at")
         paginated_comments = self.paginate_queryset(
             comments, request, view=self)
         serializer = ProfileCommentSerializer(
@@ -27,6 +27,10 @@ class ProfileCommentsAPI(APIView, Pagination):
         Add a comment to a user
         **author** field is not required. it is swagger bug that this fields appear in the request body
         """
+
+        if not 'content' in request.data or not 'rating' in request.data:
+            return Response({'Error': 'Request need to has content and rating fields'}, status=status.HTTP_400_BAD_REQUEST)
+
         user = User.objects.get(id=pk)
         if user == request.user and ("parent" not in request.data or request.data["parent"] is None):
             return Response({'Error': 'Cannot comment on yourself'}, status=status.HTTP_400_BAD_REQUEST)

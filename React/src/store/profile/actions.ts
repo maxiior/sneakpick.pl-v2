@@ -30,14 +30,28 @@ export const fetchUser = createAsyncThunk(
 
 export const turnOnPending = createAction("profile/turnOnPending");
 
-export const fetchComments = createAsyncThunk<any, string>(
-  "profile/fetchComments",
-  async (data, { dispatch }) => {
-    dispatch(turnOnPending());
-    const result = await profile.fetchComments(data);
-    return { comments: result.results.reverse(), comments_count: result.count };
-  }
-);
+export const resetComments = createAction("profile/resetAllLoaded");
+
+export const resetItems = createAction("items/resetItems");
+
+export const fetchComments = createAsyncThunk<
+  any,
+  { user: string; reloading: boolean }
+>("profile/fetchComments", async (data, { dispatch, getState }) => {
+  const { profileSlice }: any = getState();
+
+  if (!profileSlice.reloading_pending) {
+    if (data.reloading) dispatch(turnOnPending());
+
+    const result = await profile.fetchComments(
+      data.user,
+      data.reloading
+        ? profileSlice.offset + profileSlice.limit
+        : profileSlice.offset
+    );
+    return { comments: result.results, comments_count: result.count };
+  } else return null;
+});
 
 export const addComment = createAsyncThunk(
   "profile/addComment",

@@ -11,6 +11,8 @@ export interface iItem {
   last_name: string;
   fit: string;
   images: iImage[];
+  is_bumped: boolean;
+  is_followed: boolean;
   kind: string;
   meet: boolean;
   name: string;
@@ -20,4 +22,6 @@ export interface iItem {
   ship: boolean;
   size: string;
   total_bumps: number;
+  for_trade: boolean;
+  views: number;
 }

@@ -24,4 +24,5 @@ export enum theme {
   max_width_LG = "991px",
   min_width_XL = "1200px",
   max_width_XL = "1199px",
+  tradeColor = "#7CD321",
 }

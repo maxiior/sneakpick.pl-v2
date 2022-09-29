@@ -5,16 +5,17 @@ import SingleComment from "components/UserComments/SingleComment";
 import RatingPanel from "components/UserComments/RatingPanel";
 import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
-import { fetchComments } from "store/profile/actions";
+import { fetchComments, resetComments } from "store/profile/actions";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import CommentsLoadingScreen from "components/UserComments/CommentsLoadingScreen";
+import LoadingIcon from "components/common/LoadingIcon";
 
 const Button = styled.div`
   user-select: none;
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.blue};
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 20px;
@@ -40,6 +41,7 @@ const Wrapper = styled.div`
 const NumberOfComments = styled.div`
   font-size: 20px;
   user-select: none;
+  margin-bottom: 20px;
 `;
 
 const Blank = styled.div`
@@ -56,6 +58,12 @@ const Blank = styled.div`
   }
 `;
 
+const Holder = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+`;
+
 const UserComments: React.FC = () => {
   const [ratingPanel, setRatingPanel] = useState(false);
   const { user }: { user: string } = useParams();
@@ -63,21 +71,44 @@ const UserComments: React.FC = () => {
   const dispatch = useAppDispatch();
   const ref: any = useRef(null);
 
-  const { comments_count, comments, pending } = useAppSelector(
-    (state) => state.profileSlice
-  );
+  const {
+    comments_count,
+    comments,
+    init_pending,
+    all_loaded,
+    reloading_pending,
+  } = useAppSelector((state) => state.profileSlice);
   const { user_id, isAuthenticated } = useAppSelector(
     (state) => state.authSlice
   );
 
+  const bottomScrollDetection = () => {
+    const position = window.scrollY;
+    var limit = document.body.offsetHeight - window.innerHeight;
+    if (position === limit)
+      dispatch(fetchComments({ user: user, reloading: true }));
+  };
+
   useEffect(() => {
-    dispatch(fetchComments(user));
-  }, [dispatch, user]);
+    if (!all_loaded) {
+      if (init_pending)
+        dispatch(fetchComments({ user: user, reloading: false }));
+      else document.addEventListener("scroll", bottomScrollDetection);
+      return () =>
+        document.removeEventListener("scroll", bottomScrollDetection);
+    }
+  }, [all_loaded, init_pending]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetComments());
+    };
+  }, []);
 
   useEffect(() => {
     if (ratingPanelRequest === "open_rating_panel") {
       setRatingPanel(true);
-      ref.current.scrollIntoView();
+      ref?.current?.scrollIntoView();
     }
   }, [ratingPanelRequest]);
 
@@ -95,7 +126,7 @@ const UserComments: React.FC = () => {
         </>
       )}
       <Wrapper>
-        {pending ? (
+        {init_pending ? (
           <CommentsLoadingScreen />
         ) : (
           <>
@@ -113,6 +144,11 @@ const UserComments: React.FC = () => {
               <Blank>Ten użytkownik nie posiada żadnych komentarzy.</Blank>
             )}
           </>
+        )}
+        {reloading_pending && (
+          <Holder>
+            <LoadingIcon />
+          </Holder>
         )}
       </Wrapper>
     </ProfileTemplate>

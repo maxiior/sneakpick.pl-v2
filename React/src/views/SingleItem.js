@@ -48,10 +48,10 @@ const Condition = styled.div`
 `;
 
 const TradeIconHolder = styled.div`
-  padding: 5px 10px;
+  padding: 4px 10px;
   border-radius: 5px;
-  font-size: 14px;
-  background-color: #ffb81c;
+  font-size: 16px;
+  background-color: ${({theme}) => theme.tradeColor};
   display: flex;
   align-items: center;
 `;

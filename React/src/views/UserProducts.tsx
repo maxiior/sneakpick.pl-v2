@@ -4,21 +4,32 @@ import ProfileTemplate from "templates/ProfileTemplate";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchItems } from "store/profile/actions";
+import { fetchItems, resetItems } from "store/profile/actions";
 import { useAppSelector } from "hooks/useAppSelector";
+import ItemsLoadingScreen from "components/common/ItemsLoadingScreen";
 
 const NumberOfItems = styled.div`
   font-size: 20px;
   user-select: none;
 `;
 
+const Holder = styled.div`
+  padding: 20px 0;
+`;
+
 const UserProducts = () => {
-  const { items_results } = useAppSelector((state) => state.profileSlice);
+  const { items_results, items_pending } = useAppSelector(
+    (state) => state.profileSlice
+  );
   const { user }: { user: string } = useParams();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchItems(user));
+
+    return () => {
+      dispatch(resetItems());
+    };
   }, [dispatch, user]);
 
   return (
@@ -31,7 +42,7 @@ const UserProducts = () => {
           ? "przedmioty"
           : "przedmiotów"}
       </NumberOfItems>
-      <Items />
+      <Holder>{items_pending ? <ItemsLoadingScreen /> : <Items />}</Holder>
     </ProfileTemplate>
   );
 };

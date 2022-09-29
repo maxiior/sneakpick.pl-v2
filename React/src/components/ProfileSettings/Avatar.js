@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FiCamera } from "react-icons/fi";
-import { IoTrashOutline } from "react-icons/io5";
+import { FiEdit } from "react-icons/fi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,14 +9,37 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
+const Remove = styled.div`
+  font-size: 12px;
+  color: ${({ theme }) => theme.white};
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: ${({ theme }) => theme.red};
+  margin-right: 20px;
+
+  :hover {
+    opacity: 0.9;
+  }
+`;
+
 const StyledInput = styled.input`
   display: none;
 `;
 
+const EditIcon = styled(FiEdit)`
+  font-size: 35px;
+  position: absolute;
+  display: none;
+  z-index: 100;
+  color: ${({ theme }) => theme.white};
+  pointer-events: none;
+`;
+
 const Photo = styled.label`
   padding: 30px;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   background-color: ${({ theme }) => theme.grey};
   display: flex;
   justify-content: center;
@@ -31,23 +54,11 @@ const Photo = styled.label`
 
   :hover {
     background-color: ${({ theme }) => theme.blue};
-    opacity: ${({ photo }) => photo && "0.9"};
     filter: ${({ image }) => image && "brightness(50%)"};
   }
-`;
 
-const Remove = styled(IoTrashOutline)`
-  border-radius: 50%;
-  font-size: 35px;
-  padding: 5px;
-  background-color: ${({ theme }) => theme.white};
-  position: absolute;
-  cursor: pointer;
-  display: none;
-  z-index: 100;
-
-  :hover + ${Photo} {
-    filter: brightness(50%);
+  :hover + ${EditIcon} {
+    display: block;
   }
 `;
 
@@ -57,11 +68,6 @@ const PhotoHolder = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  :hover ${Remove} {
-    /* ${({ $isImage }) => $isImage && "display: block"}; */
-    display: block;
-  }
 `;
 
 const Header = styled.div`
@@ -75,33 +81,43 @@ const Icon = styled(FiCamera)`
   visibility: ${({ image }) => image && "hidden"};
 `;
 
+const Holder = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Avatar = ({ image, setImage }) => {
   return (
     <Wrapper>
       <Header>Zdjęcie profilowe</Header>
-      <PhotoHolder>
-        <Remove />
-        <Photo
-          image={
-            image
-              ? typeof image === "string"
-                ? image
-                : URL.createObjectURL(image)
-              : null
-          }
-        >
-          <StyledInput
-            name="photo"
-            type="file"
-            onChange={(e) => {
-              if (e.target.files.length > 0) {
-                setImage(() => e.target.files[0]);
-              }
-            }}
-          />
-          {!image && <Icon />}
-        </Photo>
-      </PhotoHolder>
+      <Holder>
+        <div>
+          {image && <Remove onClick={() => setImage(null)}>Usuń</Remove>}
+        </div>
+        <PhotoHolder>
+          <Photo
+            image={
+              image
+                ? typeof image === "string"
+                  ? image
+                  : URL.createObjectURL(image)
+                : null
+            }
+          >
+            <StyledInput
+              name="photo"
+              type="file"
+              onChange={(e) => {
+                if (e.target.files.length > 0) {
+                  setImage(() => e.target.files[0]);
+                }
+              }}
+            />
+            {!image && <Icon />}
+          </Photo>
+          {image && <EditIcon />}
+        </PhotoHolder>
+      </Holder>
     </Wrapper>
   );
 };

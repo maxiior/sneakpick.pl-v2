@@ -26,16 +26,24 @@ const Step = styled.div<{ blank?: boolean }>`
 const Rating = ({
   rating,
   setRating,
+  setError,
 }: {
   rating: number;
   setRating: Function;
+  setError: Function;
 }) => {
   const steps = [1, 2, 3, 4, 5];
 
   return (
     <Wrapper>
       {steps.map((e) => (
-        <Step onClick={() => setRating(e)} blank={rating === 0 || e < rating} />
+        <Step
+          onClick={() => {
+            setRating(e);
+            setError(false);
+          }}
+          blank={rating === 0 || e < rating}
+        />
       ))}
     </Wrapper>
   );

@@ -5,7 +5,7 @@ import logo from "assets/logo.png";
 import { routes } from "routes";
 import { BsArrowUpRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { activation } from "api/services/users.service";
+import { activateNewEmail } from "api/services/users.service";
 import LoadingIcon from "components/common/LoadingIcon";
 
 const Wrapper = styled.div`
@@ -39,6 +39,7 @@ const Container = styled.div`
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   padding: 40px;
   min-width: 30%;
+  max-width: 741px;
 `;
 
 const Text = styled.div<{ error?: boolean }>`
@@ -83,14 +84,14 @@ const LoadingIconHolder = styled.div`
   justify-content: center;
 `;
 
-const AccountActivation = () => {
+const NewEmailActivation = () => {
   const { uidb64, token }: { uidb64: string; token: string } = useParams();
 
   const [pending, setPending] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    activation(uidb64, token)
+    activateNewEmail(uidb64, token)
       .then(() => {
         setPending(false);
       })
@@ -116,16 +117,16 @@ const AccountActivation = () => {
           <>
             {error ? (
               <Text error>
-                Uwaga, coś poszło nie tak! Możliwe, że Twoje konto zostało już
-                aktywowane wcześniej lub link, z którego skorzystałeś się
+                Uwaga, coś poszło nie tak! Możliwe, że Twój nowy adres został
+                już aktywowany wcześniej lub link, z którego skorzystałeś się
                 przedawnił!
               </Text>
             ) : (
               <>
-                <Header>Konto zostało aktywowane!</Header>
+                <Header>Nowy adres e-mail został aktywowany!</Header>
                 <Text>
-                  Cześć, witaj na Sneakpick! Twoje konto zostało aktywowane
-                  pomyślnie, możesz już się zalogować!
+                  Witaj z powrotem! Twój nowy adres e-mail został aktywowany i
+                  od tej pory możesz się logować za jego pomocą.
                 </Text>
               </>
             )}
@@ -156,4 +157,4 @@ const AccountActivation = () => {
   );
 };
 
-export default AccountActivation;
+export default NewEmailActivation;

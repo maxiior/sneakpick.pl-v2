@@ -1,12 +1,10 @@
-import React from "react";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-import SingleItem from "components/WTB/common/SingleItem";
+import SingleItem from "components/common/SingleItem";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
   width: 100%;
-  padding: 40px;
 `;
 
 const ItemsLoadingScreen = () => {

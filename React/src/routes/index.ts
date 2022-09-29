@@ -10,7 +10,7 @@ export enum routes {
   FAQ = "/faq",
   SUPPORT = "/support",
   BUSINESSCONTACT = "/businesscontact",
-  ACCOUNT_ACTIVATION = "/activation/:uid/:token",
+  ACCOUNT_ACTIVATION = "/activation/:uidb64/:token",
   NEW_PASSWORD = "/new-password/:uid/:token",
   FOLLOWED = "/followed",
   PASSWORD_RESETTING = "/password-resetting",
@@ -18,6 +18,7 @@ export enum routes {
   PROFILE = "/profile/:user",
   PROFILE_SETTINGS = "/settings/profile",
   ACCOUNT_SETTINGS = "/settings/account",
+  SHIPMENT = "/settings/shipment",
   PASSWORD_CHANGE = "/settings/account/password",
   EMAIL_CHANGE = "/settings/account/email",
   DEFAULT_SEARCH = "?limit=24&page=1&ordering=0",
@@ -33,6 +34,9 @@ export enum routes {
   STATUTE = "/statute",
   CATEGORY_PATH = "/wtb?category={category}&limit=24&page=1&ordering=1",
   BRAND_PATH = "/wtb?brand={brand}&limit=24&page=1&ordering=1",
+
+  NEW_EMAIL = "/new-email/:uidb64/:token",
+  EMAIL_ACTIVATION = "/email-activation/:uidb64/:token",
 }
 
 export enum endpoints {
@@ -65,7 +69,7 @@ export enum endpoints {
   DELETE_UNFOLLOW = "/users/me/followers/{id}/",
   GET_IS_FOLLOWED = "/users/{foreign_id}/followers/?id={id}",
 
-  GET_USER_COMMENTS = "/users/{id}/profile-comments/",
+  GET_USER_COMMENTS = "/users/{id}/profile-comments/?limit=10&offset={offset}",
   POST_USER_COMMENTS = "/users/{id}/profile-comments/",
   DELETE_USER_COMMENTS = "/users/me/profile-comments/{comment_id}/",
 
@@ -76,4 +80,10 @@ export enum endpoints {
   PASSWORD_RESETTING_MESSAGE = "/users/password-resetting-message/",
 
   SET_NEW_PASSWORD = "/users/new-password/{uid}/{token}/",
+
+  PUT_PASSWORD_UPDATE = "/users/password-update/",
+
+  POST_EMAIL_UPDATE_MESSAGE = "/users/email-update-message/",
+  PUT_NEW_EMAIL = "/users/new-email/{uidb64}/{token}/",
+  POST_NEW_EMAIL_ACTIVATION = "/users/email-activation/{uidb64}/{token}/",
 }

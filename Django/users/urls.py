@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddressUpdate, AddressView, FollowersAPI, FollowingAPI, set_new_password, send_password_resetting_message, SingleAddressView, UsersList, PasswordUpdateView, UserDetail, UserUpdate, UserCreate, Login, ProductWatchlistAPI, ProfileCommentsAPI, Refresh, Logout, activate_user
+from .views import set_new_email, activate_new_email, AddressUpdate, AddressView, FollowersAPI, FollowingAPI, set_new_password, send_password_resetting_message, SingleAddressView, UsersList, PasswordUpdateView, UserDetail, UserUpdate, UserCreate, Login, ProductWatchlistAPI, ProfileCommentsAPI, Refresh, Logout, activate_user, send_email_changing_message
 
 app_name = 'users'
 
@@ -22,6 +22,11 @@ urlpatterns = [
      path('<uuid:pk>/following/', FollowingAPI.as_view(), name='user_following'),
 
      path('password-update/', PasswordUpdateView.as_view(), name="password_update"),
+     
+     path('email-update-message/', send_email_changing_message, name="email_update_message"),
+     path('new-email/<uidb64>/<token>/', set_new_email, name="new_email"),
+     path('email-activation/<uidb64>/<token>/', activate_new_email, name="email_activation"),
+
      path('address/', AddressView.as_view(), name='user_address'),
      path('address/<uuid:pk>', SingleAddressView.as_view(), name='address'),
      path('address/edit/<uuid:pk>/', AddressUpdate.as_view(), name='modify_address'),

@@ -13,9 +13,9 @@ export const fetchUser = async (id) => {
   return data;
 };
 
-export const fetchComments = async (id) => {
+export const fetchComments = async (id, offset) => {
   const { data } = await http.get(
-    endpoints.GET_USER_COMMENTS.replace("{id}", id)
+    endpoints.GET_USER_COMMENTS.replace("{id}", id).replace("{offset}", offset)
   );
   return data;
 };
@@ -23,7 +23,7 @@ export const fetchComments = async (id) => {
 export const addComment = async (data) => {
   return await http.post(
     endpoints.POST_USER_COMMENTS.replace("{id}", data.user),
-    data.rating
+    !data.parent
       ? { content: data.content, rating: 6 - data.rating }
       : { content: data.content, parent: data.parent }
   );
@@ -49,4 +49,11 @@ export const followUser = async (data) => {
 
 export const unfollowUser = async (data) => {
   return await http.delete(endpoints.DELETE_UNFOLLOW.replace("{id}", data));
+};
+
+export const passwordUpdate = async (data) => {
+  return await http.put(endpoints.PUT_PASSWORD_UPDATE, {
+    current_password: data.current_password,
+    new_password: data.new_password,
+  });
 };

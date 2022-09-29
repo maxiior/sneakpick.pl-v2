@@ -165,10 +165,10 @@ const Edit = styled(Link)`
   }
 `;
 
-const Adnotation = styled(Link)`
+const RateButton = styled(Link)`
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.blue};
-  padding: 4px;
+  padding: 6px;
   border-radius: 5px;
   font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
@@ -222,14 +222,14 @@ const TopPanel = () => {
           {location.pathname.indexOf("comments") === -1 &&
             user !== user_id &&
             isAuthenticated && (
-              <Adnotation
+              <RateButton
                 to={{
                   pathname: routes.USER_PROFILE_COMMENTS.replace(":user", user),
                   state: "open_rating_panel",
                 }}
               >
                 Oceń użytkownika
-              </Adnotation>
+              </RateButton>
             )}
         </div>
       </LeftContainer>

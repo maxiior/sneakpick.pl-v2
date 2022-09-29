@@ -201,9 +201,19 @@ SWAGGER_SETTINGS = {
     'DEFAULT_AUTO_SCHEMA_CLASS': 'core.swagger.CustomSwaggerAutoSchema'
 }
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+#     }
+# }
+
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
@@ -220,3 +230,7 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 # FRONTEND
 
 FRONTEND_APP_ADDRESS = "http://127.0.0.1:3000"
+
+# TOKENS
+
+PASSWORD_RESET_TIMEOUT = 86400

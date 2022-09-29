@@ -11,7 +11,6 @@ import Home from "views/Home";
 import Profile from "views/Profile";
 import PageNotFound from "views/PageNotFound";
 import ProfileSettings from "views/ProfileSettings";
-import SettingsTemplate from "templates/SettingsTemplate";
 import AccountSettings from "views/AccountSettings";
 import CommunicatorTemplate from "templates/CommunicatorTemplate";
 import useRefreshToken from "hooks/useRefreshToken";
@@ -30,6 +29,8 @@ import UserComments from "views/UserComments";
 import AccountActivation from "views/AccountActivation";
 import PasswordResetting from "views/PasswordResetting";
 import NewPassword from "views/NewPassword";
+import NewEmailSetter from "views/NewEmailSetter";
+import NewEmailActivation from "views/NewEmailActivation";
 
 const App = () => {
   useRefreshToken();
@@ -76,22 +77,22 @@ const App = () => {
                 path={routes.USER_PROFILE_PRODUCTS}
                 component={UserProducts}
               />
-              <SettingsTemplate>
-                <Route
-                  path={routes.PROFILE_SETTINGS}
-                  component={ProfileSettings}
-                />
-                <Route
-                  exact
-                  path={routes.ACCOUNT_SETTINGS}
-                  component={AccountSettings}
-                />
-                <Route
-                  path={routes.PASSWORD_CHANGE}
-                  component={PasswordChange}
-                />
-                <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
-              </SettingsTemplate>
+              <Route
+                path={routes.PROFILE_SETTINGS}
+                component={ProfileSettings}
+              />
+              <Route
+                exact
+                path={routes.ACCOUNT_SETTINGS}
+                component={AccountSettings}
+              />
+              <Route path={routes.PASSWORD_CHANGE} component={PasswordChange} />
+              <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
+              <Route path={routes.NEW_EMAIL} component={NewEmailSetter} />
+              <Route
+                path={routes.EMAIL_ACTIVATION}
+                component={NewEmailActivation}
+              />
               <Route component={PageNotFound} />
             </Switch>
           </MainTemplate>

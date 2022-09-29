@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import AddressSerializer, AddressUpdateSerializer, CustomUserSerializer, ProfileCommentSerializer, UserIdSerializer, UserUpdateSerializer, PswdUpdateSerializer, LoginSerializer
+from .serializers import AddressSerializer, AddressUpdateSerializer, CustomUserSerializer, ProfileCommentSerializer, UserIdSerializer, UserUpdateSerializer, PasswordUpdateSerializer, LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from users.models import Follower, ProfileComment, User, Address, Watchlist
@@ -31,32 +31,109 @@ from .api.profile_comments_api import ProfileCommentsAPI
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
-from .utils import generate_activation_token, password_reset_token
+from .utils import activation_token_generator, password_reset_token_generator, email_changing_token_generator
 from django.core.mail import EmailMessage
 from django.conf import settings
+import time
+
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+
+@api_view(['POST'])
+def activate_new_email(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except Exception as e:
+        user=None
+
+    if user and email_changing_token_generator.check_token(user,token):
+        user.email = cache.get("new_email_" + str(user.id))
+        user.save()
+        cache.delete("new_email_" + str(user.id))
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['PUT'])
+def set_new_email(request, uidb64, token):
+    password = request.data['password']
+    new_email = request.data['new_email']
+
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except:
+        user=None
+    
+    if user and cache.get("email_changing_message_" + str(user.id)) == token:
+        if not user.check_password(password):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        if new_email == user.email:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        cache.set("new_email_" + str(uid), new_email, settings.PASSWORD_RESET_TIMEOUT)
+        
+        email_subject = "Aktywuj nowy adres e-mail konta Sneakpick"
+        email_body = render_to_string('new_email_activation/index.html', {
+            'user': user,
+            'domain': settings.FRONTEND_APP_ADDRESS,
+            'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': email_changing_token_generator.make_token(user)
+        })
+
+        email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[new_email])
+        email.content_subtype='html'
+        email.send()
+        cache.delete("email_changing_message_" + str(user.id))
+
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_email_changing_message(request):
+    password = request.data['password']
+    user = request.user
+
+    if not user.check_password(password):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    token = email_changing_token_generator.make_token(user)
+    cache.set("email_changing_message_" + str(user.id), token, settings.PASSWORD_RESET_TIMEOUT)
+    
+    email_subject = "Zmiana adresu e-mail konta Sneakpick"
+    email_body = render_to_string('email_changing/index.html', {
+        'user': user,
+        'domain': settings.FRONTEND_APP_ADDRESS,
+        'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': token
+    })
+
+    email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user])
+    email.content_subtype='html'
+    email.send()
+    return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def send_password_resetting_message(request):
-    try:
-        email = request.data['email']
+    email = request.data['email']
 
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
 
-            email_subject = "Resetowanie hasła konta Sneakpick"
-            email_body = render_to_string('password_resetting/index.html', {
-                'user': user,
-                'domain': settings.FRONTEND_APP_ADDRESS,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': password_reset_token.make_token(user)
-            })
+        email_subject = "Resetowanie hasła konta Sneakpick"
+        email_body = render_to_string('password_resetting/index.html', {
+            'user': user,
+            'domain': settings.FRONTEND_APP_ADDRESS,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': password_reset_token_generator.make_token(user)
+        })
 
-            email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[email])
-            email.content_subtype='html'
-            email.send()
-        return Response(status=status.HTTP_200_OK)
-    except:
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[email])
+        email.content_subtype='html'
+        email.send()
+    return Response(status=status.HTTP_200_OK)
         
 @api_view(['PUT'])
 def set_new_password(request, uidb64, token):
@@ -66,7 +143,7 @@ def set_new_password(request, uidb64, token):
     except:
         user=None
     
-    if user and password_reset_token.check_token(user, token):
+    if user and password_reset_token_generator.check_token(user, token):
         user.set_password(request.data['password'])
         user.save()
         return Response(status=status.HTTP_200_OK)
@@ -78,7 +155,7 @@ def send_activation_email(user, request):
         'user': user,
         'domain': settings.FRONTEND_APP_ADDRESS,
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': generate_activation_token.make_token(user)
+        'token': activation_token_generator.make_token(user)
     })
 
     email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
@@ -93,7 +170,7 @@ def activate_user(request, uidb64, token):
     except Exception as e:
         user=None
 
-    if user and generate_activation_token.check_token(user,token):
+    if user and activation_token_generator.check_token(user,token):
         user.is_active = True
         user.save()
         return Response(status=status.HTTP_200_OK)
@@ -118,6 +195,15 @@ class UserCreate(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, format='json'):
+        try:
+            email = request.data['email']
+            user = User.objects.get(email=email)
+
+            if time.time() - time.mktime(user.date_joined.timetuple()) > settings.PASSWORD_RESET_TIMEOUT and not user.is_active:
+                User.objects.filter(email=email).delete()
+        except:
+            pass
+
         serializer = CustomUserSerializer(
             data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -180,11 +266,10 @@ class AddressUpdate(generics.UpdateAPIView):
 class PasswordUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
-    serializer_class = PswdUpdateSerializer
+    serializer_class = PasswordUpdateSerializer
 
     def get_object(self):
         return self.request.user
-
 
 class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]

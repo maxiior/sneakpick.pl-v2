@@ -5,6 +5,7 @@ import http from "api/http";
 import { endpoints } from "routes";
 import useAuthenticated from "hooks/useAuthenticated";
 import { routes } from "routes";
+import SettingsTemplate from "templates/SettingsTemplate";
 
 const Header = styled.div`
   font-size: 30px;
@@ -19,11 +20,8 @@ const StyledDataBlock = styled(DataBlock)`
   margin-bottom: 20px;
 `;
 
-const Form = styled.form``;
-
 const ProfileSettings = () => {
   const [data, setData] = useState({});
-
   useAuthenticated();
 
   useEffect(() => {
@@ -36,7 +34,7 @@ const ProfileSettings = () => {
   }, []);
 
   return (
-    <Form>
+    <SettingsTemplate>
       <Header>Ustawienia konta</Header>
       <DataHolder>
         <StyledDataBlock
@@ -52,7 +50,7 @@ const ProfileSettings = () => {
         />
         <StyledDataBlock header="Usuń konto" deleteAccount />
       </DataHolder>
-    </Form>
+    </SettingsTemplate>
   );
 };
 

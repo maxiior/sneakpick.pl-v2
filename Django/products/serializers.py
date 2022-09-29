@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from .models import Product, ProductImage, Delivery
-from users.serializers import CustomUserSerializer
 import uuid
 import os.path
 from users.models import Watchlist
