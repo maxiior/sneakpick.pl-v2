@@ -28,9 +28,6 @@ class ProfileCommentsAPI(APIView, Pagination):
         **author** field is not required. it is swagger bug that this fields appear in the request body
         """
 
-        if not 'content' in request.data or not 'rating' in request.data:
-            return Response({'Error': 'Request need to has content and rating fields'}, status=status.HTTP_400_BAD_REQUEST)
-
         user = User.objects.get(id=pk)
         if user == request.user and ("parent" not in request.data or request.data["parent"] is None):
             return Response({'Error': 'Cannot comment on yourself'}, status=status.HTTP_400_BAD_REQUEST)
@@ -38,12 +35,13 @@ class ProfileCommentsAPI(APIView, Pagination):
         if "parent" in request.data and request.data["parent"] is not None:
             if pk != request.user.id:
                 return Response({'Error': 'Cannot reply on another user profile'}, status=status.HTTP_400_BAD_REQUEST)
-            # request.data["rating"] = 0
             parrent_comment = ProfileComment.objects.get(id=request.data["parent"])
             if ProfileComment.objects.filter(parent=parrent_comment).count() > 0:
                 return Response({'Error': 'Cannot reply more than once'}, status=status.HTTP_400_BAD_REQUEST)
             if parrent_comment.parent is not None:
                 return Response({'Error': 'Cannot reply to a reply'}, status=status.HTTP_400_BAD_REQUEST)
+        elif not 'content' in request.data or not 'rating' in request.data:
+            return Response({'Error': 'Request need to has content and rating fields'}, status=status.HTTP_400_BAD_REQUEST)
 
         comment_serializer = ProfileCommentSerializer(data=request.data, context={'request': request})
 

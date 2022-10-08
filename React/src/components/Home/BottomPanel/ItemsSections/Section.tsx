@@ -36,7 +36,7 @@ const Section = ({ header, items, to, pending }: iSection) => {
     <Wrapper>
       <TopPanel>
         <Header>{header}</Header>
-        <Button to={to}>Zobacz wszystkie</Button>
+        <Button to={to}>Zobacz wszystko</Button>
       </TopPanel>
       <ItemsList items={items} pending={pending} />
     </Wrapper>

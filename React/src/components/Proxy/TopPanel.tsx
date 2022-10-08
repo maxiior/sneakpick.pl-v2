@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import image from "assets/proxy.png";
+import { routes } from "routes";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.header`
   display: flex;
@@ -27,9 +29,11 @@ const Wrapper = styled.header`
 
 const Title = styled.div``;
 
-const Button = styled.div`
+const Button = styled(Link)`
   font-size: 12px;
   background-color: ${({ theme }) => theme.black};
+  text-decoration: none;
+  color: ${({ theme }) => theme.white};
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.1s;
@@ -55,7 +59,7 @@ const TopPanel = () => {
       <div>
         <Title>PROXY</Title>
         <Holder>
-          <Button>DODAJ</Button>
+          <Button to={routes.PROXY_ADDER}>Dodaj</Button>
         </Holder>
       </div>
     </Wrapper>

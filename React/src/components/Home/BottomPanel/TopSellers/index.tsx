@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import BottomPanel from "./BottomPanel";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -10,7 +11,6 @@ const Wrapper = styled.div`
 const TopPanel = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 10px;
 `;
 
 const Header = styled.div`
@@ -31,8 +31,9 @@ const TopSellers: React.FC = () => {
     <Wrapper>
       <TopPanel>
         <Header>Top sprzedawcy</Header>
-        <ShowAll to="/">Zobacz wszystkie</ShowAll>
+        <ShowAll to="/">Zobacz wszystko</ShowAll>
       </TopPanel>
+      <BottomPanel />
     </Wrapper>
   );
 };

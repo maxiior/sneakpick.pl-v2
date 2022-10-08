@@ -5,6 +5,7 @@ import { iFollowed } from "types/Nav/LoggedPanel/FollowedPanel/followed";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   display: flex;
@@ -91,7 +92,7 @@ const FollowedItem = ({ data }: { data: iFollowed }) => {
     <Wrapper>
       <Image
         to={routes.ITEM.replace(":item", data.id)}
-        photo={getPhoto(data.photo[0]?.file_name)}
+        photo={getPhoto(data.photo[0]?.file_name, endpoints.ITEMS_IMAGES)}
       />
       <Container>
         <Holder to={routes.ITEM.replace(":item", data.id)}>

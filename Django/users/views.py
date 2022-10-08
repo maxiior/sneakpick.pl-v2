@@ -39,6 +39,23 @@ import time
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.core.cache import cache
 
+class TopUsersList(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = User.object.all()
+    serializer_class = CustomUserSerializer
+
+    def get(self, request):
+        
+        print(self.queryset.order_by("-avg_rating")[:5])
+        serialized = self.serializer_class(self.queryset)
+
+        
+
+        return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 @api_view(['POST'])
 def activate_new_email(request, uidb64, token):
     try:
@@ -346,6 +363,7 @@ class Refresh(APIView):
 
             details = {
                 'id': user.id,
+                'email': user.email,
                 'access_token': str(refresh.access_token),
                 'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
             }

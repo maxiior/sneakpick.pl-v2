@@ -31,6 +31,11 @@ import PasswordResetting from "views/PasswordResetting";
 import NewPassword from "views/NewPassword";
 import NewEmailSetter from "views/NewEmailSetter";
 import NewEmailActivation from "views/NewEmailActivation";
+import ShipmentSettings from "views/ShipmentSettings";
+import Question from "views/Question";
+import QuestionAdder from "views/QuestionAdder";
+import ProxyAdder from "views/ProxyAdder";
+import ItemEditor from "views/ItemEditor";
 
 const App = () => {
   useRefreshToken();
@@ -45,14 +50,18 @@ const App = () => {
               <Route exact path={routes.HOME} component={Home} />
               <Route exact path={routes.WTB} component={WTB} />
               <Route path={routes.WTS} component={WTS} />
-              <Route path={routes.ITEM} component={SingleItem} />
+              <Route exact path={routes.ITEM} component={SingleItem} />
+              <Route path={routes.ITEM_EDIT} component={ItemEditor} />
               <Route exact path={routes.PROFILE} component={Profile} />
               <Route path={routes.FOLLOWED} component={Followed} />
               <Route path={routes.SUPPORT} component={Support} />
-              <Route path={routes.PROXY} component={Proxy} />
+              <Route exact path={routes.PROXY} component={Proxy} />
+              <Route path={routes.PROXY_ADDER} component={ProxyAdder} />
               <Route path={routes.STEAL} component={Steal} />
               <Route path={routes.WTT} component={WTT} />
-              <Route path={routes.TALK} component={Talk} />
+              <Route exact path={routes.TALK} component={Talk} />
+              <Route path={routes.ADD_QUESTION} component={QuestionAdder} />
+              <Route path={routes.QUESTION} component={Question} />
               <Route path={routes.FAQ} component={FAQ} />
               <Route
                 path={routes.PASSWORD_RESETTING}
@@ -87,6 +96,7 @@ const App = () => {
                 component={AccountSettings}
               />
               <Route path={routes.PASSWORD_CHANGE} component={PasswordChange} />
+              <Route path={routes.SHIPMENT} component={ShipmentSettings} />
               <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
               <Route path={routes.NEW_EMAIL} component={NewEmailSetter} />
               <Route

@@ -40,7 +40,7 @@ const Photos = React.memo(
         <Header nonPaddingBelow>Zdjęcia</Header>
         <Information>
           Pierwsze zdjęcie będzie zdjęciem głównym. Możesz dodawać zdjęcia w
-          formacie: .jpeg, .png lub .jpg. Maksymalny rozmiar pliku to 5MB.
+          formacie: .jpeg, .png lub .jpg. Maksymalny rozmiar pliku to 10MB.
         </Information>
         {imagesError && <Error $mb>{imagesError}</Error>}
         <Container>

@@ -5,12 +5,13 @@ import styled from "styled-components";
 import Path from "components/SingleItem/Path";
 import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
-import { endpoints } from "routes";
+import { endpoints, routes } from "routes";
 import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Informations from "components/SingleItem/Informations";
 import { fetchSingleItem } from "api/services/items.service";
 import { RiArrowLeftRightLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -51,7 +52,7 @@ const TradeIconHolder = styled.div`
   padding: 4px 10px;
   border-radius: 5px;
   font-size: 16px;
-  background-color: ${({theme}) => theme.tradeColor};
+  background-color: ${({ theme }) => theme.tradeColor};
   display: flex;
   align-items: center;
 `;
@@ -74,7 +75,7 @@ const Option = styled.div`
   font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
-    opacity: 0.9;
+    filter: ${({ active }) => !active && "opacity(90%)"};
   }
 `;
 
@@ -164,6 +165,26 @@ const Text = styled.div`
   padding: 10px 20px;
   user-select: none;
   font-size: 16px;
+`;
+
+const Edit = styled(Link)`
+  background-color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.blue};
+  border: 1px solid ${({ theme }) => theme.blue};
+  font-size: ${({ theme }) => theme.font_size_MD};
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.radious_SM};
+  text-decoration: none;
+  align-items: center;
+  margin-right: 10px;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const SingleItem = () => {
@@ -283,11 +304,16 @@ const SingleItem = () => {
                   {isFollowed ? "Unfollow" : "Follow"}
                 </Option>
               )}
+            {isAuthenticated &&
+              data.product.owner !== undefined &&
+              data.product.owner === user_id && (
+                <Edit to={routes.ITEM_EDIT.replace(":item", item)}>Edytuj</Edit>
+              )}
             {data.product.is_bumped !== undefined && (
               <>
                 {isAuthenticated ? (
                   <Option
-                    onClick={() => bump()}
+                    onClick={() => !data.product.is_bumped && bump()}
                     active={data.product.is_bumped}
                   >
                     Bump

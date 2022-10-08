@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getPhoto } from "functions/getPhoto";
 import { iItem } from "types/item";
-import { routes } from "routes";
+import { routes, endpoints } from "routes";
 
 const Wrapper = styled(Grid)`
   padding: 8px !important;
@@ -95,7 +95,12 @@ const Item = ({ data }: { data: iItem }) => {
         <Container>
           <View>
             <State>{data.condition}</State>
-            <Photo photo={getPhoto(data.images[0]?.file_name)}></Photo>
+            <Photo
+              photo={getPhoto(
+                data.images[0]?.file_name,
+                endpoints.ITEMS_IMAGES
+              )}
+            ></Photo>
           </View>
           <Informations>
             <div>

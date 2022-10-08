@@ -177,6 +177,7 @@ const Register = () => {
     password: false,
   });
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState(false);
 
   const registerProcess = (data) => {
     setPending(true);
@@ -190,12 +191,17 @@ const Register = () => {
         }
       })
       .catch((error) => {
-        const problemsObj = { ...problems };
-        Object.keys(error.response.data).forEach((err) => {
-          problemsObj[err] = true;
-        });
-        setProblems(problemsObj);
+        console.log(error);
         setPending(false);
+        try {
+          const problemsObj = { ...problems };
+          Object.keys(error.response.data).forEach((err) => {
+            problemsObj[err] = true;
+          });
+          setProblems(problemsObj);
+        } catch (e) {
+          setError(true);
+        }
       });
   };
 
@@ -325,6 +331,9 @@ const Register = () => {
             name="statute"
           />
           {errors.statute && <Error statute>{errors.statute.message}</Error>}
+          {error && (
+            <Error statute>Coś poszło nie tak. Spróbuj ponownie później.</Error>
+          )}
           {pending ? (
             <LoadingIconHolder>
               <LoadingIcon />

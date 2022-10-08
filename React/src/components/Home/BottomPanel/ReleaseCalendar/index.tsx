@@ -31,7 +31,7 @@ const ReleaseCalendar: React.FC = () => {
     <Wrapper>
       <TopPanel>
         <Header>Kalendarz premier</Header>
-        <ShowAll to="/">Zobacz wszystkie</ShowAll>
+        <ShowAll to="/">Zobacz wszystko</ShowAll>
       </TopPanel>
     </Wrapper>
   );

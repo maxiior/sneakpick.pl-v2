@@ -1,5 +1,5 @@
-import { routes, endpoints } from "routes";
+import { routes } from "routes";
 
-export const getPhoto = (photo: String) => {
-  return routes.DOMAIN + endpoints.IMAGES + photo;
+export const getPhoto = (photo: string, endpoint: string) => {
+  return routes.DOMAIN + endpoint + photo;
 };

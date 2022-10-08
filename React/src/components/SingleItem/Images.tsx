@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { VscChevronRight } from "react-icons/vsc";
 import { getPhoto } from "functions/getPhoto";
 import { iImage } from "types/image";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   width: 85%;
@@ -29,7 +30,8 @@ const Photo = styled.div<{ photo: string }>`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: ${({ photo }) => photo && `url(${getPhoto(photo)})`};
+  background-image: ${({ photo }) =>
+    photo && `url(${getPhoto(photo, endpoints.ITEMS_IMAGES)})`};
 `;
 
 const Arrow = styled(VscChevronRight)<{ left?: boolean; inactive: boolean }>`
@@ -64,7 +66,8 @@ const IconPhoto = styled.div<{ highlight?: boolean; photo?: string }>`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: ${({ photo }) => photo && `url(${getPhoto(photo)})`};
+  background-image: ${({ photo }) =>
+    photo && `url(${getPhoto(photo, endpoints.ITEMS_IMAGES)})`};
 
   border-bottom: ${({ theme, highlight }) =>
     highlight && `4px solid ${theme.blue}`};

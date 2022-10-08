@@ -6,6 +6,7 @@ export enum information_types {
   item_added = "item_added",
   password_changed = "password_changed",
   update_email_message_sent = "update_email_message_sent",
+  question_added = "question_added",
   new_email_set = "new_email_set",
 }
 
@@ -49,6 +50,11 @@ export const informations = {
     header: "Wejdź na pocztę nowego maila!",
     content:
       "Nowy adres e-mail został wprowadzony, ale żeby móc z niego zacząć korzystać przy logowaniu, wejdź na pocztę i skorzystaj z linku aktywującego.",
+  },
+  question_added: {
+    header: "Twoje pytanie zostało dodane!",
+    content:
+      "Twoje pytanie jest już widoczne dla wszystich użytkowników. Nie zapomnij go zbumpować!",
   },
   support_message_sent: {
     header: "Twoja wiadomość do Centrum Pomocy Sneakpick została wysłana!",

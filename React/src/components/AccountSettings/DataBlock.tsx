@@ -30,7 +30,7 @@ const Value = styled.div`
   }
 `;
 
-const Button = styled(Link)<{ deleteAccount: boolean }>`
+const Button = styled(Link)<{ deleteAccount?: boolean }>`
   background-color: ${({ theme, deleteAccount }) =>
     deleteAccount ? theme.red : theme.blue};
   color: ${({ theme }) => theme.white};

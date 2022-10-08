@@ -5,6 +5,7 @@ import { getPhoto } from "functions/getPhoto";
 import { iItem } from "types/item";
 import { routes } from "routes";
 import { RiArrowLeftRightLine } from "react-icons/ri";
+import { endpoints } from "routes";
 
 const StyledLink = styled(Link)<{ unclickable: boolean }>`
   text-decoration: none;
@@ -164,7 +165,12 @@ const SingleItem = ({ data }: { data?: iItem }) => {
               )}
             </IconsHolder>
             {data ? (
-              <Photo image={`url(${getPhoto(data?.images[0]?.file_name)})`} />
+              <Photo
+                image={`url(${getPhoto(
+                  data?.images[0]?.file_name,
+                  endpoints.ITEMS_IMAGES
+                )})`}
+              />
             ) : (
               <PhotoPlaceHolder />
             )}

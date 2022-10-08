@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'products',
     'support',
     'steal',
+    'talk',
     'chat',
     'checkout',
     'rest_framework_simplejwt.token_blacklist',

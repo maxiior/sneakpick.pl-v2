@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import set_new_email, activate_new_email, AddressUpdate, AddressView, FollowersAPI, FollowingAPI, set_new_password, send_password_resetting_message, SingleAddressView, UsersList, PasswordUpdateView, UserDetail, UserUpdate, UserCreate, Login, ProductWatchlistAPI, ProfileCommentsAPI, Refresh, Logout, activate_user, send_email_changing_message
+from .views import set_new_email, activate_new_email, TopUsersList, AddressUpdate, AddressView, FollowersAPI, FollowingAPI, set_new_password, send_password_resetting_message, SingleAddressView, UsersList, PasswordUpdateView, UserDetail, UserUpdate, UserCreate, Login, ProductWatchlistAPI, ProfileCommentsAPI, Refresh, Logout, activate_user, send_email_changing_message
 
 app_name = 'users'
 
@@ -41,4 +41,5 @@ urlpatterns = [
      path('password-resetting-message/', send_password_resetting_message),
      path('new-password/<uidb64>/<token>/', set_new_password, name='reset'),
 
+     path('top-users/', TopUsersList.as_view(), name='top_users'),
 ]
