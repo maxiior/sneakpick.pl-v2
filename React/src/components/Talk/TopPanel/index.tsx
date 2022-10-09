@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import image from "assets/talk.png";
-import Navigation from "./TopPanel/Navigation";
+import Navigation from "./Navigation";
 
 const Wrapper = styled.div``;
 
@@ -32,13 +32,19 @@ const Header = styled.div`
   text-align: center;
 `;
 
-const TopPanel = () => {
+const TopPanel = ({
+  category,
+  setCategory,
+}: {
+  category: string;
+  setCategory: Function;
+}) => {
   return (
     <Wrapper>
       <Container>
         <Header>TALK</Header>
       </Container>
-      <Navigation />
+      <Navigation category={category} setCategory={setCategory} />
     </Wrapper>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Option from "./Option";
-import { colorwaysTheme } from "theme/ColorwaysTheme";
+import { talkCategories } from "constants/talkCategories";
 
 const Wrapper = styled.div`
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
@@ -21,14 +21,14 @@ const Container = styled.div`
   }
 `;
 
-const Tag = styled.div<{ color: string }>`
+const Tag = styled.div<{ color: string; active: boolean }>`
   background-color: ${({ color }) => color};
   padding: 5px 10px;
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.white};
   border-radius: 5px;
-  filter: opacity(40%);
+  filter: ${({ active }) => (active ? "opacity(100%)" : "opacity(40%)")};
   cursor: pointer;
   user-select: none;
   margin-right: 10px;
@@ -41,7 +41,13 @@ const Tag = styled.div<{ color: string }>`
   }
 `;
 
-const Navigation = () => {
+const Navigation = ({
+  category,
+  setCategory,
+}: {
+  category: string;
+  setCategory: Function;
+}) => {
   return (
     <Wrapper>
       <div>
@@ -51,11 +57,15 @@ const Navigation = () => {
           <Option name={"Najpopularniejsze"} />
         </Container>
         <Container>
-          <Tag color={colorwaysTheme.orange}>ID</Tag>
-          <Tag color={colorwaysTheme.red}>LC</Tag>
-          <Tag color={colorwaysTheme.green}>PC</Tag>
-          <Tag color={colorwaysTheme.blue}>FIT</Tag>
-          <Tag color={colorwaysTheme.purple}>Inne</Tag>
+          {talkCategories.map((e) => (
+            <Tag
+              active={e.name === category}
+              color={e.color}
+              onClick={() => setCategory(category === e.name ? "" : e.name)}
+            >
+              {e.name}
+            </Tag>
+          ))}
         </Container>
       </div>
     </Wrapper>

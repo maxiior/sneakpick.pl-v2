@@ -3,30 +3,21 @@ import styled from "styled-components";
 
 const Wrapper = styled.div<{ color: string }>`
   color: ${({ color }) => color};
+  user-select: none;
 `;
 
-const Name = styled.div`
+const Name = styled.div<{ active: boolean }>`
   font-size: 16px;
   padding: 10px;
-  filter: opacity(50%);
+  filter: ${({ active }) => (active ? "opacity(100%)" : "opacity(40%)")};
   border-radius: 10px;
   display: flex;
   align-items: center;
 `;
 
-const StyledLabel = styled.label`
-  position: relative;
+const Holder = styled.div`
   cursor: pointer;
   display: flex;
-`;
-
-const StyledInput = styled.input`
-  opacity: 0;
-  position: absolute;
-
-  :checked + ${Name} {
-    filter: opacity(100%);
-  }
 `;
 
 const Icon = styled.div`
@@ -36,23 +27,31 @@ const Icon = styled.div`
 `;
 
 const Option = ({
+  fullname,
   name,
   icon,
   color,
+  category,
+  setCategory,
 }: {
+  fullname: string;
   name: string;
   icon?: any;
   color: string;
+  category: string;
+  setCategory: Function;
 }) => {
   return (
-    <Wrapper color={color}>
-      <StyledLabel>
-        <StyledInput type="radio" name="category" />
-        <Name>
+    <Wrapper
+      color={color}
+      onClick={() => setCategory(category === name ? "" : name)}
+    >
+      <Holder>
+        <Name active={category === name}>
           <Icon>{icon}</Icon>
-          <div>{name}</div>
+          <div>{fullname}</div>
         </Name>
-      </StyledLabel>
+      </Holder>
     </Wrapper>
   );
 };

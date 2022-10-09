@@ -11,10 +11,16 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const BottomPanel = () => {
+const BottomPanel = ({
+  category,
+  setCategory,
+}: {
+  category: string;
+  setCategory: Function;
+}) => {
   return (
     <Wrapper>
-      <Categories />
+      <Categories category={category} setCategory={setCategory} />
       <PostsList />
       <RightPanel />
     </Wrapper>

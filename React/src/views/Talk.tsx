@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TopPanel from "components/Talk/TopPanel";
 import BottomPanel from "components/Talk/BottomPanel";
 import styled from "styled-components";
@@ -9,10 +9,12 @@ const Wrapper = styled.div`
 `;
 
 const Talk = () => {
+  const [category, setCategory] = useState("");
+
   return (
     <Wrapper>
-      <TopPanel />
-      <BottomPanel />
+      <TopPanel category={category} setCategory={setCategory} />
+      <BottomPanel category={category} setCategory={setCategory} />
     </Wrapper>
   );
 };

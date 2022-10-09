@@ -1,12 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Option from "./Option";
-import { ImPriceTag } from "react-icons/im";
-import { FaCheck } from "react-icons/fa";
-import { CgArrowsExpandLeft } from "react-icons/cg";
-import { FaBlackTie } from "react-icons/fa";
-import { RiBarChartHorizontalLine } from "react-icons/ri";
+
 import { colorwaysTheme } from "theme/ColorwaysTheme";
+import { talkCategories } from "constants/talkCategories";
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -17,35 +14,26 @@ const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
 `;
 
-const Categories = () => {
+const Categories = ({
+  category,
+  setCategory,
+}: {
+  category: string;
+  setCategory: Function;
+}) => {
   return (
     <Wrapper>
       <Header>Kategorie</Header>
-      <Option
-        name="Identity Check"
-        icon={<FaBlackTie />}
-        color={colorwaysTheme.orange}
-      />
-      <Option
-        name="Legit Check"
-        icon={<FaCheck />}
-        color={colorwaysTheme.red}
-      />
-      <Option
-        name="Price Check"
-        icon={<ImPriceTag />}
-        color={colorwaysTheme.green}
-      />
-      <Option
-        name="Fit Check"
-        icon={<CgArrowsExpandLeft />}
-        color={colorwaysTheme.blue}
-      />
-      <Option
-        name="Inne"
-        icon={<RiBarChartHorizontalLine />}
-        color={colorwaysTheme.purple}
-      />
+      {talkCategories.map((e) => (
+        <Option
+          fullname={e.fullname}
+          name={e.name}
+          color={e.color}
+          icon={<e.icon />}
+          setCategory={setCategory}
+          category={category}
+        />
+      ))}
     </Wrapper>
   );
 };
