@@ -178,7 +178,7 @@ const RateButton = styled(Link)`
 `;
 
 const TopPanel = () => {
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const profile = useAppSelector((state) => state.profileSlice);
@@ -187,7 +187,7 @@ const TopPanel = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchUser(user));
+    dispatch(fetchUser(user!));
   }, [dispatch, user]);
 
   const follow = () => {
@@ -223,10 +223,8 @@ const TopPanel = () => {
             user !== user_id &&
             isAuthenticated && (
               <RateButton
-                to={{
-                  pathname: routes.USER_PROFILE_COMMENTS.replace(":user", user),
-                  state: "open_rating_panel",
-                }}
+                to={routes.USER_PROFILE_COMMENTS.replace(":user", user!)}
+                state={{ state: "open_rating_panel" }}
               >
                 Oceń użytkownika
               </RateButton>

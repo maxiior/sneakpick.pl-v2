@@ -7,6 +7,7 @@ export enum routes {
   PROXY = "/proxy",
   PROXY_ADDER = "/proxy/new",
   STEAL = "/steal",
+  STEAL_ADDER = "/steal/new",
   FAQ = "/faq",
   SUPPORT = "/support",
   BUSINESSCONTACT = "/businesscontact",
@@ -37,7 +38,8 @@ export enum routes {
   BRAND_PATH = "/wtb?brand={brand}&limit=24&page=1&ordering=1",
 
   TALK = "/talk",
-  QUESTION = "/talk/:question",
+  TALK_DEFAULT_SEARCH = "/talk?ordering=0",
+  QUESTION = "/talk/:id",
   ADD_QUESTION = "/talk/new",
 
   NEW_EMAIL = "/new-email/:uidb64/:token",
@@ -93,7 +95,10 @@ export enum endpoints {
   POST_NEW_EMAIL_ACTIVATION = "/users/email-activation/{uidb64}/{token}/",
 
   POST_ADD_QUESTION = "/talk/",
-  GET_ALL_QUESTIONS = "/talk/",
+  GET_ALL_QUESTIONS = "/talk/?limit=24&offset={offset}&{filters}",
 
   POST_BUMP_QUESTION = "/talk/{uuid}/bump/",
+
+  POST_INCREASE_QUESTION_VIEWS = "/talk/{uuid}/views/",
+  GET_QUESTION = "talk/{id}/",
 }

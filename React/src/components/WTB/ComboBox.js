@@ -4,7 +4,7 @@ import { VscTriangleDown } from "react-icons/vsc";
 import { useSelector } from "react-redux";
 import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
 import { onFilterClick } from "functions/onFilterClick";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -89,7 +89,7 @@ const ComboBox = ({ className, name, elements, selectorType, sorting }) => {
     (state) => state.selectorsSlice.currentSelectors
   );
   const [open, setOpen] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const wrapperRef = useRef(null);
   useDetectOutsideClick(wrapperRef, setOpen);
 
@@ -109,7 +109,7 @@ const ComboBox = ({ className, name, elements, selectorType, sorting }) => {
                     selectorType,
                     sorting ? i : elements[i],
                     "radio",
-                    history
+                    navigate
                   )
                 }
               >

@@ -3,10 +3,9 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { setNewPassword } from "api/services/users.service";
 import { routes } from "routes";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingIcon from "components/common/LoadingIcon";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { setInformationBlock } from "store/interface/actions";
@@ -96,8 +95,8 @@ const NewEmailSetter = () => {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const dispatch = useAppDispatch();
-  const { uidb64, token }: { uidb64: string; token: string } = useParams();
-  const history = useHistory();
+  const { uidb64, token } = useParams<{ uidb64: string; token: string }>();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object()
     .shape({
@@ -126,11 +125,11 @@ const NewEmailSetter = () => {
   const changingEmailProcess: SubmitHandler<iNewEmail> = (data) => {
     setPending(true);
 
-    setNewEmail(data, token, uidb64)
+    setNewEmail(data, token!, uidb64!)
       .then((response) => {
         if (response.status === 200) {
           setPending(false);
-          history.push(routes.HOME);
+          navigate(routes.HOME);
           dispatch(setInformationBlock(information_types.new_email_set));
         }
       })

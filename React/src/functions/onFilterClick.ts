@@ -4,7 +4,7 @@ export const onFilterClick = (
   filterType: string,
   value: string,
   input: string,
-  history: any
+  navigate: any
 ) => {
   value = mapKindToServerValue(value);
 
@@ -78,7 +78,7 @@ export const onFilterClick = (
     }
   });
 
-  history.push({
+  navigate({
     pathname: "",
     search: search,
   });

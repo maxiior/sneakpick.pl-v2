@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 
 const useAuthenticated = () => {
   const { isAuthenticated, pending } = useSelector((state) => state.authSlice);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!pending && !isAuthenticated) history.replace(routes.HOME);
-  }, [pending, history, isAuthenticated]);
+    if (!pending && !isAuthenticated) navigate.replace(routes.HOME);
+  }, [pending, navigate, isAuthenticated]);
 };
 
 export default useAuthenticated;

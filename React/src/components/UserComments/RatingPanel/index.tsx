@@ -69,14 +69,14 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
   const [rating, setRating] = useState(0);
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
 
   const ratingProcess = () => {
     if (!content && rating === 0) setError(true);
     else {
       dispatch(
         addComment({
-          user: user,
+          user: user!,
           content: content,
           rating: rating,
         })

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetAllStates } from "store/filters/actions";
 import useResizeObserver from "@react-hook/resize-observer";
 import { useScrollToTop } from "hooks/useScrollToTop";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onResetFilters } from "functions/onResetFilters";
 import { displayCommunicatorIcon } from "store/interface/actions";
 import InputRange from "components/WTB/InputRange";
@@ -120,7 +120,7 @@ const MobileFilters = ({ className }) => {
   const { filters, filterTypes, currentFilters } = useSelector(
     (state) => state.filtersSlice
   );
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useScrollToTop();
 
@@ -222,7 +222,7 @@ const MobileFilters = ({ className }) => {
         <Button
           onClick={() => {
             dispatch(resetAllStates());
-            onResetFilters(history);
+            onResetFilters(navigate);
           }}
           clear
         >

@@ -2,7 +2,7 @@ import { VscSearch } from "react-icons/vsc";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { resetAllStates } from "store/filters/actions";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onResetFilters } from "functions/onResetFilters";
 
 const Wrapper = styled.div`
@@ -49,7 +49,7 @@ const Icon = styled(VscSearch)`
 
 const FiltersHeader = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <Header>
@@ -59,7 +59,7 @@ const FiltersHeader = () => {
       <Reset
         onClick={() => {
           dispatch(resetAllStates());
-          onResetFilters(history);
+          onResetFilters(navigate);
         }}
       >
         Reset

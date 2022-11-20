@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import Elements from "components/WTB/Elements";
 import { useAppSelector } from "hooks/useAppSelector";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
 
 const RangeSlider = styled.div<{ mobile: boolean }>`
@@ -131,7 +131,7 @@ const Value = styled.div`
 const InputRange = ({ filterType, currentFilter, mobile = false }: any) => {
   const { max_price } = useAppSelector((state) => state.itemsSlice);
   const [value, setValue] = useState("0");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setValue(currentFilter !== -1 ? currentFilter : max_price.toString());
@@ -158,7 +158,7 @@ const InputRange = ({ filterType, currentFilter, mobile = false }: any) => {
                   filterType.name,
                   value,
                   filterType.input,
-                  history
+                  navigate
                 );
               }}
             />

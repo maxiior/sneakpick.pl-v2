@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
@@ -12,22 +12,29 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 `;
 
-const Title = styled.div`
+const Title = styled(Link)`
   font-size: 18px;
   font-weight: 500;
   color: ${({ theme }) => theme.black};
+  display: block;
+  text-decoration: none;
 `;
 
-const Item = styled.div`
+const Item = styled(Link)`
   font-size: ${({ theme }) => theme.font_size_SM};
   color: ${({ theme }) => theme.darkGrey};
+  display: block;
+  text-decoration: none;
 `;
 
-const Description = styled.div`
+const Description = styled(Link)`
   color: ${({ theme }) => theme.darkGrey};
   padding: 20px 0;
+  display: block;
+  text-decoration: none;
 `;
 
 const Tag = styled.span<{ category: string }>`
@@ -45,10 +52,6 @@ const Tag = styled.span<{ category: string }>`
   padding: 3px 7px;
   font-size: 14px;
   border-radius: 5px;
-`;
-
-const Container = styled(Link)`
-  text-decoration: none;
 `;
 
 const Button = styled.span<{ active: boolean }>`
@@ -75,6 +78,7 @@ const Counter = styled.div`
   color: ${({ theme }) => theme.blue};
   font-size: 16px;
   margin-left: 10px;
+  user-select: none;
 `;
 
 const Views = styled.div`
@@ -86,8 +90,8 @@ const Views = styled.div`
 
 const Content = ({ data }: { data: IPost }) => {
   const { isAuthenticated } = useAppSelector((state) => state.authSlice);
-  const [bumped, setBumped] = useState(data.is_bumped);
-  const [counter, setCounter] = useState(data.total_bumps);
+  const [bumped, setBumped] = useState(false);
+  const [counter, setCounter] = useState(0);
 
   const bumpQuestionProcess = (id: string) => {
     bumpQuestion(id)
@@ -100,15 +104,22 @@ const Content = ({ data }: { data: IPost }) => {
       .catch(() => {});
   };
 
+  useEffect(() => {
+    setBumped(data.is_bumped);
+    setCounter(data.total_bumps);
+  }, [data.is_bumped, data.total_bumps]);
+
   return (
     <Wrapper>
-      <Container to={routes.QUESTION.replace(":question", data.id)}>
-        <Title>
+      <div>
+        <Title to={routes.QUESTION.replace(":id", data.id)}>
           {data.title}{" "}
           <Tag category={data.category}>{data.category.toUpperCase()}</Tag>
         </Title>
-        <Item>{data.item}</Item>
-        <Description>{data.description}</Description>
+        <Item to={routes.QUESTION.replace(":id", data.id)}>{data.item}</Item>
+        <Description to={routes.QUESTION.replace(":id", data.id)}>
+          {data.description}
+        </Description>
         {isAuthenticated && (
           <Holder>
             <Button
@@ -120,7 +131,7 @@ const Content = ({ data }: { data: IPost }) => {
             <Counter>+{counter}</Counter>
           </Holder>
         )}
-      </Container>
+      </div>
       <Views>{data.views} wyświetleń</Views>
     </Wrapper>
   );

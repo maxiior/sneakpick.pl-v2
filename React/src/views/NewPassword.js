@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { setNewPassword } from "api/services/users.service";
 import { routes } from "routes";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingIcon from "components/common/LoadingIcon";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { setInformationBlock } from "store/interface/actions";
@@ -91,7 +91,7 @@ const Holder = styled.div`
 
 const NewPassword = () => {
   const { uid, token } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -121,7 +121,7 @@ const NewPassword = () => {
       .then((response) => {
         if (response.status === 200) {
           setPending(false);
-          history.push(routes.HOME);
+          navigate(routes.HOME);
           dispatch(setInformationBlock(information_types.password_reseted));
         }
       })

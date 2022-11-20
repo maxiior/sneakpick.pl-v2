@@ -85,13 +85,13 @@ const LoadingIconHolder = styled.div`
 `;
 
 const NewEmailActivation = () => {
-  const { uidb64, token }: { uidb64: string; token: string } = useParams();
+  const { uidb64, token } = useParams<{ uidb64: string; token: string }>();
 
   const [pending, setPending] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    activateNewEmail(uidb64, token)
+    activateNewEmail(uidb64!, token!)
       .then(() => {
         setPending(false);
       })
@@ -99,7 +99,7 @@ const NewEmailActivation = () => {
         setPending(false);
         setError(true);
       });
-  }, []);
+  }, [uidb64, token]);
 
   return (
     <Wrapper>

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Dropdown from "components/Nav/Options/Option/Dropdown";
 import { iOption } from "types/Nav/Options/Option/option";
-import { routes } from "routes";
 import { NavLink } from "react-router-dom";
 
 const StyledNavLink = styled(NavLink)`
@@ -34,17 +33,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const Option = ({ text, to, onClick }: iOption) => {
+const Option = ({ text, to, onClick, popup }: iOption) => {
   return (
     <Wrapper>
-      <StyledNavLink
-        exact={to === routes.HOME}
-        to={to}
-        activeClassName="active"
-        onClick={() => onClick && onClick()}
-      >
+      <StyledNavLink to={to} onClick={() => onClick && onClick()}>
         {text}
-        <StyledDropdown />
+        {popup && <StyledDropdown />}
       </StyledNavLink>
     </Wrapper>
   );

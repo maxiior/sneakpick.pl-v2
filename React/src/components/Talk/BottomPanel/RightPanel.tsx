@@ -7,6 +7,10 @@ import { routes } from "routes";
 const Wrapper = styled.div`
   width: 20%;
   padding: 20px;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
+    display: none;
+  }
 `;
 
 const Button = styled(Link)`

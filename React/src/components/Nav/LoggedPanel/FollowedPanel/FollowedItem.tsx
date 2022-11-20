@@ -92,13 +92,13 @@ const FollowedItem = ({ data }: { data: iFollowed }) => {
     <Wrapper>
       <Image
         to={routes.ITEM.replace(":item", data.id)}
-        photo={getPhoto(data.photo[0]?.file_name, endpoints.ITEMS_IMAGES)}
+        photo={getPhoto(data.images[0]?.file_name, endpoints.ITEMS_IMAGES)}
       />
       <Container>
         <Holder to={routes.ITEM.replace(":item", data.id)}>
           <Informations>
             <Name>{maxLength(data.name)}</Name>
-            <Parameter>Rozmiar: {data.size}</Parameter>
+            <Parameter>Rozmiar: {data.size.toUpperCase()}</Parameter>
             <Parameter>Stan: {data.condition.toUpperCase()}</Parameter>
           </Informations>
           <Price>{data.price}PLN</Price>

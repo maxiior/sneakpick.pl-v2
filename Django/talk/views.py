@@ -11,6 +11,9 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django_filters.filters import OrderingFilter
 import django_filters
+from django.db.models import Count
+from rest_framework.decorators import api_view, throttle_classes, permission_classes
+from core.throttle import OnceADayPerURLThrottle
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -41,7 +44,7 @@ class QuestionFilter(django_filters.FilterSet):
         }
 
 class TalkViewSet(viewsets.ModelViewSet):
-    queryset = Question.objects.all()
+    queryset = Question.objects.annotate(bumps_count=Count('bumps')).all()
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = QuestionSerializer
     pagination_class = Pagination
@@ -49,3 +52,12 @@ class TalkViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter]
     search_fields = ['title', 'item']
     filter_class = QuestionFilter
+
+@api_view(['POST'])
+@throttle_classes([OnceADayPerURLThrottle])
+@permission_classes([IsAuthenticated])
+def incremenent_question_views(request, pk, format=None):
+    product = Question.objects.get(pk=pk)
+    product.views += 1
+    product.save()
+    return Response(status=status.HTTP_200_OK)

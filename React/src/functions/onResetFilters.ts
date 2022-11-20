@@ -1,7 +1,7 @@
 import { routes } from "routes";
 
-export const onResetFilters = (history: any) => {
-  history.push({
+export const onResetFilters = (navigate: any) => {
+  navigate({
     pathname: "",
     search: routes.DEFAULT_SEARCH,
   });

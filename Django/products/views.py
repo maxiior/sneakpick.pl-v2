@@ -105,10 +105,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)
 
+        results = serializer.data
+
         data = {
-            'results': serializer.data,
+            'results': results,
             'count': len(queryset),
-            'max_price': Product.objects.order_by('-price')[0].price
+            'max_price': Product.objects.order_by('-price')[0].price if results else 1000
         }
 
         return Response(data)
@@ -117,13 +119,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 @throttle_classes([OnceADayPerURLThrottle])
 @permission_classes([IsAuthenticated])
-def post_incremenent_product_views(request, pk, format=None):
+def incremenent_product_views(request, pk, format=None):
     product = Product.objects.get(pk=pk)
-    # user cannot increment views in own products
-    if product.owner.id == request.user.id:
-        return Response(data="Cannot increment view in own product", status=status.HTTP_403_FORBIDDEN)
-
     product.views += 1
     product.save()
-
     return Response(status=status.HTTP_200_OK)

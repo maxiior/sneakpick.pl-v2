@@ -3,7 +3,7 @@ import styled from "styled-components";
 import logo from "assets/logo.png";
 import Search from "components/Nav/Search";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "routes";
 import { Link } from "react-router-dom";
@@ -78,7 +78,7 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
 `;
 
 const Nav = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState("");
 
@@ -87,7 +87,7 @@ const Nav = () => {
     if (data) search = routes.DEFAULT_SEARCH + "&search=" + data;
     else search = routes.DEFAULT_SEARCH;
 
-    history.push({
+    navigate({
       pathname: routes.WTB,
       search: search,
     });

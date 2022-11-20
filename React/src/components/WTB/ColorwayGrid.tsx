@@ -3,7 +3,7 @@ import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled, { css } from "styled-components";
 import { colorwaysTheme } from "theme/ColorwaysTheme";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
 
 const CW = styled.div<{ mobile: boolean; white: boolean; multi: boolean }>`
@@ -66,7 +66,7 @@ const ColorwayGrid = ({
   borderNone,
   currentFilter,
 }: any) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Elements mobile={mobile} borderNone={borderNone}>
@@ -82,7 +82,7 @@ const ColorwayGrid = ({
                     filterType.name,
                     c.text,
                     filterType.input,
-                    history
+                    navigate
                   )
                 }
                 checked={currentFilter && currentFilter.includes(c.text)}

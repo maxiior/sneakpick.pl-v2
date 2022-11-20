@@ -66,7 +66,7 @@ const Holder = styled.div`
 
 const UserComments: React.FC = () => {
   const [ratingPanel, setRatingPanel] = useState(false);
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
   const ratingPanelRequest = useLocation().state;
   const dispatch = useAppDispatch();
   const ref: any = useRef(null);
@@ -86,13 +86,13 @@ const UserComments: React.FC = () => {
     const position = window.scrollY;
     var limit = document.body.offsetHeight - window.innerHeight;
     if (position === limit)
-      dispatch(fetchComments({ user: user, reloading: true }));
+      dispatch(fetchComments({ user: user!, reloading: true }));
   };
 
   useEffect(() => {
     if (!all_loaded) {
       if (init_pending)
-        dispatch(fetchComments({ user: user, reloading: false }));
+        dispatch(fetchComments({ user: user!, reloading: false }));
       else document.addEventListener("scroll", bottomScrollDetection);
       return () =>
         document.removeEventListener("scroll", bottomScrollDetection);
@@ -106,7 +106,7 @@ const UserComments: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (ratingPanelRequest === "open_rating_panel") {
+    if (ratingPanelRequest?.state === "open_rating_panel") {
       setRatingPanel(true);
       ref?.current?.scrollIntoView();
     }
@@ -139,7 +139,7 @@ const UserComments: React.FC = () => {
                 : "komentarzy"}
             </NumberOfComments>
             {comments_count > 0 ? (
-              comments.map((e) => <SingleComment data={e} user={user} />)
+              comments.map((e) => <SingleComment data={e} user={user!} />)
             ) : (
               <Blank>Ten użytkownik nie posiada żadnych komentarzy.</Blank>
             )}

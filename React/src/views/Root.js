@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainTemplate from "templates/MainTemplate";
 import { routes } from "routes";
 import { theme } from "theme/mainTheme";
@@ -36,6 +36,7 @@ import Question from "views/Question";
 import QuestionAdder from "views/QuestionAdder";
 import ProxyAdder from "views/ProxyAdder";
 import ItemEditor from "views/ItemEditor";
+import StealAdder from "views/StealAdder";
 
 const App = () => {
   useRefreshToken();
@@ -46,65 +47,69 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CommunicatorTemplate>
           <MainTemplate>
-            <Switch>
-              <Route exact path={routes.HOME} component={Home} />
-              <Route exact path={routes.WTB} component={WTB} />
-              <Route path={routes.WTS} component={WTS} />
-              <Route exact path={routes.ITEM} component={SingleItem} />
-              <Route path={routes.ITEM_EDIT} component={ItemEditor} />
-              <Route exact path={routes.PROFILE} component={Profile} />
-              <Route path={routes.FOLLOWED} component={Followed} />
-              <Route path={routes.SUPPORT} component={Support} />
-              <Route exact path={routes.PROXY} component={Proxy} />
-              <Route path={routes.PROXY_ADDER} component={ProxyAdder} />
-              <Route path={routes.STEAL} component={Steal} />
-              <Route path={routes.WTT} component={WTT} />
-              <Route exact path={routes.TALK} component={Talk} />
-              <Route path={routes.ADD_QUESTION} component={QuestionAdder} />
-              <Route path={routes.QUESTION} component={Question} />
-              <Route path={routes.FAQ} component={FAQ} />
+            <Routes>
+              <Route exact path={routes.HOME} element={<Home />} />
+              <Route exact path={routes.WTB} element={<WTB />} />
+              <Route path={routes.WTS} element={<WTS />} />
+              <Route exact path={routes.ITEM} element={<SingleItem />} />
+              <Route path={routes.ITEM_EDIT} element={<ItemEditor />} />
+              <Route exact path={routes.PROFILE} element={<Profile />} />
+              <Route path={routes.FOLLOWED} element={<Followed />} />
+              <Route path={routes.SUPPORT} element={<Support />} />
+              <Route exact path={routes.PROXY} element={<Proxy />} />
+              <Route path={routes.PROXY_ADDER} element={<ProxyAdder />} />
+              <Route path={routes.STEAL_ADDER} element={<StealAdder />} />
+              <Route path={routes.STEAL} element={<Steal />} />
+              <Route path={routes.WTT} element={<WTT />} />
+              <Route exact path={routes.TALK} element={<Talk />} />
+              <Route path={routes.ADD_QUESTION} element={<QuestionAdder />} />
+              <Route path={routes.QUESTION} element={<Question />} />
+              <Route path={routes.FAQ} element={<FAQ />} />
               <Route
                 path={routes.PASSWORD_RESETTING}
-                component={PasswordResetting}
+                element={<PasswordResetting />}
               />
-              <Route path={routes.NEW_PASSWORD} component={NewPassword} />
+              <Route path={routes.NEW_PASSWORD} element={<NewPassword />} />
               <Route
                 path={routes.ACCOUNT_ACTIVATION}
-                component={AccountActivation}
+                element={<AccountActivation />}
               />
               <Route
                 path={routes.BUSINESSCONTACT}
-                component={BusinessContact}
+                element={<BusinessContact />}
               />
               <Route
                 exact
                 path={routes.USER_PROFILE_COMMENTS}
-                component={UserComments}
+                element={<UserComments />}
               />
               <Route
                 exact
                 path={routes.USER_PROFILE_PRODUCTS}
-                component={UserProducts}
+                element={<UserProducts />}
               />
               <Route
                 path={routes.PROFILE_SETTINGS}
-                component={ProfileSettings}
+                element={<ProfileSettings />}
               />
               <Route
                 exact
                 path={routes.ACCOUNT_SETTINGS}
-                component={AccountSettings}
+                element={<AccountSettings />}
               />
-              <Route path={routes.PASSWORD_CHANGE} component={PasswordChange} />
-              <Route path={routes.SHIPMENT} component={ShipmentSettings} />
-              <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
-              <Route path={routes.NEW_EMAIL} component={NewEmailSetter} />
+              <Route
+                path={routes.PASSWORD_CHANGE}
+                element={<PasswordChange />}
+              />
+              <Route path={routes.SHIPMENT} element={<ShipmentSettings />} />
+              <Route path={routes.EMAIL_CHANGE} element={<EmailChange />} />
+              <Route path={routes.NEW_EMAIL} element={<NewEmailSetter />} />
               <Route
                 path={routes.EMAIL_ACTIVATION}
-                component={NewEmailActivation}
+                element={<NewEmailActivation />}
               />
-              <Route component={PageNotFound} />
-            </Switch>
+              <Route element={<PageNotFound />} />
+            </Routes>
           </MainTemplate>
         </CommunicatorTemplate>
       </ThemeProvider>

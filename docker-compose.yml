@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  # sneakpick-react:
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=sneakpick
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=NZZlu^omZ6^m5A38%fumi15gji!z4i
+    ports:
+      - "5432:5432"
+  web:
+    build: ./Django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./Django:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

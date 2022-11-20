@@ -7,20 +7,15 @@ import RightPanel from "./RightPanel";
 const Wrapper = styled.div`
   width: 100%;
   padding: 30px;
+  min-height: 100vh;
   display: flex;
   justify-content: space-between;
 `;
 
-const BottomPanel = ({
-  category,
-  setCategory,
-}: {
-  category: string;
-  setCategory: Function;
-}) => {
+const BottomPanel = () => {
   return (
     <Wrapper>
-      <Categories category={category} setCategory={setCategory} />
+      <Categories />
       <PostsList />
       <RightPanel />
     </Wrapper>

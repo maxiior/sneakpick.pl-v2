@@ -6,14 +6,7 @@ export const fetchFollowedItems = createAsyncThunk(
   async () => {
     const { data } = await itemsService.fetchFollowedItems();
 
-    return data.results.map((e: any) => ({
-      name: e.name,
-      size: e.size,
-      condition: e.condition,
-      id: e.id,
-      price: e.price,
-      photo: e.images,
-    }));
+    return data.results;
   }
 );
 

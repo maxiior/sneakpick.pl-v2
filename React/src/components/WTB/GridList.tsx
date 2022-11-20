@@ -1,7 +1,7 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
 
 const GridElements = styled.div<{
@@ -66,7 +66,7 @@ const GridList = ({
   currentFilter,
   ...props
 }: any) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Elements mobile={mobile}>
@@ -82,7 +82,7 @@ const GridList = ({
                     filterType.name,
                     e.text,
                     filterType.input,
-                    history
+                    navigate
                   )
                 }
                 checked={currentFilter.includes(e.text)}

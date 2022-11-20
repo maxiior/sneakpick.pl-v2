@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { sendPasswordResettingMessage } from "api/services/users.service";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 import LoadingIcon from "components/common/LoadingIcon";
 import { useAppDispatch } from "hooks/useAppDispatch";
@@ -97,7 +97,7 @@ const PasswordResetting: React.FC = () => {
     })
     .required();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const dispatch = useAppDispatch();
@@ -107,7 +107,7 @@ const PasswordResetting: React.FC = () => {
     sendPasswordResettingMessage(data)
       .then((response: any) => {
         if (response.status === 200) {
-          history.push(routes.WTB + routes.DEFAULT_SEARCH);
+          navigate(routes.WTB + routes.DEFAULT_SEARCH);
           setPending(false);
           dispatch(
             setInformationBlock(

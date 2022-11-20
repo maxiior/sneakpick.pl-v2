@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import LoadingIcon from "components/common/LoadingIcon";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 import { sendEmailChangingMessage } from "api/services/users.service";
 
@@ -84,7 +84,7 @@ const LoadingIconHolder = styled.div`
 
 const EmailChange = () => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object()
     .shape({
@@ -115,7 +115,7 @@ const EmailChange = () => {
           dispatch(
             setInformationBlock(information_types.update_email_message_sent)
           );
-          history.push(routes.ACCOUNT_SETTINGS);
+          navigate(routes.ACCOUNT_SETTINGS);
         }
       })
       .catch(() => {

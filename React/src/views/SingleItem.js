@@ -214,16 +214,7 @@ const SingleItem = () => {
     http
       .post(endpoints.FOLLOWED_ITEMS, { id: data.product.id })
       .then(() => {
-        dispatch(
-          addFollowedItem({
-            name: data.product.name,
-            size: data.product.size,
-            condition: data.product.condition,
-            id: data.product.id,
-            price: data.product.price,
-            photo: data.product.images,
-          })
-        );
+        dispatch(addFollowedItem(data.product));
         setIsFollowed(true);
       })
       .catch(() => {});
@@ -260,7 +251,7 @@ const SingleItem = () => {
 
   useEffect(() => {
     setIsFollowed(data.product.is_followed);
-  }, []);
+  }, [data.product.is_followed]);
 
   const checkIfFollowed = () => {
     let check = false;

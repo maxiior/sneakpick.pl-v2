@@ -7,7 +7,7 @@ import Description from "components/WTS/Description";
 import Delivery from "components/WTS/Delivery";
 import http from "api/http";
 import { resetCurrentStates } from "store/creator/actions";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
@@ -64,7 +64,7 @@ const Add = styled.button`
 `;
 
 const WTS = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { filters, filterTypes, currentFilters } = useSelector(
     (state) => state.creatorSlice
@@ -115,7 +115,7 @@ const WTS = () => {
       .post(endpoints.POST_ADD_ITEM, payload)
       .then((response) => {
         if (response.status === 201) {
-          history.push(routes.WTB + routes.DEFAULT_SEARCH);
+          navigate(routes.WTB + routes.DEFAULT_SEARCH);
           dispatch(setInformationBlock(information_types.item_added));
         }
       })

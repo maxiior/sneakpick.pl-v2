@@ -26,7 +26,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
   min-width: 1270px;
   max-width: calc(100% - 8px);
-  padding-bottom: 10px;
 
   /* @media only screen and (max-width: 589px) {
     min-width: 980px;

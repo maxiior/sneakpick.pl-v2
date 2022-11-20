@@ -8,31 +8,31 @@ import { RiBarChartHorizontalLine } from "react-icons/ri";
 export const talkCategories = [
   {
     fullname: "Identity Check",
-    name: "ID",
+    name: "id",
     icon: FaBlackTie,
     color: colorwaysTheme.orange,
   },
   {
     fullname: "Legit Check",
-    name: "LC",
+    name: "lc",
     icon: FaCheck,
     color: colorwaysTheme.red,
   },
   {
     fullname: "Price Check",
-    name: "PC",
+    name: "pc",
     icon: ImPriceTag,
     color: colorwaysTheme.green,
   },
   {
     fullname: "Fit Check",
-    name: "FIT",
+    name: "fit",
     icon: CgArrowsExpandLeft,
     color: colorwaysTheme.blue,
   },
   {
     fullname: "Inne",
-    name: "Inne",
+    name: "other",
     icon: RiBarChartHorizontalLine,
     color: colorwaysTheme.purple,
   },

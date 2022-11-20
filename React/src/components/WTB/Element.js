@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { onFilterClick } from "functions/onFilterClick";
 import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
@@ -46,7 +46,7 @@ const StyledInput = styled.input`
 `;
 
 const Element = ({ text, filterType, checked }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <StyledElement>
@@ -54,7 +54,7 @@ const Element = ({ text, filterType, checked }) => {
         <StyledInput
           type="checkbox"
           onChange={() =>
-            onFilterClick(filterType.name, text, filterType.input, history)
+            onFilterClick(filterType.name, text, filterType.input, navigate)
           }
           checked={checked.includes(text)}
         />

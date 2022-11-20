@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Avatar from "./Avatar";
 import defaultUserPicture from "assets/svg/default_user_picture.svg";
 import Rating from "./Rating";
+import { Link } from "react-router-dom";
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.lightGrey};
   display: flex;
@@ -12,6 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 5px 157px 5px 20px;
   cursor: pointer;
+  text-decoration: none;
 
   :hover {
     background-color: ${({ theme }) => theme.lightGrey};
@@ -24,12 +26,14 @@ const Wrapper = styled.div`
 
 const Name = styled.div`
   font-weight: 500;
+  color: ${({ theme }) => theme.black};
 `;
 
 const Number = styled.div`
   font-weight: 500;
   font-size: 18px;
   margin-right: 20px;
+  color: ${({ theme }) => theme.black};
 `;
 
 const LeftHolder = styled.div`
@@ -49,36 +53,43 @@ const Value = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${({ theme }) => theme.black};
 `;
 
 const Paragraph = styled.div<{ right?: boolean }>`
   font-size: 12px;
   color: ${({ theme }) => theme.darkGrey};
-  text-align: ${({ right }) => right && "center"};
+  text-align: ${({ right }) => (right ? "right" : "center")};
+  width: ${({ right }) => !right && "100%"};
+  position: absolute;
 `;
 
 const NameHolder = styled.div`
   margin-left: 20px;
 `;
 
+const ValueHolder = styled.div`
+  position: relative;
+`;
+
 const Seller = ({ number }: { number: number }) => {
   return (
-    <Wrapper>
+    <Wrapper to="">
       <LeftHolder>
         <Number>{number}</Number>
         <Avatar rating={4.77} photo={defaultUserPicture} />
         <NameHolder>
           <Name>Maksim Brzezinski</Name>
-          <Paragraph>23 przedmioty</Paragraph>
+          <Paragraph right>23 przedmioty</Paragraph>
         </NameHolder>
       </LeftHolder>
       <RightHolder>
         <Value>32</Value>
         <Value>
-          <div>
+          <ValueHolder>
             <Rating rating={1} />
-            <Paragraph right>4.77</Paragraph>
-          </div>
+            <Paragraph>4.77</Paragraph>
+          </ValueHolder>
         </Value>
       </RightHolder>
     </Wrapper>

@@ -5,14 +5,14 @@ import { resetAllStates, changeState } from "store/filters/actions";
 import { useAppSelector } from "./useAppSelector";
 import { mapKindToAppValue } from "functions/mapKindToAppValue";
 import { fetchItems } from "store/items/actions";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 import { changeSelector } from "store/selectors/actions";
 
 export const useLinkProperties = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const filterTypes: { [key: string]: { name: string; input: string } } =
     useAppSelector((state) => state.filtersSlice.filterTypes);
 
@@ -86,7 +86,7 @@ export const useLinkProperties = () => {
         )
       );
     } catch (e) {
-      history.push({
+      navigate({
         pathname: "",
         search: routes.DEFAULT_SEARCH,
       });

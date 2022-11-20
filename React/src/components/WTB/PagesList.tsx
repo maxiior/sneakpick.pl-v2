@@ -1,10 +1,10 @@
 import { VscChevronLeft } from "react-icons/vsc";
 import styled, { css } from "styled-components";
-import { useSelector } from "react-redux";
 import { onFilterClick } from "functions/onFilterClick";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "hooks/useAppSelector";
 
-const Arrow = styled(VscChevronLeft)`
+const Arrow = styled(VscChevronLeft)<{ blocked: boolean; right?: boolean }>`
   font-size: 20px;
   color: ${({ theme }) => theme.blue};
   cursor: pointer;
@@ -20,7 +20,7 @@ const StyledPagesList = styled.div`
   right: 0;
 `;
 
-const Number = styled.div`
+const Number = styled.div<{ selected: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,16 +55,16 @@ const Dots = styled.div`
   user-select: none;
 `;
 
-const PagesList = ({ className }) => {
-  const { page, limit } = useSelector(
+const PagesList = ({ className }: { className?: any }) => {
+  const { page, limit } = useAppSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
-  const { results } = useSelector((state) => state.itemsSlice);
+  const { results } = useAppSelector((state) => state.itemsSlice);
   const number = Math.ceil(results / limit);
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const changePage = (i) => {
-    onFilterClick("page", i, "radio", history);
+  const changePage = (i: any) => {
+    onFilterClick("page", i, "radio", navigate);
   };
 
   return (
@@ -79,12 +79,12 @@ const PagesList = ({ className }) => {
         </Number>
       )}
       {page === 1 && number > 2 && (
-        <Number selected={page === 2} onClick={() => changePage(2)}>
+        <Number selected={false} onClick={() => changePage(2)}>
           2
         </Number>
       )}
       {page === 1 && number > 3 && (
-        <Number selected={page === 3} onClick={() => changePage(3)}>
+        <Number selected={false} onClick={() => changePage(3)}>
           3
         </Number>
       )}

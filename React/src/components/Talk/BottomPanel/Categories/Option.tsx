@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
+import { onTalkFilterClick } from "functions/onTalkFilterClick";
 
 const Wrapper = styled.div<{ color: string }>`
   color: ${({ color }) => color};
@@ -31,23 +33,23 @@ const Option = ({
   name,
   icon,
   color,
-  category,
-  setCategory,
 }: {
   fullname: string;
   name: string;
   icon?: any;
   color: string;
-  category: string;
-  setCategory: Function;
 }) => {
+  const [searchParams, setsearchParams] = useSearchParams();
+
   return (
     <Wrapper
       color={color}
-      onClick={() => setCategory(category === name ? "" : name)}
+      onClick={() => {
+        onTalkFilterClick("category", name, searchParams, setsearchParams);
+      }}
     >
       <Holder>
-        <Name active={category === name}>
+        <Name active={searchParams.get("category") === name}>
           <Icon>{icon}</Icon>
           <div>{fullname}</div>
         </Name>

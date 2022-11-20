@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Description from "components/QuestionAdder/Description";
 import Categories from "components/QuestionAdder/Categories";
 import Photos from "components/QuestionAdder/Photos";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { setInformationBlock } from "store/interface/actions";
@@ -66,7 +66,7 @@ const AddQuestion = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const questionAddingProcess = () => {
@@ -90,7 +90,7 @@ const AddQuestion = () => {
     addQuestion(payload)
       .then((response) => {
         if (response.status === 201) {
-          history.push(routes.TALK);
+          navigate(routes.TALK);
           dispatch(setInformationBlock(information_types.question_added));
         }
       })

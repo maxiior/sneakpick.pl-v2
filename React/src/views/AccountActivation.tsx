@@ -84,13 +84,13 @@ const LoadingIconHolder = styled.div`
 `;
 
 const AccountActivation = () => {
-  const { uidb64, token }: { uidb64: string; token: string } = useParams();
+  const { uidb64, token } = useParams<{ uidb64: string; token: string }>();
 
   const [pending, setPending] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    activation(uidb64, token)
+    activation(uidb64!, token!)
       .then(() => {
         setPending(false);
       })

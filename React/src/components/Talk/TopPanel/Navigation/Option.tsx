@@ -1,5 +1,6 @@
-import React from "react";
 import styled from "styled-components";
+import { onTalkFilterClick } from "functions/onTalkFilterClick";
+import { useSearchParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   margin-right: 20px;
@@ -11,30 +12,32 @@ const Wrapper = styled.div`
 
 const Name = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
 `;
 
-const StyledLabel = styled.label`
-  position: relative;
+const Holder = styled.div<{ active: boolean }>`
   cursor: pointer;
+  color: ${({ theme, active }) => active && theme.blue};
 `;
 
-const StyledInput = styled.input`
-  opacity: 0;
-  position: absolute;
+const Option = ({ name, id }: { name: string; id: number }) => {
+  const [searchParams, setsearchParams] = useSearchParams();
 
-  :checked + ${Name} {
-    color: ${({ theme }) => theme.blue};
-  }
-`;
-
-const Option = ({ name }: { name: string }) => {
   return (
     <Wrapper>
-      <StyledLabel>
-        <StyledInput type="radio" name="order" />
+      <Holder
+        active={id === parseInt(searchParams.get("ordering")!)}
+        onClick={() => {
+          onTalkFilterClick(
+            "ordering",
+            id.toString(),
+            searchParams,
+            setsearchParams
+          );
+        }}
+      >
         <Name>{name}</Name>
-      </StyledLabel>
+      </Holder>
     </Wrapper>
   );
 };

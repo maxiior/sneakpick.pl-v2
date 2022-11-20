@@ -10,7 +10,7 @@ import { useState } from "react";
 import { iPasswordChange } from "types/AccountSettings/passwordChange";
 import { passwordUpdate } from "api/services/profile.service";
 import LoadingIcon from "components/common/LoadingIcon";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
 
 const Header = styled.div`
@@ -89,7 +89,7 @@ const Information = styled.div`
 
 const PasswordChange = () => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object()
     .shape({
@@ -127,7 +127,7 @@ const PasswordChange = () => {
         if (response.status === 200) {
           setPending(false);
           dispatch(setInformationBlock(information_types.password_changed));
-          history.push(routes.ACCOUNT_SETTINGS);
+          navigate(routes.ACCOUNT_SETTINGS);
         }
       })
       .catch(() => {

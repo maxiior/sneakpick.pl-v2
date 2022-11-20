@@ -21,11 +21,11 @@ const UserProducts = () => {
   const { items_results, items_pending } = useAppSelector(
     (state) => state.profileSlice
   );
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchItems(user));
+    dispatch(fetchItems(user!));
 
     return () => {
       dispatch(resetItems());

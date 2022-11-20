@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Option from "./Option";
 import { talkCategories } from "constants/talkCategories";
+import Tag from "./Tag";
 
 const Wrapper = styled.div`
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
@@ -9,62 +10,41 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px;
+  user-select: none;
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ categories?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (min-width: ${({ theme }) => theme.min_width_LG}) {
+    display: ${({ categories }) => categories && "none"};
+  }
 
   :last-child {
     margin-top: 10px;
   }
 `;
 
-const Tag = styled.div<{ color: string; active: boolean }>`
-  background-color: ${({ color }) => color};
-  padding: 5px 10px;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.white};
-  border-radius: 5px;
-  filter: ${({ active }) => (active ? "opacity(100%)" : "opacity(40%)")};
-  cursor: pointer;
-  user-select: none;
-  margin-right: 10px;
+const Navigation = () => {
+  const orderingOptions = [
+    "Najnowsze",
+    "Najwyżej bumpowane",
+    "Najpopularniejsze",
+  ];
 
-  :hover {
-    filter: opacity(100%);
-  }
-  :last-child {
-    margin-right: 0;
-  }
-`;
-
-const Navigation = ({
-  category,
-  setCategory,
-}: {
-  category: string;
-  setCategory: Function;
-}) => {
   return (
     <Wrapper>
       <div>
         <Container>
-          <Option name={"Najnowsze"} />
-          <Option name={"Najwyżej bumpowane"} />
-          <Option name={"Najpopularniejsze"} />
+          {orderingOptions.map((e, i) => (
+            <Option name={e} id={i} />
+          ))}
         </Container>
-        <Container>
+        <Container categories>
           {talkCategories.map((e) => (
-            <Tag
-              active={e.name === category}
-              color={e.color}
-              onClick={() => setCategory(category === e.name ? "" : e.name)}
-            >
-              {e.name}
-            </Tag>
+            <Tag color={e.color} name={e.name} />
           ))}
         </Container>
       </div>

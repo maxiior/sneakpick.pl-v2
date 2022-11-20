@@ -163,8 +163,7 @@ const Login: React.FC = () => {
               "To konto nie zostało jeszcze aktywowane. Sprawdź swojego maila."
             );
             break;
-          case 403:
-          case 404:
+          default:
             setError("Wprowadzony adres email lub hasło są nieprawidłowe.");
             break;
         }
