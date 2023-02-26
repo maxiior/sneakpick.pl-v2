@@ -37,6 +37,8 @@ import QuestionAdder from "views/QuestionAdder";
 import ProxyAdder from "views/ProxyAdder";
 import ItemEditor from "views/ItemEditor";
 import StealAdder from "views/StealAdder";
+import TopSellers from "views/TopSellers";
+import Calendar from "views/Calendar";
 
 const App = () => {
   useRefreshToken();
@@ -61,6 +63,8 @@ const App = () => {
               <Route path={routes.STEAL_ADDER} element={<StealAdder />} />
               <Route path={routes.STEAL} element={<Steal />} />
               <Route path={routes.WTT} element={<WTT />} />
+              <Route path={routes.TOP_SELLERS} element={<TopSellers />} />
+              <Route path={routes.RELEASE_CALENDAR} element={<Calendar />} />
               <Route exact path={routes.TALK} element={<Talk />} />
               <Route path={routes.ADD_QUESTION} element={<QuestionAdder />} />
               <Route path={routes.QUESTION} element={<Question />} />

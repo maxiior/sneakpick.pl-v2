@@ -27,56 +27,44 @@ const Error = styled.div`
   margin-top: 5px;
 `;
 
-const Container = styled.div``;
-
-const Categories = ({ setCategory }: { setCategory: Function }) => {
-  const { formState, setValue } = useFormContext();
+const Categories: React.FC = () => {
+  const { formState } = useFormContext();
 
   return (
     <Wrapper>
       <Header>Kategoria</Header>
-      <Container>
+      <div>
         <Option
           name="Identity Check"
           tag="id"
           icon={<FaBlackTie />}
           color={colorwaysTheme.orange}
-          setCategory={setCategory}
-          setValue={setValue}
         />
         <Option
           name="Legit Check"
           tag="lc"
           icon={<FaCheck />}
           color={colorwaysTheme.red}
-          setCategory={setCategory}
-          setValue={setValue}
         />
         <Option
           name="Price Check"
           tag="pc"
           icon={<ImPriceTag />}
           color={colorwaysTheme.green}
-          setCategory={setCategory}
-          setValue={setValue}
         />
         <Option
           name="Fit Check"
           tag="fit"
           icon={<CgArrowsExpandLeft />}
           color={colorwaysTheme.blue}
-          setCategory={setCategory}
-          setValue={setValue}
         />
         <Option
           name="Inne"
           tag="other"
           icon={<RiBarChartHorizontalLine />}
           color={colorwaysTheme.purple}
-          setCategory={setCategory}
-          setValue={setValue}
         />
-      </Container>
+      </div>
       {formState.errors["category"] && (
         <Error>{formState.errors["category"].message}</Error>
       )}

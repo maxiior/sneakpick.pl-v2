@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Section from "components/Home/BottomPanel/ItemsSections/Section";
+import Section from "./Section";
 import { routes } from "routes";
 import { fetchItems } from "api/services/items.service";
 

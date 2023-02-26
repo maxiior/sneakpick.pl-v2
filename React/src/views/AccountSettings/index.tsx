@@ -1,22 +1,8 @@
-import styled from "styled-components";
-import DataBlock from "components/AccountSettings/DataBlock";
 import useAuthenticated from "hooks/useAuthenticated";
 import { routes } from "routes";
 import SettingsTemplate from "templates/SettingsTemplate";
 import { useAppSelector } from "hooks/useAppSelector";
-
-const Header = styled.div`
-  font-size: 30px;
-  font-weight: 500;
-`;
-
-const DataHolder = styled.div`
-  margin-top: 20px;
-`;
-
-const StyledDataBlock = styled(DataBlock)`
-  margin-bottom: 20px;
-`;
+import { Header, Container, StyledDataBlock } from "./styles";
 
 const ProfileSettings = () => {
   useAuthenticated();
@@ -25,7 +11,7 @@ const ProfileSettings = () => {
   return (
     <SettingsTemplate>
       <Header>Ustawienia konta</Header>
-      <DataHolder>
+      <Container>
         <StyledDataBlock
           header="E-mail"
           value={email}
@@ -38,7 +24,7 @@ const ProfileSettings = () => {
           to={routes.PASSWORD_CHANGE}
         />
         <StyledDataBlock header="Usuń konto" deleteAccount to="" />
-      </DataHolder>
+      </Container>
     </SettingsTemplate>
   );
 };

@@ -8,7 +8,7 @@ const useAuthenticated = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!pending && !isAuthenticated) navigate.replace(routes.HOME);
+    if (!pending && !isAuthenticated) navigate(routes.HOME, { replace: true });
   }, [pending, navigate, isAuthenticated]);
 };
 

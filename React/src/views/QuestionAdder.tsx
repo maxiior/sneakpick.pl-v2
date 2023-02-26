@@ -14,6 +14,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { ImageValidators } from "validators/ImageValidators";
 import { addQuestion } from "api/services/talk.service";
 import TextInput from "components/QuestionAdder/TextInput";
+import LoadingIcon from "components/common/LoadingIcon";
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,34 +57,39 @@ const Error = styled.div`
   user-select: none;
 `;
 
-const AddQuestion = () => {
+const Holder = styled.div`
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+`;
+
+const QuestionAdder = () => {
   const [images, setImages] = useState([]);
+  const [pending, setPending] = useState(false);
   const [imagesError, setImagesError] = useState("");
   const [backendError, setBackendError] = useState(false);
-
-  const [title, setTitle] = useState("");
-  const [item, setItem] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const questionAddingProcess = () => {
+  const questionAddingProcess = (data: any) => {
+    setPending(true);
     if (ImageValidators.validate(images)) {
       alert("Coś poszło nie tak");
       return;
     }
     const payload = new FormData();
-    const data = {
-      title,
-      description,
-      category,
-      item,
+    const pack = {
+      title: data["title"],
+      description: data["description"],
+      category: data["category"],
+      item: data["item"],
     };
 
-    for (const [key, value] of Object.entries(data))
-      payload.append(key, value.toString());
+    console.log(pack);
+
+    for (const [key, value] of Object.entries(pack))
+      if (value !== undefined) payload.append(key, value.toString());
 
     for (let i = 0; i < images.length; i++) payload.append("images", images[i]);
 
@@ -92,12 +98,14 @@ const AddQuestion = () => {
         if (response.status === 201) {
           navigate(routes.TALK);
           dispatch(setInformationBlock(information_types.question_added));
+          setPending(false);
         }
       })
       .catch(() => {
         setBackendError(true);
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+        setPending(false);
       });
   };
 
@@ -117,7 +125,7 @@ const AddQuestion = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, watch } = methods;
 
   const onError = () => {
     let error = ImageValidators.validate(images);
@@ -135,16 +143,16 @@ const AddQuestion = () => {
             </Error>
           )}
           <Header>Dodawanie pytania</Header>
-          <Categories setCategory={setCategory} />
+          <Categories />
           <TextInput
-            setValue={setTitle}
+            header="Temat"
             name={"title"}
             placeholder={"np. Czy to Supreme Bogo hoodie jest legit?"}
           />
-          <Description setDescription={setDescription} />
-          {category && category !== "id" && (
+          <Description />
+          {watch()["category"] && watch()["category"] !== "id" && (
             <TextInput
-              setValue={setItem}
+              header="Nazwa przedmiotu"
               name={"item"}
               placeholder={"np. Puma Thunder Spectra"}
             />
@@ -155,11 +163,17 @@ const AddQuestion = () => {
             imagesError={imagesError}
             setImagesError={setImagesError}
           />
-          <Button type="submit">Dodaj pytanie</Button>
+          {pending ? (
+            <Holder>
+              <LoadingIcon />
+            </Holder>
+          ) : (
+            <Button type="submit">Dodaj pytanie</Button>
+          )}
         </Form>
       </FormProvider>
     </Wrapper>
   );
 };
 
-export default AddQuestion;
+export default QuestionAdder;

@@ -37,6 +37,9 @@ export enum routes {
   CATEGORY_PATH = "/wtb?category={category}&limit=24&page=1&ordering=1",
   BRAND_PATH = "/wtb?brand={brand}&limit=24&page=1&ordering=1",
 
+  TOP_SELLERS = "/topsellers",
+  RELEASE_CALENDAR = "/calendar",
+
   TALK = "/talk",
   TALK_DEFAULT_SEARCH = "/talk?ordering=0",
   QUESTION = "/talk/:id",

@@ -29,11 +29,11 @@ class QuestionSerializer(serializers.ModelSerializer):
         if 'owner' in validated_data:
             validated_data.pop('owner')
 
-        if validated_data['category'] == "id" and validated_data['item'] != "":
+        if validated_data['category'] == "id" and 'item' in validated_data:
             raise serializers.ValidationError({
                 'item': ('This category can not has item.')
             })
-        elif validated_data['category'] != "id" and validated_data['item'] == "":
+        elif validated_data['category'] != "id" and 'item' not in validated_data:
             raise serializers.ValidationError({
                 'item': ('This category must has item.')
             })

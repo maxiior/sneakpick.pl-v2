@@ -58,7 +58,7 @@ const Wrapper = styled.div`
   margin-top: 20px;
 `;
 
-const Description = ({ setDescription }: { setDescription: Function }) => {
+const Description = () => {
   const [counter, setCounter] = useState(1000);
   const [color, setColor] = useState("black");
 
@@ -79,11 +79,10 @@ const Description = ({ setDescription }: { setDescription: Function }) => {
       <TextArea
         error={!!formState.errors["description"]}
         placeholder="Opis"
-        {...register("description")}
+        {...validator}
         onChange={(e) => {
           validator.onChange(e);
           descriptionLength(e);
-          setDescription(e.target.value);
         }}
         maxLength={1000}
       />

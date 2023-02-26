@@ -43,17 +43,13 @@ const Option = ({
   icon,
   color,
   tag,
-  setCategory,
-  setValue,
 }: {
   name: string;
   icon?: any;
   color: string;
   tag: string;
-  setCategory: Function;
-  setValue: Function;
 }) => {
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
   const validator = register("category");
 
   return (
@@ -61,10 +57,10 @@ const Option = ({
       <StyledLabel>
         <StyledInput
           type="radio"
-          {...register("category")}
+          value={tag}
+          {...validator}
           onChange={(e) => {
             validator.onChange(e);
-            setCategory(tag);
             setValue("isIdentityCheck", tag === "id");
           }}
         />
