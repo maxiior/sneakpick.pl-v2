@@ -58,12 +58,11 @@ class Product(models.Model):
     BRAND = ((brand, brand) for brand in BRAND)
     CATEGORY = ((category, category) for category in CATEGORY)
     STATUS_OPTIONS = (('draft', 'draft'), ('published', 'published'))
-    CONDITION_OPTIONS = (('ds', 'ds'), ('vnds', 'vnds'), ('4', '4'), ('3', '3'), ('2', '2'), ('1', '1'))
+    CONDITION_OPTIONS = (('ds', 'ds'), ('vnds', 'vnds'), ('4/5', '4/5'), ('3/5', '3/5'), ('2/5', '2/5'), ('1/5', '1/5'))
     COLORWAY_OPTIONS = (('brown', 'brown'), ('red', 'red'), ('orange', 'orange'), ('yellow', 'yellow'),
                         ('green', 'green'), ('blue', 'blue'), ('purple', 'purple'), ('pink', 'pink'), ('black', 'black'), ('grey', 'grey'), ('white', 'white'), ('multi', 'multi'))
-    KIND_OPTIONS = (('męski', 'męski'), ('damski', 'damski'))
-    FIT_OPTIONS = (('slim fit', 'slim fit'), ('regular',
-                   'regular'), ('oversize', 'oversize'))
+    KIND_OPTIONS = (('man', 'man'), ('woman', 'woman'))
+    FIT_OPTIONS = (('slim fit', 'slim fit'), ('regular', 'regular'), ('oversize', 'oversize'))
     SIZE = (('xxs', 'xxs'), ('xs', 'xs'), ('s', 's'),
             ('m', 'm'), ('l', 'l'), ('xl', 'xl'), ('xxl', 'xxl'),
             ('36.0', '36.0'), ('36.5', '36.5'), ('37.0', '37.0'),
@@ -84,7 +83,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=250, choices=BRAND)
     category = models.CharField(max_length=250, choices=CATEGORY)
     description = models.CharField(max_length=1000)
-    kind = models.CharField(max_length=10, choices=KIND_OPTIONS)
+    kind = models.CharField(max_length=5, choices=KIND_OPTIONS)
     condition = models.CharField(max_length=5, choices=CONDITION_OPTIONS)
     size = models.CharField(max_length=5, choices=SIZE, blank=True, null=True)
     fit = models.CharField(
@@ -99,6 +98,7 @@ class Product(models.Model):
     #ship = models.BooleanField()
     #meet = models.BooleanField()
     bought = models.BooleanField(default=False)
+    for_trade = models.BooleanField(default=False)
     bumps = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="product_bumps", blank=True)
 

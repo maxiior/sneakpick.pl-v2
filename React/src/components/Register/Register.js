@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import Checkbox from "components/Register/Checkbox";
-import logo from "assets/logo_dark.png";
+import logo from "assets/logo.png";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setInformationBlock } from "store/interface/actions";
 import { information_types } from "constants/informations";
 import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
+import LoadingIcon from "components/common/LoadingIcon";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -71,7 +72,7 @@ const Button = styled.button`
   border-radius: ${({ theme }) => theme._10px};
   border: 0;
   display: block;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
     opacity: 0.9;
@@ -83,8 +84,8 @@ const Button = styled.button`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
 `;
 
 const Holder = styled.div`
@@ -122,6 +123,11 @@ const Error = styled.div`
   margin-bottom: ${({ statute }) => (statute ? "15px" : "0")};
   width: 250px;
   font-weight: 500;
+`;
+
+const LoadingIconHolder = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const Register = () => {
@@ -170,22 +176,32 @@ const Register = () => {
     email: false,
     password: false,
   });
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState(false);
 
   const registerProcess = (data) => {
+    setPending(true);
     register(data)
       .then((response) => {
         if (response.status === 201) {
           dispatch(closeRegisterView());
           dispatch(displayCommunicatorIcon());
           dispatch(setInformationBlock(information_types.account_created));
+          setPending(false);
         }
       })
       .catch((error) => {
-        const problemsObj = { ...problems };
-        Object.keys(error.response.data).forEach((err) => {
-          problemsObj[err] = true;
-        });
-        setProblems(problemsObj);
+        console.log(error);
+        setPending(false);
+        try {
+          const problemsObj = { ...problems };
+          Object.keys(error.response.data).forEach((err) => {
+            problemsObj[err] = true;
+          });
+          setProblems(problemsObj);
+        } catch (e) {
+          setError(true);
+        }
       });
   };
 
@@ -315,8 +331,19 @@ const Register = () => {
             name="statute"
           />
           {errors.statute && <Error statute>{errors.statute.message}</Error>}
-          <Button type="submit">SIGN UP</Button>
-          <Button facebook>LOGIN WITH FACEBOOK</Button>
+          {error && (
+            <Error statute>Coś poszło nie tak. Spróbuj ponownie później.</Error>
+          )}
+          {pending ? (
+            <LoadingIconHolder>
+              <LoadingIcon />
+            </LoadingIconHolder>
+          ) : (
+            <>
+              <Button type="submit">SIGN UP</Button>
+              <Button facebook>LOGIN WITH FACEBOOK</Button>
+            </>
+          )}
         </Form>
       </FormProvider>
     </Wrapper>

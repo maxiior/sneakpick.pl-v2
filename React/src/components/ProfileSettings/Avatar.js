@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useFormContext } from "react-hook-form";
 import { FiCamera } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,8 +9,57 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
+const Remove = styled.div`
+  font-size: 12px;
+  color: ${({ theme }) => theme.white};
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: ${({ theme }) => theme.red};
+  margin-right: 20px;
+
+  :hover {
+    opacity: 0.9;
+  }
+`;
+
 const StyledInput = styled.input`
   display: none;
+`;
+
+const EditIcon = styled(FiEdit)`
+  font-size: 35px;
+  position: absolute;
+  display: none;
+  z-index: 100;
+  color: ${({ theme }) => theme.white};
+  pointer-events: none;
+`;
+
+const Photo = styled.label`
+  padding: 30px;
+  width: 100px;
+  height: 100px;
+  background-color: ${({ theme }) => theme.grey};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+
+  background-image: url(${({ image }) => image});
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  :hover {
+    background-color: ${({ theme }) => theme.blue};
+    filter: ${({ image }) => image && "brightness(50%)"};
+  }
+
+  :hover + ${EditIcon} {
+    display: block;
+  }
 `;
 
 const PhotoHolder = styled.div`
@@ -21,31 +70,9 @@ const PhotoHolder = styled.div`
   align-items: center;
 `;
 
-const Photo = styled.label`
-  padding: 30px;
-  width: 90px;
-  height: 90px;
-  background-color: ${({ theme }) => theme.grey};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  cursor: pointer;
-
-  background-image: url(${({ photo }) => photo});
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  :hover {
-    background-color: ${({ theme }) => theme.blue};
-    opacity: ${({ photo }) => photo && "0.9"};
-  }
-`;
-
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Icon = styled(FiCamera)`
@@ -54,25 +81,43 @@ const Icon = styled(FiCamera)`
   visibility: ${({ image }) => image && "hidden"};
 `;
 
-const Avatar = ({ photo, className }) => {
-  const { register, formState } = useFormContext();
-  const validator = register("photo");
+const Holder = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
+const Avatar = ({ image, setImage }) => {
   return (
-    <Wrapper className={className}>
+    <Wrapper>
       <Header>Zdjęcie profilowe</Header>
-      <PhotoHolder>
-        <Photo photo={photo}>
-          <StyledInput
-            name="photo"
-            type="file"
-            onChange={(e) => {
-              validator.onChange(e);
-            }}
-          />
-          <Icon />
-        </Photo>
-      </PhotoHolder>
+      <Holder>
+        <div>
+          {image && <Remove onClick={() => setImage(null)}>Usuń</Remove>}
+        </div>
+        <PhotoHolder>
+          <Photo
+            image={
+              image
+                ? typeof image === "string"
+                  ? image
+                  : URL.createObjectURL(image)
+                : null
+            }
+          >
+            <StyledInput
+              name="photo"
+              type="file"
+              onChange={(e) => {
+                if (e.target.files.length > 0) {
+                  setImage(() => e.target.files[0]);
+                }
+              }}
+            />
+            {!image && <Icon />}
+          </Photo>
+          {image && <EditIcon />}
+        </PhotoHolder>
+      </Holder>
     </Wrapper>
   );
 };

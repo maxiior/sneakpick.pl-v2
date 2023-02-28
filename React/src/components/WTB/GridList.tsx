@@ -1,8 +1,8 @@
 import Elements from "components/WTB/Elements";
 import Paragraph from "components/WTB/Paragraph";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { changeState } from "store/filters/actions";
+import { useNavigate } from "react-router-dom";
+import { onFilterClick } from "functions/onFilterClick";
 
 const GridElements = styled.div<{
   small?: boolean;
@@ -31,7 +31,7 @@ const Value = styled.span<{
   display: flex;
   border: 1px solid ${({ theme }) => theme.grey};
   height: 30px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   color: ${({ theme }) => theme.grey};
   align-items: center;
@@ -66,7 +66,7 @@ const GridList = ({
   currentFilter,
   ...props
 }: any) => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <Elements mobile={mobile}>
@@ -78,14 +78,17 @@ const GridList = ({
               <Input
                 type="checkbox"
                 onChange={() =>
-                  dispatch(
-                    changeState({ filterType, id: e.text, input: "checkbox" })
+                  onFilterClick(
+                    filterType.name,
+                    e.text,
+                    filterType.input,
+                    navigate
                   )
                 }
                 checked={currentFilter.includes(e.text)}
               />
               <Value mobile={mobile} {...props}>
-                {e.text}
+                {e.text.toUpperCase()}
               </Value>
             </Label>
           ))}

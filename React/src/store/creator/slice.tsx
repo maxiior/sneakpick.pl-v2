@@ -7,6 +7,16 @@ import {
   setCitiesArray,
   resetCurrentStates,
 } from "store/creator/actions";
+import { getIndexedFilters } from "functions/getIndexedFilters";
+import {
+  CONDITIONS,
+  SHOES_SIZES,
+  CLOTHES_SIZES,
+  FITS,
+  COLORWAYS,
+  KINDS,
+  CATEGORIES,
+} from "constants/filters";
 
 const initialState: any = {
   filterTypes: {
@@ -17,29 +27,9 @@ const initialState: any = {
     shoesSizes: "shoesSizes",
     clothesSizes: "clothesSizes",
     fits: "fits",
-    colors: "colors",
+    colorways: "colorways",
   },
   filters: {
-    categories: [
-      { id: 1, text: "Sneakersy" },
-      { id: 2, text: "Hoodie" },
-      { id: 3, text: "Teesy" },
-      { id: 4, text: "Koszule" },
-      { id: 5, text: "Crewnecki" },
-      { id: 6, text: "Longsleevy" },
-      { id: 7, text: "Katany" },
-      { id: 8, text: "Kurtki" },
-      { id: 9, text: "Płaszcze" },
-      { id: 10, text: "Spodnie" },
-      { id: 11, text: "Szale" },
-      { id: 12, text: "Portfele" },
-      { id: 13, text: "Plecaki" },
-      { id: 14, text: "Zegarki" },
-      { id: 15, text: "Czapki" },
-      { id: 16, text: "Belty" },
-      { id: 17, text: "Bielizna" },
-      { id: 18, text: "Inne" },
-    ],
     brands: [
       { id: 1, text: "Nike" },
       { id: 2, text: "Adidas" },
@@ -64,77 +54,13 @@ const initialState: any = {
       { id: 21, text: "VLONE" },
       { id: 22, text: "Inne" },
     ],
-    types: [
-      { id: 1, text: "Męski" },
-      { id: 2, text: "Damski" },
-    ],
-    conditions: [
-      { id: 1, text: "DS" },
-      { id: 2, text: "VNDS" },
-      { id: 3, text: "4/5" },
-      { id: 4, text: "3/5" },
-      { id: 5, text: "2/5" },
-      { id: 6, text: "1/5" },
-    ],
-    shoesSizes: [
-      { id: 1, text: "36.0" },
-      { id: 2, text: "36.5" },
-      { id: 3, text: "37.0" },
-      { id: 4, text: "37.5" },
-      { id: 5, text: "38.0" },
-      { id: 6, text: "38.5" },
-      { id: 7, text: "39.0" },
-      { id: 8, text: "39.5" },
-      { id: 9, text: "40.0" },
-      { id: 10, text: "40.5" },
-      { id: 11, text: "41.0" },
-      { id: 12, text: "41.5" },
-      { id: 13, text: "42.0" },
-      { id: 14, text: "42.5" },
-      { id: 15, text: "43.0" },
-      { id: 16, text: "43.5" },
-      { id: 17, text: "44.0" },
-      { id: 18, text: "44.5" },
-      { id: 19, text: "45.0" },
-      { id: 20, text: "45.5" },
-      { id: 21, text: "46.0" },
-      { id: 22, text: "46.5" },
-      { id: 23, text: "47.0" },
-      { id: 24, text: "47.5" },
-      { id: 25, text: "48.0" },
-      { id: 26, text: "48.5" },
-      { id: 27, text: "49.0" },
-      { id: 28, text: "49.5" },
-      { id: 29, text: "50.0" },
-    ],
-    clothesSizes: [
-      { id: 1, text: "XXS" },
-      { id: 2, text: "XS" },
-      { id: 3, text: "S" },
-      { id: 4, text: "M" },
-      { id: 5, text: "L" },
-      { id: 6, text: "XL" },
-      { id: 7, text: "XXL" },
-    ],
-    fits: [
-      { id: 1, text: "Slim Fit" },
-      { id: 2, text: "Regular" },
-      { id: 3, text: "Oversize" },
-    ],
-    colors: [
-      { id: 1, text: "brown" },
-      { id: 2, text: "red" },
-      { id: 3, text: "orange" },
-      { id: 4, text: "yellow" },
-      { id: 5, text: "green" },
-      { id: 6, text: "blue" },
-      { id: 7, text: "purple" },
-      { id: 8, text: "pink" },
-      { id: 9, text: "black" },
-      { id: 10, text: "grey" },
-      { id: 11, text: "white" },
-      { id: 12, text: "multi" },
-    ],
+    categories: getIndexedFilters(CATEGORIES),
+    types: getIndexedFilters(KINDS),
+    conditions: getIndexedFilters(CONDITIONS),
+    shoesSizes: getIndexedFilters(SHOES_SIZES),
+    clothesSizes: getIndexedFilters(CLOTHES_SIZES),
+    fits: getIndexedFilters(FITS),
+    colorways: getIndexedFilters(COLORWAYS),
   },
   currentFilters: {
     name: "",
@@ -146,10 +72,11 @@ const initialState: any = {
     shoesSizes: "",
     clothesSizes: "",
     fits: "",
-    colors: "",
+    colorways: "",
     price: null,
     SHIP: false,
     MEET: false,
+    for_trade: false,
     cities: [],
   },
 };
@@ -209,7 +136,7 @@ export const creatorSlice = createSlice({
       state.currentFilters.shoesSizes = "";
       state.currentFilters.clothesSizes = "";
       state.currentFilters.fits = "";
-      state.currentFilters.colors = "";
+      state.currentFilters.colorways = "";
       state.currentFilters.price = null;
       state.currentFilters.SHIP = false;
       state.currentFilters.MEET = false;

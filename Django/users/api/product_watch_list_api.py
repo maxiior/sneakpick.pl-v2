@@ -7,7 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 from core.APIViewExtension import GenericAPIViewFilter
 from products.models import Product
 from products.serializers import ProductSerializer, ProductIdSerializer
-from products.pagination import Pagination
+from core.pagination import Pagination
 
 
 class ProductWatchlistAPI(APIView, Pagination):

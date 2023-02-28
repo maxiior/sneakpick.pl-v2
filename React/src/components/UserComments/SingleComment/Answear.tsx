@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Avatar = styled(Link)<{ photo?: string }>`
   height: 50px;
   width: 50px;
-  background-color: ${({ theme }) => theme.grey};
+  background-color: ${({ theme }) => theme.lightGrey};
   border-radius: 50%;
   cursor: pointer;
   background-image: url(${({ photo }) => photo});
@@ -57,7 +57,7 @@ const Informations = styled.div`
 
 const Content = styled.div`
   margin-top: 10px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Button = styled.div<{ remove?: boolean }>`
@@ -66,7 +66,7 @@ const Button = styled.div<{ remove?: boolean }>`
   background-color: ${({ theme, remove }) =>
     remove ? theme.grey : theme.blue};
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   user-select: none;
   :hover {
@@ -111,7 +111,6 @@ const Answear = ({ data, me }: { data: iComment; me: string }) => {
     formatDate(data.created_at)
   );
   const dispatch = useAppDispatch();
-  console.log(data);
 
   const removeingCommentProcess = () => {
     dispatch(removeAnswear({ id: data.id, parent: data.parent }))

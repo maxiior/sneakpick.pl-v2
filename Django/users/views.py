@@ -1,3 +1,6 @@
+from base64 import urlsafe_b64decode
+import email
+from re import sub
 from django.http.response import HttpResponseRedirect
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status, viewsets, generics
@@ -5,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import AddressSerializer, AddressUpdateSerializer, CustomUserSerializer, ProfileCommentSerializer, UserIdSerializer, UserUpdateSerializer, PswdUpdateSerializer, LoginSerializer
+from .serializers import AddressSerializer, AddressUpdateSerializer, CustomUserSerializer, ProfileCommentSerializer, UserIdSerializer, UserUpdateSerializer, PasswordUpdateSerializer, LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from users.models import Follower, ProfileComment, User, Address, Watchlist
@@ -20,11 +23,175 @@ from core.APIViewExtension import GenericAPIViewFilter
 from products.models import Product
 from products.serializers import ProductSerializer, ProductIdSerializer
 from rest_framework.pagination import LimitOffsetPagination
-from products.pagination import Pagination
+from core.pagination import Pagination
 from .api.following_api import FollowingAPI
 from .api.followers_api import FollowersAPI
 from .api.product_watch_list_api import ProductWatchlistAPI
+from .api.profile_comments_api import ProfileCommentsAPI
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from .utils import activation_token_generator, password_reset_token_generator, email_changing_token_generator
+from django.core.mail import EmailMessage
+from django.conf import settings
+import time
 
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.core.cache import cache
+
+class TopUsersList(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = User.object.all()
+    serializer_class = CustomUserSerializer
+
+    def get(self, request):
+        
+        print(self.queryset.order_by("-avg_rating")[:5])
+        serialized = self.serializer_class(self.queryset)
+
+        
+
+        return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+def activate_new_email(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except Exception as e:
+        user=None
+
+    if user and email_changing_token_generator.check_token(user,token):
+        user.email = cache.get("new_email_" + str(user.id))
+        user.save()
+        cache.delete("new_email_" + str(user.id))
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['PUT'])
+def set_new_email(request, uidb64, token):
+    password = request.data['password']
+    new_email = request.data['new_email']
+
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except:
+        user=None
+    
+    if user and cache.get("email_changing_message_" + str(user.id)) == token:
+        if not user.check_password(password):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        if new_email == user.email:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        cache.set("new_email_" + str(uid), new_email, settings.PASSWORD_RESET_TIMEOUT)
+        
+        email_subject = "Aktywuj nowy adres e-mail konta Sneakpick"
+        email_body = render_to_string('new_email_activation/index.html', {
+            'user': user,
+            'domain': settings.FRONTEND_APP_ADDRESS,
+            'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': email_changing_token_generator.make_token(user)
+        })
+
+        email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[new_email])
+        email.content_subtype='html'
+        email.send()
+        cache.delete("email_changing_message_" + str(user.id))
+
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def send_email_changing_message(request):
+    password = request.data['password']
+    user = request.user
+
+    if not user.check_password(password):
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+    token = email_changing_token_generator.make_token(user)
+    cache.set("email_changing_message_" + str(user.id), token, settings.PASSWORD_RESET_TIMEOUT)
+    
+    email_subject = "Zmiana adresu e-mail konta Sneakpick"
+    email_body = render_to_string('email_changing/index.html', {
+        'user': user,
+        'domain': settings.FRONTEND_APP_ADDRESS,
+        'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': token
+    })
+
+    email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user])
+    email.content_subtype='html'
+    email.send()
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def send_password_resetting_message(request):
+    email = request.data['email']
+
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
+
+        email_subject = "Resetowanie hasła konta Sneakpick"
+        email_body = render_to_string('password_resetting/index.html', {
+            'user': user,
+            'domain': settings.FRONTEND_APP_ADDRESS,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': password_reset_token_generator.make_token(user)
+        })
+
+        email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[email])
+        email.content_subtype='html'
+        email.send()
+    return Response(status=status.HTTP_200_OK)
+        
+@api_view(['PUT'])
+def set_new_password(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except:
+        user=None
+    
+    if user and password_reset_token_generator.check_token(user, token):
+        user.set_password(request.data['password'])
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
+
+def send_activation_email(user, request):
+    email_subject = "Aktywuj Twoje konto Sneakpick"
+    email_body = render_to_string('authentication/index.html', {
+        'user': user,
+        'domain': settings.FRONTEND_APP_ADDRESS,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': activation_token_generator.make_token(user)
+    })
+
+    email=EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
+    email.content_subtype='html'
+    email.send()
+
+@api_view(['POST'])
+def activate_user(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_b64decode(uidb64))
+        user = User.object.get(pk=uid)
+    except Exception as e:
+        user=None
+
+    if user and activation_token_generator.check_token(user,token):
+        user.is_active = True
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_403_FORBIDDEN)
 
 class UserDetail(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -45,12 +212,22 @@ class UserCreate(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, format='json'):
+        try:
+            email = request.data['email']
+            user = User.objects.get(email=email)
+
+            if time.time() - time.mktime(user.date_joined.timetuple()) > settings.PASSWORD_RESET_TIMEOUT and not user.is_active:
+                User.objects.filter(email=email).delete()
+        except:
+            pass
+
         serializer = CustomUserSerializer(
             data=request.data, context={'request': request})
         if serializer.is_valid():
             user = serializer.save()
             if user:
                 json = serializer.data
+                send_activation_email(user, request)
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -106,11 +283,10 @@ class AddressUpdate(generics.UpdateAPIView):
 class PasswordUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
-    serializer_class = PswdUpdateSerializer
+    serializer_class = PasswordUpdateSerializer
 
     def get_object(self):
         return self.request.user
-
 
 class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]
@@ -135,39 +311,42 @@ class Login(APIView):
         password = request.data.get('password')
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
-            if(check_password(password, user.password)):
-                refresh = RefreshToken.for_user(user)
-                access_token = str(refresh.access_token)
-                details = {
-                    'id': user.id,
-                    'email': user.email,
-                    'access_token': str(refresh.access_token),
-                    'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
-                }
-                response = Response(details, status=status.HTTP_200_OK)
-                response.set_cookie('refresh_token',
-                                    str(refresh),
-                                    samesite='None',
-                                    # httponly=True,     # should be enabled in production environment
-                                    secure=True,       # should be enabled in production environment
-                                    max_age=int(
-                                        SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
-                                    path="/",
-                                    expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
-                response.set_cookie('access_token',
-                                    str(access_token),
-                                    # httponly=True,         # should be enabled in production environment
-                                    secure=True,           # should be enabled in production environment
-                                    samesite='None',
-                                    max_age=int(
-                                        SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
-                                    path="/",
-                                    expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
-                return response
+            if check_password(password, user.password):
+                if user.is_active:
+                    refresh = RefreshToken.for_user(user)
+                    access_token = str(refresh.access_token)
+                    details = {
+                        'id': user.id,
+                        'email': user.email,
+                        'access_token': str(refresh.access_token),
+                        'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                    }
+                    response = Response(details, status=status.HTTP_200_OK)
+                    response.set_cookie('refresh_token',
+                                        str(refresh),
+                                        samesite='None',
+                                        # httponly=True,     # should be enabled in production environment
+                                        secure=True,       # should be enabled in production environment
+                                        max_age=int(
+                                            SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()),
+                                        path="/",
+                                        expires=int(SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'].total_seconds()))
+                    response.set_cookie('access_token',
+                                        str(access_token),
+                                        # httponly=True,         # should be enabled in production environment
+                                        secure=True,           # should be enabled in production environment
+                                        samesite='None',
+                                        max_age=int(
+                                            SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                                        path="/",
+                                        expires=int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()))
+                    return response
+                else:
+                    return Response({'Error': 'Account not active'}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                return Response({'Error': 'Wrong password'}, status.HTTP_403_FORBIDDEN)
+                return Response({'Error': 'Wrong password'}, status=status.HTTP_403_FORBIDDEN)
         else:
-            return Response({'Error': 'Account not active or bad request'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'Error': 'Account not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class Refresh(APIView):
@@ -184,6 +363,7 @@ class Refresh(APIView):
 
             details = {
                 'id': user.id,
+                'email': user.email,
                 'access_token': str(refresh.access_token),
                 'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
             }
@@ -227,71 +407,6 @@ class Logout(APIView):
             return Response({'Error': 'can not remove cookies.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-class ProfileCommentsAPI(APIView, Pagination):
-    @swagger_auto_schema(responses={200: ProfileCommentSerializer(many=True)}, paginator=Pagination())
-    def get(self, request, pk, format=None):
-        """
-        Get all comments for a user
-        """
-        user = User.objects.get(id=pk)
-        comments = ProfileComment.objects.filter(
-            related_user=user, parent=None)
-        paginated_comments = self.paginate_queryset(
-            comments, request, view=self)
-        serializer = ProfileCommentSerializer(
-            paginated_comments, many=True, context={'request': request})
-        return self.get_paginated_response(serializer.data)
-
-    @swagger_auto_schema(request_body=ProfileCommentSerializer, responses={201: ''})
-    def post(self, request, pk, format=None):
-        """
-        Add a comment to a user
-        **author** field is not required. it is swagger bug that this fields appear in the request body
-        """
-        user = User.objects.get(id=pk)
-        if user == request.user and ("parent" not in request.data or request.data["parent"] is None):
-            return Response({'Error': 'Cannot comment on yourself'}, status=status.HTTP_400_BAD_REQUEST)
-
-        if "parent" in request.data and request.data["parent"] is not None:
-            if pk != request.user.id:
-                return Response({'Error': 'Cannot reply on another user profile'}, status=status.HTTP_400_BAD_REQUEST)
-            # request.data["rating"] = 0
-            parrent_comment = ProfileComment.objects.get(
-                id=request.data["parent"])
-            if ProfileComment.objects.filter(parent=parrent_comment).count() > 0:
-                return Response({'Error': 'Cannot reply more than once'}, status=status.HTTP_400_BAD_REQUEST)
-            if parrent_comment.parent is not None:
-                return Response({'Error': 'Cannot reply to a reply'}, status=status.HTTP_400_BAD_REQUEST)
-
-        comment_serializer = ProfileCommentSerializer(data=request.data, context={'request': request})
-
-        if comment_serializer.is_valid():
-            comments_count = ProfileComment.objects.filter(related_user=user).count()+1
-            avg_rating = (user.avg_rating*(comments_count-1) + request.data["rating"]) / float(comments_count)
-            User.objects.filter(id=pk).update(avg_rating=avg_rating)
-            comment_serializer.save(author=request.user, related_user=user)
-
-            return Response({"comment": comment_serializer.data, "avg_rating": avg_rating}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, pk, comment_id, format=None):
-        if not ProfileComment.objects.filter(id=comment_id).exists():
-            return Response({'Error': 'Comment not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        comment = ProfileComment.objects.get(id=comment_id)
-        if comment.author == request.user:
-            comments_count = ProfileComment.objects.filter(related_user=comment.related_user).count()
-            user = User.objects.get(id=comment.related_user.id)
-            avg_rating = 0 if comments_count-1 == 0 else (user.avg_rating*comments_count - comment.rating) / float(comments_count-1)
-            User.objects.filter(id=user.id).update(avg_rating=avg_rating)
-
-            comment.delete()
-            return Response({"avg_rating": avg_rating}, status=status.HTTP_200_OK)
-        else:
-            return Response({'Error': 'Cannot delete comment, because you are not its author.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 class SingleAddressView(generics.RetrieveDestroyAPIView):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
@@ -299,3 +414,5 @@ class SingleAddressView(generics.RetrieveDestroyAPIView):
     def get_object(self, queryset=None, **kwargs):
         id = self.kwargs.get('pk')
         return generics.get_object_or_404(Address, id=id)
+
+

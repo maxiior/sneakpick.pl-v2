@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { VscChevronRight } from "react-icons/vsc";
 import { getPhoto } from "functions/getPhoto";
 import { iImage } from "types/image";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   width: 85%;
@@ -29,10 +30,11 @@ const Photo = styled.div<{ photo: string }>`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: ${({ photo }) => photo && `url(${getPhoto(photo)})`};
+  background-image: ${({ photo }) =>
+    photo && `url(${getPhoto(photo, endpoints.ITEMS_IMAGES)})`};
 `;
 
-const Arrow = styled(VscChevronRight)<{ left?: boolean }>`
+const Arrow = styled(VscChevronRight)<{ left?: boolean; inactive: boolean }>`
   position: absolute;
   top: 50%;
   margin-top: -20px;
@@ -42,6 +44,8 @@ const Arrow = styled(VscChevronRight)<{ left?: boolean }>`
   transform: ${({ left }) => left && "rotate(180deg)"};
   cursor: pointer;
   color: ${({ theme }) => theme.veryDarkGrey};
+
+  display: ${({ inactive }) => inactive && "none"};
 
   :hover {
     color: ${({ theme }) => theme.blue};
@@ -62,23 +66,20 @@ const IconPhoto = styled.div<{ highlight?: boolean; photo?: string }>`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: ${({ photo }) => photo && `url(${getPhoto(photo)})`};
+  background-image: ${({ photo }) =>
+    photo && `url(${getPhoto(photo, endpoints.ITEMS_IMAGES)})`};
 
   border-bottom: ${({ theme, highlight }) =>
     highlight && `4px solid ${theme.blue}`};
 `;
 
+const StyledGrid = styled(Grid)`
+  display: flex;
+  justify-content: center;
+`;
+
 const Images = ({ images }: { images: iImage[] }) => {
   const [current, setCurrent] = useState(0);
-  var photos = [];
-
-  for (let i = 6 - images?.length; i > 0; i--) {
-    photos.push(
-      <Grid item xs={2} sm={2} lg={2} xl={2} key={i}>
-        <IconPhoto />
-      </Grid>
-    );
-  }
 
   return (
     <Wrapper>
@@ -91,15 +92,17 @@ const Images = ({ images }: { images: iImage[] }) => {
           onClick={() => {
             if (current > 0) setCurrent(current - 1);
           }}
+          inactive={current === 0}
         />
         <Arrow
           onClick={() => {
             if (current < images?.length - 1) setCurrent(current + 1);
           }}
+          inactive={current === images?.length - 1}
         />
       </Main>
       <List>
-        <Grid container spacing={1}>
+        <StyledGrid container spacing={1}>
           {images?.map((e, i) => (
             <Grid item xs={2} sm={2} lg={2} xl={2}>
               <IconPhoto
@@ -110,8 +113,7 @@ const Images = ({ images }: { images: iImage[] }) => {
               />
             </Grid>
           ))}
-          {photos}
-        </Grid>
+        </StyledGrid>
       </List>
     </Wrapper>
   );

@@ -29,8 +29,9 @@ const Header = styled.div`
 `;
 
 const Paragraph = styled.div`
-  margin: 20px 0px;
-  font-size: 18px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 14px;
 `;
 
 const StyledLink = styled(Link)`
@@ -40,6 +41,7 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   padding: 10px 0px;
+  font-size: 14px;
 `;
 
 const Arrow = styled(BsArrowUpRight)`
@@ -57,8 +59,8 @@ const PageNotFound = () => {
             Strona główna
             <Arrow />
           </StyledLink>
-          <StyledLink to={routes.WTB}>
-            Produkty
+          <StyledLink to={routes.WTB + routes.DEFAULT_SEARCH}>
+            Itemy
             <Arrow />
           </StyledLink>
           <StyledLink to={routes.SUPPORT}>

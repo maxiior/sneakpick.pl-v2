@@ -77,7 +77,7 @@ const Button = styled.div<{ followed?: boolean }>`
   background-color: ${({ theme, followed }) =>
     followed ? theme.grey : theme.blue};
   color: ${({ theme }) => theme.white};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   cursor: pointer;
   padding: 10px 0px;
@@ -149,7 +149,7 @@ const Edit = styled(Link)`
   background-color: ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.darkGrey};
   border: 1px solid ${({ theme }) => theme.darkGrey};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   cursor: pointer;
   padding: 10px 30px;
@@ -165,12 +165,12 @@ const Edit = styled(Link)`
   }
 `;
 
-const Adnotation = styled(Link)`
+const RateButton = styled(Link)`
   color: ${({ theme }) => theme.white};
   background-color: ${({ theme }) => theme.blue};
-  padding: 4px;
+  padding: 6px;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -178,7 +178,7 @@ const Adnotation = styled(Link)`
 `;
 
 const TopPanel = () => {
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const profile = useAppSelector((state) => state.profileSlice);
@@ -187,7 +187,7 @@ const TopPanel = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchUser(user));
+    dispatch(fetchUser(user!));
   }, [dispatch, user]);
 
   const follow = () => {
@@ -222,14 +222,12 @@ const TopPanel = () => {
           {location.pathname.indexOf("comments") === -1 &&
             user !== user_id &&
             isAuthenticated && (
-              <Adnotation
-                to={{
-                  pathname: routes.USER_PROFILE_COMMENTS.replace(":user", user),
-                  state: "open_rating_panel",
-                }}
+              <RateButton
+                to={routes.USER_PROFILE_COMMENTS.replace(":user", user!)}
+                state={{ state: "open_rating_panel" }}
               >
                 Oceń użytkownika
-              </Adnotation>
+              </RateButton>
             )}
         </div>
       </LeftContainer>

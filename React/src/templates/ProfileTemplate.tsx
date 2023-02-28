@@ -42,7 +42,7 @@ const Label = styled(Link)<{ unactive?: boolean }>`
 
   @media only screen and (max-width: ${({ theme }) => theme.max_width_LG}) {
     width: 100%;
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font_size_MD};
   }
 `;
 
@@ -58,7 +58,7 @@ const Holder = styled.div`
 
 const ProfileTemplate = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -72,13 +72,13 @@ const ProfileTemplate = ({ children }: { children: React.ReactNode }) => {
         <BottomPanel>
           <Holder>
             <Label
-              to={routes.USER_PROFILE_PRODUCTS.replace(":user", user)}
+              to={routes.USER_PROFILE_PRODUCTS.replace(":user", user!)}
               unactive={location.pathname.indexOf("comments") > -1}
             >
               Moje produkty
             </Label>
             <Label
-              to={routes.USER_PROFILE_COMMENTS.replace(":user", user)}
+              to={routes.USER_PROFILE_COMMENTS.replace(":user", user!)}
               unactive={location.pathname.indexOf("products") > -1}
             >
               Komentarze

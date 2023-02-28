@@ -5,6 +5,7 @@ import { iFollowed } from "types/Nav/LoggedPanel/FollowedPanel/followed";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import { endpoints } from "routes";
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ const Options = styled.div`
 `;
 
 const Option = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   color: ${({ theme }) => theme.veryDarkGrey};
   width: 100px;
@@ -91,14 +92,14 @@ const FollowedItem = ({ data }: { data: iFollowed }) => {
     <Wrapper>
       <Image
         to={routes.ITEM.replace(":item", data.id)}
-        photo={getPhoto(data.photo[0]?.file_name)}
+        photo={getPhoto(data.images[0]?.file_name, endpoints.ITEMS_IMAGES)}
       />
       <Container>
         <Holder to={routes.ITEM.replace(":item", data.id)}>
           <Informations>
             <Name>{maxLength(data.name)}</Name>
-            <Parameter>Rozmiar: {data.size}</Parameter>
-            <Parameter>Stan: {data.condition}</Parameter>
+            <Parameter>Rozmiar: {data.size.toUpperCase()}</Parameter>
+            <Parameter>Stan: {data.condition.toUpperCase()}</Parameter>
           </Informations>
           <Price>{data.price}PLN</Price>
         </Holder>

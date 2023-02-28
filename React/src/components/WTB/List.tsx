@@ -21,14 +21,7 @@ const ShowMore = styled.div<{ mobile?: boolean }>`
   }
 `;
 
-const List = ({
-  name,
-  elements,
-  filterType,
-  radio,
-  mobile,
-  currentFilter,
-}: any) => {
+const List = ({ name, elements, filterType, mobile, currentFilter }: any) => {
   const [showList, setShowList] = useState(false);
   const [amount, setAmount] = useState(6);
   const [showMore, setShowMore] = useState("Pokaż więcej");
@@ -56,7 +49,6 @@ const List = ({
               text={e.text}
               filterType={filterType}
               checked={currentFilter}
-              radio={radio}
             />
           ))}
         </ElementsList>

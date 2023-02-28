@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { VscTriangleDown } from "react-icons/vsc";
-import { changeSelector } from "store/selectors/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useDetectOutsideClick } from "hooks/useDetectOutsideClick";
+import { onFilterClick } from "functions/onFilterClick";
+import { useNavigate } from "react-router-dom";
 
 const Header = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -73,7 +74,7 @@ const ModesContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.lightGrey};
   left: 0;
   top: 22px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   font-weight: 400;
   z-index: 500;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -83,20 +84,12 @@ const StyledComboBox = styled.div`
   display: inline-block;
 `;
 
-const ComboBox = ({
-  className,
-  name,
-  elements,
-  itemsSelectorType,
-  sorting,
-}) => {
-  const { pagination } = useSelector(
+const ComboBox = ({ className, name, elements, selectorType, sorting }) => {
+  const { limit, ordering } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(() => (sorting ? elements[0] : pagination));
-  const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const wrapperRef = useRef(null);
   useDetectOutsideClick(wrapperRef, setOpen);
 
@@ -104,22 +97,21 @@ const ComboBox = ({
     <StyledComboBox className={className}>
       <Header>{name}:</Header>
       <ComboBoxMode onClick={() => setOpen(!open)} ref={wrapperRef}>
-        <ValueHolder>{mode}</ValueHolder>
+        <ValueHolder>{sorting ? elements[ordering] : limit}</ValueHolder>
         <Arrow turned={open === true} />
         {open && (
           <ModesContainer>
             {elements.map((element, i) => (
               <Mode
-                selected={mode === element}
-                onClick={() => {
-                  setMode(element);
-                  dispatch(
-                    changeSelector({
-                      type: itemsSelectorType,
-                      value: sorting ? i : elements[i],
-                    })
-                  );
-                }}
+                selected={sorting ? i === ordering : limit === element}
+                onClick={() =>
+                  onFilterClick(
+                    selectorType,
+                    sorting ? i : elements[i],
+                    "radio",
+                    navigate
+                  )
+                }
               >
                 {element}
               </Mode>

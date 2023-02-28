@@ -5,7 +5,7 @@ from .models import Product
 from .serializers import ProductSerializer
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from .pagination import Pagination
+from core.pagination import Pagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework import parsers
@@ -19,6 +19,8 @@ import json
 from django.shortcuts import redirect
 from django_filters.filters import OrderingFilter
 import django_filters
+from django.db.models import Count
+
 
 
 
@@ -59,24 +61,36 @@ class MultipartJsonParser(parsers.MultiPartParser):
 
 class ProductFilter(django_filters.FilterSet):
     order_by_field = 'ordering'
+    
     ordering = OrderingFilter(
         fields=(
-            ('-bumps', '1'),
-            ('price', '2'),
-            ('-price', '3'),
-            ('id', '4'),
-            ('-published', '5'),
+            ('-bumps_count', '0'),
+            ('price', '1'),
+            ('-price', '2'),
+            ('id', '3'),
+            ('-published', '4'),
         )
     )
+    
 
     class Meta:
         model = Product
-        fields = ['category', 'brand',
-                  'kind', 'condition', 'fit', 'colorway', 'price', 'owner']
+        fields = {
+            'kind': ["in", "exact"],
+            'name': ["exact"],
+            'category': ["in", "exact"],
+            'owner': ["exact"],
+            'price': ["lte"],
+            'brand': ["in", "exact"],
+            'fit': ["in", "exact"],
+            'colorway': ["in", "exact"],
+            'size': ["in", "exact"],
+            'condition': ["in", "exact"]
+        }
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.filter(bought=False).all()
+    queryset = Product.objects.annotate(bumps_count=Count('bumps')).all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = Pagination
@@ -84,32 +98,29 @@ class ProductViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter, filters.SearchFilter]
     parser_classes = [MultipartJsonParser, parsers.JSONParser]
     search_fields = ['name']
-    filter_fields = {
-        'kind': ["in", "exact"],
-        'name': ["exact"],
-        'category': ["in", "exact"],
-        'owner': ["exact"],
-        'price': ["exact"],
-        'brand': ["in", "exact"],
-        'fit': ["in", "exact"],
-        'colorway': ["in", "exact"],
-        'size': ["in", "exact"],
-        'condition': ["in", "exact"],
-        'name': ["exact"]
-    }
     filter_class = ProductFilter
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+
+        results = serializer.data
+
+        data = {
+            'results': results,
+            'count': len(queryset),
+            'max_price': Product.objects.order_by('-price')[0].price if results else 1000
+        }
+
+        return Response(data)
 
 
 @api_view(['POST'])
 @throttle_classes([OnceADayPerURLThrottle])
 @permission_classes([IsAuthenticated])
-def post_incremenent_product_views(request, pk, format=None):
+def incremenent_product_views(request, pk, format=None):
     product = Product.objects.get(pk=pk)
-    # user cannot increment views in own products
-    if product.owner.id == request.user.id:
-        return Response(data="Cannot increment view in own product", status=status.HTTP_403_FORBIDDEN)
-
     product.views += 1
     product.save()
-
     return Response(status=status.HTTP_200_OK)

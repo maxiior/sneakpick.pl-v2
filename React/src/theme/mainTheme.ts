@@ -11,6 +11,8 @@ export enum theme {
   hoverBlue = "#4dc9ff",
   red = "#F2324D",
   radious_SM = "5px",
+  font_size_SM = "12px",
+  font_size_MD = "14px",
   _5px = "5px",
   _10px = "10px",
   green = "#7CD321",
@@ -22,4 +24,5 @@ export enum theme {
   max_width_LG = "991px",
   min_width_XL = "1200px",
   max_width_XL = "1199px",
+  tradeColor = "#7CD321",
 }

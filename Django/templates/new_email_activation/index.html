@@ -1,0 +1,31 @@
+<body style="font-family: 'Verdana', sans-serif; padding: 30px; background-color: #f0f0f0;">
+    <div style="background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;">
+        <div style="text-align: center;">
+            <div style="font-weight: 600; color: #00b4ff;
+            text-align: center; font-size: 80px;">SNEAKPICK</div>
+            <!-- <img src="https://drive.google.com/uc?export=view&id=1Oduwn0c_19D-SL4ZCfCrKnmrchYCA-4Q" style="width: 242px; height: 88px;"/>-->
+        </div>
+        
+        
+        <main>
+            <header style="font-weight: 600; margin-bottom: 20px; color: #dddddd;
+            text-align: center; font-size: 20px;">AKTYWACJA NOWEGO ADRESU E-MAIL</header>
+            <div style="text-align: center;">Cześć {{user.first_name}},</div><br />
+            
+            <div style="text-align: center;">aby móc się logować za pomocą nowego adresu e-mail, skorzystaj z poniższego przycisku, w celu jego aktywowania.</div>
+            
+            <div style="text-align: center; margin: 50px 0;">
+                <a style="text-decoration: none; background-color: #00b4ff; padding: 10px 20px;
+                color: white; border-radius: 5px;" href=`{{domain}}/email-activation/{{uidb64}}/{{token}}`>
+                    Aktywuj maila
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <footer style="color: #777777; font-size: 14px; text-align: center; margin-top: 20px;">© 2022 Sneakpick. All rights reserved.</footer>
+</body>

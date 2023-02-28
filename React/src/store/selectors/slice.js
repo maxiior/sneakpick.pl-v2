@@ -2,18 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { changeSelector } from "store/selectors/actions";
 
 const initialState = {
-  sortingModes: [
-    "Domyślne",
-    "Cena Rosnąco",
-    "Cena Malejąco",
-    "Popularne",
-    "Najnowsze",
-  ],
-  paginationModes: [24, 48],
   currentSelectors: {
-    sorting: 0,
-    pagination: 24,
     page: 1,
+    limit: 24,
+    ordering: 0,
   },
 };
 
@@ -23,7 +15,9 @@ export const selectorsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(changeSelector.fulfilled, (state, action) => {
-      state.currentSelectors[action.payload.type] = action.payload.value;
+      action.payload.forEach((element) => {
+        state.currentSelectors[element.selectorType] = parseInt(element.value);
+      });
     });
   },
 });

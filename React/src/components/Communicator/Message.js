@@ -51,7 +51,7 @@ const Avatar = styled.div`
 
 const Time = styled.div`
   color: ${({ theme }) => theme.blue};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const DisplayPanel = styled.div`

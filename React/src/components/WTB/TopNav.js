@@ -8,6 +8,8 @@ import ComboBox from "components/WTB/ComboBox";
 import { useEffect } from "react";
 import { changeSelector } from "store/selectors/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { sortingModes } from "constants/sortingModes";
+import { paginationModes } from "constants/paginationModes";
 
 const Nav = styled.div`
   position: relative;
@@ -92,27 +94,21 @@ const StyledFiltersPanel = styled(FiltersPanel)`
 
 const TopNav = () => {
   const dispatch = useDispatch();
-  const { page, pagination } = useSelector(
+  const { page, limit } = useSelector(
     (state) => state.selectorsSlice.currentSelectors
   );
-  const { sortingModes, paginationModes } = useSelector(
-    (state) => state.selectorsSlice
-  );
-  const { results } = useSelector((state) => state.itemsSlice);
+  const { results, items } = useSelector((state) => state.itemsSlice);
 
   useEffect(() => {
-    if (
-      page > Math.ceil(results / pagination) &&
-      Math.ceil(results / pagination) > 1
-    ) {
+    if (page > Math.ceil(results / limit) && Math.ceil(results / limit) > 1) {
       dispatch(
         changeSelector({
           type: "page",
-          value: Math.ceil(results / pagination),
+          value: Math.ceil(results / limit),
         })
       );
     }
-  }, [pagination]);
+  }, [limit]);
 
   return (
     <>
@@ -127,19 +123,21 @@ const TopNav = () => {
             </Holder>
             <Holder>
               <StyledComboBox
-                itemsSelectorType="sorting"
+                selectorType="ordering"
                 name="Sortowanie"
                 elements={sortingModes}
                 sorting
               />
               <StyledComboBox
-                itemsSelectorType="pagination"
+                selectorType="limit"
                 name="Pokaż"
                 elements={paginationModes}
               />
             </Holder>
           </div>
-          {Math.ceil(results / pagination) > 1 && <StyledPagesList />}
+          {Math.ceil(results / limit) > 1 && items.length > 0 && (
+            <StyledPagesList />
+          )}
         </RightPanel>
       </Nav>
     </>

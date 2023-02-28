@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainTemplate from "templates/MainTemplate";
 import { routes } from "routes";
 import { theme } from "theme/mainTheme";
@@ -11,7 +11,6 @@ import Home from "views/Home";
 import Profile from "views/Profile";
 import PageNotFound from "views/PageNotFound";
 import ProfileSettings from "views/ProfileSettings";
-import SettingsTemplate from "templates/SettingsTemplate";
 import AccountSettings from "views/AccountSettings";
 import CommunicatorTemplate from "templates/CommunicatorTemplate";
 import useRefreshToken from "hooks/useRefreshToken";
@@ -27,6 +26,19 @@ import BusinessContact from "views/BusinessContact";
 import PasswordChange from "views/AccountSettings/PasswordChange";
 import EmailChange from "views/AccountSettings/EmailChange";
 import UserComments from "views/UserComments";
+import AccountActivation from "views/AccountActivation";
+import PasswordResetting from "views/PasswordResetting";
+import NewPassword from "views/NewPassword";
+import NewEmailSetter from "views/NewEmailSetter";
+import NewEmailActivation from "views/NewEmailActivation";
+import ShipmentSettings from "views/ShipmentSettings";
+import Question from "views/Question";
+import QuestionAdder from "views/QuestionAdder";
+import ProxyAdder from "views/ProxyAdder";
+import ItemEditor from "views/ItemEditor";
+import StealAdder from "views/StealAdder";
+import TopSellers from "views/TopSellers";
+import Calendar from "views/Calendar";
 
 const App = () => {
   useRefreshToken();
@@ -37,51 +49,71 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CommunicatorTemplate>
           <MainTemplate>
-            <Switch>
-              <Route exact path={routes.HOME} component={Home} />
-              <Route exact path={routes.WTB} component={WTB} />
-              <Route path={routes.WTS} component={WTS} />
-              <Route path={routes.ITEM} component={SingleItem} />
-              <Route exact path={routes.PROFILE} component={Profile} />
-              <Route path={routes.FOLLOWED} component={Followed} />
-              <Route path={routes.SUPPORT} component={Support} />
-              <Route path={routes.PROXY} component={Proxy} />
-              <Route path={routes.STEAL} component={Steal} />
-              <Route path={routes.WTT} component={WTT} />
-              <Route path={routes.TALK} component={Talk} />
-              <Route path={routes.FAQ} component={FAQ} />
+            <Routes>
+              <Route exact path={routes.HOME} element={<Home />} />
+              <Route exact path={routes.WTB} element={<WTB />} />
+              <Route path={routes.WTS} element={<WTS />} />
+              <Route exact path={routes.ITEM} element={<SingleItem />} />
+              <Route path={routes.ITEM_EDIT} element={<ItemEditor />} />
+              <Route exact path={routes.PROFILE} element={<Profile />} />
+              <Route path={routes.FOLLOWED} element={<Followed />} />
+              <Route path={routes.SUPPORT} element={<Support />} />
+              <Route exact path={routes.PROXY} element={<Proxy />} />
+              <Route path={routes.PROXY_ADDER} element={<ProxyAdder />} />
+              <Route path={routes.STEAL_ADDER} element={<StealAdder />} />
+              <Route path={routes.STEAL} element={<Steal />} />
+              <Route path={routes.WTT} element={<WTT />} />
+              <Route path={routes.TOP_SELLERS} element={<TopSellers />} />
+              <Route path={routes.RELEASE_CALENDAR} element={<Calendar />} />
+              <Route exact path={routes.TALK} element={<Talk />} />
+              <Route path={routes.ADD_QUESTION} element={<QuestionAdder />} />
+              <Route path={routes.QUESTION} element={<Question />} />
+              <Route path={routes.FAQ} element={<FAQ />} />
+              <Route
+                path={routes.PASSWORD_RESETTING}
+                element={<PasswordResetting />}
+              />
+              <Route path={routes.NEW_PASSWORD} element={<NewPassword />} />
+              <Route
+                path={routes.ACCOUNT_ACTIVATION}
+                element={<AccountActivation />}
+              />
               <Route
                 path={routes.BUSINESSCONTACT}
-                component={BusinessContact}
+                element={<BusinessContact />}
               />
               <Route
                 exact
                 path={routes.USER_PROFILE_COMMENTS}
-                component={UserComments}
+                element={<UserComments />}
               />
               <Route
                 exact
                 path={routes.USER_PROFILE_PRODUCTS}
-                component={UserProducts}
+                element={<UserProducts />}
               />
-              <SettingsTemplate>
-                <Route
-                  path={routes.PROFILE_SETTINGS}
-                  component={ProfileSettings}
-                />
-                <Route
-                  exact
-                  path={routes.ACCOUNT_SETTINGS}
-                  component={AccountSettings}
-                />
-                <Route
-                  path={routes.PASSWORD_CHANGE}
-                  component={PasswordChange}
-                />
-                <Route path={routes.EMAIL_CHANGE} component={EmailChange} />
-              </SettingsTemplate>
-              <Route component={PageNotFound} />
-            </Switch>
+              <Route
+                path={routes.PROFILE_SETTINGS}
+                element={<ProfileSettings />}
+              />
+              <Route
+                exact
+                path={routes.ACCOUNT_SETTINGS}
+                element={<AccountSettings />}
+              />
+              <Route
+                path={routes.PASSWORD_CHANGE}
+                element={<PasswordChange />}
+              />
+              <Route path={routes.SHIPMENT} element={<ShipmentSettings />} />
+              <Route path={routes.EMAIL_CHANGE} element={<EmailChange />} />
+              <Route path={routes.NEW_EMAIL} element={<NewEmailSetter />} />
+              <Route
+                path={routes.EMAIL_ACTIVATION}
+                element={<NewEmailActivation />}
+              />
+              <Route element={<PageNotFound />} />
+            </Routes>
           </MainTemplate>
         </CommunicatorTemplate>
       </ThemeProvider>

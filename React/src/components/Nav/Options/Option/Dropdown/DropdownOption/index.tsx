@@ -8,7 +8,7 @@ const StyledSubDropdown = styled(SubDropdown)`
 const Wrapper = styled.div`
   padding: 10px 15px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   color: ${({ theme }) => theme.veryDarkGrey};
   border-right: 3px solid ${({ theme }) => theme.white};
 

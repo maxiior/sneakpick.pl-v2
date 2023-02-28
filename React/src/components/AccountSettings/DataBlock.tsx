@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `;
 
 const Key = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   white-space: nowrap;
   width: 120px;
 
@@ -23,20 +23,20 @@ const Key = styled.div`
 
 const Value = styled.div`
   color: ${({ theme }) => theme.blue};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
     width: 120px;
   }
 `;
 
-const Button = styled(Link)<{ deleteAccount: boolean }>`
-  background-color: ${({ theme }) => theme.white};
-  color: ${({ theme, deleteAccount }) =>
+const Button = styled(Link)<{ deleteAccount?: boolean }>`
+  background-color: ${({ theme, deleteAccount }) =>
     deleteAccount ? theme.red : theme.blue};
+  color: ${({ theme }) => theme.white};
   border: 1px solid
     ${({ theme, deleteAccount }) => (deleteAccount ? theme.red : theme.blue)};
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   cursor: pointer;
   padding: 5px 10px;

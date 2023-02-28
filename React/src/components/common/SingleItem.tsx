@@ -3,8 +3,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { getPhoto } from "functions/getPhoto";
 import { iItem } from "types/item";
+import { routes } from "routes";
+import { RiArrowLeftRightLine } from "react-icons/ri";
+import { endpoints } from "routes";
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(Link)<{ unclickable: boolean }>`
   text-decoration: none;
   &:focus,
   &:hover,
@@ -13,6 +16,7 @@ const StyledLink = styled(Link)`
   &:active {
     text-decoration: none;
   }
+  pointer-events: ${({ unclickable }) => unclickable && "none"};
 `;
 
 const Container = styled.div`
@@ -22,7 +26,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 `;
 
 const Holder = styled.div`
@@ -35,18 +38,16 @@ const Holder = styled.div`
 `;
 
 const Condition = styled.div`
-  margin-left: 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  position: absolute;
   background-color: ${({ theme }) => theme.veryDarkGrey};
-  padding: 2px 8px;
-  border-radius: 3px;
+  padding: 3px 8px;
+  border-radius: 5px;
   color: ${({ theme }) => theme.white};
   text-transform: uppercase;
+  font-size: ${({ theme }) => theme.font_size_MD};
+  margin-right: 3px;
 `;
 
-const Photo = styled.div`
+const Photo = styled.div<{ image: string }>`
   border: 1px solid ${({ theme }) => theme.lightGrey};
   width: 100%;
   object-fit: cover;
@@ -54,6 +55,7 @@ const Photo = styled.div`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-image: ${({ image }) => image};
 `;
 
 const Informations = styled.div`
@@ -76,30 +78,115 @@ const Informations = styled.div`
   h2 {
     margin: 0;
     margin-top: -1px;
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font_size_MD};
     font-weight: 600;
     color: ${({ theme }) => theme.blue};
   }
 `;
 
-const SingleItem = ({ data }: { data: iItem }) => {
+const IconsHolder = styled.div`
+  margin-left: 10px;
+  margin-top: 10px;
+
+  position: absolute;
+  display: flex;
+  align-items: center;
+`;
+
+const PhotoPlaceHolder = styled.div`
+  background-color: ${({ theme }) => theme.lightGrey};
+  padding-bottom: 75%;
+  width: 100%;
+
+  animation: loading 1s linear infinite alternate;
+
+  @keyframes loading {
+    0% {
+      background-color: ${({ theme }) => theme.lightGrey};
+    }
+    100% {
+      background-color: ${({ theme }) => theme.grey};
+    }
+  }
+`;
+
+const TradeIconHolder = styled.div`
+  padding: 3px 8px;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.tradeColor};
+  display: flex;
+  align-items: center;
+`;
+
+const LaneHolder = styled.div`
+  width: 100%;
+`;
+
+const Lane = styled.div`
+  width: 100%;
+  height: 15px;
+  background-color: ${({ theme }) => theme.lightGrey};
+
+  :last-child {
+    margin-top: 10px;
+  }
+
+  animation: loading 1s linear infinite alternate;
+
+  @keyframes loading {
+    0% {
+      background-color: ${({ theme }) => theme.lightGrey};
+    }
+    100% {
+      background-color: ${({ theme }) => theme.grey};
+    }
+  }
+`;
+
+const TradeIcon = styled(RiArrowLeftRightLine)`
+  color: ${({ theme }) => theme.white};
+`;
+
+const SingleItem = ({ data }: { data?: iItem }) => {
   return (
     <Grid item xs={12} sm={6} lg={4} xl={3}>
-      <StyledLink to={`../wtb/${data.id}`}>
+      <StyledLink
+        to={routes.ITEM.replace(":item", data ? data.id : "")}
+        unclickable={!data}
+      >
         <Container>
           <Holder>
-            <Condition>{data.condition}</Condition>
-            <Photo
-              style={{
-                backgroundImage: `url(${getPhoto(data.images[0]?.file_name)})`,
-              }}
-            ></Photo>
+            <IconsHolder>
+              {data && <Condition>{data.condition}</Condition>}
+              {data && data?.for_trade && (
+                <TradeIconHolder>
+                  <TradeIcon />
+                </TradeIconHolder>
+              )}
+            </IconsHolder>
+            {data ? (
+              <Photo
+                image={`url(${getPhoto(
+                  data?.images[0]?.file_name,
+                  endpoints.ITEMS_IMAGES
+                )})`}
+              />
+            ) : (
+              <PhotoPlaceHolder />
+            )}
           </Holder>
           <Informations>
-            <div>
-              <h1>{data.name}</h1>
-              <h2>{data.price} PLN + SHIP</h2>
-            </div>
+            {data ? (
+              <div>
+                <h1>{data?.name}</h1>
+                <h2>{data?.price} PLN + SHIP</h2>
+              </div>
+            ) : (
+              <LaneHolder>
+                <Lane />
+                <Lane />
+              </LaneHolder>
+            )}
           </Informations>
         </Container>
       </StyledLink>

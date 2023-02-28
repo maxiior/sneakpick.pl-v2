@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   width: 150px;
   color: ${({ theme }) => theme.darkGrey};
   @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useResizeObserver from "@react-hook/resize-observer";
-import logo from "assets/logo_dark.png";
+import logo from "assets/logo.png";
 import Option from "components/MobileMenu/Option";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
@@ -56,8 +56,8 @@ const Close = styled(IoMdClose)`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
   cursor: pointer;
 `;
 
@@ -149,7 +149,7 @@ const MobileMenu = ({ className }: { className?: any }) => {
             <Option to="" content="Powiadomienia" />
           </>
         )}
-        <Option content="WTB" to={routes.WTB} />
+        <Option content="WTB" to={routes.WTB + routes.DEFAULT_SEARCH} />
         <Option content="WTS" to={routes.WTS} />
         <Option content="WTT" to={routes.WTT} />
         <Option content="PROXY" to={routes.PROXY} />

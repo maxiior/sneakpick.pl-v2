@@ -2,6 +2,7 @@
 
 # dependencies
 React/node_modules
+React/src/assets/sth
 Django/venv
 /.pnp
 .pnp.js

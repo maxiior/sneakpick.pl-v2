@@ -7,6 +7,7 @@ from products.models import Product
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 
 
+
 class CustomAccountManager(BaseUserManager):
     def create_superuser(self, email, password, first_name, last_name, city, **other_fields):
         other_fields.setdefault('is_staff', True)
@@ -43,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     avg_rating = models.FloatField(default=0)
 
     objects = CustomAccountManager()
@@ -52,8 +53,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'city']
 
+
     def __str__(self):
         return self.email
+    
+    def __getitem__(self,key):
+        return self.__dict__[key]
     
 class Follower(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')

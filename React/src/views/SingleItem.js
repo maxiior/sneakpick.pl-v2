@@ -5,11 +5,13 @@ import styled from "styled-components";
 import Path from "components/SingleItem/Path";
 import Images from "components/SingleItem/Images";
 import SimilarItems from "components/SingleItem/SimilarItems";
-import { endpoints } from "routes";
+import { endpoints, routes } from "routes";
 import { addFollowedItem, removeFollowedItem } from "store/followed/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Informations from "components/SingleItem/Informations";
 import { fetchSingleItem } from "api/services/items.service";
+import { RiArrowLeftRightLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -43,6 +45,20 @@ const Condition = styled.div`
   align-items: center;
   user-select: none;
   margin-left: 15px;
+  margin-right: 5px;
+`;
+
+const TradeIconHolder = styled.div`
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: ${({ theme }) => theme.tradeColor};
+  display: flex;
+  align-items: center;
+`;
+
+const TradeIcon = styled(RiArrowLeftRightLine)`
+  color: ${({ theme }) => theme.white};
 `;
 
 const Option = styled.div`
@@ -56,10 +72,10 @@ const Option = styled.div`
   user-select: none;
   cursor: pointer;
   margin-right: 10px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
-    opacity: 0.9;
+    filter: ${({ active }) => !active && "opacity(90%)"};
   }
 `;
 
@@ -144,6 +160,33 @@ const StyledInformations = styled(Informations)`
   }
 `;
 
+const Text = styled.div`
+  color: ${({ theme }) => theme.blue};
+  padding: 10px 20px;
+  user-select: none;
+  font-size: 16px;
+`;
+
+const Edit = styled(Link)`
+  background-color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.blue};
+  border: 1px solid ${({ theme }) => theme.blue};
+  font-size: ${({ theme }) => theme.font_size_MD};
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.radious_SM};
+  text-decoration: none;
+  align-items: center;
+  margin-right: 10px;
+
+  :hover {
+    opacity: 0.9;
+  }
+`;
+
 const SingleItem = () => {
   const { item } = useParams();
   const [data, setData] = useState({ product: {} });
@@ -167,29 +210,11 @@ const SingleItem = () => {
       .catch(() => {});
   };
 
-  const checkIfFollowed = () => {
-    let check = false;
-    followedItems.forEach((e) => {
-      if (e.id === data.product.id) check = true;
-    });
-    if (check) return true;
-    else return false;
-  };
-
   const follow = () => {
     http
       .post(endpoints.FOLLOWED_ITEMS, { id: data.product.id })
       .then(() => {
-        dispatch(
-          addFollowedItem({
-            name: data.product.name,
-            size: data.product.size,
-            condition: data.product.condition,
-            id: data.product.id,
-            price: data.product.price,
-            photo: data.product.images,
-          })
-        );
+        dispatch(addFollowedItem(data.product));
         setIsFollowed(true);
       })
       .catch(() => {});
@@ -225,9 +250,21 @@ const SingleItem = () => {
   }, []);
 
   useEffect(() => {
-    if (checkIfFollowed()) setIsFollowed(true);
-    else setIsFollowed(false);
-  }, [data, followedItems]);
+    setIsFollowed(data.product.is_followed);
+  }, [data.product.is_followed]);
+
+  const checkIfFollowed = () => {
+    let check = false;
+    followedItems.forEach((e) => {
+      if (e.id === data.product.id) check = true;
+    });
+    if (check) return true;
+    else return false;
+  };
+
+  useEffect(() => {
+    setIsFollowed(checkIfFollowed());
+  }, [followedItems]);
 
   return (
     <Wrapper>
@@ -239,6 +276,11 @@ const SingleItem = () => {
               <Header>{data.product.name}</Header>
               <Center>
                 <Condition>{data.product.condition?.toUpperCase()}</Condition>
+                {data.product.for_trade && (
+                  <TradeIconHolder>
+                    <TradeIcon />
+                  </TradeIconHolder>
+                )}
               </Center>
             </Holder>
           </TopLeft>
@@ -253,11 +295,23 @@ const SingleItem = () => {
                   {isFollowed ? "Unfollow" : "Follow"}
                 </Option>
               )}
+            {isAuthenticated &&
+              data.product.owner !== undefined &&
+              data.product.owner === user_id && (
+                <Edit to={routes.ITEM_EDIT.replace(":item", item)}>Edytuj</Edit>
+              )}
             {data.product.is_bumped !== undefined && (
               <>
-                <Option onClick={() => bump()} active={data.product.is_bumped}>
-                  Bump
-                </Option>
+                {isAuthenticated ? (
+                  <Option
+                    onClick={() => !data.product.is_bumped && bump()}
+                    active={data.product.is_bumped}
+                  >
+                    Bump
+                  </Option>
+                ) : (
+                  <Text>Bumps</Text>
+                )}
                 <NumberOfBumps>+{data.product.total_bumps}</NumberOfBumps>
               </>
             )}

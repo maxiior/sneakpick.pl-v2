@@ -106,12 +106,12 @@ class AddressUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    profile_image = serializers.FileField(required=False, write_only=True)
-    profile_photo = serializers.ReadOnlyField()
+    profile_photo = serializers.FileField(required=False)
+    remove_photo = serializers.BooleanField(required=False)
     
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'city', 'description', 'profile_photo', 'profile_image')
+        fields = ('email', 'first_name', 'last_name', 'city', 'description', 'profile_photo', 'remove_photo')
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateSerializer, self).__init__(*args, **kwargs)
@@ -125,33 +125,40 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             instance.last_name = validated_data.get('last_name', instance.last_name)
             instance.city = validated_data.get('city', instance.city)
             instance.description = validated_data.get('description', instance.description)
-            uploaded_file = validated_data.get('profile_image', None)
-            if uploaded_file:
+            uploaded_file = validated_data.get('profile_photo', None)
+            remove = validated_data.get('remove_photo', False)
+
+            if uploaded_file and not remove:
                 validate_extension(uploaded_file.name)
                 instance.profile_photo = handle_uploaded_file(uploaded_file)
+            elif instance.profile_photo != "" and remove:
+                delete_file(instance.profile_photo)
+                instance.profile_photo = ""
             instance.save()
         return instance
 
 
-class PswdUpdateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
+class PasswordUpdateSerializer(serializers.ModelSerializer):
+    current_password = serializers.CharField(
         required=True, min_length=8, write_only=True)
     new_password = serializers.CharField(
         required=True, min_length=8, write_only=True)
 
     class Meta:
         model = User
-        fields = ('password', 'new_password')
+        fields = ('current_password', 'new_password')
 
     def validate_password(self, password):
         user = self.context['request'].user
         if user.check_password(password):
             return password
-        raise serializers.ValidationError({"password": "Password incorrect."})
+        raise serializers.ValidationError({"current_password": "Password incorrect."})
 
     def update(self, instance, validated_data):
         new_password = validated_data['new_password']
-        if new_password == validated_data['password']:
+        current_password = validated_data['current_password']
+        self.validate_password(current_password)
+        if new_password == current_password:
             raise serializers.ValidationError(
                 {"new_password": "The new password must be different from the old one."})
 
@@ -163,7 +170,7 @@ class PswdUpdateSerializer(serializers.ModelSerializer):
             SpecialCharactersValidator().validate(new_password)
         except:
             raise serializers.ValidationError(
-                {"new_password": "The new password must be different from the old one."})
+                {"new_password": "The new password does not meet the rules."})
 
         instance.set_password(new_password)
         instance.save()

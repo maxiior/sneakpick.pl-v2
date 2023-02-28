@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  sneakpick-react:
+    build:
+      context: ./React
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:80"

@@ -2,13 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchItems,
   fetchUser,
+  fetchComments,
+  changeFollowersNumber,
+  changeFollowingNumber,
   fetchFollowers,
   fetchFollowing,
-  changeFollowersNumber,
-  changeFollowedNumber,
-  fetchComments,
   addComment,
   removeComment,
+  removeAnswear,
+  turnOnPending,
+  resetComments,
+  resetItems,
 } from "store/profile/actions";
 
 const initialState = {
@@ -16,6 +20,7 @@ const initialState = {
   comments: [],
   items_results: 0,
   comments_count: 0,
+  items_pending: true,
   user: {
     id: "",
     first_name: "",
@@ -30,6 +35,11 @@ const initialState = {
     followers_details: [],
     is_followed: false,
   },
+  init_pending: true,
+  reloading_pending: false,
+  all_loaded: false,
+  limit: 10,
+  offset: 0,
 };
 
 export const profileSlice = createSlice({
@@ -40,6 +50,7 @@ export const profileSlice = createSlice({
     builder.addCase(fetchItems.fulfilled, (state, action) => {
       state.items = action.payload.items;
       state.items_results = action.payload.items_results;
+      state.items_pending = false;
     });
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.user.id = action.payload.id;
@@ -63,30 +74,54 @@ export const profileSlice = createSlice({
       state.user.followers_count += action.payload.value;
       state.user.is_followed = action.payload.is_followed;
     });
-    builder.addCase(changeFollowedNumber, (state, action) => {
+    builder.addCase(changeFollowingNumber, (state, action) => {
       state.user.following_count += action.payload;
     });
     builder.addCase(fetchComments.fulfilled, (state, action) => {
-      state.comments = action.payload.comments;
-      state.comments_count = action.payload.comments_count;
+      if (action.payload) {
+        state.comments = [...state.comments, ...action.payload.comments];
+        state.comments_count = action.payload.comments_count;
+        state.init_pending = false;
+        state.reloading_pending = false;
+
+        if (action.payload.comments.length < state.limit)
+          state.all_loaded = true;
+      }
     });
     builder.addCase(addComment.fulfilled, (state, action) => {
-      if (action.payload.comment.parent !== null) {
-        state.comments.map((e) =>
-          e.id === action.payload.comment.parent
-            ? (e.responses = [action.payload.comment])
-            : e
-        );
-      } else {
+      if ("comment" in action.payload) {
         state.comments = [action.payload.comment, ...state.comments];
         state.comments_count += 1;
         state.user.rating = action.payload.avg_rating;
+      } else if (action.payload.parent !== null) {
+        state.comments.map((e) =>
+          e.id === action.payload.parent ? (e.responses = [action.payload]) : e
+        );
       }
     });
     builder.addCase(removeComment.fulfilled, (state, action) => {
       state.comments = state.comments.filter((e) => e.id !== action.payload.id);
       state.comments_count -= 1;
       state.user.rating = action.payload.avg_rating;
+    });
+    builder.addCase(removeAnswear.fulfilled, (state, action) => {
+      state.comments.map((e) =>
+        e.id === action.payload ? (e.responses = []) : e
+      );
+    });
+    builder.addCase(turnOnPending, (state) => {
+      state.reloading_pending = true;
+      state.offset += state.limit;
+    });
+    builder.addCase(resetComments, (state) => {
+      state.all_loaded = false;
+      state.comments = [];
+      state.init_pending = true;
+      state.offset = 0;
+    });
+    builder.addCase(resetItems, (state) => {
+      state.items = [];
+      state.items_pending = true;
     });
   },
 });

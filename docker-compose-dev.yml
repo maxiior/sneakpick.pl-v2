@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  sneakpick-react:
+    build:
+      context: ./React
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes: -./React/src:/app/src

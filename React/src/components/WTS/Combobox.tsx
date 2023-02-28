@@ -8,6 +8,12 @@ import Header from "components/WTS/Header";
 import { Error } from "components/WTS/Error";
 import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
+import {
+  FIT_CATEGORIES,
+  NO_SIZE_CATEGORIES,
+  SNEAKERS_CATEGORIES,
+} from "constants/filters";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
 const Wrapper = styled.div`
   input::-webkit-outer-spin-button,
@@ -52,7 +58,7 @@ const ModesContainer = styled.div<{ open: boolean }>`
 
   left: 0;
   top: 30px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   font-weight: 400;
   z-index: 500;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -100,7 +106,7 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
   );
   useDetectOutsideClick(wrapperRef, setOpen);
 
-  const { register, formState } = useFormContext();
+  const { register, formState, setValue } = useFormContext();
   const validator = register("category");
 
   const handleUserKeyPress = useCallback(
@@ -118,6 +124,18 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
       }
       if (e.key === "Enter" && cursor >= 0) {
         e.preventDefault();
+
+        setValue("hasFit", FIT_CATEGORIES.includes(elements[cursor].text));
+        setValue(
+          "isSneakers",
+          SNEAKERS_CATEGORIES.includes(elements[cursor].text)
+        );
+        setValue(
+          "hasNoSize",
+          NO_SIZE_CATEGORIES.includes(elements[cursor].text)
+        );
+        setValue("category", elements[cursor].text);
+
         dispatch(
           changeState({
             type: filterType,
@@ -150,7 +168,9 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
         error={formState.errors.category}
       >
         <ValueHolder>
-          {categories === "placeholder" ? "np. Teesy" : categories}
+          {categories === "placeholder"
+            ? "np. Teesy"
+            : firstLetterUppercase(categories)}
         </ValueHolder>
         <Arrow turned={open === true} />
         <ModesContainer open={open}>
@@ -170,10 +190,16 @@ const Combobox = ({ title, elements, filterType }: iCombobox) => {
                     })
                   );
                   setOpen(false);
+                  setValue("hasFit", FIT_CATEGORIES.includes(e.text));
+                  setValue("isSneakers", SNEAKERS_CATEGORIES.includes(e.text));
+                  setValue("hasNoSize", NO_SIZE_CATEGORIES.includes(e.text));
+                  setValue("category", e.text);
                 }}
                 checked={categories === e.text}
               />
-              <Option isHighlighted={cursor === i}>{e.text}</Option>
+              <Option isHighlighted={cursor === i}>
+                {firstLetterUppercase(e.text)}
+              </Option>
             </StyledLabel>
           ))}
         </ModesContainer>

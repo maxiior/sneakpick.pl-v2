@@ -1,12 +1,12 @@
-import React from "react";
 import styled, { css } from "styled-components";
-import { changeState } from "store/filters/actions";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { onFilterClick } from "functions/onFilterClick";
+import { firstLetterUppercase } from "functions/firstLetterUppercase";
 
 const StyledElement = styled.div`
   margin: 2px 0;
   display: block;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 `;
 
 const Checkbox = styled.div`
@@ -45,26 +45,21 @@ const StyledInput = styled.input`
   }
 `;
 
-const Element = ({ text, filterType, checked, radio }) => {
-  const dispatch = useDispatch();
+const Element = ({ text, filterType, checked }) => {
+  const navigate = useNavigate();
 
   return (
     <StyledElement>
       <StyledLabel>
         <StyledInput
           type="checkbox"
-          onChange={() => {
-            if (radio)
-              dispatch(changeState({ filterType, id: text, input: "radio" }));
-            else
-              dispatch(
-                changeState({ filterType, id: text, input: "checkbox" })
-              );
-          }}
+          onChange={() =>
+            onFilterClick(filterType.name, text, filterType.input, navigate)
+          }
           checked={checked.includes(text)}
         />
         <Checkbox />
-        <Type other={text === "Inne"}>{text}</Type>
+        <Type other={text === "inne"}>{firstLetterUppercase(text)}</Type>
       </StyledLabel>
     </StyledElement>
   );

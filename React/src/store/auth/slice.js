@@ -5,6 +5,7 @@ const initialState = {
   pending: true,
   isAuthenticated: false,
   user_id: "",
+  email: "",
 };
 
 export const authSlice = createSlice({
@@ -16,11 +17,13 @@ export const authSlice = createSlice({
       state.pending = false;
       state.isAuthenticated = true;
       state.user_id = action.payload.data.id;
+      state.email = action.payload.data.email;
     });
     builder.addCase(refresh.fulfilled, (state, action) => {
       state.pending = false;
       state.isAuthenticated = true;
       state.user_id = action.payload.data.id;
+      state.email = action.payload.data.email;
     });
     builder.addCase(logout.fulfilled, (state) => {
       state.pending = false;

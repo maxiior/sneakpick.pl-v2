@@ -3,7 +3,7 @@ import styled from "styled-components";
 import logo from "assets/logo.png";
 import Search from "components/Nav/Search";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { routes } from "routes";
 import { Link } from "react-router-dom";
@@ -23,9 +23,12 @@ const StyledNav = styled.nav`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LogoHolder = styled(Link)`
@@ -75,16 +78,19 @@ const StyledAiOutlineMenu = styled(AiOutlineMenu)`
 `;
 
 const Nav = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
   const dispatch = useDispatch();
-  const [data, setData] = useState({ search: "" });
+  const [data, setData] = useState("");
 
-  const goSearch = (e) => {
-    history.push({
+  const goSearch = () => {
+    let search = "";
+    if (data) search = routes.DEFAULT_SEARCH + "&search=" + data;
+    else search = routes.DEFAULT_SEARCH;
+
+    navigate({
       pathname: routes.WTB,
-      search: "?search=" + data.search + "?" + routes.DEFAULT_SEARCH,
+      search: search,
     });
-    window.location.reload();
   };
 
   return (

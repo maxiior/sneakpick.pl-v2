@@ -1,5 +1,5 @@
 import LeftPanel from "components/WTB/Panel/LeftPanel";
-import RightPanel from "components/WTB/RightPanel";
+import RightPanel from "components/WTB/Panel/RightPanel";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

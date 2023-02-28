@@ -1,16 +1,17 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 from .models import Product, ProductImage, Delivery
-from users.serializers import CustomUserSerializer
 import uuid
 import os.path
+from users.models import Watchlist
 
 
-CATEGORIES_WITHOUT_FIT = ["Buty", "Szale",
-                          "Portfele", "Plecaki", "Zegarki", "Czapki", "Paski"]
-CATEGORIES_WITH_FIT = ["Bluzy", "Koszulki", "Koszule",
-                       "Bluzki", "Katany", "Kurtki", "Płaszcze", "Spodnie", "Bielizna"]
-CLOTHES_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"]
+CATEGORY = ["sneakersy", "hoodie", "teesy", "koszule", "crewnecki", "longsleevy", "katany", "kurtki", "płaszcze",
+            "spodnie", "szale", "portfele", "plecaki", "zegarki", "czapki", "belty", "bielizna", "inne"]
+
+CATEGORIES_WITHOUT_FIT = ["sneakersy", "szale", "portfele", "plecaki", "zegarki", "czapki", "belty"]
+CATEGORIES_WITH_FIT = ["hoodie", "teesy", "koszule", "crewnecki", "longsleevy", "katany", "kurtki", "płaszcze", "spodnie", "bielizna"]
+CLOTHES_SIZES = ["xxs", "xs", "s", "m", "l", "xl", "xxl"]
 SHOES_SIZES = ['36.0', '36.5', '37.0', '37.5', '38.0', '38.5',
                '39.0', '39.5', '40.0', '40.5', '41.0', '41.5',
                '42.0', '42.5', '43.0', '43.5', '44.0', '44.5',
@@ -45,6 +46,8 @@ class ProductSerializer(serializers.ModelSerializer):
         source='owner.first_name', required=False)
     last_name = serializers.CharField(
         source='owner.last_name', required=False)
+    
+    is_followed = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -52,7 +55,8 @@ class ProductSerializer(serializers.ModelSerializer):
                   'price', 'size', 'fit', 'kind',
                   'description', 'brand', 'category',
                   'colorway', 'total_bumps', 'published', 'images', 
-                  'is_bumped', 'first_name', 'last_name', 'owner', 'views', 'bought']
+                  'is_bumped', 'first_name', 'last_name', 'owner', 
+                  'views', 'bought', 'for_trade', 'is_followed']
         read_only_fields = ['owner', 'created_at', 'views']
 
     # def get_category_name(self, obj):
@@ -60,6 +64,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
     # def get_brand_name(self, obj):
     #     return obj.brand.name
+
+    def get_is_followed(self, obj):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            item = Watchlist.objects.filter(user=request.user, product=obj)
+            if item.exists():
+                return True
+        return False
 
     def create(self, validated_data):
         if 'owner' in validated_data:

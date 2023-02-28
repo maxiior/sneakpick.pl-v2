@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { routes } from "routes";
 import { firstLetterUppercase } from "functions/firstLetterUppercase";
+import { firstWordsLetterUppercase } from "functions/firstWordsLetterUppercase";
 
 const Wrapper = styled.div`
   color: ${({ theme }) => theme.darkGrey};
@@ -61,7 +62,7 @@ const Path = ({
     <Wrapper className={className}>
       <List>
         <Element>
-          <Step to={routes.WTB}>All</Step>
+          <Step to={routes.WTB + routes.DEFAULT_SEARCH}>All</Step>
         </Element>
         <Element>
           <Step to={routes.CATEGORY_PATH.replace("{category}", category)}>
@@ -70,7 +71,7 @@ const Path = ({
         </Element>
         <Element>
           <Step to={routes.BRAND_PATH.replace("{brand}", brand)}>
-            {firstLetterUppercase(brand)}
+            {firstWordsLetterUppercase(brand)}
           </Step>
         </Element>
       </List>

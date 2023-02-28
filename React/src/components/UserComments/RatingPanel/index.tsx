@@ -4,7 +4,14 @@ import Rating from "components/UserComments/RatingPanel/Rating";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { addComment } from "store/profile/actions";
 import { useParams } from "react-router-dom";
-import { fetchUser } from "store/profile/actions";
+
+const Error = styled.div`
+  background-color: ${({ theme }) => theme.red};
+  padding: 10px;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+`;
 
 const Wrapper = styled.div`
   margin-bottom: 20px;
@@ -17,7 +24,7 @@ const Input = styled.textarea`
   border-radius: 5px;
   padding: 8px 12px;
   outline: none;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   user-select: none;
   overflow-wrap: break-word;
   overflow: hidden;
@@ -31,7 +38,7 @@ const Button = styled.div<{ cancel?: boolean }>`
   background-color: ${({ theme, cancel }) =>
     cancel ? theme.white : theme.blue};
   padding: 10px 20px;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
   cursor: pointer;
   user-select: none;
   display: flex;
@@ -60,27 +67,32 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
   const input = useRef<HTMLTextAreaElement>(null);
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(0);
+  const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
-  const { user }: { user: string } = useParams();
+  const { user } = useParams<{ user: string }>();
 
   const ratingProcess = () => {
-    dispatch(
-      addComment({
-        user: user,
-        content: content,
-        rating: rating,
-      })
-    )
-      .then(() => {
+    if (!content && rating === 0) setError(true);
+    else {
+      dispatch(
+        addComment({
+          user: user!,
+          content: content,
+          rating: rating,
+        })
+      ).then(() => {
         setRatingPanel(false);
-      })
-      .catch(() => {});
+      });
+    }
   };
 
   return (
     <Wrapper>
+      {error && (
+        <Error>Komentarz musi zawierać zarówno treść jak i ocenę.</Error>
+      )}
       <Paragraph>Wybierz ocenę</Paragraph>
-      <Rating rating={rating} setRating={setRating} />
+      <Rating rating={rating} setRating={setRating} setError={setError} />
       <Input
         ref={input}
         placeholder="Dodaj komentarz..."
@@ -89,6 +101,7 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
           e.target.style.height = "";
           e.target.style.height = e.target.scrollHeight + "px";
           setContent(e.target.value);
+          setError(false);
         }}
         maxLength={500}
         value={content}
@@ -102,6 +115,7 @@ const RatingPanel = ({ setRatingPanel }: { setRatingPanel: Function }) => {
             input.current!.style.height = "32px";
             setContent("");
             setRating(0);
+            setError(false);
           }}
         >
           Wyczyść

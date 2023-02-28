@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "assets/logo_dark.png";
+import logo from "assets/logo.png";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -67,8 +67,8 @@ const Holder = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 150px;
-  height: 22px;
+  width: 121px;
+  height: 44px;
 `;
 
 const Type = styled.div`
@@ -115,7 +115,7 @@ const Button = styled.button<{ facebook?: boolean }>`
   border-radius: ${({ theme }) => theme._10px};
   border: 0;
   display: block;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font_size_MD};
 
   :hover {
     opacity: 0.9;
@@ -142,20 +142,31 @@ const Login: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const wrapperRef = useRef(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   useDetectOutsideClick(wrapperRef, () => dispatch(closeLoginView()));
 
   const loginProcess: SubmitHandler<iLogin> = (data) => {
     dispatch(login(data))
+      .unwrap()
       .then((response: any) => {
-        if (response.payload.status === 200) {
+        if (response.status === 200) {
           dispatch(displayCommunicatorIcon());
           dispatch(closeLoginView());
           dispatch(fetchFollowedItems());
         }
       })
-      .catch(() => {
-        setError(true);
+      .catch((e) => {
+        const status: number = e.status;
+        switch (status) {
+          case 400:
+            setError(
+              "To konto nie zostało jeszcze aktywowane. Sprawdź swojego maila."
+            );
+            break;
+          default:
+            setError("Wprowadzony adres email lub hasło są nieprawidłowe.");
+            break;
+        }
       });
   };
 
@@ -181,30 +192,28 @@ const Login: React.FC = () => {
         <Type>Email</Type>
         <StyledInput
           type="text"
-          error={!!errors.email || error}
+          error={!!errors.email || !!error}
           {...validate("email")}
           onChange={(e) => {
             email.onChange(e);
-            setError(false);
+            setError("");
           }}
         />
         {errors.email && <Error>{errors.email.message}</Error>}
         <Type>Hasło</Type>
         <StyledInput
           type="password"
-          error={!!errors.password || error}
+          error={!!errors.password || !!error}
           {...validate("password")}
           onChange={(e) => {
             password.onChange(e);
-            setError(false);
+            setError("");
           }}
         />
         {errors.password && <Error>{errors.password.message}</Error>}
-        {error && (
-          <Error>Wprowadzony adres email lub hasło są nieprawidłowe.</Error>
-        )}
+        {error && <Error>{error}</Error>}
         <PasswordForgotten
-          to={routes.FORGOTTEN_PASSWORD}
+          to={routes.PASSWORD_RESETTING}
           onClick={() => dispatch(closeLoginView())}
         >
           Zapomniałeś hasła?

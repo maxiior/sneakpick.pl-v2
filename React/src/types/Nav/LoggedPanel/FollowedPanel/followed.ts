@@ -6,5 +6,5 @@ export interface iFollowed {
   condition: string;
   price: string;
   id: string;
-  photo: iImage[];
+  images: iImage[];
 }

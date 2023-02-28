@@ -1,6 +1,5 @@
 import * as authService from "api/services/auth.service";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AppDispatch } from "types/dispatch";
 import http from "api/http";
 import { AxiosResponse } from "axios";
 import { iLogin } from "types/Login/login";
@@ -20,11 +19,7 @@ const getExpireTime = (expireTime: number) => {
   return expireTimeMs - offset;
 };
 
-const setRefreshDelay = (
-  expiresIn: number,
-  dispatch: AppDispatch,
-  getState: any
-) => {
+const setRefreshDelay = (expiresIn: number, dispatch: any, getState: any) => {
   setTimeout(() => {
     const { authSlice } = getState();
 
@@ -34,11 +29,15 @@ const setRefreshDelay = (
 
 export const login = createAsyncThunk<AxiosResponse, iLogin>(
   "auth/login",
-  async (credentials, { dispatch, getState }) => {
-    const result = await authService.login(credentials);
-    setAuthorizationHeader(result.data.access_token);
-    setRefreshDelay(result.data.expires_in, dispatch, getState);
-    return result;
+  async (credentials, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const result = await authService.login(credentials);
+      setAuthorizationHeader(result.data.access_token);
+      setRefreshDelay(result.data.expires_in, dispatch, getState);
+      return result;
+    } catch (e: any) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 

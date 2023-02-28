@@ -5,6 +5,7 @@ from django.forms import Textarea
 
 from users.models import User, Watchlist, Follower, ProfileComment, Address
 from products.models import Product
+from rest_framework_simplejwt.tokens import OutstandingToken
 
 
 class UserAdminConfig(UserAdmin):
@@ -23,6 +24,14 @@ class UserAdminConfig(UserAdmin):
             'fields': ('email', 'first_name', 'last_name', 'password', 'is_active', 'is_staff')}
          ),
     )
+
+    
+    def BE_AWARE_NO_WARNING_clear_tokens_and_delete(self, request, queryset):
+        users = queryset.values("id")
+        OutstandingToken.objects.filter(user__id__in=users).delete()
+        queryset.delete()
+
+    actions = ["BE_AWARE_NO_WARNING_clear_tokens_and_delete"]
     
     @admin.display(empty_value='0')
     def total_products(self, obj):

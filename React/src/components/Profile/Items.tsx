@@ -7,7 +7,6 @@ import { iItem } from "types/item";
 const Wrapper = styled.div`
   box-sizing: border-box;
   width: 100%;
-  padding: 20px 0;
 `;
 
 const Blank = styled.div`
