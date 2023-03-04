@@ -1,6 +1,7 @@
 import Avatar from "./Avatar";
 import defaultUserPicture from "assets/svg/default_user_picture.svg";
 import Rating from "./Rating";
+import { routes } from "routes";
 import {
   Wrapper,
   LeftHolder,
@@ -15,7 +16,12 @@ import {
 
 const Seller = ({ number }: { number: number }) => {
   return (
-    <Wrapper to="">
+    <Wrapper
+      to={routes.USER_PROFILE_PRODUCTS.replace(
+        ":user",
+        "79260c70-adc6-4729-948b-6d5b784cfa96"
+      )}
+    >
       <LeftHolder>
         <Number>{number}</Number>
         <Avatar rating={4.77} photo={defaultUserPicture} />

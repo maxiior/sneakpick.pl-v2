@@ -47,6 +47,7 @@ const StyledInput = styled.input`
 
 const Container = styled.div`
   width: 300px;
+  margin-top: 10px;
   display: grid;
   grid-gap: 5px;
 
@@ -78,12 +79,10 @@ const GridList = ({
 
   return (
     <Wrapper>
-      <Header>
-        {title}
-        {formState.errors[name] && (
-          <Error grid>{formState.errors[name].message}</Error>
-        )}
-      </Header>
+      <Header>{title}</Header>
+      {formState.errors[name] && (
+        <Error grid>{formState.errors[name].message}</Error>
+      )}
       <Container {...props}>
         {elements.map((e, i) => (
           <StyledLabel key={i}>

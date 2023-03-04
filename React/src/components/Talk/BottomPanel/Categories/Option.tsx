@@ -15,6 +15,10 @@ const Name = styled.div<{ active: boolean }>`
   border-radius: 10px;
   display: flex;
   align-items: center;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
+    font-size: 14px;
+  }
 `;
 
 const Holder = styled.div`

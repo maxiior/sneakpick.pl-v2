@@ -66,23 +66,22 @@ const Wrapper = styled.div`
   width: 60px;
 `;
 
-const ComboBox = () => {
+const ComboBox = ({ unit, setUnit }: { unit: string; setUnit: Function }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   useDetectOutsideClick(wrapperRef, setOpen);
-  const [option, setOption] = useState("PLN");
 
   return (
     <Wrapper>
       <Container onClick={() => setOpen(!open)} ref={wrapperRef}>
-        <Value>{option}</Value>
+        <Value>{unit}</Value>
         <Arrow turned={open === true} />
         {open && (
           <Modes>
             {["PLN", "%"].map((element, i) => (
               <Mode
-                selected={element === option}
-                onClick={() => setOption(element)}
+                selected={element === unit}
+                onClick={() => setUnit(element)}
               >
                 {element}
               </Mode>

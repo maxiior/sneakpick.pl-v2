@@ -12,8 +12,11 @@ export const fetchSteals = createAsyncThunk(
       if (reloading) dispatch(turnOnPending());
 
       return await stealsService.fetchSteals(
+        stealSlice.limit,
         reloading ? stealSlice.offset + stealSlice.limit : stealSlice.offset
       );
     } else return null;
   }
 );
+
+export const resetAllLoaded = createAction("steal/resetAllLoaded");

@@ -31,30 +31,31 @@ const Error = styled.div`
   user-select: none;
 `;
 
-const Item = ({
-  setValue,
+const TextInput = ({
+  header,
   name,
   placeholder,
+  type,
 }: {
-  setValue: Function;
+  header: string;
   name: string;
   placeholder: string;
+  type: string;
 }) => {
   const { register, formState } = useFormContext();
   const validator = register(name);
 
   return (
     <Wrapper>
-      <Header>Nagłówek</Header>
+      <Header>{header}</Header>
       <StyledInput
         autoComplete="off"
-        type="text"
+        type={type}
         error={formState.errors[name]}
         maxLength={100}
-        {...register(name)}
+        {...validator}
         onChange={(e) => {
           validator.onChange(e);
-          setValue(e.target.value);
         }}
         placeholder={placeholder}
       />
@@ -65,4 +66,4 @@ const Item = ({
   );
 };
 
-export default Item;
+export default TextInput;

@@ -13,13 +13,28 @@ const Wrapper = styled.div`
   user-select: none;
 `;
 
-const Container = styled.div<{ categories?: boolean }>`
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: block;
+    text-align: center;
+  }
+
+  :last-child {
+    margin-top: 10px;
+  }
+`;
+
+const Categories = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media only screen and (min-width: ${({ theme }) => theme.min_width_LG}) {
-    display: ${({ categories }) => categories && "none"};
+    display: none;
   }
 
   :last-child {
@@ -42,11 +57,11 @@ const Navigation = () => {
             <Option name={e} id={i} />
           ))}
         </Container>
-        <Container categories>
+        <Categories>
           {talkCategories.map((e) => (
             <Tag color={e.color} name={e.name} />
           ))}
-        </Container>
+        </Categories>
       </div>
     </Wrapper>
   );

@@ -43,7 +43,7 @@ const Container = styled.div`
   }
 `;
 
-const CLose = styled(IoMdClose)`
+const Close = styled(IoMdClose)`
   right: 10px;
   top: 10px;
   cursor: pointer;
@@ -107,7 +107,7 @@ const Popup = () => {
   return (
     <Wrapper>
       <Container ref={wrapperRef}>
-        <CLose onClick={() => dispatch(closeProfilePopup())} />
+        <Close onClick={() => dispatch(closeProfilePopup())} />
         <Header>{profilePopup === 1 ? "Obserwujący" : "Obserwowani"}</Header>
         <List>
           {profilePopup === 1 ? (

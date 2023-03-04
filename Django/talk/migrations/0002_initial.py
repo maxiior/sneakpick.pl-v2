@@ -11,23 +11,23 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('products', '0001_initial'),
+        ('talk', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
+            model_name='question',
             name='bumps',
-            field=models.ManyToManyField(blank=True, related_name='product_bumps', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(blank=True, related_name='question_bumps', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='product',
+            model_name='question',
             name='owner',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='delivery',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='delivery_methods', to='products.product'),
+            model_name='image',
+            name='question',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='talk.question'),
         ),
     ]

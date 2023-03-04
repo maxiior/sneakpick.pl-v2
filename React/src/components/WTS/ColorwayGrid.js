@@ -10,6 +10,7 @@ import { Error } from "components/WTS/Error";
 const Elements = styled.div`
   width: 300px;
   box-sizing: border-box;
+  margin-top: 10px;
 `;
 
 const CW = styled.div`
@@ -76,12 +77,10 @@ const ColorwayGrid = ({ colors, filterType }) => {
 
   return (
     <Wrapper>
-      <Header>
-        CW
-        {formState.errors.colorway && (
-          <Error grid>{formState.errors.colorway.message}</Error>
-        )}
-      </Header>
+      <Header>CW</Header>
+      {formState.errors.colorway && (
+        <Error grid>{formState.errors.colorway.message}</Error>
+      )}
       <Elements>
         <CwsGrid>
           {colors.map((c, i) => (

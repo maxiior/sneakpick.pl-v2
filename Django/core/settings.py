@@ -21,6 +21,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PROJECT_NAME = 'core'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'drf_yasg',
+    'celery',
 ]
 
 MIDDLEWARE = [
@@ -245,3 +247,25 @@ FRONTEND_APP_ADDRESS = "http://127.0.0.1:3000"
 # TOKENS
 
 PASSWORD_RESET_TIMEOUT = 86400
+
+
+# CELERY SETTINGS
+
+CELERY_BROKER_URL = 'amqp://guest@localhost//'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# BEAT SETTINGS
+
+INSTALLED_APPS += ['django_celery_beat']
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'randomize_product_to_quicksell': {
+        'task': 'products.tasks.randomize_product_to_quicksell',
+        'schedule': 900.0, # 15 min
+    },
+}

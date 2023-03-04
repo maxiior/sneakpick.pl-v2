@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
+import { useAppSelector } from "./useAppSelector";
 
 const useAuthenticated = () => {
-  const { isAuthenticated, pending } = useSelector((state) => state.authSlice);
+  const { isAuthenticated, pending } = useAppSelector(
+    (state) => state.authSlice
+  );
   const navigate = useNavigate();
 
   useEffect(() => {

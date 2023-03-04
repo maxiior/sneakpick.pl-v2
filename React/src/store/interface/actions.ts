@@ -77,3 +77,14 @@ export const openFollowingPopup = createAction("profile/openFollowingPopup");
 export const openFollowersPopup = createAction("profile/openFollowersPopup");
 
 export const closeProfilePopup = createAction("interface/closeProfilePopup");
+
+export const openConditionalPopup = createAction(
+  "interface/openConditionalPopup",
+  (data: string) => {
+    return { payload: data };
+  }
+);
+
+export const closeConditionalPopup = createAction(
+  "interface/closeConditionalPopup"
+);

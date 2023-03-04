@@ -7,6 +7,7 @@ import { useFormContext } from "react-hook-form";
 import { Error } from "components/WTS/Error";
 
 const TextArea = styled.textarea`
+  margin-top: 10px;
   outline: none;
   width: 70%;
   height: 150px;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchSteals, turnOnPending } from "./actions";
+import { fetchSteals, turnOnPending, resetAllLoaded } from "./actions";
 
 const initialState: any = {
   steals: { today: [], later: [] },
@@ -38,6 +38,16 @@ export const stealSlice = createSlice({
     builder.addCase(turnOnPending, (state) => {
       state.reloading_pending = true;
       state.offset += state.limit;
+    });
+    builder.addCase(resetAllLoaded, (state) => {
+      state.steals.today = [];
+      state.steals.later = [];
+      state.today_count = 0;
+      state.later_count = 0;
+      state.init_pending = true;
+      state.reloading_pending = false;
+      state.offset = 0;
+      state.all_loaded = false;
     });
   },
 });

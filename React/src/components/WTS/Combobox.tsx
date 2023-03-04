@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<{ open: boolean; error: boolean }>`
+  margin-top: 10px;
   width: 70%;
   border-bottom: 1px solid
     ${({ theme, open, error }) =>

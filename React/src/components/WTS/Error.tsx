@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 export const Error = styled.div<{ $mb?: boolean; grid?: boolean }>`
+  background-color: ${({ theme }) => theme.red};
+  padding: 5px;
+  color: white;
   font-size: 12px;
-  color: ${({ theme }) => theme.red};
-  margin-left: ${({ grid }) => grid && "10px"};
-  margin-top: ${({ grid }) => (grid ? "0" : "3px")};
-  font-weight: 500;
-  margin-bottom: ${({ $mb }) => $mb && "10px"};
+  width: 70%;
+  margin-top: 5px;
+  margin-bottom: ${({ grid }) => grid && "5px"};
 `;

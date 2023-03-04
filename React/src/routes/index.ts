@@ -83,7 +83,8 @@ export enum endpoints {
   POST_USER_COMMENTS = "/users/{id}/profile-comments/",
   DELETE_USER_COMMENTS = "/users/me/profile-comments/{comment_id}/",
 
-  GET_STEALS = "/steal/?limit=24&offset={0}",
+  GET_STEALS = "/steal/?limit={0}&offset={1}",
+  POST_ADD_STEAL = "/steal/",
 
   ACCOUNT_ACTIVATION = "/users/activate-user/{uid}/{token}/",
 
@@ -99,6 +100,7 @@ export enum endpoints {
 
   POST_ADD_QUESTION = "/talk/",
   GET_ALL_QUESTIONS = "/talk/?limit=24&offset={offset}&{filters}",
+  DELETE_QUESTION = "/talk/{question_id}/",
 
   POST_BUMP_QUESTION = "/talk/{uuid}/bump/",
 

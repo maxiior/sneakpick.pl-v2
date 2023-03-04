@@ -11,11 +11,14 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, FormProvider } from "react-hook-form";
 import { ImageValidators } from "validators/ImageValidators";
-import { addQuestion } from "api/services/talk.service";
-import TextInput from "components/QuestionAdder/TextInput";
+import { addSteal } from "api/services/steals.service";
+import TextInput from "components/StealAdder/TextInput";
 import LoadingIcon from "components/common/LoadingIcon";
 import Options from "components/StealAdder/Options";
 import NumberInput from "components/StealAdder/NumberInput";
+import Photo from "components/StealAdder/Photo";
+import useRoleCheck from "hooks/useRoleCheck";
+import { STEAL_ADDER_ROLES } from "constants/roleAuthorizations";
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,41 +68,40 @@ const Holder = styled.div`
 `;
 
 const StealAdder = () => {
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState(new File([], ""));
   const [pending, setPending] = useState(false);
-  const [imagesError, setImagesError] = useState("");
+  const [imageError, setImageError] = useState("");
   const [backendError, setBackendError] = useState(false);
+  const [unit, setUnit] = useState("PLN");
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  useRoleCheck(STEAL_ADDER_ROLES);
 
   const stealAddingProcess = (data: any) => {
-    console.log(data);
     setPending(true);
-    if (ImageValidators.validate(images)) {
-      alert("Coś poszło nie tak");
-      return;
-    }
+
     const payload = new FormData();
     const pack = {
-      title: data["title"],
+      header: data["header"],
       description: data["description"],
       category: data["category"],
-      markdown: data["markdown"],
       rocket: data["rocket"],
       alert: data["alert"],
+      link: data["link"],
     };
 
     for (const [key, value] of Object.entries(pack))
       payload.append(key, value.toString());
+    payload.append("images", image);
+    if (data["markdown"])
+      payload.append("markdown", data["markdown"].toString() + unit);
 
-    for (let i = 0; i < images.length; i++) payload.append("images", images[i]);
-
-    addQuestion(payload)
+    addSteal(payload)
       .then((response) => {
         if (response.status === 201) {
-          navigate(routes.TALK);
-          dispatch(setInformationBlock(information_types.question_added));
+          navigate(routes.STEAL);
+          dispatch(setInformationBlock(information_types.steal_added));
           setPending(false);
         }
       })
@@ -112,13 +114,22 @@ const StealAdder = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Pole jest wymagane."),
+    header: Yup.string(),
     category: Yup.string().nullable().required("Zaznacz jedną z opcji."),
     option: Yup.string().nullable(),
-    description: Yup.string().required("Pole jest wymagane."),
-    markdown: Yup.number(),
+    description: Yup.string(),
+    markdown: Yup.mixed().test(
+      "is-number",
+      "Wartość musi być liczbą.",
+      (val) => {
+        return val === null || val === undefined || !isNaN(val);
+      }
+    ),
     rocket: Yup.boolean().default(false),
     alert: Yup.boolean().default(false),
+    link: Yup.string()
+      .required("Pole jest wymagane.")
+      .url("Link musi być poprawnym adresem URL."),
   });
 
   const methods = useForm({
@@ -129,8 +140,11 @@ const StealAdder = () => {
   const { handleSubmit, watch } = methods;
 
   const onError = () => {
-    let error = ImageValidators.validate(images);
-    if (error) setImagesError(error);
+    if (image.size === 0) setImageError(ImageValidators.NO_IMAGES_ERROR);
+    else {
+      let error = ImageValidators.validate([image]);
+      if (error) setImageError(error);
+    }
   };
 
   return (
@@ -147,13 +161,26 @@ const StealAdder = () => {
           <Categories />
           <TextInput
             header="Nagłówek"
-            name={"title"}
+            name={"header"}
             placeholder={"np. Nike, Off-White, Adidas"}
+            type="text"
           />
           <Description />
+          <TextInput
+            header="Link"
+            name={"link"}
+            placeholder={"np. https://www.nike.com"}
+            type="url"
+          />
           {watch()["category"] && watch()["category"] !== "ea" && (
-            <NumberInput />
+            <NumberInput unit={unit} setUnit={setUnit} />
           )}
+          <Photo
+            image={image}
+            imageError={imageError}
+            setImage={setImage}
+            setImageError={setImageError}
+          />
           <Options />
           {pending ? (
             <Holder>

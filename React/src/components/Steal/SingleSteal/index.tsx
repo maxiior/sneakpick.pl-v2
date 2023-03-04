@@ -103,31 +103,36 @@ const NameHolder = styled.div`
 `;
 
 const SingleSteal = ({ data }: any) => {
-  const { alert, type, markdown, description, rocket, name, link, store } =
-    data;
+  const {
+    alert,
+    category,
+    markdown,
+    description,
+    rocket,
+    header,
+    link,
+    photo,
+  } = data;
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
       <Wrapper href={link} target="_blank">
         <Container
-          image={
-            store?.photo &&
-            routes.DOMAIN + endpoints.STORES_IMAGES + store.photo
-          }
+          image={photo && routes.DOMAIN + endpoints.STORES_IMAGES + photo}
         >
           <TagsHolder
             alert={alert}
-            type={type}
+            category={category}
             markdown={markdown}
             description={!!description}
             rocket={rocket}
           />
-          <NameHolder>{name && <Name>{name}</Name>}</NameHolder>
+          <NameHolder>{header && <Name>{header}</Name>}</NameHolder>
         </Container>
 
-        <Informations info={name && description}>
-          {name && description && (
+        <Informations info={header && description}>
+          {header && description && (
             <>
-              <Title>{name}</Title>
+              <Title>{header}</Title>
               <Description>{description}</Description>
             </>
           )}

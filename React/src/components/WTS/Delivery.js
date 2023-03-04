@@ -16,6 +16,10 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
+const Container = styled.div`
+  margin-top: 10px;
+`;
+
 const Delivery = ({ defaultValue }) => {
   const dispatch = useDispatch();
   const { MEET, cities } = useSelector(
@@ -29,10 +33,10 @@ const Delivery = ({ defaultValue }) => {
   return (
     <Wrapper>
       <Header>Dostarczenie</Header>
-      <div>
+      <Container>
         <StyledCheckbox type="SHIP" name="SHIP" />
         <StyledCheckbox type="MEET" name="MEET" />
-      </div>
+      </Container>
       {MEET && (
         <>
           <Header small>Miasto</Header>

@@ -5,6 +5,12 @@ export const addQuestion = async (data: any) => {
   return await http.post(endpoints.POST_ADD_QUESTION, data);
 };
 
+export const deleteQuestion = async (data: any) => {
+  return await http.delete(
+    endpoints.DELETE_QUESTION.replace("{question_id}", data)
+  );
+};
+
 export const fetchQuestions = async (data: string, offset: number) => {
   try {
     return await http.get(

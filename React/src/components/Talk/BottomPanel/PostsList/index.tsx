@@ -10,6 +10,8 @@ import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "components/common/LoadingIcon";
 import { useNavigate } from "react-router-dom";
 import { routes } from "routes";
+import { Link } from "react-router-dom";
+import { BiPlus } from "react-icons/bi";
 
 const Wrapper = styled.div`
   width: 60%;
@@ -33,6 +35,31 @@ const Holder = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 50px;
+`;
+
+const Button = styled(Link)`
+  background-color: ${({ theme }) => theme.veryDarkGrey};
+  color: ${({ theme }) => theme.white};
+  font-size: 14px;
+  padding: 12px 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  @media only screen and (min-width: ${({ theme }) => theme.min_width_LG}) {
+    display: none;
+  }
+
+  :hover {
+    opacity: 0.9;
+  }
+`;
+
+const PlusIcon = styled(BiPlus)`
+  font-size: 22px;
 `;
 
 const PostsList = () => {
@@ -82,11 +109,18 @@ const PostsList = () => {
   }, [all_loaded, location.search]);
 
   useEffect(() => {
-    return () => document.removeEventListener("scroll", bottomScrollDetection);
+    return () => {
+      document.removeEventListener("scroll", bottomScrollDetection);
+      // dispatch(resetAllLoaded());
+    };
   }, []);
 
   return (
     <Wrapper>
+      <Button to={routes.ADD_QUESTION}>
+        <PlusIcon />
+        <div>Dodaj pytanie</div>
+      </Button>
       {init_pending ? (
         <LoadingScreen />
       ) : (

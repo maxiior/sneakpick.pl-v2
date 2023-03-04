@@ -4,7 +4,7 @@ import TopPanel from "components/Steal/TopPanel";
 import BottomPanel from "components/Steal/BottomPanel";
 import { useEffect } from "react";
 import { useAppDispatch } from "hooks/useAppDispatch";
-import { fetchSteals } from "store/steal/actions";
+import { fetchSteals, resetAllLoaded } from "store/steal/actions";
 import { useAppSelector } from "hooks/useAppSelector";
 
 const Wrapper = styled.main`
@@ -32,7 +32,10 @@ const Steal = () => {
   }, [all_loaded]);
 
   useEffect(() => {
-    return () => document.removeEventListener("scroll", bottomScrollDetection);
+    return () => {
+      document.removeEventListener("scroll", bottomScrollDetection);
+      dispatch(resetAllLoaded());
+    };
   }, []);
 
   return (

@@ -41,7 +41,13 @@ const Header = styled.div`
   font-weight: 500;
 `;
 
-const NumberInput = () => {
+const NumberInput = ({
+  unit,
+  setUnit,
+}: {
+  unit: string;
+  setUnit: Function;
+}) => {
   const { register } = useFormContext();
   const validator = register("markdown");
 
@@ -57,7 +63,7 @@ const NumberInput = () => {
           step="0.01"
           placeholder="np. -249.99PLN lub -30%"
         />
-        <ComboBox />
+        <ComboBox unit={unit} setUnit={setUnit} />
       </Holder>
     </Wrapper>
   );

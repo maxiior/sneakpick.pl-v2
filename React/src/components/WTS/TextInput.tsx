@@ -10,6 +10,7 @@ const Wrapper = styled.div``;
 const Container = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 10px;
 `;
 
 const Holder = styled.div`

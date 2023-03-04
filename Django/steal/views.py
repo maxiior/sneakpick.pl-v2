@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .models import Steal
+from .models import Steal, Store
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from core.pagination import Pagination
-from .serializers import StealSerializer
+from .serializers import StealSerializer, StealStoreSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework import generics
 from datetime import date
 
 class StealViewSet(viewsets.ModelViewSet):
@@ -36,4 +37,15 @@ class StealViewSet(viewsets.ModelViewSet):
             'later_count': len(later_results)
         }
 
+        return Response(data)
+
+class StoreList(generics.ListAPIView):
+    queryset = Store.objects.all()
+    serializer_class = StealStoreSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = {'file_names': [item['file_name'] for item in serializer.data],
+                'names': [item['name'] for item in serializer.data]}
         return Response(data)

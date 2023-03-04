@@ -8,6 +8,8 @@ export enum information_types {
   update_email_message_sent = "update_email_message_sent",
   question_added = "question_added",
   new_email_set = "new_email_set",
+  steal_added = "steal_added",
+  question_deleted = "question_deleted",
 }
 
 export const informations = {
@@ -59,5 +61,15 @@ export const informations = {
   support_message_sent: {
     header: "Twoja wiadomość do Centrum Pomocy Sneakpick została wysłana!",
     content: "Jakieś extra info.",
+  },
+  steal_added: {
+    header: "Twój steal został dodany!",
+    content:
+      "Twój steal został dodany i będzie widoczny dla wszystich użytkowników.",
+  },
+  question_deleted: {
+    header: "Twoje pytanie zostało usunięte!",
+    content:
+      "Twoje pytanie zostało pomyślnie usunięte i nie będzie już widoczne na tablicy TALK.",
   },
 };

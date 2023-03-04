@@ -130,7 +130,6 @@ def handle_uploaded_file(file):
         destination.write(chunk)
 
     destination.close()
-    print(new_filename)
     return new_filename
 
 

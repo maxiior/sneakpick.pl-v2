@@ -24,13 +24,21 @@ const Button = styled(Link)`
   justify-content: center;
   border-radius: 5px;
 
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
+    font-size: 12px;
+    padding: 12px 20px;
+  }
+
   :hover {
     opacity: 0.9;
   }
 `;
 
 const PlusIcon = styled(BiPlus)`
-  font-size: 22px;
+  font-size: 20px;
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_XL}) {
+    font-size: 18px;
+  }
 `;
 
 const RightPanel = () => {

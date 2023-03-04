@@ -7,6 +7,10 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.grey};
   margin-bottom: 15px;
   display: flex;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    display: block;
+  }
 `;
 
 const TopPanel = ({ data }: { data: IPost }) => {

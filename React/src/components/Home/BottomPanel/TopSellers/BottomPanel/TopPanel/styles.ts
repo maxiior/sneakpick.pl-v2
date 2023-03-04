@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   margin: 20px 0;
   background-color: ${({ theme }) => theme.lightGrey};
   padding: 15px 157px;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.radious_SM};
   display: flex;
   justify-content: space-between;
 `;

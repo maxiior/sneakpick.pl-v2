@@ -24,3 +24,10 @@ export const fetchQuestions = createAsyncThunk(
     } else return null;
   }
 );
+
+export const removeQuestion = createAction(
+  "talk/removeQuestion",
+  (data: string) => {
+    return { payload: data };
+  }
+);

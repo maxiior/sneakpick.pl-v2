@@ -5,12 +5,12 @@ from django.forms import Textarea
 
 class StealAdmin(admin.ModelAdmin):
     model = Steal
-    search_fields = ('name', 'price', 'category')
-    list_filter = ('name', 'alert', 'rocket', 'type', 'published')
+    search_fields = ('header', 'price', 'category')
+    list_filter = ('header', 'alert', 'rocket', 'photo', 'category', 'published')
     ordering = ('-published',)
-    list_display = ('link', 'published', 'type', 'name', 'markdown', 'rocket', 'alert')
+    list_display = ('link', 'published', 'category', 'photo', 'header', 'markdown', 'rocket', 'alert')
     fieldsets = (
-        (None, {'fields': ('link', 'published', 'store', 'type', 'name', 'markdown', 'description', 'rocket', 'alert')}),
+        (None, {'fields': ('link', 'published', 'category', 'photo', 'header', 'markdown', 'description', 'rocket', 'alert')}),
     )
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 20, 'cols': 60})},
@@ -18,17 +18,17 @@ class StealAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('name', 'alert', 'rocket', 'type', 'published')}
+            'fields': ('header', 'alert', 'rocket', 'category', 'published')}
          ),)
 
 
 class StoreAdmin(admin.ModelAdmin):
     model = Store
-    search_fields = ('name',)
-    list_filter = ('name',)
-    list_display = ('name',)
+    search_fields = ('store_name',)
+    list_filter = ('store_name',)
+    list_display = ('store_name',)
     fieldsets = (
-        (None, {'fields': ('name', 'photo')}),
+        (None, {'fields': ('store_name', 'photo')}),
     )  
     
 

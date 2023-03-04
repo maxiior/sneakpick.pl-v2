@@ -11,10 +11,10 @@ from rest_framework_simplejwt.tokens import OutstandingToken
 class UserAdminConfig(UserAdmin):
     model = User
     search_fields = ('email', 'first_name', 'last_name')
-    list_filter = ('email', 'first_name', 'last_name', 'is_active', 'is_staff', )
+    list_filter = ('email', 'first_name', 'last_name', 'is_active', 'is_staff', 'role')
     ordering = ('-date_joined',)
-    list_display = ('email', 'id', 'first_name', 'last_name', 'is_active', 'is_staff', 'date_joined', 'total_products')
-    fieldsets = ((None, {'fields': ('email', 'first_name', 'last_name', 'description', 'profile_photo')}),
+    list_display = ('email', 'id', 'first_name', 'last_name', 'is_active', 'is_staff', 'date_joined', 'total_products', 'role')
+    fieldsets = ((None, {'fields': ('email', 'first_name', 'last_name', 'description', 'profile_photo', 'role')}),
                  ('Permissions', {'fields': ('is_staff', 'is_active')}))
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows': 20, 'cols': 60})},

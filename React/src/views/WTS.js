@@ -20,10 +20,10 @@ import Combobox from "components/WTS/Combobox";
 import Autocomplete from "components/WTS/Autocomplete";
 import { ImageValidators } from "validators/ImageValidators";
 import { mapKindToServerValue } from "functions/mapKindToServerValue";
-import ForTradeInput from "components/WTS/ForTradeInput";
 import { SNEAKERS_CATEGORIES, FIT_CATEGORIES } from "constants/filters";
 import { setInformationBlock } from "store/interface/actions";
 import { information_types } from "constants/informations";
+import Extras from "components/WTS/Extras";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -203,7 +203,6 @@ const WTS = () => {
               placeholder="Opis"
               filterType="description"
             />
-            <ForTradeInput />
             <GridList
               title="Rodzaj"
               name="type"
@@ -260,6 +259,7 @@ const WTS = () => {
               number
               name="price"
             />
+            <Extras />
             <Delivery
               defaultValue="Warszawa"
               ship={currentFilters.SHIP}

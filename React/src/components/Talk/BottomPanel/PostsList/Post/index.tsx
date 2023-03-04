@@ -21,6 +21,19 @@ const Wrapper = styled.div`
   }
 `;
 
+const Container = styled.div`
+  display: flex;
+  color: ${({ theme }) => theme.darkGrey};
+  font-size: 14px;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    display: block;
+  }
+`;
+
 const Avatar = styled(Link)<{ photo: string }>`
   height: 30px;
   width: 30px;
@@ -31,11 +44,17 @@ const Avatar = styled(Link)<{ photo: string }>`
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+  display: block;
 `;
 
 const Information = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: block;
+  }
 `;
 
 const Owner = styled(Link)`
@@ -43,15 +62,19 @@ const Owner = styled(Link)`
   font-weight: 500;
   margin-left: 4px;
   text-decoration: none;
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+    margin-bottom: 5px;
+  }
 `;
 
-const Holder = styled.div`
-  display: flex;
-  color: ${({ theme }) => theme.darkGrey};
-  font-size: 14px;
-  justify-content: space-between;
-  align-items: center;
-  user-select: none;
+const Prefix = styled.div`
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const Value = styled.div`
@@ -59,16 +82,42 @@ const Value = styled.div`
   margin-left: 3px;
 `;
 
-const CommentsInformationHolder = styled.div`
+const Holder = styled.div`
   display: flex;
+  margin-bottom: -2px;
 `;
 
 const CommentIcon = styled(FaRegCommentAlt)`
   font-size: 12px;
 `;
 
-const AvatarHolder = styled.div`
+const InformationsHolder = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Date = styled.div`
+  margin-right: 15px;
+`;
+
+const AvatarHolder = styled.div`
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+`;
+
+const OwnerHolder = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_MD}) {
+    justify-content: center;
+  }
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    display: block;
+  }
 `;
 
 const Post = ({ data }: { data: IPost }) => {
@@ -90,30 +139,39 @@ const Post = ({ data }: { data: IPost }) => {
     updateDate();
   }, [data.published]);
 
+  console.log(getPhoto(data.profile_photo, endpoints.USER_IMAGES));
+
   return (
     <Wrapper>
       <TopPanel data={data} />
-      <Holder>
-        <AvatarHolder>
-          <Avatar
-            photo={getPhoto(data.profile_photo, endpoints.USER_IMAGES)}
-            to={routes.USER_PROFILE_PRODUCTS.replace(":user", data.owner)}
-          />
+      <Container>
+        <OwnerHolder>
+          <AvatarHolder>
+            <Avatar
+              photo={
+                data.profile_photo &&
+                getPhoto(data.profile_photo, endpoints.USER_IMAGES)
+              }
+              to={routes.USER_PROFILE_PRODUCTS.replace(":user", data.owner)}
+            />
+          </AvatarHolder>
           <Information>
-            Post dodany przez{" "}
+            <Prefix>Post dodany przez </Prefix>
             <Owner
               to={routes.USER_PROFILE_PRODUCTS.replace(":user", data.owner)}
             >
               {data.first_name} {data.last_name}
             </Owner>
           </Information>
-        </AvatarHolder>
-        <Information>{date.time}</Information>
-        <CommentsInformationHolder>
-          <CommentIcon />
-          <Value>50+</Value>
-        </CommentsInformationHolder>
-      </Holder>
+        </OwnerHolder>
+        <InformationsHolder>
+          <Date>{date.time}</Date>
+          <Holder>
+            <CommentIcon />
+            <Value>50+</Value>
+          </Holder>
+        </InformationsHolder>
+      </Container>
     </Wrapper>
   );
 };

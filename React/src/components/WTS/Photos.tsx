@@ -11,12 +11,12 @@ const Wrapper = styled.div``;
 const Container = styled.div`
   width: 70%;
   display: flex;
+  margin-top: 10px;
 `;
 
 const Information = styled.div`
   font-size: 12px;
   color: ${({ theme }) => theme.darkGrey};
-  padding-bottom: 10px;
 `;
 
 const Photos = React.memo(
@@ -37,12 +37,12 @@ const Photos = React.memo(
 
     return (
       <Wrapper>
-        <Header nonPaddingBelow>Zdjęcia</Header>
+        <Header>Zdjęcia</Header>
         <Information>
           Pierwsze zdjęcie będzie zdjęciem głównym. Możesz dodawać zdjęcia w
           formacie: .jpeg, .png lub .jpg. Maksymalny rozmiar pliku to 10MB.
         </Information>
-        {imagesError && <Error $mb>{imagesError}</Error>}
+        {imagesError && <Error grid>{imagesError}</Error>}
         <Container>
           <Grid container spacing={1}>
             {photos}

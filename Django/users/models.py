@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from products.models import Product
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 
-
+ROLE = (('administrator', 'administrator'), ('user', 'user'), ('redactor', 'redactor'))
 
 class CustomAccountManager(BaseUserManager):
     def create_superuser(self, email, password, first_name, last_name, city, **other_fields):
@@ -46,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     avg_rating = models.FloatField(default=0)
+    role = models.CharField(max_length=250, choices=ROLE, default='user')
 
     objects = CustomAccountManager()
     object = models.Manager()
@@ -70,7 +71,6 @@ class Follower(models.Model):
 
 
 class Address(models.Model):
-    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user =  models.ForeignKey(User, on_delete=models.CASCADE)
     zipcode = models.CharField(max_length=50)

@@ -320,6 +320,7 @@ class Login(APIView):
                         'email': user.email,
                         'access_token': str(refresh.access_token),
                         'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                        'role': user.role,
                     }
                     response = Response(details, status=status.HTTP_200_OK)
                     response.set_cookie('refresh_token',
@@ -365,7 +366,8 @@ class Refresh(APIView):
                 'id': user.id,
                 'email': user.email,
                 'access_token': str(refresh.access_token),
-                'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds())
+                'expires_in': int(SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()),
+                'role': user.role,
             }
 
             response = Response(details, status=status.HTTP_200_OK)

@@ -5,8 +5,17 @@ import { useSearchParams } from "react-router-dom";
 const Wrapper = styled.div`
   margin-right: 20px;
 
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    margin-right: 0;
+    margin-bottom: 10px;
+
+    :last-child {
+      margin-bottom: 20px;
+    }
+  }
+
   :last-child {
-    margin: 0;
+    margin-right: 0;
   }
 `;
 

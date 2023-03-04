@@ -10,6 +10,10 @@ const Wrapper = styled.div`
   min-height: 100vh;
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: ${({ theme }) => theme.max_width_SM}) {
+    padding: 30px 0;
+  }
 `;
 
 const BottomPanel = () => {

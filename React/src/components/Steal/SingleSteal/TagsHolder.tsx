@@ -57,13 +57,13 @@ const Tag = styled.div<{ alert?: boolean }>`
 
 const TagsHolder = ({
   alert,
-  type,
+  category,
   markdown,
   rocket,
   description,
 }: {
   alert?: boolean;
-  type: string;
+  category: string;
   markdown?: string;
   rocket?: boolean;
   description?: boolean;
@@ -71,7 +71,9 @@ const TagsHolder = ({
   return (
     <Wrapper>
       {alert && <Tag alert>Alert</Tag>}
-      <Tag>{firstWordsLetterUppercase(type)}</Tag>
+      <Tag>
+        {category === "ea" ? "EA" : firstWordsLetterUppercase(category)}
+      </Tag>
       {markdown && <Tag>{markdown}</Tag>}
       <IconsHolder>
         {description && <DescriptionIcon />}

@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchQuestions, turnOnPending, resetAllLoaded } from "./actions";
+import {
+  fetchQuestions,
+  turnOnPending,
+  resetAllLoaded,
+  removeQuestion,
+} from "./actions";
 
 const initialState: any = {
   questions: [],
@@ -38,6 +43,11 @@ export const talkSlice = createSlice({
       state.limit = 2;
       state.offset = 0;
       state.all_loaded = false;
+    });
+    builder.addCase(removeQuestion, (state, action) => {
+      state.questions = state.questions.filter(
+        (e: any) => e.id !== action.payload
+      );
     });
   },
 });

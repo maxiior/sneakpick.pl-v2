@@ -3,6 +3,10 @@ import styled from "styled-components";
 import Option from "./Option";
 import { useFormContext } from "react-hook-form";
 
+const Wrapper = styled.div`
+  width: 70%;
+`;
+
 const Header = styled.div`
   font-size: 18px;
   margin-bottom: 10px;
@@ -21,7 +25,7 @@ const Categories = () => {
   const { formState } = useFormContext();
 
   return (
-    <div>
+    <Wrapper>
       <Header>Kategoria</Header>
       <div>
         <Option name="Promka" />
@@ -32,7 +36,7 @@ const Categories = () => {
       {formState.errors["category"] && (
         <Error>{formState.errors["category"].message}</Error>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

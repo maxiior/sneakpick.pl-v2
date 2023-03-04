@@ -17,6 +17,8 @@ import {
   openFollowingPopup,
   openFollowersPopup,
   closeProfilePopup,
+  openConditionalPopup,
+  closeConditionalPopup,
 } from "store/interface/actions";
 
 const initialState = {
@@ -27,6 +29,10 @@ const initialState = {
   communicatorBar: false,
   mobileFilters: false,
   informationBlock: null,
+  conditionalPopup: {
+    open: false,
+    id: "",
+  },
   profilePopup: 0,
 };
 
@@ -91,6 +97,14 @@ export const interfaceSlice = createSlice({
     });
     builder.addCase(closeProfilePopup, (state) => {
       state.profilePopup = 0;
+    });
+    builder.addCase(openConditionalPopup, (state, action) => {
+      state.conditionalPopup.id = action.payload;
+      state.conditionalPopup.open = true;
+    });
+    builder.addCase(closeConditionalPopup, (state) => {
+      state.conditionalPopup.id = "";
+      state.conditionalPopup.open = false;
     });
   },
 });
